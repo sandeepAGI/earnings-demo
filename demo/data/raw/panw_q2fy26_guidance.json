@@ -1,0 +1,38 @@
+{
+  "source_document": "Q2'26 Earnings Presentation vF.pdf",
+  "beat_miss_q2_fy26": {
+    "eps_nongaap_actual": 1.03,
+    "eps_nongaap_consensus": null,
+    "eps_beat_pct": null,
+    "revenue_actual_m": 2594,
+    "revenue_consensus_m": null,
+    "revenue_beat_pct": null
+  },
+  "guidance_q3_fy26": {
+    "revenue_low_m": 2941,
+    "revenue_high_m": 2945,
+    "eps_nongaap_low": 0.78,
+    "eps_nongaap_high": 0.8,
+    "ngs_arr_low_bn": 7.94,
+    "ngs_arr_high_bn": 7.96,
+    "revision_vs_prior": "initial"
+  },
+  "guidance_fy26_full_year": {
+    "revenue_low_m": 11280,
+    "revenue_high_m": 11310,
+    "eps_nongaap_low": 3.65,
+    "eps_nongaap_high": 3.7,
+    "ngs_arr_low_bn": 8.52,
+    "ngs_arr_high_bn": 8.62,
+    "fcf_margin_low_pct": 37.0,
+    "fcf_margin_high_pct": 37.0,
+    "revision_vs_prior": "raise"
+  },
+  "operational_kpis": {
+    "platformized_customers": 1550,
+    "ngs_arr_bn": 6.33,
+    "ngs_arr_yoy_growth_pct": 33.0,
+    "remaining_performance_obligations_bn": 16.0,
+    "rpo_yoy_growth_pct": 23.0
+  }
+}

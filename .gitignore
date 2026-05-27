@@ -1,5 +1,8 @@
 # macOS
 .DS_Store
+
+# Source PDFs — sourced manually from PANW IR, not committed (re-source for each quarter)
+demo/data/manual/*.pdf
 .AppleDouble
 .LSOverride
 

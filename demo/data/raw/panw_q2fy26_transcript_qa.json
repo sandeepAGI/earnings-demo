@@ -1,128 +1,165 @@
 {
-  "symbol": "PANW",
+  "source_document": "CORRECTED TRANSCRIPT_ Palo Alto Networks Inc.(PANW-US) Q2 2026 Earnings Call 17-February-2026 4_30 PM ET.pdf",
+  "call_date": "2026-02-17",
+  "company": "PANW",
   "fiscal_period": "Q2_FY26",
-  "fiscal_date_ending": "2025-01-31",
-  "call_date": "2025-02-13",
-  "source": "The Motley Fool transcript (transcribed)",
-  "parse_date": "2026-05-27",
-  "total_exchanges": 10,
-  "management_on_call": ["Nikesh Arora (Chairman & CEO)", "Dipak Golechha (CFO)", "Lee Klarich (Chief Product Officer, Q&A only)"],
   "exchanges": [
     {
       "exchange_num": 1,
-      "analyst_name": "Saket Kalia",
-      "analyst_firm": "Barclays",
-      "topics": ["fcf", "deferred_payments", "platform_economics"],
-      "question_text": "FCF sustainability and deferred payment dynamics. How do platform deals affect FCF profile?",
-      "answer_text": "Nikesh: Platform deals are more efficient from a sales perspective — 50-60% of P&L is sales, marketing, and customer support; platform deals find efficiencies there. Dipak: Approaching end of deferred payment transition — not as much left to do, quite far along the journey.",
-      "respondent": "arora_golechha",
-      "key_signal": "neutral",
-      "analytical_note": "Confirms FCF model is maturing; deferred payment drag is near end. Bullish for FCF quality in FY27+."
+      "analyst_name": "Rob Owens",
+      "analyst_firm": "Piper Sandler",
+      "question_text": "Looking back at 2018, 2019, there was a prevailing fear that cloud computing would render parts of the cybersecurity stack obsolete. At that time, you leaned in via M&A and repositioned the portfolio. Now we enter this AI era and the narrative feels oddly similar. Could you compare that existential nature of this AI shift to what we saw in cloud? What areas do you think will be obsolesced? Is M&A the primary lever again this time around, or does your starting position differ?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "In 2018-2019 the challenge was getting customers off on-prem to cloud and delivering services from the cloud, which required refactoring security services and many cloud security acquisitions; XSIAM was architected as cloud-delivered SOC. This time, the market is treating AI as a threat to cybersecurity but customers need consistency in their security stack to respond faster using AI. You cannot respond fast with 70 different vendors with different data, logs, and APIs. We are seeing more consolidation and platformization, evidenced by our best platformization quarter outside Q4. Enterprise AI adoption is slower than consumer, but Prisma AIRS reached 100+ customers faster than cloud security. AI is inevitable and as enterprises put more critical functionality into AI, they will want control, which requires more security.",
+      "topics": [
+        "AI",
+        "platformization",
+        "M&A",
+        "competition"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "Management frames AI as a tailwind driving platformization and consolidation, with Prisma AIRS adoption outpacing the earlier cloud security ramp."
     },
     {
       "exchange_num": 2,
-      "analyst_name": "Hamza Fodderwala",
-      "analyst_firm": "Morgan Stanley",
-      "topics": ["ai", "deepseek", "security_demand"],
-      "question_text": "DeepSeek impact on cybersecurity demand. Does lower-cost AI model change the security landscape?",
-      "answer_text": "Nikesh: Viewed as a phenomenal pivotal moment — DeepSeek at 2% of cost of other models drives experimentation. Security imperative: deploy with firewalls, sequestered environment, AI guardrails. Any new technology requires you to put more security around it.",
-      "respondent": "arora",
+      "analyst_name": "Brad Zelnick",
+      "analyst_firm": "Deutsche Bank",
+      "question_text": "As we think about XSIAM and the AI-driven SOC, investors are concerned that LLMs are going to kill SIEM tools. How do we think about the balance of opportunity and threat of LLMs doing a lot of the things we relied upon SIEM for? Even if you're competitive from a product standpoint, is there a risk that you face a new strong competitor for these modernization opportunities?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "LLMs are a net positive and additive to security capabilities, useful for data classification, DLP context understanding, and offensive security/red teaming. The challenge is LLMs are 95% right but in security you need to be right 100% of the time against adversaries. Until LLMs reach 99.9% accuracy they are not a threat to delivering security; they are tools that summarize capabilities and enable agentic actions. Every security company will use AI and most have Copilots running in tandem. Our security products sit at edges and create proprietary data and logs that didn't exist before; we are not a system of record but generate domain-specific data, which an LLM cannot replace.",
+      "topics": [
+        "AI",
+        "XSIAM",
+        "competition",
+        "LLMs"
+      ],
       "key_signal": "bullish",
-      "analytical_note": "Positioned DeepSeek as a security demand tailwind, not a threat. Consistent with broader PANW AI security thesis."
+      "analytical_note": "Management defends XSIAM's moat by emphasizing proprietary edge-generated data that LLMs cannot replicate, positioning LLMs as complementary rather than competitive."
     },
     {
       "exchange_num": 3,
-      "analyst_name": "Brian Essex",
-      "analyst_firm": "JPMorgan",
-      "topics": ["ai_security", "platform_vs_pointsolution", "win_rates", "cortex_cloud"],
-      "question_text": "AI for security differentiation and win rates versus point solutions. Is any point-solution business left?",
-      "answer_text": "Nikesh: Every security company claims platform now — real advantage is platformized customers have harmonized data, can build agents on top of 1,150 customer data sets. Win rates confirmed improving. Lee Klarich: Cortex Cloud connects AppSec through cloud through runtime through SOC — incredibly powerful. The bigger cloud security action is in runtime with agents; not the CNAPP players who won the last round.",
-      "respondent": "arora_klarich",
+      "analyst_name": "Saket Kalia",
+      "analyst_firm": "Barclays",
+      "question_text": "I'd love to dig into the joint pipeline opportunity with CyberArk. How do you think that opportunity unfolds? And for Dipak, can you help us bridge how much ARR we can include for CyberArk this year, organic versus inorganic?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "CyberArk has a phenomenal field team. Post-close, both teams have been informed on how to pursue joint opportunities, with detailed account planning and a roadmap for overlapping pipeline in the next three to six months. Anecdotally, CyberArk reps have already brought Palo Alto opportunities and BJ Jenkins helped close a CyberArk customer over the weekend, happening in both directions. It is early days and will be crawl-walk-run because systems are different and work is manual, but as teams learn each other's products and we build next-gen products together, momentum will build. Dipak added that they aren't breaking out every M&A deal, but CyberArk NGS ARR was about $1.2 billion as of December 2025 and Chronosphere contributed $200 million ARR, with total M&A contribution guided, so investors have more than breadcrumbs to do the math.",
+      "topics": [
+        "CyberArk",
+        "M&A",
+        "NGS ARR",
+        "go-to-market"
+      ],
       "key_signal": "bullish",
-      "analytical_note": "Win rate confirmation and differentiation claim on data harmonization. Lee Klarich's Cortex Cloud framing signals strategic shift in cloud security."
+      "analytical_note": "Management cites early bidirectional cross-selling anecdotes with CyberArk while acknowledging integration is in early crawl-walk-run phase."
     },
     {
       "exchange_num": 4,
-      "analyst_name": "Gabriela Borges",
-      "analyst_firm": "Goldman Sachs",
-      "topics": ["deferred_payments", "deal_structure", "guardrails"],
-      "question_text": "Guardrails on deferred payment deals. How is management controlling for credit risk and deal quality?",
-      "answer_text": "Dipak: Higher-end deals drive deferred payment requests. Hardware always upfront. Sales compensation and approval guardrails in place. Enabling platformization at scale.",
-      "respondent": "golechha",
-      "key_signal": "neutral",
-      "analytical_note": "Confirms risk controls exist. Hardware upfront policy limits cash flow risk. Approval guardrails reduce adverse selection."
+      "analyst_name": "Meta Marshall",
+      "analyst_firm": "Morgan Stanley",
+      "question_text": "We saw a nice reacceleration in the SASE business in fiscal Q2. Any commentary about what you're seeing driving some of that strength?",
+      "respondent": "Lee Klarich",
+      "answer_text": "We are excited to see SASE accelerate at scale. First-gen SASE adoption was point-product oriented solving one problem well, but now both new customers and prior customers are returning for a more comprehensive solve because employees work in-office, from home, and while traveling and cannot have three different experiences. Delivering as a platform bridges hardware, software, SASE, and Prisma browser in a consistent way for both security outcomes and end-user productivity. That is the overarching trend driving the SASE business and customer excitement.",
+      "topics": [
+        "SASE",
+        "platformization",
+        "Prisma browser"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "SASE reacceleration is being driven by displacement of first-generation point products in favor of an integrated platform approach."
     },
     {
       "exchange_num": 5,
-      "analyst_name": "Jonathan Ho",
-      "analyst_firm": "William Blair",
-      "topics": ["cortex_cloud", "cnapp", "cloud_security", "product_strategy"],
-      "question_text": "Rationale for merging CNAPP (Prisma Cloud) into Cortex as Cortex Cloud. Why now?",
-      "answer_text": "Lee Klarich: Runtime security requires CNAPP context. Cleaner cloud posture makes it easier for AI to detect real attacks. Best outcome for customers achieved when they connect all aspects of cloud together.",
-      "respondent": "klarich",
-      "key_signal": "bullish",
-      "analytical_note": "Product consolidation is a strategic bet — simplifies the buyer journey, strengthens platform lock-in. Execution risk: can they integrate without disruption?"
+      "analyst_name": "Joshua Tilton",
+      "analyst_firm": "Wolfe Research",
+      "question_text": "What are you seeing in regards to the volume of network traffic from your customers as they move out of experimentation and start to adopt agents enterprise wide? How will that impact demand for the broader network security suite, firewall or SASE?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "It is too early to tell. AI adoption in the enterprise is surging in coding (Codex, Cursor, Claude code), which is endpoint-intensive not infrastructure-intensive, and fits where Koi operates with MCP servers and clients spun up on edges that traditional XDR doesn't see. Outside of that, some customers are running millions of tokens with LLM providers, but that traffic is within the network and networks can handle it. The challenge is consolidating AI traffic in one place for visibility and control. Network traffic is not materially impacted yet, but with $600 billion of data centers being built, traffic will grow; consumer adoption is outstripping enterprise, but enterprise will follow.",
+      "topics": [
+        "AI",
+        "network security",
+        "agentic",
+        "Koi"
+      ],
+      "key_signal": "neutral",
+      "analytical_note": "Management acknowledges AI-driven network traffic growth has not yet materialized in enterprise but expects it to follow consumer adoption as data center buildout completes."
     },
     {
       "exchange_num": 6,
-      "analyst_name": "Peter Weed",
-      "analyst_firm": "Bernstein",
-      "topics": ["product_revenue", "hardware", "software_mix", "durability"],
-      "question_text": "Product revenue durability. Is hardware demand sustainable given software shift?",
-      "answer_text": "Nikesh: Hardware expected to deliver low to mid-single digits sustainably. Real growth driver is software firewalls and SASE replacing hardware mix. Cloud volume going up faster than data center volumes declining. Strategy is managing transition to higher-margin software.",
-      "respondent": "arora",
+      "analyst_name": "John DiFucci",
+      "analyst_firm": "Guggenheim",
+      "question_text": "If AI is going to be good for security, when are we going to see it? It doesn't show up in your numbers yet, doesn't show up in anybody's numbers really.",
+      "respondent": "Nikesh Arora",
+      "answer_text": "The best analogy is cloud security where you didn't see numbers for a while because enterprise cloud adoption lagged consumer, then took a two-to-three year cycle for workloads to move. Right now there are few enterprise AI apps driving huge throughput beyond coding apps which are endpoint-intensive. Prisma AIRS customer count is following the same trajectory as XSIAM but volume isn't there because throughput isn't through LLMs yet. You have to believe the $600 billion in data centers will be consumed; we are laying groundwork in an arms race to build the AI security platform. You see protect.ai integrated, the AI firewall, and now Koi being added. The next step is consolidating AI traffic in one place. Be patient.",
+      "topics": [
+        "AI",
+        "Prisma AIRS",
+        "monetization timing"
+      ],
       "key_signal": "neutral",
-      "analytical_note": "Hardware stable at low-single digits; software mix expansion is the margin expansion mechanism. No guidance cut signal here."
+      "analytical_note": "Management acknowledges AI security revenue contribution remains modest and asks for patience, drawing parallels to the multi-year ramp of cloud security."
     },
     {
       "exchange_num": 7,
-      "analyst_name": "Shaul Eyal",
-      "analyst_firm": "Cowen",
-      "topics": ["ibm", "qradar", "partnership", "migration"],
-      "question_text": "IBM/QRadar partnership update. How is the migration tracking?",
-      "answer_text": "Nikesh: One day a Harvard Business School case will be written on this for the right reasons. This has been a spectacular partner. Asian bank deal: was QRadar customer, ARR went up 5x. It couldn't have been better.",
-      "respondent": "arora",
+      "analyst_name": "Gabriela Borges",
+      "analyst_firm": "Goldman Sachs",
+      "question_text": "If CyberArk has historically been strong for privileged users at the high-end, what is the technical lift to make that technology more accessible for every user? And what have you learned in the last six months on the method to securing agentic identity between PAM, IGA and IAM?",
+      "respondent": "Lee Klarich",
+      "answer_text": "Privileged access management has been a sophisticated category with security-conscious enterprises as biggest adopters, and there is already a transformation to modern PAM with just-in-time controls and zero standing privileges that improves both security and ease of use. We have ideas to integrate CyberArk with Prisma browser to make it easier in the place where users work, driving broader adoption across existing customers and non-customers, leading to a full human identity solution. On agentic identity, it will combine aspects of machine identity and privileged users, which is why CyberArk is well-suited given leadership in both foundational spaces. Some will be standalone CyberArk and some will be in concert with Prisma AIRS, which already has hooks into AI infrastructure.",
+      "topics": [
+        "CyberArk",
+        "identity",
+        "agentic",
+        "Prisma AIRS"
+      ],
       "key_signal": "bullish",
-      "analytical_note": "QRadar migration contributing >$100M bookings in Q2. Management highly constructive. This is the external ARR contributor that Nowinski flags in exchange 9."
+      "analytical_note": "Management positions CyberArk plus Prisma browser/AIRS integration as the path to expand identity security from privileged users to a full human and agentic identity platform."
     },
     {
       "exchange_num": 8,
-      "analyst_name": "Tal Liani",
-      "analyst_firm": "Bank of America",
-      "topics": ["gross_margin", "operating_margin", "saas_scale", "inventory"],
-      "question_text": "Gross margin pressure and operating margin sustainability. What is driving the gross margin decline?",
-      "answer_text": "Dipak: Gross margin pressure from (1) faster growth of newer SaaS offerings not yet at scale, and (2) one-time inventory write-offs on hardware (~40 bps) — will not repeat in H2. Nikesh: We still outperformed our margin expectations, both internally and externally.",
-      "respondent": "golechha_arora",
-      "key_signal": "neutral",
-      "analytical_note": "Two margin headwinds identified — one structural (SaaS scale), one one-time (inventory). The one-time item should be monitored in Q3 to confirm it doesn't recur."
+      "analyst_name": "Adam Tindle",
+      "analyst_firm": "Raymond James",
+      "question_text": "On Chronosphere's nine-figure expansion with the leading AI provider, what are the key attributes that helped Chronosphere get that level of commitment, displacing an existing vendor, the timing, rationale, and pipeline beyond that? And for Dipak, investors are stripping out $1.47 billion M&A from Q3 NGS ARR and seeing organic net new ARR down a lot\u2014can you clear the air?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "Chronosphere is highly scalable due to a net-new architecture for observability that delivers capabilities at roughly half the price of incumbents, displacing another vendor. They partnered with the LLM provider over six months passing every technical hurdle, with full transition expected over the next 6-12 months. Part of the $200 million ARR is from one of those large LLM vendors and is expected to grow, with other significant customers in pursuit. Lee added Chronosphere built something unique for the very high-end with scalability, economics and early AI analytics that will complement AgentiX; the next phase is building enterprise off-the-shelf features to replace commercial or open source incumbents and scale down into large enterprise. Dipak clarified organic NGS ARR is roughly in line with consensus for Q3 and they reiterated the full year; folks may not have fully appreciated Chronosphere closed before Q2.",
+      "topics": [
+        "Chronosphere",
+        "observability",
+        "NGS ARR",
+        "guidance"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "Management asserts organic NGS ARR guidance is in line with consensus and frames Chronosphere as a structural cost-advantaged disruptor with major LLM provider validation."
     },
     {
       "exchange_num": 9,
-      "analyst_name": "Andrew Nowinski",
-      "analyst_firm": "Wells Fargo",
-      "topics": ["arr", "net_new_arr", "qradar", "organic_growth", "bear_case"],
-      "question_text": "Net new ARR ex-QRadar appears to have declined year-over-year for two consecutive quarters. If you pull out the $74M from QRadar in Q1, it looks like net new ARR declined on a year-over-year basis for the last two consecutive quarters.",
-      "answer_text": "Dipak: Acknowledged, attributed to lapping a large step-up in cloud-delivered advanced subscription attaches from a year ago. Net new ARR on newer products driving platformization continues to go from strength to strength. Nikesh: Six years ago this was zero. We're very happy it's approaching $5B. We still believe we are on track to get to $15B on NGS ARR.",
-      "respondent": "golechha_arora",
-      "key_signal": "bearish",
-      "analytical_note": "THIS IS THE KEY BEAR CASE EXCHANGE. Nowinski explicitly flags that organic net new ARR (ex-QRadar) is declining YoY for two consecutive quarters. Management acknowledged but deflected to long-term trajectory. This is the metric to watch in Q3 — is it ex-QRadar improving? The $15B ARR target is the long-term anchor but the near-term deceleration is real."
+      "analyst_name": "Adam Borg",
+      "analyst_firm": "Stifel",
+      "question_text": "On the quantum opportunity, love to hear more about early learnings from discussions with customers at the panel a few weeks back and how you're thinking about the opportunity in coming years.",
+      "respondent": "Nikesh Arora",
+      "answer_text": "As part of the CyberArk deal we acquired Venafi and are building a Next Generation Trust subscription plus our quantum capability. We have been in discussion with 100 customers experimenting with our beta product with tremendous feedback. The quantum capability is not just for Palo Alto firewalls but covers enterprise capability, integrating data from ten other vendors. Lee added that for both cryptography/PQC and certificate management the alternative is manual repetitive work, so they use next-gen firewalls and other data sources to discover everything needed and automate remediation, providing security, reliability and uptime benefits.",
+      "topics": [
+        "quantum",
+        "CyberArk",
+        "Venafi",
+        "product roadmap"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "Management is leveraging the CyberArk/Venafi acquisition to build a Next Generation Trust subscription combining post-quantum cryptography and certificate lifecycle automation with 100 beta customers."
     },
     {
       "exchange_num": 10,
-      "analyst_name": "Matthew Hedberg",
-      "analyst_firm": "RBC Capital Markets",
-      "topics": ["agentic_ai", "xsiam", "identity", "ai_soc"],
-      "question_text": "Agentic AI security. How is PANW positioned for agentic AI security as a market opportunity?",
-      "answer_text": "Lee Klarich: Identity is not a magic bullet — also need to secure the AI environment itself, machine-to-machine communications, and agentic actions with AI-enabled SOC. Nikesh: XSIAM sold over 200 times in 24 months — fastest-growing product in cybersecurity. Expects to build agentic detection, remediation, and management within XSIAM.",
-      "respondent": "klarich_arora",
-      "key_signal": "bullish",
-      "analytical_note": "XSIAM positioned as the agentic AI SOC platform. 200+ customers in 24 months is a strong adoption signal. Agentic AI security is an emerging TAM expansion."
+      "analyst_name": "Gregg Moskowitz",
+      "analyst_firm": "Mizuho",
+      "question_text": "Closing Palo Alto's two largest ever acquisitions within weeks of each other adds unprecedented stress on management, engineering, and go-to-market teams. How do you keep everyone's eye on the ball and avoid execution or distraction issues?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "Chronosphere has been in the works two to three months and CyberArk seven months, with visits to their Boston facility and Israel. We worked with management to understand every employee's role so on close date every employee was informed of their role, OKRs and targets within 48 hours. System transitions are in progress. Chronosphere is a 250-person engineering team in observability which is fundamentally different; the only product interaction is the Cortex team incorporating AgentiX. They are whale hunters going after big observability clients and we help selectively on a client-by-client basis. This is our 32nd or 33rd acquisition, we have lessons from prior deals and have been adding capacity to handle the transitions.",
+      "topics": [
+        "M&A",
+        "integration",
+        "execution"
+      ],
+      "key_signal": "neutral",
+      "analytical_note": "Management defends integration readiness citing months of preparation and prior M&A experience, with limited initial product overlap minimizing engineering complexity."
     }
-  ],
-  "analytical_summary": {
-    "bullish_signals": ["DeepSeek as security demand tailwind", "Win rate improvement vs. point solutions", "QRadar migration exceeding expectations (>$100M Q2 bookings)", "XSIAM 200+ customers in 24 months", "Cortex Cloud unification strategic"],
-    "bearish_signals": ["Net new ARR ex-QRadar declining YoY for 2 consecutive quarters (Nowinski, exchange 9)", "Gross margin pressure from SaaS scale not yet achieved", "Q3 EPS guidance $0.76-0.77 below Q2 actual $0.81"],
-    "key_exchange_for_demo": 9,
-    "key_exchange_note": "Exchange 9 (Nowinski/Wells Fargo) is the most analytically important — surfaces the organic ARR deceleration that is obscured by QRadar. This is the bear case the buy-side is watching."
-  }
+  ]
 }

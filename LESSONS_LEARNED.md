@@ -1,6 +1,6 @@
 # Lessons Learned
 
-*Last updated: 2026-05-27*
+*Last updated: 2026-05-27 (end of day)*
 
 This file captures technical workarounds, design decisions, and things that failed or surprised us. Update at the end of every working session. Promote patterns to findings when they recur.
 
@@ -24,6 +24,33 @@ python3 demo/generate_baseline.py    # → /mnt/.../earnings_baseline.html
 ---
 
 ## Session Log
+
+### 2026-05-27 (session 5, end of day) — Pipeline rebuild: Design stage approved
+
+Picked up directly from the Session 4 audit. Resolved the fiscal-year question by sourcing actual PANW Q2 FY26 materials. Operationalized the build contract in code and documentation. Stage-gate discipline activated as git commits.
+
+**Work completed:**
+- **Real Q2 FY26 source materials in `demo/data/manual/`**: corrected transcript PDF (Feb 17, 2026 call), Q2'26 earnings presentation, supplemental financial information PDF. Closes the 15-month staleness gap identified in the Session 4 audit.
+- **`demo/data/SCHEMA.md` written** as the authoritative source-of-truth for every table, column, and provenance. Build contract rules from `data-audit-findings.md` step 2 sit at the top of the file (provenance mandatory, no silent defaults, Form 4 window 2025-11-01 to 2026-02-17, no session-pinned paths, stage transitions as commits). Seven signed-off hardcoded supplements enumerated in a table with explicit "Pending" verification status.
+- **API stack locked**: FMP (income statements, surprises, consensus) + yfinance (price, peers) + edgartools (Form 4s, filings) + Anthropic (PDF extraction, Q&A tagging). `.env.example` committed with key placeholders. No new vendor lock-in beyond what `data-audit-findings.md` recommended.
+- **`gather.py` drafted** as the Stage 2 entry point. Loads from `manual/` and APIs, validates, writes to `raw/`. Uses `pathlib.Path(__file__).parent` for all resolution per build-contract rule 5. Exits loudly on missing/invalid manual files.
+- **`demo/data/manual/README.md`** documents the manual-file contract: what's required, where to source it, what minimum validation `gather.py` enforces.
+- **Stage-gate commits started**. First gate: `STAGE: Design approved 2026-05-27` (fedd02c). The commit message itself enumerates what closed in the Design stage. This is the mechanical guardrail the Session 4 finding called for — discipline expressed in git, not in markdown.
+
+**Decisions made:**
+- Real Q2 FY26 data is the test quarter, not Q2 FY25 renamed. The harder path, but the only one that holds up on June 4 (the live PANW story in the room will be Q3 FY26 / June 2 print; Q2 FY26 must be the most recent prior reference point, not a 15-month-old proxy).
+- Manual ingestion path is part of the pipeline, not a workaround. PANW press release PDFs, transcripts, and supplemental decks are not API-accessible at the granularity the demo needs. `manual/` is a first-class input folder, validated by `gather.py`, not a dumping ground.
+- Stage gates are git commits, not markdown checkboxes. Each `STAGE: <name> approved` commit is the explicit approval moment. A new agent picking up the project can `git log --grep="STAGE:"` to see exactly where the pipeline is.
+- Anthropic API is used for PDF extraction inside the pipeline (not just in the demo). Mid-build use, with structured output and provenance back to the source PDF, is consistent with the build contract.
+- The seven hardcoded supplements remain "Pending" until each is independently verified against the actual Q2 FY26 press release PDF. The Q2 FY25 verification carried over does not count.
+
+**Open follow-ups for next session (Data stage):**
+- Fill in `panw_q2fy26_press_release_supplement.json` from the template using the actual Q2 FY26 press release PDF.
+- Verify the seven Pending supplements; check off in `SCHEMA.md`.
+- Run `gather.py` end to end. Confirm every raw file written has a `data_source` field tracing to a real input.
+- Commit `STAGE: Data approved` once raw files validate.
+
+---
 
 ### 2026-05-27 (session 4) — Data pipeline audit
 
@@ -171,6 +198,10 @@ No work done today. No new files in `workshop/`, `demo/`, or `feed-app/`.
 
 **Process discipline must outlive the session that invented it.** The Design → Data → Script → Test → Learn → Build sequence was adopted in Session 3 in response to a specific failure. It was then partially bypassed in the same session when `generate_baseline.py` was written with embedded literal figures (Session 4 finding). Hard rules in markdown do not enforce themselves. Mechanical guardrails (tests, linters, stage commits) are what make discipline tool-independent.
 
+**Stage gates belong in git, not markdown.** Session 5 operationalized this. The first stage-gate commit (`STAGE: Design approved 2026-05-27`) is the explicit approval moment a new agent can search for with `git log --grep="STAGE:"`. A markdown checkbox can be flipped without thought; a commit forces a deliberate act and leaves a timestamped, attributable record. Carry this pattern forward to any pipeline or build sequence that crosses a session boundary.
+
+**The "manual/" folder is a first-class input, not a workaround.** Session 5 ratified this for materials that are not API-accessible at the required granularity (PANW press release PDFs, transcripts, earnings decks). A `manual/` folder with a README, a validation contract enforced by the gather script, and explicit failure on missing/invalid files is the right pattern. Distinguish this from the Session 3 anti-pattern of hardcoding values directly in code — the difference is that `manual/` content is sourced, named, validated, and traceable; hardcoded code values are none of those things.
+
 ---
 
 ## Decision Log
@@ -202,3 +233,9 @@ No work done today. No new files in `workshop/`, `demo/`, or `feed-app/`.
 | 2026-05-27 | Data pipeline rebuild required; tool target is Claude Code | Session 4 audit found pipeline-layer fabrication that recapitulated Session 3 content fabrication. Git as discipline mechanism, terminal-first surface reduces the temptation to render polished output before data is right. |
 | 2026-05-27 | Build contract drafted: provenance mandatory, no literal analytical figures in generator, no silent fallback defaults, stage gates as commits, schema-first documentation, portable paths | Operationalizes the hard rules at the pipeline layer. Tool-independent. Tests and linters enforce what markdown rules cannot. |
 | 2026-05-27 | Documentation structure: lean STATUS.md, archive in STATUS-ARCHIVE.md, "why the rules exist" in LESSONS_LEARNED.md, single entry point in CLAUDE.md | Reduces handoff context bloat. A new agent doing the pipeline rebuild reads CLAUDE.md, `data-audit-findings.md`, `demo/demo_build_requirements.md`, and the raw files. STATUS.md is operator-facing, not required for execution. |
+| 2026-05-27 (EOD) | Real Q2 FY26 source materials sourced into `demo/data/manual/` (corrected transcript, earnings presentation, supplemental financial information PDFs from the Feb 17, 2026 print) | Resolves the fiscal-year question. Renaming Q2 FY25 data was the easy path; sourcing the real Q2 FY26 print is the only path that holds up on June 4, when the live story in the room is the June 2 Q3 FY26 print and Q2 FY26 must be the most recent prior reference point. |
+| 2026-05-27 (EOD) | `demo/data/SCHEMA.md` is the authoritative source-of-truth for all tables, columns, and provenance | Operationalizes the build contract in a single readable artifact. Six rules at top. Hardcoded supplements enumerated in a verification table. New agent reads SCHEMA.md before touching `rebuild_db.py`. |
+| 2026-05-27 (EOD) | API stack locked: FMP + yfinance + edgartools + Anthropic | Covers GAAP P&L (FMP), price + peers (yfinance), Form 4s + filings (edgartools), PDF extraction + Q&A tagging (Anthropic). No new vendor lock-in beyond the audit recommendation. |
+| 2026-05-27 (EOD) | `manual/` is a first-class input folder with a README, validation contract, and loud failure on missing files | Distinguishes legitimate manual ingestion (sourced, named, validated, traceable) from the Session 3 anti-pattern of hardcoded values in code (none of those things). |
+| 2026-05-27 (EOD) | Stage gates expressed as git commits (`STAGE: <name> approved`), not markdown checkboxes | A markdown checkbox can be flipped without thought; a commit forces a deliberate act and leaves a timestamped, attributable record. First gate `STAGE: Design approved 2026-05-27` (fedd02c) closes the Design stage. |
+| 2026-05-27 (EOD) | Hardcoded supplement verification status carried over from Q2 FY25 does not count | Each of the seven values in `SCHEMA.md` must be re-verified against the actual Q2 FY26 press release PDF before the Data stage closes. Marked "Pending" in the schema table. |

@@ -1,0 +1,863 @@
+{
+  "source": "edgartools SEC EDGAR PANW Form 4",
+  "window": "2025-11-01 to 2026-02-17",
+  "window_rule": "Full Q2 FY26 fiscal quarter, post-earnings inclusive",
+  "retrieved_date": "2026-05-27",
+  "filing_count": 26,
+  "filings": [
+    {
+      "filing_date": "2026-02-17",
+      "accession_number": "0001193125-26-054796",
+      "reporting_owner": "Lee Klarich",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2026-02-12",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 70.0,
+          "price_per_share": null,
+          "acquired_disposed": "A",
+          "direct_indirect": "I"
+        }
+      ]
+    },
+    {
+      "filing_date": "2026-02-17",
+      "accession_number": "0001193125-26-054790",
+      "reporting_owner": "Nikesh Arora",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2026-02-12",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 165.0,
+          "price_per_share": null,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2026-01-27",
+      "accession_number": "0001193125-26-024560",
+      "reporting_owner": "Josh D. Paul",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-08-19",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 14393.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2026-01-12",
+      "accession_number": "0001193125-26-010460",
+      "reporting_owner": "Lee Klarich",
+      "issuer": "PANW",
+      "transaction_count": 7,
+      "transactions": [
+        {
+          "transaction_date": "2026-01-08",
+          "security_title": "Common Stock",
+          "transaction_code": "M",
+          "transaction_type": "Exercise",
+          "shares": 92010.0,
+          "price_per_share": 32.25,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2026-01-08",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 12620.0,
+          "price_per_share": 189.603,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2026-01-08",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 46192.0,
+          "price_per_share": 190.692,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2026-01-08",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 54882.0,
+          "price_per_share": 191.47,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2026-01-08",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 6707.0,
+          "price_per_share": 192.381,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2026-01-08",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 367.0,
+          "price_per_share": 193.161,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2026-01-08",
+          "security_title": "Stock Option (right to buy)",
+          "transaction_code": "M",
+          "transaction_type": "None",
+          "shares": 92010.0,
+          "price_per_share": null,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2026-01-06",
+      "accession_number": "0001193125-26-004571",
+      "reporting_owner": "William D Jenkins Jr",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2026-01-02",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 904.0,
+          "price_per_share": 184.81,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2026-01-06",
+      "accession_number": "0001193125-26-004563",
+      "reporting_owner": "Josh D. Paul",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2026-01-02",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 800.0,
+          "price_per_share": 184.81,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-29",
+      "accession_number": "0001193125-25-335416",
+      "reporting_owner": "Dipak Golechha",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-23",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 5000.0,
+          "price_per_share": 188.182,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-29",
+      "accession_number": "0001193125-25-335411",
+      "reporting_owner": "William D Jenkins Jr",
+      "issuer": "PANW",
+      "transaction_count": 2,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-26",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 4447.0,
+          "price_per_share": 187.92,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-12-26",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 1771.0,
+          "price_per_share": 188.449,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-12",
+      "accession_number": "0001193125-25-317830",
+      "reporting_owner": "Lee Klarich",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-10",
+          "security_title": "Common Stock",
+          "transaction_code": "G",
+          "transaction_type": "Gift",
+          "shares": 50000.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "D",
+          "direct_indirect": "I"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-11",
+      "accession_number": "0001193125-25-316348",
+      "reporting_owner": "Mark A. Goodburn",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-10",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 4944.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-11",
+      "accession_number": "0001193125-25-316257",
+      "reporting_owner": "Mary Pat Mccarthy",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-09",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 2033.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-11",
+      "accession_number": "0001193125-25-316256",
+      "reporting_owner": "John Donovan",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-09",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 2516.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-11",
+      "accession_number": "0001193125-25-316255",
+      "reporting_owner": "Aparna Bawa",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-09",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 2160.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-11",
+      "accession_number": "0001193125-25-316254",
+      "reporting_owner": "Carl M. Eschenbach",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-09",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 1881.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-11",
+      "accession_number": "0001193125-25-316253",
+      "reporting_owner": "Lorraine Twohill",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-09",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 2135.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-11",
+      "accession_number": "0001193125-25-316252",
+      "reporting_owner": "John P. Key",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-09",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 2288.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-11",
+      "accession_number": "0001193125-25-316251",
+      "reporting_owner": "Helle Thorning-Schmidt",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-09",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 1983.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-10",
+      "accession_number": "0001219231-25-000005",
+      "reporting_owner": "James J Goetz",
+      "issuer": "PANW",
+      "transaction_count": 5,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-08",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 12072.0,
+          "price_per_share": 195.31,
+          "acquired_disposed": "D",
+          "direct_indirect": "I"
+        },
+        {
+          "transaction_date": "2025-12-08",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 428.0,
+          "price_per_share": 196.04,
+          "acquired_disposed": "D",
+          "direct_indirect": "I"
+        },
+        {
+          "transaction_date": "2025-12-09",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 8230.0,
+          "price_per_share": 194.7,
+          "acquired_disposed": "D",
+          "direct_indirect": "I"
+        },
+        {
+          "transaction_date": "2025-12-09",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 3970.0,
+          "price_per_share": 195.73,
+          "acquired_disposed": "D",
+          "direct_indirect": "I"
+        },
+        {
+          "transaction_date": "2025-12-09",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 300.0,
+          "price_per_share": 196.42,
+          "acquired_disposed": "D",
+          "direct_indirect": "I"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-04",
+      "accession_number": "0001193125-25-308140",
+      "reporting_owner": "Lee Klarich",
+      "issuer": "PANW",
+      "transaction_count": 9,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-03",
+          "security_title": "Common Stock",
+          "transaction_code": "M",
+          "transaction_type": "Exercise",
+          "shares": 92010.0,
+          "price_per_share": 32.25,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-12-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 2137.0,
+          "price_per_share": 187.379,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-12-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 7592.0,
+          "price_per_share": 188.851,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-12-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 8598.0,
+          "price_per_share": 189.574,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-12-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 19670.0,
+          "price_per_share": 190.707,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-12-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 6901.0,
+          "price_per_share": 191.496,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-12-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 53755.0,
+          "price_per_share": 192.743,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-12-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 22121.0,
+          "price_per_share": 193.457,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-12-03",
+          "security_title": "Stock Option (right to buy)",
+          "transaction_code": "M",
+          "transaction_type": "None",
+          "shares": 92010.0,
+          "price_per_share": null,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-02",
+      "accession_number": "0001193125-25-305332",
+      "reporting_owner": "Josh D. Paul",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-12-01",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 700.0,
+          "price_per_share": 189.39,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-12-01",
+      "accession_number": "0001193125-25-303942",
+      "reporting_owner": "Dipak Golechha",
+      "issuer": "PANW",
+      "transaction_count": 1,
+      "transactions": [
+        {
+          "transaction_date": "2025-11-26",
+          "security_title": "Common Stock",
+          "transaction_code": "G",
+          "transaction_type": "Gift",
+          "shares": 2500.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-11-04",
+      "accession_number": "0001193125-25-265166",
+      "reporting_owner": "Josh D. Paul",
+      "issuer": "PANW",
+      "transaction_count": 3,
+      "transactions": [
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 31201.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Common Stock",
+          "transaction_code": "F",
+          "transaction_type": "Tax Withholding",
+          "shares": 15470.0,
+          "price_per_share": 220.24,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 700.0,
+          "price_per_share": 219.97,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-11-04",
+      "accession_number": "0001193125-25-265150",
+      "reporting_owner": "William D Jenkins Jr",
+      "issuer": "PANW",
+      "transaction_count": 2,
+      "transactions": [
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 312025.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Common Stock",
+          "transaction_code": "F",
+          "transaction_type": "Tax Withholding",
+          "shares": 164219.0,
+          "price_per_share": 220.24,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-11-04",
+      "accession_number": "0001193125-25-265144",
+      "reporting_owner": "Lee Klarich",
+      "issuer": "PANW",
+      "transaction_count": 10,
+      "transactions": [
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 468038.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Common Stock",
+          "transaction_code": "F",
+          "transaction_type": "Tax Withholding",
+          "shares": 232055.0,
+          "price_per_share": 220.24,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-03",
+          "security_title": "Common Stock",
+          "transaction_code": "M",
+          "transaction_type": "Exercise",
+          "shares": 92010.0,
+          "price_per_share": 32.25,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 8371.0,
+          "price_per_share": 215.883,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 20195.0,
+          "price_per_share": 216.746,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 45515.0,
+          "price_per_share": 218.004,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 43109.0,
+          "price_per_share": 218.691,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 3554.0,
+          "price_per_share": 219.759,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-03",
+          "security_title": "Common Stock",
+          "transaction_code": "S",
+          "transaction_type": "Sale",
+          "shares": 30.0,
+          "price_per_share": 220.4,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-03",
+          "security_title": "Stock Option (right to buy)",
+          "transaction_code": "M",
+          "transaction_type": "None",
+          "shares": 92010.0,
+          "price_per_share": null,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-11-04",
+      "accession_number": "0001193125-25-265131",
+      "reporting_owner": "Dipak Golechha",
+      "issuer": "PANW",
+      "transaction_count": 4,
+      "transactions": [
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 280820.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Common Stock",
+          "transaction_code": "D",
+          "transaction_type": "Disposition",
+          "shares": 140410.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Common Stock",
+          "transaction_code": "F",
+          "transaction_type": "Tax Withholding",
+          "shares": 73926.0,
+          "price_per_share": 220.24,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Phantom Stock",
+          "transaction_code": "A",
+          "transaction_type": "None",
+          "shares": 140410.0,
+          "price_per_share": null,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    },
+    {
+      "filing_date": "2025-11-04",
+      "accession_number": "0001193125-25-265124",
+      "reporting_owner": "Nikesh Arora",
+      "issuer": "PANW",
+      "transaction_count": 3,
+      "transactions": [
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Common Stock",
+          "transaction_code": "A",
+          "transaction_type": "Award",
+          "shares": 1185721.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Common Stock",
+          "transaction_code": "D",
+          "transaction_type": "Disposition",
+          "shares": 1185721.0,
+          "price_per_share": 0.0,
+          "acquired_disposed": "D",
+          "direct_indirect": "D"
+        },
+        {
+          "transaction_date": "2025-11-01",
+          "security_title": "Phantom Stock",
+          "transaction_code": "A",
+          "transaction_type": "None",
+          "shares": 1185721.0,
+          "price_per_share": null,
+          "acquired_disposed": "A",
+          "direct_indirect": "D"
+        }
+      ]
+    }
+  ]
+}

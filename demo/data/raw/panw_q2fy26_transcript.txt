@@ -1,240 +1,165 @@
-PALO ALTO NETWORKS Q2 FY2026 (Fiscal Q2 2025) EARNINGS CALL TRANSCRIPT
-Date: February 13, 2025 | 4:30 PM ET
-Source: The Motley Fool (transcribed)
-Fiscal period ending: January 31, 2025
-================================================================================
+MANAGEMENT DISCUSSION SECTION
 
-PREPARED REMARKS
-================================================================================
+Hamza Fodderwala: Good day, everyone. And welcome to Palo Alto Networks Fiscal Second Quarter 2026 Earnings Conference Call. I am Hamza Fodderwala, Senior Vice President of Investor Relations and Strategic Finance. Please note that this call is being recorded today, Tuesday, February 17, 2026 at 1:30 PM Pacific Time.
 
-Walter Pritchard — Senior VP, Investor Relations and Corporate Development
+With me on today's call to discuss our fiscal second quarter results are Nikesh Arora, our Chairman and Chief Executive Officer. And Dipak Golechha, our Chief financial officer. Following our prepared remarks, Lee Klarich, our Chief Product and Technology Officer and Board Member will join us for the question-and-answer portion.
 
-Good day, everyone, and welcome to Palo Alto Networks' second quarter 2025 earnings conference
-call. With me on today's call: Nikesh Arora, Chairman and CEO; Dipak Golechha, CFO. Following
-prepared remarks, Lee Klarich, Chief Product Officer, will join for Q&A.
+You can find the press release and other information to supplement today's discussion on our website at investors.paloaltonetworks.com, while there, please click on the link for quarterly results to find the Q2 2026. Supplemental Information and Q2 2026 Earnings Presentation.
 
-All per-share figures adjusted for the 2-for-1 stock split effected after close of trading on
-December 12, 2024.
+During the course of today's call, we'll be making forward-looking statements and projections regarding the company's business operations and financial performance, as well as the company's recent acquisitions. These statements made today are subject to a number of risks and uncertainties that could cause our actual results to differ from these forward-looking statements.
 
---------------------------------------------------------------------------------
-Nikesh Arora — Chairman and CEO
---------------------------------------------------------------------------------
+Please review our press release and recent SEC filings for a description of these risks and uncertainties. We assume no obligation to update any forward-looking statements made in the presentation today.
 
-We made considerable progress in platformization, allowing us to outperform both our top and
-bottom-line expectations for this quarter. We delivered on our high ARPU expectations toward the
-top of the range. This gave us strength in our NGS ARR and also allowed us to outperform our
-revenue expectations. Growth was pretty broad across the entire portfolio with strength across
-all three geographies and platforms.
+This presentation contains non-GAAP financial measures and key metrics relating to the company's past and expected future performance. Non-GAAP financial measures should not be considered a substitute for financial measures prepared in accordance with GAAP.
 
-Strong performance from large deals internationally and strong contribution from SASE, software
-firewalls, and XSIAM. On the profitability front, we delivered operating margins ahead of our
-internal target despite some one-time events. Efficiency initiatives continue to bear fruit,
-including some promising early contributions from AI.
+The most directly comparable GAAP financial measures and reconciliations are in the press release and the appendix of our investor presentation. Unless specifically noted otherwise, all results in comparisons are on a fiscal year-over-year basis.
 
-From our vantage point, the outlook for cybersecurity seems to have been robust in Q2 and is
-likely to stay so over the rest of this year.
+I will now turn the call over to Nikesh.
 
-As the conversation around AI continues to get omnipresent and companies race to evaluate,
-experiment, and deploy AI, they're discovering that some of the legacy architectures come in
-the way of their aspirations. This is resulting in a resurgence of cloud transformation projects
-and consequently, demand for network security transformation. While cybersecurity is a derivative
-effect, it is clear that the longer-term trend toward AI is going to continue to underpin
-technology transformation.
+Nikesh Arora: Thank you, Hamza. Good afternoon, and thank you, everyone, for joining us today for our earnings call. We delivered a strong Q2 fueled by robust demand for cybersecurity and continued execution against our platformization strategy. This led to strong organic results in Q2 with NGS ARR up 28% and revenue growth of 15%, excluding the impact of recently closed Chronosphere.
 
-We see heightened interest in data security posture management, where our acquisition of Dig
-seems to be proving prescient. Cloud infrastructure is much more dynamic than on-prem IT
-creating risk. As cloud data volumes grow, customers are doubling down on protecting their cloud
-environments.
+We saw broad-based strength across our products from SASE, software firewalls and XSIAM to our emerging leadership in AI security with Prisma AIRS. We paired this growth with improving profitability, achieving a 30% plus operating margin for the third consecutive quarter.
 
-PLATFORMIZATION METRICS:
-- Approximately 75 new platformizations in Q2 (up from ~45 in the year-ago quarter)
-- Total of over 1,150 platformizations within our top 5,000 customers
-- Two-platform customers grew over 50% in Q2
-- Three-platform customers up 3x year over year
-- Number of customers platformized in Cortex up more than 3x
-- On track to achieve stated target of 2,500 to 3,500 platformizations by FY2030
+We're excited to head into the second half of the year, having closed both the CyberArk and Chronosphere acquisitions, and I want to extend a warm welcome to both teams. Both companies continue to deliver record numbers in their most recent quarters, and we look forward to building on the momentum as we hit the ground running on our integration plans. These investments are a direct response to the inflections we see taking shape in the market. And while it's still early, the initial feedback from our customers has been very encouraging. We believe we're now entering the next phase of AI adoption.
 
-LARGE DEAL EXAMPLES (Q2):
-1. Asian bank — $65M+. XSIAM deployment. Was XDR + network security + QRadar customer.
-   NGS ARR increased 5x to over $12M YoY after platformizing on Cortex.
-2. U.S. municipality — $60M+. Renewal + expansion across portfolio (NetSec + Cortex + Prisma
-   Cloud). NGS ARR increased 40%+ to over $11M.
-3. European automotive manufacturer — $25M. Platformized in NetSec + cloud, expanded into
-   Cortex (XDR, XSOAR, Xpanse, Prisma Cloud). NGS ARR grew 50% to $9M.
+Large enterprises are moving beyond experimentation and beginning to integrate foundational models into real workflows. As AI becomes embedded in day-to-day work, the central question that organizations face is shifting from capability to control. That shift has meaningful implications on security.
 
-LARGE DEAL VOLUME: 74 accounts with transactions >$5M (up 25% YoY); 32 accounts >$10M
-(up >50% YoY).
+As AI becomes more pervasive across the enterprise, it expands the attack surface area, more agents, more infrastructure, more machine-to-machine activity and new classes of risk that simply did not exist before. In that environment, security cannot sit on the sidelines. Despite the current sentiment about AI and software, we firmly believe that security is enabling layer that allows innovation to move forward safely and at scale.
 
-NETWORK SECURITY (NetSec):
-- NetSec ~80% of bookings
-- Firewall as a Platform bookings grew 21%
-- Appliance bookings: mid-single digits growth (stable demand, taking share)
-- Software and SASE: ~2/3 of FaaP bookings; grew 1.5x faster than total FaaP
-- Appliance market expected to grow 0-5% in FY2025
+And as AI agents become autonomous employees, the old security playbook is not just slow, it's obsolete. Security must operate in real-time at the critical control points where decisions are made across network, endpoint, cloud, browser and identity. This is where Palo Alto Networks operates. And as AI becomes more embedded across the enterprise, those control points are converging.
 
-SASE:
-- Fastest-growing form factor in network security
-- SASE customers grew >20%
-- SASE bookings grew north of 50%
-- Deals >$1M in value up 2.5x
-- Over 5,600 SASE customers; 23M+ individual seats
-- Newer SASE modules (ADEM, CASB, Prisma Access Browser, AI Access) grew ~4x YoY
-- Prisma Access Browser: ~1/3 of new Prisma Access seats in Q; >$30M in bookings in Q2;
-  seats grew 95% QoQ
-- AI Access: crossed 300 customers; visibility into 1,800+ AI applications (up from 500)
+A fragmented defense of disparate products is no longer a viable strategy. The risk is simply too high when adversaries are moving at machine speed. Our latest Unit 42 research confirms this, end-to-end attacks are now 4 times faster than a year ago, and in nearly a quarter of the cases attackers were able to break in and exfiltrate data in under an hour.
 
-SOFTWARE FIREWALLS:
-- 50% bookings growth
-- ~70% of VM deployments in public cloud
-- ~2/3 of software firewall customers also hardware customers
-- First 7-figure software firewall transaction for AI in Q2; 8-figure pipeline
+The good news is that 90% of those breaches were preventable, caused by basic gaps in visibility and controls across multiple attack vectors. This is why we committed to our platformization strategy a few years ago.
 
-CORTEX (including XSIAM and Prisma Cloud):
-- Cortex and Prisma Cloud each delivered ~50% bookings growth in Q2
-- Cortex customer growth: ~20%
-- XSIAM surpassed $1 billion cumulative bookings milestone in Q2
-- QRadar-related bookings: >$100M in Q2; strong pipeline
-- Cortex Cloud announced Feb 13 — merged Prisma Cloud + CDR + Cortex platform
-- Recognition: MITRE ATT&CK evaluation leader; Frost & Sullivan and Omdia SIEM leaders
+A platformized approach built on a real-time data-driven model that gets smarter with scale is the only way to secure the modern enterprise, and our results continue to prove that out. In Q2, we delivered approximately 110 net new platformizations, a quarterly record outside of our seasonally strong Q4.
 
-AI MARKET CONTEXT (on DeepSeek):
-"DeepSeek is a phenomenal pivotal moment for AI. Not just for us but across the industry...
-It's going to drive experimentation... My only recommendation to every enterprise out there is
-make sure you don't deploy AI without running firewalls around it."
+This brings our total platformizations count approximately 1,550, up 35%. The success of this strategy is also reflected in our best-in-class net retention rate amongst platformized customers, which stands at 119% with low-single digit churn. This proves that once customers adopt our platform, they not only stay but continue to invest more with us over time.
 
---------------------------------------------------------------------------------
-Dipak Golechha — CFO
---------------------------------------------------------------------------------
+This momentum isn't accidental, it is a result of a deliberate flywheel motion we built. When we committed to our platformization strategy years ago, we're betting on a shift that has now become an industry standard. This approach allows us to not only solve today's problems, but also provides the foundation to address new ones as they emerge. It starts by providing multiple clear landing paths.
 
-Q2 FINANCIALS:
-- Total revenue: $2.26 billion, grew 14% (above high end of guidance)
-- Product revenue: grew 8% (approaching 40% software on TTM basis)
-- Services revenue: grew 16% (subscription +20%, support +8%)
-- Gross margin: 76.6% — down slightly; driven by (a) newer SaaS offerings not yet at scale,
-  (b) one-time inventory/product transition costs (~40 bps) that won't recur in H2
-- Non-GAAP operating margin: 28.4% — delivered ahead of internal target
-- OpEx as % of revenue: decreased 120 bps (scale + efficiency culture)
-- Non-GAAP EPS: $0.81 diluted (GAAP EPS $0.38)
-- Adjusted FCF: >$509M in Q2
+In network security, customers can begin with SASE, hardware or software firewalls, and now AI security with Prisma AIRS. In the SOC, [ph] they can rely on (00:06:12) our Cortex platform via XDR, cloud security or directly onto XSIAM, from any starting point customer experience, the superior outcomes of an integrated platform which leads them to adopt more deeply across our ecosystem.
 
-GEOGRAPHIC:
-- Americas: +13%, EMEA: +18%, JPAC: +17%
-- Largest-ever deals in both EMEA and JPAC, each >$50M
+In a market changing this quickly, we believe our responsibility is to anticipate the next inflection and ensure our platform is ready. That philosophy guides our strategic investments, and the results give us the confidence to continue.
 
-RPO / NGS ARR:
-- Total RPO: $13.0B, grew 21% (high end of guidance)
-- Current RPO: $6.1B, grew 17%
-- Average contract duration: ~3 years (trended toward high end due to large XSIAM deals)
-- NGS ARR: $4.78B, grew 37% (driven by advanced subs, SASE, Cortex)
+Our secure browser for example, was one such early investment that is now accelerating our SASE business with over 9 million licenses sold to-date. Similarly, in AI security, Prisma AIRS launched just a few quarters ago and already rapidly scaling with over 100 customers ending in Q2. This is the discipline we now plan to apply for the two large established markets poised for inflection, identity and observability.
 
-FCF AND DEFERRED PAYMENTS:
-- FY2024 entered year with $1.0B deferred payments (32% of FY24 FCF)
-- FY2025: entered year with $1.4B deferred payments (41% of expected FY25 FCF)
-- FY2026 guidance: expect to exit with $2.0B deferred payments — "further increasing visibility"
-- Confident in FCF margins >37% for FY2026 and FY2027
-- FY2025 FCF will be more back-end loaded (more in Q4) vs prior years
+If AI becomes a new interface for how work gets done, identity security will be required to create the permissions and boundaries that teams can trust. And as AI introduces unprecedented scale, observability is essential for building resilient systems that can operate reliably.
 
-AI EFFICIENCY INITIATIVES:
-- Contract labor reduction: on track for ~50% reduction by end of FY2025 (direct OpEx savings)
-- Customer support copilot: used in ~85% of NetSec support cases; ~50% reduction in resolution time
-- Developer copilots: deployed to all engineers
+By bringing our platformization discipline to these new pillars, we believe we can deliver even greater value to our customers and solidify our role as a trusted partner to navigate the complex security and data challenges of AI era.
 
-PLATFORMIZATION PROGRAM UPDATE (1-year anniversary):
-- Embedded practices into standard sales motion
-- Ecosystem partners (GSIs) putting significant resources behind platformization
-- ~1/3 of all sales reps have participated in a new platformization deal win in last 12 months
-- Large deals enabled by partner channels: e.g., U.K. Home Office deal with IBM
+Let me share a few examples of how this strategy is translating into deeper, more strategic customer relationships. First, a global automotive leader selected us for a major security transformation. Their goal was to modernize their security architecture and dramatically improve efficacy. This resulted in an over $50 million deal, including $30 million for SASE and $20 million for XSIAM to run their global SOC.
 
-GUIDANCE:
+Similarly, a global technology supplier selected us for a transformation initiative for over $40 million choosing XSIAM to modernize their security operations globally, while expanding their investment in SASE.
 
-Q3 FY25:
-- NGS ARR: $5.03B - $5.08B (+33-34% YoY)  [NOTE: decelerating from Q2's 37%]
-- RPO: $13.5B - $13.6B (+19-20% YoY)
-- Revenue: $2.26B - $2.29B (+14-15% YoY)
-- Non-GAAP EPS: $0.76 - $0.77  [NOTE: below Q2 actual $0.81 — seasonal step-down]
+Finally, a transaction with leading IT service provider perfectly illustrates our flywheel. Building on existing investments, they committed for a $20 million expansion centered on XSIAM and have now platformized across network security and security operations.
 
-FY2025 Full Year:
-- NGS ARR: $5.52B - $5.57B (+31-32% YoY)
-- RPO: $15.2B - $15.3B (+19-20% YoY)
-- Revenue: $9.14B - $9.19B (+14% YoY)
-- Non-GAAP operating margin: 28.0% - 28.5%
-- Non-GAAP EPS: $3.18 - $3.24 (raised) (+12-14%)
-- Adjusted FCF margin: 37-38%
+These aren't just transactions. They're architectural decisions. When the stakes are highest, these wins validate that industry leaders are choosing the superior outcomes delivered by Palo Alto Networks.
 
-================================================================================
-QUESTIONS AND ANSWERS
-================================================================================
+With that, let's dive deeper into the individual performance of our platforms, starting with our largest segment. Our Network Security business delivered a standout quarter, demonstrating the power of a platform designed to meet customers wherever they are in their hybrid journey.
 
-SAKET KALIA (Barclays) — FCF sustainability and deferred payment dynamics
-Nikesh: "Platform deals are actually a lot more efficient from a sales perspective because the
-larger deals — 50-60% of P&L is sales, marketing, and customer support. If you can find
-efficiencies in that process, that's where leverage lies."
-Dipak: Confirmed approaching end of deferred payment transition — "there's not as much left to
-actually do. We're quite far along the journey."
+In Q2, our SASE business continued to go from strength-to-strength, surpassing the $1.5 billion ARR milestone while growing approximately 40% year-on-year, solidifying our position as the fastest growing SASE provider at scale.
 
-HAMZA FODDERWALA (Morgan Stanley) — DeepSeek impact
-Nikesh: Viewed as "phenomenal pivotal moment." DeepSeek at 2% of cost of other models drives
-experimentation. Security imperative: deploy with firewalls, sequestered environment, AI
-guardrails. "Any new technology requires you to put more security around it."
+[ph] What's particularly telling (00:09:03) in this shift, we are seeing in the market, many early adopters of SASE who made choices four or five years ago, during the pandemic, are now finding that those early solutions are not comprehensive enough for today's threats and complexity.
 
-BRIAN ESSEX (JPMorgan) — AI for security, win rates vs. point solutions
-Nikesh: "Is any point solution business left? Every security company seems to claim they're
-platform now." Real advantage: platformized customers have harmonized data; can build agents
-on top of 1,150 customer data sets.
-Lee Klarich: Cortex Cloud connects AppSec through cloud through runtime through SOC — "that
-is incredibly powerful."
-On win rates: Yes, confirmed improvement vs. point solution competitors.
-Nikesh: "The bigger cloud security action is going to be in runtime with agents... it's actually
-not the CNAPP players who have had — who won the last round."
+As a result, they're reconsidering their first generation point products in favor of a platform approach that provides a single, unified architecture to secure the entire hybrid environment, from the data center to the cloud and the remote workforce.
 
-GABRIELA BORGES (Goldman Sachs) — Guardrails on deferred payment deals
-Dipak: Higher-end deals drive deferred payment requests. Hardware always upfront. Sales comp
-and approval guardrails in place. "Enabling platformization at scale."
+A key driver of these wins is also our secure browser, which stems from a strategic bet we made over two years ago with the acquisition of Talon. Our thesis was that the browser is the most critical, unmanaged edge where users, data, and now AI agents intersect.
 
-JONATHAN HO (William Blair) — Rationale for CNAPP merging into Cortex
-Lee Klarich: Runtime security requires CNAPP context. Cleaner cloud posture = easier for AI to
-detect real attacks. "Best outcome for customers achieved when they connect all aspects of cloud
-together."
+The results show our customers agree. As of Q2, Prisma browser has been adopted by over 1,500 customers, 10% of which are in the Global 2000, with an additional 2 million licenses seats sold in Q2. This success has clearly not gone unnoticed. It's encouraging to see others in the industry waking up to the idea that they must secure their browser layer, validating the importance of this increasingly critical control point.
 
-PETER WEED (Bernstein) — Product revenue durability
-Nikesh: Hardware expected to deliver "low to mid-single digits" sustainably. Real growth driver
-is software firewalls and SASE replacing hardware mix. Cloud volume going up faster than data
-center volumes declining. Strategy is managing transition to higher-margin software.
+While many of these approaches simply extend existing architectures into the browser, we continue to believe the browser itself should function as a native security platform architective real-time control rather than retrofitted through extensions.
 
-SHAUL EYAL (Cowen) — IBM/QRadar partnership
-Nikesh: "One day, a Harvard Business School case would be written on this for the right reasons.
-This has been a spectacular partner for us." Asian bank deal example: was QRadar customer, ARR
-went up 5x. "It couldn't have been better."
+We also continue to see strong momentum in our software firewall business. Last quarter, we called it our hidden gem that was validated once again in Q2. Our ARR growth was approximately 25%, driven by the need to secure increasingly dynamic multi-cloud environments, a need that grows as AI workloads scale.
 
-TAL LIANI (BofA) — Gross margin and operating margin
-Dipak: Gross margin pressure from (1) faster growth of newer SaaS (not yet at scale) and
-(2) one-time inventory write-offs (~40 bps) on hardware — "will not repeat in H2."
-Nikesh: "We still outperformed our margin expectations, both internally and as for you, guys."
+This is complemented by our strongest hardware performance in several quarters, with revenue up nearly 10%, driven in part by early adoption of our latest Gen 5 firewalls.
 
-ANDREW NOWINSKI (Wells Fargo) — Net new ARR declining ex-QRadar [BEAR CASE]
-KEY EXCHANGE: "If you pull out the $74M from QRadar in Q1, it looks like your net new ARR
-declined on a year-over-year basis for the last two consecutive quarters."
-Dipak: Acknowledged but attributed to lapping a large step-up in cloud-delivered advanced
-subscription attaches from a year ago. "The net new ARR on some of our newer products, what's
-driving a lot of the platformization continues to go from strength to strength."
-Nikesh: "Six years ago, this was zero. We're very happy that it's driving up closer to $5B.
-We still believe we are on track to get to $15B on NGS ARR."
+Finally, we remain focused on where the market is going. That includes preparing our customers for the post-quantum era. The threat is already here. Adversaries are using a harvest now, decrypt later strategy, stealing encrypted data today to break in the future. We're seeing this become a C-level priority in our early customer conversations.
 
-MATTHEW HEDBERG (RBC) — Agentic AI security
-Lee Klarich: Identity is "not a magic bullet" — also need to secure the AI environment itself,
-machine-to-machine communications, and agentic actions with AI-enabled SOC.
-Nikesh: XSIAM sold >200 times in 24 months — fastest-growing product in cybersecurity. Expects
-to build agentic detection, remediation, and management within XSIAM.
+And the broader interest in this topic was confirmed by nearly 5,000 attendees at our quantum Summit last month. This is a critical part of our customer's long-term roadmap, and we believe we are uniquely positioned to guide them through this coming architectural uplift and shift.
 
-================================================================================
-END OF TRANSCRIPT
-================================================================================
+Now moving to Cortex. Customers continue to partner with us on their AI SOC modernization. In Q2, XSIAM surpassed the $0.5 billion ARR milestone. We welcome almost 150 new customers, bringing our total base to over 600, paying an average of nearly $1 million in ARR.
 
-ANALYTICAL NOTES (added during data processing):
-- Gross margin 76.6% reported vs non-GAAP reconciliation; GAAP gross margin from P&L is 73.5%
-  (difference due to SBC and other adjustments included in non-GAAP gross margin)
-- NGS ARR $4.78B reported (also stated as $4.8B in rounded references)
-- The Andrew Nowinski question on net new ARR ex-QRadar is the key bear case argument —
-  organic ARR growth showing deceleration is obscured by QRadar acquisition contribution
-- Stock reaction -3.5% AH despite beat: Q3 EPS guide $0.76-0.77 vs Q2 actual $0.81 is the
-  most likely culprit (sequential step-down in profitability signal)
+But the key story here remains not just the growth, it's the outcomes. Over 60% of our deployed customers now achieving, mean time remediation of less than ten minutes. The profound shift from the days or weeks they measured before. The success of XSIAM is a great example of our ability to identify a market inflection early, invest aggressively, and execute to scale.
+
+We have made a bet on the AI-driven SOC well before it became an industry-wide theme. The results are showing its scale, in just three and a half years after GA. The same focus on what's next led us to develop AgentiX. The simplest way to think about it is we're enabling our customers to build a workforce of autonomous agents. But the key differentiator and what makes this real breakthrough is where these agents can operate.
+
+Unlike traditional security tools confined to their own ecosystem, our agents can securely extend into first and third-party infrastructure. This means, an agent can not only detect an issue in XSIAM, but then can go out and auto-remediate it directly in a cloud console, an identity provider, or a firewall at machine speed.
+
+This capability, already enabled by 200 XSIAM customers is key to delivering true enterprise wide automation. This is a powerful example of how we use AI to create better security outcome, but that's only one part of our AI security strategy.
+
+Over the last couple of years, we have expanded our AI security capabilities, aligned to what our customers need as they deploy AI at scale. We're bringing those capabilities together as part of a universal AI security platform, one designed to protect AI deployments across models, agents, and the environments in which they operate.
+
+It starts with Prisma AIRS to secure AI models and AI powered applications across their life cycle from model scanning and red teaming to runtime defense. We launched this platform just a few quarters ago, and its adoption has been remarkably strong. From Q1 to Q2, we more than tripled our customer count to over 100. While bookings also doubled during the same period, with the nine-figure pipeline already materializing, it's clear the market has been waiting for a comprehensive platform to secure AI.
+
+At the same point, we're also seeing a new class of autonomous agents emerge. Software, that can perform tasks and interact with local systems on its own. This naturally extends security requirements to the endpoint.
+
+This is why I'm excited to announce our intent to acquire Koi, a pioneer in securing the next major inflection point in security, the agentic endpoint. Koi will enhance our endpoint capabilities within XDR 2.0, while also becoming an integrated part of our universal AI security platform, extending security and governance to autonomous agents at the device layer.
+
+We are witnessing a dramatic shift in how software lives on the endpoint, traditional security tools are often blind to the new AI layer of software, the massive rise of MCP servers, browser extensions, plugins, and ephemeral code that bypasses standard security controls. This represents a significant unmanaged attack surface.
+
+We identified this new threat vector early and Palo Alto Networks has been a customer of Koi, since summer of 2025. On my recent trip to Israel in December, Lee Klarich, and I met with the Koi team and were immediately impressed by their foresight into the next generation of endpoint threats.
+
+Since then, we've seen this risk pattern intensify, including security concerns that have been recently popularized by the widespread adoption of OpenClaw. We believe this is the latest example of what the future of AI attack surface will look like, and that Koi will help our XDR platform, remain well positioned to provide the most innovative security solutions to our customers.
+
+After closing, Koi will also be able to provide unique extensions to Prisma AIRS and Prisma browser to ensure that our customers have visibility to any AI software and browser that are only present on the endpoint, resulting in the most comprehensive visibility to the AI attack surface. Overtime, this will help ensure that the endpoint becomes more agentic. Our customers will remain fully protected.
+
+Now this focus on visibility is critical, but to act with precision, you first need to see with clarity. This is why a new level of observability is so essential, which brings me to Chronosphere. In the age of AI, Chronosphere offers a unique value proposition, deliver observability at a massive scale, proven in production today by many of the world's leading, born in the cloud and AI native companies.
+
+During Q2 and after we closed the Chronosphere acquisition, we signed a multi-year, nine-figure expansion deal with a leading AI model provider, a testament of Chronosphere's ability to scale in the largest and most complex environments.
+
+The momentum is clear in the numbers with the company generating approximately $200 million in ARR as of Q2, well above our expectations. The internal observability platform is also getting traction with over 80% of new logos last year landing with multiple products such as metrics, logs, and traces.
+
+By combining Chronosphere's deep visibility with the automated action of AgentiX, we are enabling our customers to build a self-healing, autonomous enterprises of the future.
+
+So we have prevention, we have visibility and we have automation. But every action, whether by a human or an AI agent, is governed by an identity, which brings me to our next newest major pillar.
+
+We're delighted to have closed the acquisition of CyberArk early in Q3 and are ready to execute on what I believe is a massive opportunity in identity security. As many of you noticed earlier this month, CyberArk is coming off an exceptional December quarter, the record net new ARR and 30% of subscription ARR growth at scale. We've been rigorously building and refining our integration plans and we're moving fast to put these plans into execution. This includes aligning our go to market engines, we're already well underway on detailed account planning and aligned sales incentives to ensure our teams are collaborating from day 1.
+
+From a product perspective, the innovation roadmap here is massive. We aren't just looking at legacy IAM, which in our view is basic hygiene. We're building a next generation identity security platform that protects across humans, machines and AI agents.
+
+We also look forward to delivering machine identity and certificate lifecycle management to our 65,000 plus firewall customers. Longer term, we remain excited by the opportunity to address the growing needs of identity to secure AI agents. We bought CyberArk because when AI agents start logging in at machine speed, logging in becomes the primary attack factor. We believe we are now the only company that can verify the Who and secure the What simultaneously.
+
+Given the momentum in the business currently and our innovation roadmap, we believe we are well positioned to become the largest identity security player over time.
+
+In summary, we continue to execute against our platformization strategy in Q2 with momentum building across multiple areas of business. Our core innovation engine remains strong, with great traction and new products like AIRS and AgentiX, and ready to put our integration plans into action with CyberArk and Chronosphere.
+
+Before I hand over to Dipak, I want to take a few minutes to reflect on the recent advancements in AI. We're seeing significant innovation in new agentic platforms targeting the enterprise. And while it's still early, it is causing some companies to reassess how the applications are built, how workflows are automated and how decisions are made.
+
+Long standing assumptions about systems of record are being revisited, and perhaps even more so, the analytics layer built on top of that. In many enterprise applications, data reflects structured business processes within defined workflows. Security data is different, in our case, it is real-time threat activity generated at the control point where our platforms operate and continuously refined through more than 30 billion attacks blocked daily and 15 petabytes of telemetry processed in our AI SOC. That distinction matters when we say precision AI, it's not AI layered onto a feature set, it is AI trained on our proprietary dataset and embedded directly at those critical control points.
+
+As AI begins interacting autonomously across application's infrastructure, fragmented security [ph] introduces delay, precisely (00:19:26) the wrong moment. Security must operate as a coordinated system, unified, consistent, and real-time. Because our platform sits at these control points, with these shifts, we see these shifts as they happen. The data generated across the network, cloud, identity, endpoint and browser continually informs our models, creating a feedback loop that compounds the scale.
+
+But scale is not enough, sustaining leadership requires a willingness to adapt and challenge our own assumptions. Technology cycles change. Architectures evolve. Over the past seven and a half years, we've consistently aimed to invest ahead of inflection points in technology even when the path is not fully defined. Maintaining this discipline is vital to ensuring that we remain the digital guardian for our consumers. However, the technology stack could evolve.
+
+With that, I will hand over the call to Dipak to review the quarterly results in detail.
+
+Dipak Golechha: Thank you, Nikesh, and good afternoon everyone. As Nikesh noted, our strong Q2 results reflect the consistent execution of our platformization strategy coupled with a robust demand environment. The increasing adoption of our platforms is most evident in our next-generation security ARR, which grew 33% to $6.33 billion. This includes a $200 million contribution from our recent acquisition of Chronosphere.
+
+On an organic basis, NGS ARR was up 28% year-over-year, and net new ARR was up 11% year-over-year. This performance was driven by an acceleration in SASE and software firewall ARR, alongside continued momentum in XSIAM. A key contributor to our software firewall growth in recent quarters is Prisma AIRS. As customers increase their AI deployments, they're looking for a trusted partner to secure this critical transformation. Prisma AIRS directly addresses this need and as Nikesh mentioned, it is scaling rapidly with over 100 customers ending Q2.
+
+Our remaining performance obligation, or RPO, grew 23% to $16.0 billion. This includes approximately $150 million of RPO from our Chronosphere acquisition. It's important to note that RPO balances for Chronosphere can fluctuate from period-to-period given usage based pricing with ARR and revenue being more representative of business performance. Our current RPO, which represents the near-term revenue realization, was $7.1 billion, representing 18% growth.
+
+Total revenue was $2.59 billion and grew 15%. Given the close of our Chronosphere acquisition came near the end of fiscal Q2, the revenue contribution was immaterial during the quarter.
+
+Product revenue was up 22%, with 45% of the product revenue coming from software form factors over the trailing 12 months, which was up from 38% in the trailing 12 months ending Q2 2025. This was driven in part by strong demand for software firewalls as noted earlier.
+
+Our software growth was complemented by improving hardware demand led by the adoption of our latest Gen 5 firewall appliances and SD-WAN.
+
+Total services revenue grew slightly above 13%. Within this, subscription revenue was up 14%, while support revenue grew 12%. From a geographical perspective, we saw broad-based strength across all of our major theatres with the Americas growing 14%, EMEA growing 17%, and JPAC growing 17%.
+
+Moving further down the income statement, our disciplined focus on profitability and operational leverage continue to deliver strong results in Q2. Given the timing of the Chronosphere acquisition, the impact of this transaction to our P&L financials was immaterial.
+
+Our total gross margin for the quarter was 76.1%. Within this product gross margin was 78.2%, an increase of 150 basis points year-over-year, driven by a higher software mix compared to last year. As noted earlier, we did see improvement in our hardware business during Q2. Therefore, on a sequential basis, the higher mix of hardware and product revenue resulted in a 180-basis-point decrease to product gross margin versus Q1.
+
+The services segment delivered gross margin of 75.6%, down 100 basis points year-over-year. The year-over-year change in services gross margin reflects a positive mix shift towards our high-growth SaaS offerings, which remain in the earlier part of their scaling curve. We continue to be pleased by the growth of our SaaS offerings and remain focused on driving efficiencies here.
+
+Now turning to the supply chain. We observed a marginal impact on product COGS this quarter from higher memory and storage pricing, but we believe we are well-positioned to manage through these dynamics. First, our high and growing software mix provides a natural hedge.
+
+Second, we will leverage our scale, deep supply chain expertise and lessons learned through COVID and prior supply chain constraints. And third, pricing actions taking effect later this fiscal year will help offset corresponding cost increases.
+
+We have proactively factored these considerations into our Q3 and full year outlook. We delivered our third consecutive quarter of 30% plus operating margins with Q2 operating margin of 30.3%, a 190-basis-point expansion versus Q2 of last year. The strong expansion reflects our ability to drive consistent scale and efficiency across all OpEx line items.
+
+Our diluted non-GAAP EPS reached $1.03, which once again came in above the high-end of our guidance. Q2 adjusted free cash flow was $502 million. On a trailing 12-month basis, we generated $3.75 billion in adjusted non-GAAP free cash flow, representing a margin of 37.9%.
+
+Our cash and cash equivalents for the period was $7.9 billion, reflecting a $2.6 billion cash consideration for the Chronosphere acquisition. Given the recent close of our CyberArk acquisition, we expect a $2.3 billion cash outlay in Q3. This results

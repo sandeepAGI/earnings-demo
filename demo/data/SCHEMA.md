@@ -22,20 +22,23 @@ to either a raw file in `demo/data/raw/` or a signed-off hardcoded supplement be
 
 ## Signed-Off Hardcoded Supplements
 
-These values appear in the press release narrative but are absent from structured JSON fields.
-Each must be independently verified against the Q2 FY26 press release PDF before the rebuild runs.
+Values verified from Claude API extraction of Q2 FY26 PDFs (2026-05-27 gather.py run).
+Source files: `Supplemental Financial Information Q2'26_vF.pdf`, `Q2'26 Earnings Presentation vF.pdf`.
 
-| Constant | Value | Source statement | Verified? |
-|----------|-------|-----------------|-----------|
-| Non-GAAP gross margin | 76.6% | PANW Q2 FY26 press release text | Pending |
-| FCF | $509.0M | PANW Q2 FY26 press release text | Pending |
-| FCF margin | 22.5% | PANW Q2 FY26 press release text | Pending |
-| Deferred revenue current | $5.60B | PANW Q2 FY26 press release text | Pending |
-| Deferred revenue long-term | $5.66B | PANW Q2 FY26 press release text | Pending |
-| Platformized customers | 1,150 | PANW Q2 FY26 earnings call transcript | Pending |
-| EBITDA | TBD | Prior script used ~$412.9M approximation — re-derive for Q2 FY26 | Pending |
+| Constant | Value | Source | Verified? |
+|----------|-------|--------|-----------|
+| Non-GAAP gross margin | 76.1% | `panw_supplemental_8q.json` > Q2_FY26 `gross_margin_nongaap_pct` | ✓ 2026-05-27 |
+| FCF (standard) | $384M | `panw_supplemental_8q.json` > Q2_FY26 `fcf_m` | ✓ 2026-05-27 |
+| FCF margin (standard) | 14.8% | `panw_supplemental_8q.json` > Q2_FY26 `fcf_margin_pct` | ✓ 2026-05-27 |
+| Deferred revenue current | $6.248B | `panw_supplemental_8q.json` > Q2_FY26 `deferred_revenue_current_bn` | ✓ 2026-05-27 |
+| Deferred revenue long-term | $6.181B | `panw_supplemental_8q.json` > Q2_FY26 `deferred_revenue_longterm_bn` | ✓ 2026-05-27 |
+| Deferred revenue total | $12.429B | Derived: 6.248 + 6.181 | ✓ 2026-05-27 |
+| Platformized customers | 1,550 | `panw_q2fy26_guidance.json` > `operational_kpis.platformized_customers` | ✓ 2026-05-27 |
+| NGS ARR | $6.33B | `panw_supplemental_8q.json` > Q2_FY26 `ngs_arr_bn` | ✓ 2026-05-27 |
+| RPO | $16.0B | `panw_supplemental_8q.json` > Q2_FY26 `remaining_performance_obligations_bn` | ✓ 2026-05-27 |
+| EBITDA | Re-derive | Non-GAAP OI ($785M) + D&A from supplemental, if shown | Pending re-derive |
 
-*"Pending" = verified against Q2 FY25 source; must be re-verified against actual Q2 FY26 press release.*
+*Prior SCHEMA.md values (76.6% gross margin, $509M FCF, $5.60B/$5.66B deferred rev, 1,150 platformized customers) were Q2 FY25 figures. Now corrected to Q2 FY26 actuals.*
 
 ---
 
@@ -60,6 +63,9 @@ P&L per quarter for primary and peers in a single table.
 
 ### PANW Q2 FY26 row (is_primary_quarter=1)
 
+Primary source: `panw_supplemental_8q.json` (extracted from PANW supplemental PDF via Claude API).
+Guidance and KPI overlay: `panw_q2fy26_guidance.json` (extracted from PANW presentation PDF via Claude API).
+
 | Column | Source |
 |--------|--------|
 | symbol | Hardcoded: 'PANW' |
@@ -67,32 +73,32 @@ P&L per quarter for primary and peers in a single table.
 | fiscal_period | Hardcoded: 'Q2_FY26' |
 | fiscal_date_ending | Hardcoded: '2026-01-31' |
 | report_date | Hardcoded: '2026-02-17' |
-| revenue_total_m | `panw_q2fy26_press_release.json` > `income_statement.revenue.total` |
-| revenue_product_m | `panw_q2fy26_press_release.json` > `income_statement.revenue.product` |
-| revenue_subscription_m | `panw_q2fy26_press_release.json` > `income_statement.revenue.subscription_support` |
-| revenue_yoy_growth_pct | `panw_q2fy26_press_release.json` > `income_statement.revenue.yoy_total.growth_pct` |
-| gross_profit_m | `panw_q2fy26_press_release.json` > `income_statement.gross_profit` |
-| gross_margin_gaap_pct | `panw_q2fy26_press_release.json` > `income_statement.gross_margin_pct` |
-| gross_margin_nongaap_pct | **Hardcoded supplement** — 76.6% from press release text |
-| operating_income_gaap_m | `panw_q2fy26_press_release.json` > `income_statement.gaap_operating_income` |
-| operating_income_nongaap_m | `panw_q2fy26_press_release.json` > `income_statement.nongaap_operating_income` |
-| operating_margin_gaap_pct | `panw_q2fy26_press_release.json` > `income_statement.gaap_operating_margin_pct` |
-| operating_margin_nongaap_pct | `panw_q2fy26_press_release.json` > `income_statement.nongaap_operating_margin_pct` |
-| net_income_gaap_m | `panw_q2fy26_press_release.json` > `income_statement.net_income_gaap` |
-| ebitda_m | **Hardcoded supplement** — re-derive from Q2 FY26 press release (prior: ~$412.9M approx) |
-| eps_gaap | `panw_q2fy26_press_release.json` > `income_statement.eps_gaap_diluted` |
-| eps_nongaap | `panw_q2fy26_press_release.json` > `income_statement.eps_nongaap_diluted` |
-| deferred_revenue_total_bn | **Hardcoded supplement** — $11.26B (5.60 + 5.66) from press release text |
-| fcf_m | **Hardcoded supplement** — $509.0M from press release text |
+| revenue_total_m | `panw_supplemental_8q.json` > Q2_FY26 `revenue_total_m` |
+| revenue_product_m | `panw_supplemental_8q.json` > Q2_FY26 `revenue_product_m` |
+| revenue_subscription_m | `panw_supplemental_8q.json` > Q2_FY26 `revenue_subscription_support_m` |
+| revenue_yoy_growth_pct | `panw_supplemental_8q.json` > Q2_FY26 `revenue_yoy_growth_pct` |
+| gross_profit_m | `panw_supplemental_8q.json` > Q2_FY26 `gross_profit_gaap_m` |
+| gross_margin_gaap_pct | `panw_supplemental_8q.json` > Q2_FY26 `gross_margin_gaap_pct` |
+| gross_margin_nongaap_pct | `panw_supplemental_8q.json` > Q2_FY26 `gross_margin_nongaap_pct` (76.1%) |
+| operating_income_gaap_m | `panw_supplemental_8q.json` > Q2_FY26 `operating_income_gaap_m` |
+| operating_income_nongaap_m | `panw_supplemental_8q.json` > Q2_FY26 `operating_income_nongaap_m` |
+| operating_margin_gaap_pct | `panw_supplemental_8q.json` > Q2_FY26 `operating_margin_gaap_pct` |
+| operating_margin_nongaap_pct | `panw_supplemental_8q.json` > Q2_FY26 `operating_margin_nongaap_pct` |
+| net_income_gaap_m | `panw_supplemental_8q.json` > Q2_FY26 `net_income_gaap_m` |
+| ebitda_m | Derived in rebuild_db.py: non-GAAP OI + D&A if D&A present; else null with note |
+| eps_gaap | `panw_supplemental_8q.json` > Q2_FY26 `eps_gaap_diluted` |
+| eps_nongaap | `panw_supplemental_8q.json` > Q2_FY26 `eps_nongaap_diluted` |
+| deferred_revenue_total_bn | Derived: `deferred_revenue_current_bn` + `deferred_revenue_longterm_bn` = 12.429 |
+| fcf_m | `panw_supplemental_8q.json` > Q2_FY26 `fcf_m` (384, standard FCF) |
 | gaap_profitable | Derived: 1 if net_income_gaap_m >= 0 |
 | is_primary_quarter | Hardcoded: 1 |
-| data_source | 'panw_q2fy26_press_release.json' |
+| data_source | 'panw_supplemental_8q.json' |
 
 ### PANW historical rows (is_primary_quarter=0)
 
-Source: `panw_income_statement.json` > `quarterlyReports[]`
+Source: `panw_supplemental_8q.json` > all quarters where `fiscal_period` != 'Q2_FY26'
 
-Columns populated: revenue_total_m, gross_profit_m, gross_margin_gaap_pct, operating_income_gaap_m, net_income_gaap_m, revenue_yoy_growth_pct (derived). All non-GAAP columns are NULL for historical rows — source file does not have them.
+Contains up to 8 quarters of GAAP + non-GAAP data (same fields as Q2 FY26 row). Non-GAAP columns are populated for all quarters present in the supplemental.
 
 Fiscal periods mapped (fiscal_date_ending → fiscal_period, report_date):
 
@@ -125,8 +131,10 @@ Flexible key-value KPIs (e.g. NGS ARR, platformized customers).
 
 | Column | Source |
 |--------|--------|
-| kpi_name, kpi_value, kpi_unit, kpi_label, kpi_note | Per-KPI: `panw_q2fy26_press_release.json` > `key_metrics.*` or hardcoded supplement |
-| Platformized customers | **Hardcoded supplement** — 1,150 from transcript |
+| kpi_name, kpi_value, kpi_unit, kpi_label, kpi_note | Per-KPI: `panw_supplemental_8q.json` > Q2_FY26 fields or `panw_q2fy26_guidance.json` > `operational_kpis.*` |
+| Platformized customers | `panw_q2fy26_guidance.json` > `operational_kpis.platformized_customers` (1,550) |
+| NGS ARR | `panw_supplemental_8q.json` > Q2_FY26 `ngs_arr_bn` (6.33) |
+| RPO | `panw_supplemental_8q.json` > Q2_FY26 `remaining_performance_obligations_bn` (16.0) |
 | Peer KPIs | `crwd_q4fy26_results.json`, `ftnt_q12026_results.json`, `zs_q3fy26_results.json` > `key_metrics.*` |
 | data_source | Filename of originating raw file |
 
@@ -138,26 +146,27 @@ Street consensus at time of Q2 FY26 earnings.
 
 | Column | Source |
 |--------|--------|
-| eps_consensus_nongaap | `panw_earnings_estimates.json` > FMP earnings surprises (estimated EPS field) |
-| eps_consensus_gaap | `panw_earnings_estimates.json` > FMP earnings surprises (if available) |
-| revenue_consensus_m | `panw_earnings_estimates.json` > FMP earnings surprises (revenue estimate) |
-| analyst_count | `panw_earnings_estimates.json` > FMP earnings surprises (analyst count if available) |
+| eps_consensus_nongaap | `panw_earnings_estimates.json` > `earnings_history[fiscal_date=2026-01-31].eps_nongaap_estimate` |
+| revenue_consensus_m | NULL — not available from free APIs for historical quarters |
 | data_source | 'panw_earnings_estimates.json' |
+
+*FMP v3 earnings-surprises is a legacy endpoint blocked post-Aug 2025. Using yfinance earnings_history instead.*
 
 ---
 
 ## Table 5: eps_history
 
-GAAP EPS beat/miss track record.
+Non-GAAP EPS beat/miss track record (4 quarters from yfinance earnings_history).
 
 | Column | Source |
 |--------|--------|
-| eps_gaap_actual | `panw_earnings_estimates.json` > FMP earnings surprises (actualEps field) |
-| eps_gaap_estimated | `panw_earnings_estimates.json` > FMP earnings surprises (estimatedEps field) |
-| eps_surprise | `panw_earnings_estimates.json` > FMP (difference field) |
-| eps_surprise_pct | `panw_earnings_estimates.json` > FMP (surprisePercentage field) |
+| eps_nongaap_actual | `panw_earnings_estimates.json` > `earnings_history[].eps_nongaap_actual` |
+| eps_nongaap_estimate | `panw_earnings_estimates.json` > `earnings_history[].eps_nongaap_estimate` |
+| eps_difference | `panw_earnings_estimates.json` > `earnings_history[].eps_difference` |
+| eps_surprise_pct | `panw_earnings_estimates.json` > `earnings_history[].eps_surprise_pct` |
+| revenue_actual_m | `panw_earnings_estimates.json` > `earnings_history[].revenue_actual_m` |
 
-*FMP returns ~16 quarters of earnings surprise history. No separate `panw_earnings.json` needed.*
+*yfinance returns ~4 quarters of non-GAAP EPS history for PANW.*
 
 ---
 
@@ -167,36 +176,30 @@ Management guidance issued at Q2 FY26.
 
 | Column | Source |
 |--------|--------|
-| All guidance fields | `panw_q2fy26_press_release.json` > `guidance_q3_fy26.*` and `guidance_fy26_full_year.*` |
-| revision_vs_prior | `panw_q2fy26_press_release.json` > guidance raise/maintain flag |
-| data_source | 'panw_q2fy26_press_release.json' |
+| All guidance fields | `panw_q2fy26_guidance.json` > `guidance_q3_fy26.*` and `guidance_fy26_full_year.*` |
+| revision_vs_prior | `panw_q2fy26_guidance.json` > guidance revision_vs_prior flag |
+| data_source | 'panw_q2fy26_guidance.json' |
 
 ---
 
 ## Table 7: insider_transactions
 
-Form 4 filings, full Q2 FY26 window.
+Form 4 filings, full Q2 FY26 window. 26 filings retrieved, 41 disposal transactions.
 
 | Column | Source |
 |--------|--------|
-| All transaction fields | `panw_q2fy26_form4_summary.txt` — parsed from edgartools output |
+| All transaction fields | `panw_q2fy26_form4_summary.json` > `filings[].transactions[]` |
+| reporting_owner | `panw_q2fy26_form4_summary.json` > `filings[].reporting_owner` |
 | Window rule | 2025-11-01 to 2026-02-17 (full fiscal quarter, post-earnings inclusive) |
-| is_10b5_1_plan, plan_adoption_date | From Form 4 text, parsed by edgartools or noted in summary file |
 
-*Prior script had 4 of 6 filings. edgartools will pull all filings in the window.*
+*edgartools returned 26 Form 4 filings. is_10b5_1 flag not parsed (edgartools does not surface it from XML at this level); set to null.*
 *No `data_source` column in this table — provenance is the window rule documented above.*
 
 ---
 
 ## Table 8: forward_estimates
 
-Consensus forward-year estimates.
-
-| Column | Source |
-|--------|--------|
-| All fields | `panw_earnings_estimates.json` > FMP forward estimates (if available on free tier) |
-
-*If FMP free tier does not return forward estimates, this table remains empty and the guidance table carries forward-looking data instead.*
+Not populated. FMP forward estimates require a paid subscription (v3 legacy endpoints blocked post-Aug 2025). yfinance revenue_estimate provides current-quarter forward revenue but not historical consensus at point of earnings. Table left empty; guidance table carries forward-looking data.
 
 ---
 
@@ -267,18 +270,26 @@ Short interest, put/call ratio, options skew.
 
 ## Raw Files Summary
 
-| File | Populated by | Tables fed |
-|------|-------------|-----------|
-| `panw_q2fy26_press_release.json` | Manual (PANW IR PDF) + FMP income statement | 2, 3, 6 |
-| `panw_income_statement.json` | FMP income statement endpoint | 2 (historical) |
-| `panw_earnings_estimates.json` | FMP earnings surprises endpoint | 4, 5, 8 |
-| `panw_price_monthly.json` | yfinance monthly OHLCV | 9, 10 |
-| `panw_q2fy26_transcript.txt` | Manual — PANW IR or Seeking Alpha | 11 |
-| `panw_q2fy26_transcript_qa.json` | Claude API tagging pass | 12 |
-| `panw_q2fy26_form4_summary.txt` | edgartools (SEC EDGAR) | 7 |
-| `panw_q2fy26_short_interest.txt` | Manual narrative fallback (existing) | 13 |
-| `panw_q2fy26_put_call.txt` | Manual narrative fallback (existing) | 13 |
-| `peer_snapshot.json` | Existing (verify before reuse) | 1, 3 |
-| `crwd_q4fy26_results.json` | Existing (verify before reuse) | 2, 3 |
-| `ftnt_q12026_results.json` | Existing (verify before reuse) | 2, 3 |
-| `zs_q3fy26_results.json` | Existing (verify before reuse) | 2, 3 |
+*Updated 2026-05-27 after gather.py run. Primary data source is now PDF extraction via Claude API.*
+
+| File | Populated by | Tables fed | Status |
+|------|-------------|-----------|--------|
+| `panw_supplemental_8q.json` | Claude API → Supplemental PDF (8Q GAAP+nonGAAP) | 2, 3 | ✓ New |
+| `panw_q2fy26_guidance.json` | Claude API → Presentation PDF (guidance + KPIs) | 3, 6 | ✓ New |
+| `panw_q2fy26_transcript.txt` | Claude API → FactSet corrected transcript PDF | 11 | ✓ New |
+| `panw_q2fy26_transcript_qa.json` | Claude API → transcript Q&A tag pass | 12 | ✓ New |
+| `panw_earnings_estimates.json` | yfinance earnings_history (4Q non-GAAP EPS) | 4, 5 | ✓ Updated |
+| `panw_price_monthly.json` | yfinance monthly OHLCV (60 months) | 9, 10 | ✓ Updated |
+| `panw_q2fy26_form4_summary.json` | edgartools SEC EDGAR (26 filings, full Q2 FY26 window) | 7 | ✓ New (JSON) |
+| `panw_q2fy26_short_interest.txt` | Manual narrative fallback (existing) | 13 | Existing |
+| `panw_q2fy26_put_call.txt` | Manual narrative fallback (existing) | 13 | Existing |
+| `peer_snapshot.json` | Existing (verify before reuse) | 1, 3 | Existing |
+| `crwd_q4fy26_results.json` | Existing (verify before reuse) | 2, 3 | Existing |
+| `ftnt_q12026_results.json` | Existing (verify before reuse) | 2, 3 | Existing |
+| `zs_q3fy26_results.json` | Existing (verify before reuse) | 2, 3 | Existing |
+
+*Superseded files (do not use in rebuild_db.py):*
+- `panw_q2fy26_press_release.json` — Q2 FY25 data, mislabeled. Replaced by `panw_supplemental_8q.json`.
+- `panw_income_statement.json` — Q2 FY25 era. Replaced by `panw_supplemental_8q.json`.
+- `panw_earnings.json` — stale Alpha Vantage output. Replaced by `panw_earnings_estimates.json`.
+- `panw_q2fy26_form4_summary.txt` — old text format. Replaced by `panw_q2fy26_form4_summary.json`.

@@ -1,36 +1,44 @@
 {
-  "symbol": "PANW",
-  "source": "Alpha Vantage EARNINGS_ESTIMATES",
-  "data_quality_note": "EPS estimates appear to be non-GAAP/adjusted. EARNINGS endpoint uses GAAP EPS (~0.38 for Q2 FY26). Non-GAAP EPS ~2x GAAP for PANW due to large SBC expense.",
-  "q2_fy26_summary": {
-    "date": "2025-01-31",
-    "horizon": "fiscal quarter",
-    "eps_estimate_average_nongaap": "0.7793",
-    "eps_estimate_range": "0.77 - 0.81",
-    "eps_estimate_analyst_count": 43,
-    "revenue_estimate_average": "2239824280",
-    "revenue_estimate_range": "2222000000 - 2280300000",
-    "revenue_estimate_analyst_count": 43,
-    "actual_revenue": "2257400000",
-    "revenue_beat": 17576000,
-    "revenue_beat_pct": 0.78,
-    "actual_eps_gaap": "0.38",
-    "actual_eps_nongaap": "0.81",
-    "actual_eps_nongaap_note": "Corrected from original approx $0.77 — authoritative figure from official press release is $0.81",
-    "eps_surprise_nongaap": "+0.031 (+3.9% beat vs $0.7793 consensus)"
-  },
-  "forward_estimates": {
-    "fy26_full_year": {
-      "date": "2026-07-31",
-      "eps_avg": "3.6912",
-      "revenue_avg": "11292476710",
-      "analyst_count": 51
+  "source": "yfinance PANW earnings_history + quarterly_income_stmt",
+  "retrieved_date": "2026-05-27",
+  "note": "eps figures are non-GAAP (yfinance reports analyst-consensus non-GAAP for PANW). revenue_consensus_m unavailable from free APIs for historical quarters \u2014 left null.",
+  "q2_fy26_fiscal_date": "2026-01-31",
+  "earnings_history": [
+    {
+      "fiscal_date_ending": "2025-04-30",
+      "eps_nongaap_actual": 0.8,
+      "eps_nongaap_estimate": 0.77227,
+      "eps_difference": 0.03,
+      "eps_surprise_pct": 3.59,
+      "revenue_actual_m": 2289.0,
+      "revenue_consensus_m": null
     },
-    "fy27_full_year": {
-      "date": "2027-07-31",
-      "eps_avg": "2.3309",
-      "revenue_avg": "13563038170",
-      "analyst_count": 20
+    {
+      "fiscal_date_ending": "2025-07-31",
+      "eps_nongaap_actual": 0.95,
+      "eps_nongaap_estimate": 0.88528,
+      "eps_difference": 0.06,
+      "eps_surprise_pct": 7.31,
+      "revenue_actual_m": 2536.3,
+      "revenue_consensus_m": null
+    },
+    {
+      "fiscal_date_ending": "2025-10-31",
+      "eps_nongaap_actual": 0.93,
+      "eps_nongaap_estimate": 0.89116,
+      "eps_difference": 0.04,
+      "eps_surprise_pct": 4.36,
+      "revenue_actual_m": 2474.0,
+      "revenue_consensus_m": null
+    },
+    {
+      "fiscal_date_ending": "2026-01-31",
+      "eps_nongaap_actual": 1.03,
+      "eps_nongaap_estimate": 0.93684,
+      "eps_difference": 0.09,
+      "eps_surprise_pct": 9.94,
+      "revenue_actual_m": 2594.0,
+      "revenue_consensus_m": null
     }
-  }
+  ]
 }
