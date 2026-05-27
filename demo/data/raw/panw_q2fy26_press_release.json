@@ -1,0 +1,156 @@
+{
+  "symbol": "PANW",
+  "source": "Official IR Press Release \u2014 Feb 13, 2025",
+  "url": "https://investors.paloaltonetworks.com/news-releases/news-release-details/palo-alto-networks-reports-fiscal-second-quarter-2025-financial",
+  "quarter": "Q2_FY26",
+  "fiscal_period_ending": "2025-01-31",
+  "report_date": "2025-02-13",
+  "stock_split_note": "2-for-1 split effected December 12, 2024. All per-share figures retroactively adjusted.",
+  "income_statement": {
+    "revenue": {
+      "product": 421.5,
+      "subscription_support": 1835.9,
+      "total": 2257.4,
+      "yoy_total": {
+        "prior": 1975.1,
+        "growth_pct": 14.3
+      },
+      "segment_note": "Subscription and support = 81.3% of revenue"
+    },
+    "cost_of_revenue": {
+      "product": 101.3,
+      "subscription_support": 497.9,
+      "total": 599.2
+    },
+    "gross_profit": 1658.2,
+    "gross_margin_pct": 73.5,
+    "operating_expenses": {
+      "r_and_d": 505.7,
+      "sales_and_marketing": 758.3,
+      "g_and_a": 153.8,
+      "total": 1417.8
+    },
+    "gaap_operating_income": 240.4,
+    "gaap_operating_margin_pct": 10.6,
+    "nongaap_operating_income": 640.4,
+    "nongaap_operating_margin_pct": 28.4,
+    "net_income_gaap": 267.3,
+    "eps_gaap_diluted": 0.38,
+    "eps_nongaap_diluted": 0.81,
+    "yoy": {
+      "gaap_operating_income_prior": 53.6,
+      "gaap_operating_income_growth_pct": 348.5,
+      "nongaap_operating_income_prior": 564.2,
+      "nongaap_operating_income_growth_pct": 13.5,
+      "nongaap_operating_margin_prior_pct": 28.6,
+      "eps_nongaap_prior": 0.73,
+      "eps_nongaap_growth_pct": 11.0
+    }
+  },
+  "key_metrics": {
+    "ngs_arr": {
+      "value_bn": 4.8,
+      "yoy_growth_pct": 37.0,
+      "definition": "Annualized rev of active Prisma/Cortex contracts incl. VM-Series and cloud-delivered security"
+    },
+    "rpo": {
+      "value_bn": 13.0,
+      "yoy_growth_pct": 21.0,
+      "definition": "Remaining performance obligation \u2014 contracted future revenue"
+    },
+    "deferred_revenue_total_bn": 11.26,
+    "deferred_revenue_note": "Current .60B + LT .66B \u2014 strong forward visibility"
+  },
+  "nongaap_bridge": {
+    "note": "GAAP to Non-GAAP reconciliation \u2014 key adjustments",
+    "sbc": 343.3,
+    "acquisition_costs": 9.7,
+    "intangible_amortization": 43.8,
+    "litigation": {
+      "q2_fy26": 3.2,
+      "q2_fy25": 178.6,
+      "swing": 175.4,
+      "analytical_note": "Litigation normalization accounts for 75.4M of the 86.8M YoY GAAP OI improvement. Organic non-GAAP OI grew +13.5%, not +349%."
+    }
+  },
+  "beat_miss_vs_consensus": {
+    "revenue": {
+      "actual": 2257.4,
+      "consensus": 2239.8,
+      "beat": 17.6,
+      "beat_pct": 0.78,
+      "read": "Narrow beat \u2014 in-line"
+    },
+    "eps_nongaap": {
+      "actual": 0.81,
+      "consensus": 0.7793,
+      "beat": 0.031,
+      "beat_pct": 3.9,
+      "read": "Solid beat on non-GAAP EPS"
+    },
+    "eps_gaap": {
+      "actual": 0.38,
+      "consensus": 0.38,
+      "beat": 0.0,
+      "beat_pct": 0.0,
+      "read": "Exactly in-line"
+    }
+  },
+  "guidance_q3_fy26": {
+    "ngs_arr_bn": {
+      "low": 5.03,
+      "high": 5.08,
+      "yoy_growth_pct": "33-34%"
+    },
+    "rpo_bn": {
+      "low": 13.5,
+      "high": 13.6,
+      "yoy_growth_pct": "19-20%"
+    },
+    "revenue_bn": {
+      "low": 2.26,
+      "high": 2.29,
+      "yoy_growth_pct": "14-15%"
+    },
+    "eps_nongaap": {
+      "low": 0.76,
+      "high": 0.77
+    },
+    "analytical_note": "Q3 guidance EPS bash.76-0.77 is BELOW Q2 actual bash.81 \u2014 sequential step-down. NGS ARR guidance 33-34% implies deceleration from Q2 37% growth."
+  },
+  "guidance_fy26_full_year": {
+    "revenue_bn": {
+      "low": 9.14,
+      "high": 9.19,
+      "yoy_growth_pct": 14.0
+    },
+    "nongaap_operating_margin_pct": {
+      "low": 28.0,
+      "high": 28.5
+    },
+    "eps_nongaap": {
+      "low": 3.18,
+      "high": 3.24,
+      "note": "Raised from prior guidance"
+    },
+    "fcf_margin_pct": {
+      "low": 37.0,
+      "high": 38.0
+    }
+  },
+  "stock_reaction": {
+    "after_hours_change_pct": -3.5,
+    "close_price_day_of": 187.68,
+    "source": "Investing.com / web search",
+    "analytical_note": "Stock fell despite EPS beat (+3.9%). Likely drivers: narrow revenue beat, Q3 EPS guidance below Q2 actual, NGS ARR growth deceleration implied in FY guidance. Classic sell-the-news on in-line-to-slightly-better print."
+  },
+  "geo_breakdown": {
+    "americas_yoy_growth_pct": 13,
+    "emea_yoy_growth_pct": 18,
+    "jpac_yoy_growth_pct": 17
+  },
+  "mgmt_quotes": {
+    "ceo_nikesh_arora": "Our growth across regions and demand for our platforms demonstrate our customers confidence in our approach. It reaffirms our faith in our 2030 plans and our $15 billion NGS ARR goal.",
+    "cfo_dipak_golechha": "Platformization drove our Q2 results, including strength in NGS ARR and RPO. As we drive leverage from our scale and see early benefits from AI-related efficiency initiatives, we again delivered profitable growth."
+  }
+}

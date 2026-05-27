@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "symbol": "ZS",
+    "company": "Zscaler Inc",
+    "period": "Q3 FY26",
+    "fiscal_date_ending": "2026-04-30",
+    "report_date": "2026-05-26",
+    "fiscal_year_end_month": 7,
+    "pulled": "2026-05-27",
+    "source": "SEC 8-K, Quiver Quantitative, Investing.com, web search",
+    "note": "JUST REPORTED — May 26, 2026 (yesterday). Most recent data available. Revenue miss vs beat on EPS — analytically interesting."
+  },
+  "quarterly_financials": {
+    "revenue_total_m": 850.5,
+    "revenue_yoy_growth_pct": 25.0,
+    "revenue_consensus_m": 860.5,
+    "revenue_vs_consensus_m": -10.0,
+    "revenue_beat": false,
+    "operating_margin_nongaap_pct": 23.0,
+    "note_operating_margin": "Record non-GAAP operating margin"
+  },
+  "eps": {
+    "eps_nongaap_actual": 1.08,
+    "eps_nongaap_consensus": 1.04,
+    "eps_nongaap_beat": 0.04,
+    "eps_nongaap_beat_pct": 3.8,
+    "revenue_beat": false,
+    "revenue_miss_m": 10.0,
+    "revenue_miss_pct": 1.2
+  },
+  "kpis": {
+    "ending_arr_m": 3525,
+    "ending_arr_yoy_growth_pct": 25.0,
+    "ending_arr_excl_red_canary_yoy_growth_pct": 21.0,
+    "net_new_arr_m": 166,
+    "rpo_bn": 6.5,
+    "rpo_yoy_growth_pct": 30.0,
+    "customers_over_100k_arr": 4003,
+    "customers_over_100k_yoy_growth_pct": 19.0
+  },
+  "fy26_guidance": {
+    "arr_bn_low": 3.740,
+    "arr_bn_high": 3.749,
+    "revenue_bn_low": 3.3295,
+    "revenue_bn_high": 3.3325
+  },
+  "fy27_preliminary_guidance": {
+    "arr_growth_pct_low": 16.0,
+    "arr_growth_pct_high": 17.0,
+    "revenue_growth_pct_low": 16.0,
+    "revenue_growth_pct_high": 17.0,
+    "note": "FY27 preliminary guidance implies deceleration — management guiding conservatively or growth genuinely slowing?"
+  },
+  "red_canary_acquisition_note": "Red Canary acquisition contributed to ARR. Organic ARR growth ~21% (vs reported 25%). Strip-out important for clean comparison.",
+  "platform_narrative": "ZS is the zero-trust pure-play. RPO +30% YoY ($6.5B) shows multi-year visibility. Revenue MISS vs consensus (-$10M, -1.2%) is the outlier — first miss in several quarters. EPS beat (+$0.04) from margin discipline. Organic ARR growth 21% (ex-Red Canary) vs reported 25% — acquisition flatters the headline. FY27 guidance decel (16-17%) is the market's concern. REPORTED YESTERDAY — fresh read."
+}

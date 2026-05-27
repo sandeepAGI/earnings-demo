@@ -1,0 +1,240 @@
+PALO ALTO NETWORKS Q2 FY2026 (Fiscal Q2 2025) EARNINGS CALL TRANSCRIPT
+Date: February 13, 2025 | 4:30 PM ET
+Source: The Motley Fool (transcribed)
+Fiscal period ending: January 31, 2025
+================================================================================
+
+PREPARED REMARKS
+================================================================================
+
+Walter Pritchard — Senior VP, Investor Relations and Corporate Development
+
+Good day, everyone, and welcome to Palo Alto Networks' second quarter 2025 earnings conference
+call. With me on today's call: Nikesh Arora, Chairman and CEO; Dipak Golechha, CFO. Following
+prepared remarks, Lee Klarich, Chief Product Officer, will join for Q&A.
+
+All per-share figures adjusted for the 2-for-1 stock split effected after close of trading on
+December 12, 2024.
+
+--------------------------------------------------------------------------------
+Nikesh Arora — Chairman and CEO
+--------------------------------------------------------------------------------
+
+We made considerable progress in platformization, allowing us to outperform both our top and
+bottom-line expectations for this quarter. We delivered on our high ARPU expectations toward the
+top of the range. This gave us strength in our NGS ARR and also allowed us to outperform our
+revenue expectations. Growth was pretty broad across the entire portfolio with strength across
+all three geographies and platforms.
+
+Strong performance from large deals internationally and strong contribution from SASE, software
+firewalls, and XSIAM. On the profitability front, we delivered operating margins ahead of our
+internal target despite some one-time events. Efficiency initiatives continue to bear fruit,
+including some promising early contributions from AI.
+
+From our vantage point, the outlook for cybersecurity seems to have been robust in Q2 and is
+likely to stay so over the rest of this year.
+
+As the conversation around AI continues to get omnipresent and companies race to evaluate,
+experiment, and deploy AI, they're discovering that some of the legacy architectures come in
+the way of their aspirations. This is resulting in a resurgence of cloud transformation projects
+and consequently, demand for network security transformation. While cybersecurity is a derivative
+effect, it is clear that the longer-term trend toward AI is going to continue to underpin
+technology transformation.
+
+We see heightened interest in data security posture management, where our acquisition of Dig
+seems to be proving prescient. Cloud infrastructure is much more dynamic than on-prem IT
+creating risk. As cloud data volumes grow, customers are doubling down on protecting their cloud
+environments.
+
+PLATFORMIZATION METRICS:
+- Approximately 75 new platformizations in Q2 (up from ~45 in the year-ago quarter)
+- Total of over 1,150 platformizations within our top 5,000 customers
+- Two-platform customers grew over 50% in Q2
+- Three-platform customers up 3x year over year
+- Number of customers platformized in Cortex up more than 3x
+- On track to achieve stated target of 2,500 to 3,500 platformizations by FY2030
+
+LARGE DEAL EXAMPLES (Q2):
+1. Asian bank — $65M+. XSIAM deployment. Was XDR + network security + QRadar customer.
+   NGS ARR increased 5x to over $12M YoY after platformizing on Cortex.
+2. U.S. municipality — $60M+. Renewal + expansion across portfolio (NetSec + Cortex + Prisma
+   Cloud). NGS ARR increased 40%+ to over $11M.
+3. European automotive manufacturer — $25M. Platformized in NetSec + cloud, expanded into
+   Cortex (XDR, XSOAR, Xpanse, Prisma Cloud). NGS ARR grew 50% to $9M.
+
+LARGE DEAL VOLUME: 74 accounts with transactions >$5M (up 25% YoY); 32 accounts >$10M
+(up >50% YoY).
+
+NETWORK SECURITY (NetSec):
+- NetSec ~80% of bookings
+- Firewall as a Platform bookings grew 21%
+- Appliance bookings: mid-single digits growth (stable demand, taking share)
+- Software and SASE: ~2/3 of FaaP bookings; grew 1.5x faster than total FaaP
+- Appliance market expected to grow 0-5% in FY2025
+
+SASE:
+- Fastest-growing form factor in network security
+- SASE customers grew >20%
+- SASE bookings grew north of 50%
+- Deals >$1M in value up 2.5x
+- Over 5,600 SASE customers; 23M+ individual seats
+- Newer SASE modules (ADEM, CASB, Prisma Access Browser, AI Access) grew ~4x YoY
+- Prisma Access Browser: ~1/3 of new Prisma Access seats in Q; >$30M in bookings in Q2;
+  seats grew 95% QoQ
+- AI Access: crossed 300 customers; visibility into 1,800+ AI applications (up from 500)
+
+SOFTWARE FIREWALLS:
+- 50% bookings growth
+- ~70% of VM deployments in public cloud
+- ~2/3 of software firewall customers also hardware customers
+- First 7-figure software firewall transaction for AI in Q2; 8-figure pipeline
+
+CORTEX (including XSIAM and Prisma Cloud):
+- Cortex and Prisma Cloud each delivered ~50% bookings growth in Q2
+- Cortex customer growth: ~20%
+- XSIAM surpassed $1 billion cumulative bookings milestone in Q2
+- QRadar-related bookings: >$100M in Q2; strong pipeline
+- Cortex Cloud announced Feb 13 — merged Prisma Cloud + CDR + Cortex platform
+- Recognition: MITRE ATT&CK evaluation leader; Frost & Sullivan and Omdia SIEM leaders
+
+AI MARKET CONTEXT (on DeepSeek):
+"DeepSeek is a phenomenal pivotal moment for AI. Not just for us but across the industry...
+It's going to drive experimentation... My only recommendation to every enterprise out there is
+make sure you don't deploy AI without running firewalls around it."
+
+--------------------------------------------------------------------------------
+Dipak Golechha — CFO
+--------------------------------------------------------------------------------
+
+Q2 FINANCIALS:
+- Total revenue: $2.26 billion, grew 14% (above high end of guidance)
+- Product revenue: grew 8% (approaching 40% software on TTM basis)
+- Services revenue: grew 16% (subscription +20%, support +8%)
+- Gross margin: 76.6% — down slightly; driven by (a) newer SaaS offerings not yet at scale,
+  (b) one-time inventory/product transition costs (~40 bps) that won't recur in H2
+- Non-GAAP operating margin: 28.4% — delivered ahead of internal target
+- OpEx as % of revenue: decreased 120 bps (scale + efficiency culture)
+- Non-GAAP EPS: $0.81 diluted (GAAP EPS $0.38)
+- Adjusted FCF: >$509M in Q2
+
+GEOGRAPHIC:
+- Americas: +13%, EMEA: +18%, JPAC: +17%
+- Largest-ever deals in both EMEA and JPAC, each >$50M
+
+RPO / NGS ARR:
+- Total RPO: $13.0B, grew 21% (high end of guidance)
+- Current RPO: $6.1B, grew 17%
+- Average contract duration: ~3 years (trended toward high end due to large XSIAM deals)
+- NGS ARR: $4.78B, grew 37% (driven by advanced subs, SASE, Cortex)
+
+FCF AND DEFERRED PAYMENTS:
+- FY2024 entered year with $1.0B deferred payments (32% of FY24 FCF)
+- FY2025: entered year with $1.4B deferred payments (41% of expected FY25 FCF)
+- FY2026 guidance: expect to exit with $2.0B deferred payments — "further increasing visibility"
+- Confident in FCF margins >37% for FY2026 and FY2027
+- FY2025 FCF will be more back-end loaded (more in Q4) vs prior years
+
+AI EFFICIENCY INITIATIVES:
+- Contract labor reduction: on track for ~50% reduction by end of FY2025 (direct OpEx savings)
+- Customer support copilot: used in ~85% of NetSec support cases; ~50% reduction in resolution time
+- Developer copilots: deployed to all engineers
+
+PLATFORMIZATION PROGRAM UPDATE (1-year anniversary):
+- Embedded practices into standard sales motion
+- Ecosystem partners (GSIs) putting significant resources behind platformization
+- ~1/3 of all sales reps have participated in a new platformization deal win in last 12 months
+- Large deals enabled by partner channels: e.g., U.K. Home Office deal with IBM
+
+GUIDANCE:
+
+Q3 FY25:
+- NGS ARR: $5.03B - $5.08B (+33-34% YoY)  [NOTE: decelerating from Q2's 37%]
+- RPO: $13.5B - $13.6B (+19-20% YoY)
+- Revenue: $2.26B - $2.29B (+14-15% YoY)
+- Non-GAAP EPS: $0.76 - $0.77  [NOTE: below Q2 actual $0.81 — seasonal step-down]
+
+FY2025 Full Year:
+- NGS ARR: $5.52B - $5.57B (+31-32% YoY)
+- RPO: $15.2B - $15.3B (+19-20% YoY)
+- Revenue: $9.14B - $9.19B (+14% YoY)
+- Non-GAAP operating margin: 28.0% - 28.5%
+- Non-GAAP EPS: $3.18 - $3.24 (raised) (+12-14%)
+- Adjusted FCF margin: 37-38%
+
+================================================================================
+QUESTIONS AND ANSWERS
+================================================================================
+
+SAKET KALIA (Barclays) — FCF sustainability and deferred payment dynamics
+Nikesh: "Platform deals are actually a lot more efficient from a sales perspective because the
+larger deals — 50-60% of P&L is sales, marketing, and customer support. If you can find
+efficiencies in that process, that's where leverage lies."
+Dipak: Confirmed approaching end of deferred payment transition — "there's not as much left to
+actually do. We're quite far along the journey."
+
+HAMZA FODDERWALA (Morgan Stanley) — DeepSeek impact
+Nikesh: Viewed as "phenomenal pivotal moment." DeepSeek at 2% of cost of other models drives
+experimentation. Security imperative: deploy with firewalls, sequestered environment, AI
+guardrails. "Any new technology requires you to put more security around it."
+
+BRIAN ESSEX (JPMorgan) — AI for security, win rates vs. point solutions
+Nikesh: "Is any point solution business left? Every security company seems to claim they're
+platform now." Real advantage: platformized customers have harmonized data; can build agents
+on top of 1,150 customer data sets.
+Lee Klarich: Cortex Cloud connects AppSec through cloud through runtime through SOC — "that
+is incredibly powerful."
+On win rates: Yes, confirmed improvement vs. point solution competitors.
+Nikesh: "The bigger cloud security action is going to be in runtime with agents... it's actually
+not the CNAPP players who have had — who won the last round."
+
+GABRIELA BORGES (Goldman Sachs) — Guardrails on deferred payment deals
+Dipak: Higher-end deals drive deferred payment requests. Hardware always upfront. Sales comp
+and approval guardrails in place. "Enabling platformization at scale."
+
+JONATHAN HO (William Blair) — Rationale for CNAPP merging into Cortex
+Lee Klarich: Runtime security requires CNAPP context. Cleaner cloud posture = easier for AI to
+detect real attacks. "Best outcome for customers achieved when they connect all aspects of cloud
+together."
+
+PETER WEED (Bernstein) — Product revenue durability
+Nikesh: Hardware expected to deliver "low to mid-single digits" sustainably. Real growth driver
+is software firewalls and SASE replacing hardware mix. Cloud volume going up faster than data
+center volumes declining. Strategy is managing transition to higher-margin software.
+
+SHAUL EYAL (Cowen) — IBM/QRadar partnership
+Nikesh: "One day, a Harvard Business School case would be written on this for the right reasons.
+This has been a spectacular partner for us." Asian bank deal example: was QRadar customer, ARR
+went up 5x. "It couldn't have been better."
+
+TAL LIANI (BofA) — Gross margin and operating margin
+Dipak: Gross margin pressure from (1) faster growth of newer SaaS (not yet at scale) and
+(2) one-time inventory write-offs (~40 bps) on hardware — "will not repeat in H2."
+Nikesh: "We still outperformed our margin expectations, both internally and as for you, guys."
+
+ANDREW NOWINSKI (Wells Fargo) — Net new ARR declining ex-QRadar [BEAR CASE]
+KEY EXCHANGE: "If you pull out the $74M from QRadar in Q1, it looks like your net new ARR
+declined on a year-over-year basis for the last two consecutive quarters."
+Dipak: Acknowledged but attributed to lapping a large step-up in cloud-delivered advanced
+subscription attaches from a year ago. "The net new ARR on some of our newer products, what's
+driving a lot of the platformization continues to go from strength to strength."
+Nikesh: "Six years ago, this was zero. We're very happy that it's driving up closer to $5B.
+We still believe we are on track to get to $15B on NGS ARR."
+
+MATTHEW HEDBERG (RBC) — Agentic AI security
+Lee Klarich: Identity is "not a magic bullet" — also need to secure the AI environment itself,
+machine-to-machine communications, and agentic actions with AI-enabled SOC.
+Nikesh: XSIAM sold >200 times in 24 months — fastest-growing product in cybersecurity. Expects
+to build agentic detection, remediation, and management within XSIAM.
+
+================================================================================
+END OF TRANSCRIPT
+================================================================================
+
+ANALYTICAL NOTES (added during data processing):
+- Gross margin 76.6% reported vs non-GAAP reconciliation; GAAP gross margin from P&L is 73.5%
+  (difference due to SBC and other adjustments included in non-GAAP gross margin)
+- NGS ARR $4.78B reported (also stated as $4.8B in rounded references)
+- The Andrew Nowinski question on net new ARR ex-QRadar is the key bear case argument —
+  organic ARR growth showing deceleration is obscured by QRadar acquisition contribution
+- Stock reaction -3.5% AH despite beat: Q3 EPS guide $0.76-0.77 vs Q2 actual $0.81 is the
+  most likely culprit (sequential step-down in profitability signal)

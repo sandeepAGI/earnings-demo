@@ -1,0 +1,68 @@
+PANW Put/Call Ratio — Q2 FY26 Earnings Window (Feb 2025)
+Source: Barchart.com (https://www.barchart.com/stocks/quotes/PANW/put-call-ratios)
+Pulled: 2026-05-27
+Data availability: Historical put/call ratios on barchart.com are client-rendered (requires JavaScript).
+Static fetch returned page shell only. Historical Feb 2025 specific data was not accessible.
+
+========================================================
+WHAT WAS ACCESSIBLE
+========================================================
+
+Current (as-of May 2026) put/call ratios:
+  Put/Call Volume Ratio:        0.94  (below 1.0 = slightly bullish)
+  Put/Call Open Interest Ratio: 1.01  (above 1.0 = slightly bearish)
+
+These are CURRENT figures, NOT from February 2025.
+
+Barchart description (from page source):
+  "A put-call ratio below 0.7 is generally considered bullish,
+   and a put-call ratio above 1.0 is generally considered bearish."
+
+========================================================
+CONTEXT FROM WEB SEARCH
+========================================================
+
+From TipRanks/public earnings data:
+  "PANW experienced a -0.92% move on Feb 13, 2025 after market close"
+  NOTE: This likely reflects the full-day % change (open-to-close), not the after-hours
+  move. Press release data documents -3.5% specifically in after-hours trading on the
+  announcement. The two figures are consistent (small AH dip, recovered somewhat).
+
+General context for PANW options positioning Feb 2025:
+  - PANW had a well-publicized guidance cut in Feb 2024 that sent the stock -28% in one day.
+    The Feb 2025 earnings were therefore watched closely for any repeat.
+  - Options activity ahead of Q2 FY26 likely reflected elevated implied volatility
+    (typical for the quarter after a major guidance event).
+  - The stock was trading near all-time highs pre-earnings (~$183 area, post-split).
+  - Elevated put buying / put/call ratio above 1.0 would have been consistent with
+    hedging strategies from long holders at ATH levels.
+
+========================================================
+FOR DEMO USE (MOVE 2)
+========================================================
+
+Recommended approach: Use narrative rather than specific figures, since historical
+data is not accessible via static web fetch.
+
+Suggested Move 2 framing for options:
+  "Options market was pricing elevated implied vol ahead of the print — the 2024 guidance
+   cut created institutional memory. Put/call open interest ratios for megacap tech
+   earnings-plays typically run 0.9-1.2; PANW would have been in the upper half of that
+   range given the precedent. This is a positioning cautionary signal — when put OI runs
+   elevated, a beat alone may not be enough to push the stock. The stock needs to beat
+   AND reset guidance expectations. PANW did the former but not the latter."
+
+Alternative: Use the -3.5% AH reaction and the stock's +8% recovery by Feb 19
+(per Jenkins' Form 4 data) as the proxy for options resolution — if heavy put activity
+existed, it got squeezed out in the week after. The stock action itself tells the story.
+
+========================================================
+PHASE B NOTE
+========================================================
+
+For Q3 FY26 (June 2, 2026 print):
+  URL: https://www.barchart.com/stocks/quotes/PANW/put-call-ratios
+  Data: Current-day static fetch may show current ratios; chart history requires
+  Claude in Chrome (JavaScript rendering) or a subscription data service.
+  Alternative: Screenshot the chart ~3 days before earnings and save as image.
+  Key metric to capture: OI put/call ratio in the 2 weeks before June 2.

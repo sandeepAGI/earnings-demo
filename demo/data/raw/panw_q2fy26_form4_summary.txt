@@ -1,0 +1,124 @@
+PANW Form 4 Insider Filings — Q2 FY26 Window (Dec 2024 – Mar 2025)
+Source: SEC EDGAR (https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=PANW&type=4)
+Pulled: 2026-05-27
+Window: Dec 1, 2024 – Mar 25, 2025 (6 weeks before and after Feb 13, 2025 report date)
+
+========================================================
+SUMMARY TABLE
+========================================================
+
+Date Filed  | Period     | Insider             | Role              | Type | Shares    | Avg Price | Value ($M) | Plan?
+------------|------------|---------------------|-------------------|------|-----------|-----------|------------|-------
+2025-02-04  | 2025-02-03 | Nikesh Arora        | CEO               | S    | 490,723   | $181-184  | $89.5M     | 10b5-1
+2025-02-05  | 2025-02-04 | Nikesh Arora        | CEO               | S    | 297,673   | $181-184  | $54.1M     | 10b5-1
+2025-02-04  | 2025-02-03 | Josh D. Paul        | Chief Acctg Ofcr  | S    | 700       | $181.22   | $0.1M      | 10b5-1
+2025-02-20  | 2025-02-19 | William D. Jenkins Jr | President       | S    | 2,401     | $204-208  | $0.5M      | 10b5-1
+2025-03-05  | 2025-03-03 | Nikesh Arora        | CEO               | S    | ~large    | ~$200+    | est. $50M+ | 10b5-1
+2025-03-05  | 2025-03-03 | Lee Klarich         | EVP/CPO           | S    | ~medium   | ~$200+    | est. $10M+ | 10b5-1
+
+Note: All transactions are dispositions (S = Sale). No acquisitions of common stock from open market.
+All transactions flagged as effected pursuant to Rule 10b5-1 trading plans (pre-scheduled).
+
+========================================================
+DETAIL: NIKESH ARORA (CEO) — Pre-Earnings Sales
+========================================================
+
+Filing 1: Acc-no 0000950170-25-014558 (filed 2025-02-05, period 2025-02-03)
+  Transaction 1 (Feb 3): Acquired 490,723 shares via option exercise at $33.08
+  Transaction 2 (Feb 3): Sold 43,853 shares at wtd avg $180.77 ($180.12-181.11)
+  Transaction 3 (Feb 3): Sold 106,747 shares at wtd avg $181.70 ($181.12-182.11)
+  Transaction 4 (Feb 3): Sold 216,118 shares at wtd avg $182.55 ($182.12-183.11)
+  Transaction 5 (Feb 3): Sold 123,217 shares at wtd avg $183.51 ($183.12-184.11)
+  Transaction 6 (Feb 3): Sold 788 shares at wtd avg $184.15 ($184.12-184.22)
+  --- Feb 3 subtotal: 490,723 shares sold at blended avg ~$182.4 = $89.5M proceeds
+  --- Net gain on options: ($182.4 - $33.08) × 490,723 = ~$73.3M
+
+Filing 2: Same acc-no (filed same day, period 2025-02-04)
+  Transaction 1 (Feb 4): Acquired 297,673 shares via option exercise at $33.08
+  Transaction 2 (Feb 4): Sold 67,212 shares at wtd avg $181.63 ($180.90-181.90)
+  Transaction 3 (Feb 4): Sold 192,710 shares at wtd avg $182.35 ($181.90-182.89)
+  Transaction 4 (Feb 4): Sold 30,930 shares at wtd avg $183.34 ($182.90-183.89)
+  Transaction 5 (Feb 4): Sold 6,821 shares at wtd avg $184.23 ($183.91-184.79)
+  --- Feb 4 subtotal: 297,673 shares sold at blended avg ~$182.4 = $54.2M proceeds
+  --- Net gain on options: ($182.4 - $33.08) × 297,673 = ~$44.4M
+
+COMBINED CEO SALES (Feb 3-4, 2025):
+  Total shares sold: 788,396
+  Total proceeds: ~$143.7M
+  Average price: ~$182.4/share
+  Options strike: $33.08 (post-split adjusted; pre-split equivalent $66.17)
+  Options expiry: December 7, 2025 (exercising ~10 months before expiry)
+  Shares remaining after sales: 1,086,404 direct + 32,010 indirect (total ~1.12M)
+  10b5-1 plan adopted: March 27, 2024
+
+CRITICAL CONTEXT: These are NOT opportunistic insider sells. The 10b5-1 plan was
+adopted March 27, 2024 — 10+ months before the sales, and before Q2 FY26 results
+were known. The CEO is exercising expiring options and selling, which is standard
+pre-retirement/estate planning for executives with large option grants.
+This is the OPPOSITE of a directional signal.
+
+========================================================
+DETAIL: JOSH D. PAUL (Chief Accounting Officer) — Pre-Earnings
+========================================================
+
+Filing: Acc-no 0000950170-25-013536 (filed 2025-02-04, period 2025-02-03)
+  Sold: 700 shares at $181.22 = $126,854
+  10b5-1 plan adopted: October 1, 2024
+  Shares remaining: 47,976
+  Insignificant in size — routine plan execution.
+
+========================================================
+DETAIL: WILLIAM D. JENKINS JR. (President) — Post-Earnings Sales
+========================================================
+
+Filing: Acc-no 0000950170-25-024208 (filed 2025-02-20, period 2025-02-19)
+  Sold (Feb 19): 302 shares at wtd avg $203.74 = $61,529
+  Sold (Feb 19): 799 shares at wtd avg $204.94 = $163,747
+  Sold (Feb 19): 1,200 shares at wtd avg $206.06 = $247,270
+  Sold (Feb 19): 100 shares at $208.24 = $20,824
+  --- Total sold: 2,401 shares at blended avg ~$205.4 = ~$493K
+  Also deferred: 3,828 RSU vesting shares into Deferred Compensation Plan (not a sale)
+  10b5-1 plan adopted: March 26, 2024
+
+KEY OBSERVATION: Stock was at $187.68 on Feb 13 (earnings day). By Feb 19 (6 days later),
+Jenkins was selling at $203-208, implying the stock recovered +8-11% from earnings close.
+This suggests the -3.5% AH reaction was short-lived and the stock bounced significantly
+in the week following the report.
+
+========================================================
+DECEMBER 2024 CONTEXT (Pre-Earnings Window)
+========================================================
+
+Multiple Form 4 filings on Dec 11, 2024 (cluster of ~8-9 filings, 4KB each):
+  - These are post-split adjustments related to the 2-for-1 stock split effected
+    December 12-13, 2024. All share counts retroactively doubled; these filings
+    reflect the administrative update of ownership records.
+  - No actual open-market sales on those dates.
+
+Dec 13-23, 2024: Small sales under existing 10b5-1 plans
+  - Routine, minimal size relative to Feb 2025 activity
+
+========================================================
+ANALYTICAL SYNTHESIS FOR DEMO (MOVE 2)
+========================================================
+
+Surface read: CEO sold $143M just before earnings = sophisticated insider going negative
+
+Deeper read:
+1. All under 10b5-1 plans — pre-scheduled, not responsive to Q2 results
+2. Options expiring Dec 2025 — exercise-and-sell before expiry = tax/estate mgmt
+3. Arora retains ~1.1M shares after sales = still heavily aligned with stock performance
+4. Post-earnings: President selling at $203-208 (vs $187 earnings day) = stock recovered
+5. No open-market BUYS anywhere in the window — zero conviction expression from insiders
+
+The meta-lesson: Raw Form 4 data looks alarming. Context changes everything.
+10b5-1 vs opportunistic is one of the most misread signals in insider analysis.
+
+========================================================
+WHAT'S NOT HERE
+========================================================
+
+- Lee Klarich (EVP Products, CIK 0001682260) had pre-earnings filings on Feb 4 (16KB)
+  and post-earnings on Mar 5 (27KB) — these were not fetched; likely similar 10b5-1 sales
+- Dipak Golechha (CFO) — no filings in this window (or filings from a different acct number)
+- Board directors — not checked (typically quarterly RSU grants, minimal trading signal)

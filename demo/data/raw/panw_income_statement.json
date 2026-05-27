@@ -1,0 +1,109 @@
+{
+  "symbol": "PANW",
+  "source": "Alpha Vantage INCOME_STATEMENT",
+  "note": "Selected quarters: Q3 FY26 (most recent), Q2 FY26 (test quarter), Q1 FY26, Q4 FY25, Q3 FY25, Q2 FY25 (year-ago comp)",
+  "quarterlyReports": [
+    {
+      "fiscalDateEnding": "2026-01-31",
+      "quarter": "Q3_FY26",
+      "totalRevenue": "2594000000",
+      "grossProfit": "1909000000",
+      "grossMarginPct": 73.6,
+      "operatingIncome": "400000000",
+      "ebitda": "626000000",
+      "netIncome": "432000000",
+      "r_and_d": "511000000",
+      "sga": "178000000",
+      "depreciationAndAmortization": "226000000"
+    },
+    {
+      "fiscalDateEnding": "2025-10-31",
+      "quarter": "Q1_FY26",
+      "totalRevenue": "2474000000",
+      "grossProfit": "1836000000",
+      "grossMarginPct": 74.2,
+      "operatingIncome": "309000000",
+      "ebitda": "501000000",
+      "netIncome": "334000000",
+      "r_and_d": "528000000",
+      "sga": "179000000",
+      "depreciationAndAmortization": "89000000"
+    },
+    {
+      "fiscalDateEnding": "2025-07-31",
+      "quarter": "Q4_FY25",
+      "totalRevenue": "2307000000",
+      "grossProfit": "1694000000",
+      "grossMarginPct": 73.4,
+      "operatingIncome": "298000000",
+      "ebitda": "498000000",
+      "netIncome": "268000000",
+      "r_and_d": "507000000",
+      "sga": "187000000",
+      "depreciationAndAmortization": "87000000"
+    },
+    {
+      "fiscalDateEnding": "2025-04-30",
+      "quarter": "Q3_FY25",
+      "totalRevenue": "2289000000",
+      "grossProfit": "1669700000",
+      "grossMarginPct": 72.9,
+      "operatingIncome": "218800000",
+      "ebitda": "399100000",
+      "netIncome": "262100000",
+      "r_and_d": "494500000",
+      "sga": "163900000",
+      "depreciationAndAmortization": "88100000"
+    },
+    {
+      "fiscalDateEnding": "2025-01-31",
+      "quarter": "Q2_FY26",
+      "isTestQuarter": true,
+      "reportedDate": "2025-02-13",
+      "totalRevenue": "2257400000",
+      "grossProfit": "1658200000",
+      "grossMarginPct": 73.5,
+      "operatingIncome": "240400000",
+      "ebitda": "412900000",
+      "netIncome": "267300000",
+      "r_and_d": "505700000",
+      "sga": "153800000",
+      "depreciationAndAmortization": "87500000"
+    },
+    {
+      "fiscalDateEnding": "2024-10-31",
+      "quarter": "Q1_FY25",
+      "totalRevenue": "1984800000",
+      "grossProfit": "1471200000",
+      "grossMarginPct": 74.1,
+      "operatingIncome": "176700000",
+      "ebitda": "327000000",
+      "netIncome": "278800000",
+      "note": "Prior year comp \u2014 Q1 FY25",
+      "r_and_d": "457200000",
+      "sga": "118600000",
+      "depreciationAndAmortization": "74300000"
+    },
+    {
+      "fiscalDateEnding": "2024-07-31",
+      "quarter": "Q4_FY24",
+      "totalRevenue": "2190000000",
+      "grossProfit": null,
+      "note": "Prior year comp \u2014 Q4 FY24 (year-end)"
+    },
+    {
+      "fiscalDateEnding": "2024-01-31",
+      "quarter": "Q2_FY25",
+      "note": "Year-ago comp. High SGA due to platformization strategy transition. Net income inflated by 1.6B tax benefit.",
+      "totalRevenue": "1975100000",
+      "grossProfit": "1476000000",
+      "grossMarginPct": 74.7,
+      "operatingIncome": "53600000",
+      "ebitda": "205800000",
+      "netIncome": "1746900000",
+      "r_and_d": "447900000",
+      "sga": "301500000",
+      "depreciationAndAmortization": "68600000"
+    }
+  ]
+}

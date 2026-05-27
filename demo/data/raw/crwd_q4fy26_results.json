@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "symbol": "CRWD",
+    "company": "CrowdStrike Holdings Inc",
+    "period": "Q4 FY26",
+    "fiscal_date_ending": "2026-01-31",
+    "report_date": "2026-03-03",
+    "fiscal_year_end_month": 1,
+    "pulled": "2026-05-27",
+    "source": "BusinessWire press release, web search",
+    "note": "Most recent quarter. Same fiscal period end as PANW Q2 FY26 (both Jan 31, 2026)."
+  },
+  "quarterly_financials": {
+    "revenue_total_m": 1313,
+    "revenue_yoy_growth_pct": 23.0,
+    "gross_margin_nongaap_pct": 79.0,
+    "gross_margin_subscription_nongaap_pct": 81.0,
+    "operating_margin_nongaap_pct": 25.0,
+    "fcf_m": 376.4,
+    "fcf_margin_pct": 28.7
+  },
+  "eps": {
+    "eps_nongaap_actual": 1.12,
+    "eps_nongaap_consensus": 1.10,
+    "eps_nongaap_beat": 0.02,
+    "eps_nongaap_beat_pct": 1.8,
+    "consecutive_beats": 8
+  },
+  "kpis": {
+    "ending_arr_bn": 5.25,
+    "ending_arr_yoy_growth_pct": 24.0,
+    "net_new_arr_m": 330.7,
+    "net_new_arr_yoy_growth_pct": 47.0,
+    "full_year_net_new_arr_bn": 1.01,
+    "full_year_net_new_arr_yoy_growth_pct": 25.0,
+    "falcon_flex_arr_bn": 1.69,
+    "falcon_flex_arr_yoy_growth_pct": 120.0,
+    "net_retention_rate_pct": 115.0,
+    "gross_retention_rate_pct": 97.0
+  },
+  "ttm_from_overview": {
+    "revenue_ttm_bn": 4.812,
+    "gross_profit_ttm_bn": 3.600,
+    "gross_margin_ttm_pct": 74.8,
+    "market_cap_bn": 168.9,
+    "ev_to_revenue_ttm": 34.18,
+    "price_to_sales_ttm": 35.09,
+    "analyst_target_price": 535.33,
+    "analyst_strong_buy": 11,
+    "analyst_buy": 31,
+    "analyst_hold": 11,
+    "analyst_sell": 0,
+    "shares_outstanding_m": 254.5,
+    "52w_high": 677.5,
+    "52w_low": 342.72
+  },
+  "fy27_guidance": {
+    "revenue_bn_low": 5.87,
+    "revenue_bn_high": 5.93,
+    "eps_nongaap_low": 4.78,
+    "eps_nongaap_high": 4.90
+  },
+  "platform_narrative": "Falcon Flex ARR $1.69B (+120% YoY) — platform consolidation accelerating. Net new ARR +47% YoY shows demand recovery post-Falcon outage. Dollar-based net retention 115% with 97% gross retention signals strong platform stickiness. Management called this 'best year ever'."
+}

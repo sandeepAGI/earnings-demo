@@ -1,0 +1,98 @@
+{
+  "source": "Web search \u2014 public earnings reports",
+  "context_note": "Most recent quarters reported around PANW Q2 FY26 (Feb 13, 2025). Used for peer comparison in demo.",
+  "peers": {
+    "CRWD": {
+      "full_name": "CrowdStrike Holdings",
+      "fiscal_year_end": "January 31",
+      "most_recent_quarter": "Q4 FY25 (ending Jan 31, 2025)",
+      "report_date": "2025-03-04",
+      "key_metrics": {
+        "ending_arr_bn": 4.24,
+        "ending_arr_yoy_growth_pct": 23.0,
+        "net_new_arr_q4_m": 224,
+        "full_year_subscription_rev_bn": 3.76,
+        "full_year_subscription_rev_growth_pct": 31.0,
+        "full_year_operating_cf_bn": 1.38,
+        "full_year_fcf_bn": 1.07
+      },
+      "peer_read": "ARR .24B (+23%) \u2014 PANW NGS ARR .8B (+37%) ahead. CRWD recovering from July 2024 outage. ARR growth decelerated from pre-outage pace. Platform play is Falcon platform consolidation vs. PANW platformization strategy."
+    },
+    "FTNT": {
+      "full_name": "Fortinet",
+      "fiscal_year_end": "December 31",
+      "most_recent_quarter": "Q4 2024",
+      "report_date": "2025-02-06",
+      "key_metrics": {
+        "revenue_bn": 1.66,
+        "revenue_yoy_growth_pct": 17.3,
+        "product_rev_m": 574,
+        "product_rev_yoy_growth_pct": 18.0,
+        "service_rev_m": 1090,
+        "service_rev_yoy_growth_pct": 17.0,
+        "gaap_operating_margin_pct": 34.6,
+        "nongaap_operating_margin_pct": 39.2,
+        "full_year_rev_bn": 5.96,
+        "full_year_rev_growth_pct": 12.3,
+        "unified_sase_arr_growth_pct": 28,
+        "secops_arr_growth_pct": 32
+      },
+      "peer_read": "Revenue +17% with RECORD non-GAAP operating margin 39.2%. Most profitable of the peer set. Hardware/appliance mix different from PANW \u2014 less SaaS-heavy, more product. Unified SASE and SecOps ARR growing well. Reported one week before PANW."
+    },
+    "ZS": {
+      "full_name": "Zscaler",
+      "fiscal_year_end": "July 31",
+      "most_recent_quarter": "Q2 FY25 (ending Jan 31, 2025)",
+      "report_date": "2025-03-05",
+      "key_metrics": {
+        "revenue_m": 647.9,
+        "revenue_yoy_growth_pct": 23.0,
+        "calculated_billings_m": 742.7,
+        "calculated_billings_yoy_growth_pct": 18.0,
+        "deferred_revenue_m": 1878.5,
+        "deferred_revenue_yoy_growth_pct": 25.0,
+        "net_loss_gaap_m": -7.7,
+        "nongaap_net_income_m": 127.1,
+        "nongaap_net_income_prior_m": 99.4
+      },
+      "peer_read": "Revenue +23% \u2014 fastest grower in peer set. Zero Trust and AI platform positioning. Billings growth +18% trails revenue growth (slightly), watch for deceleration signal. Not yet GAAP profitable but strong non-GAAP trajectory. Reported 3 weeks after PANW."
+    }
+  },
+  "competitive_snapshot": {
+    "revenue_growth_ranking": [
+      {
+        "symbol": "ZS",
+        "growth_pct": 23.0,
+        "note": "Fastest \u2014 pure-play ZT"
+      },
+      {
+        "symbol": "CRWD",
+        "growth_pct": 23.0,
+        "note": "Same pace, recovering from outage"
+      },
+      {
+        "symbol": "FTNT",
+        "growth_pct": 17.3,
+        "note": "Solid, hardware mix drag"
+      },
+      {
+        "symbol": "PANW",
+        "growth_pct": 14.3,
+        "note": "Slowest rev growth, largest base"
+      }
+    ],
+    "arr_comparison": {
+      "PANW_ngs_arr_bn": 4.8,
+      "PANW_ngs_arr_growth_pct": 37,
+      "CRWD_arr_bn": 4.24,
+      "CRWD_arr_growth_pct": 23,
+      "note": "PANW NGS ARR growing faster than CRWD total ARR \u2014 platformization accelerating"
+    },
+    "margin_comparison": {
+      "FTNT_nongaap_om_pct": 39.2,
+      "PANW_nongaap_om_pct": 28.4,
+      "note": "FTNT most efficient, PANW margin flat YoY \u2014 platform investments not yet showing leverage"
+    },
+    "analytical_implication": "PANW trading on NGS ARR narrative (5B 2030 goal), not current revenue growth. The question is whether platformization compounds faster than the multiple implies \u2014 the alpha edge question in Move 1."
+  }
+}

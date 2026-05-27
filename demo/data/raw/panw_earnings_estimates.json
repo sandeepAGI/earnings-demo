@@ -1,0 +1,36 @@
+{
+  "symbol": "PANW",
+  "source": "Alpha Vantage EARNINGS_ESTIMATES",
+  "data_quality_note": "EPS estimates appear to be non-GAAP/adjusted. EARNINGS endpoint uses GAAP EPS (~0.38 for Q2 FY26). Non-GAAP EPS ~2x GAAP for PANW due to large SBC expense.",
+  "q2_fy26_summary": {
+    "date": "2025-01-31",
+    "horizon": "fiscal quarter",
+    "eps_estimate_average_nongaap": "0.7793",
+    "eps_estimate_range": "0.77 - 0.81",
+    "eps_estimate_analyst_count": 43,
+    "revenue_estimate_average": "2239824280",
+    "revenue_estimate_range": "2222000000 - 2280300000",
+    "revenue_estimate_analyst_count": 43,
+    "actual_revenue": "2257400000",
+    "revenue_beat": 17576000,
+    "revenue_beat_pct": 0.78,
+    "actual_eps_gaap": "0.38",
+    "actual_eps_nongaap": "0.81",
+    "actual_eps_nongaap_note": "Corrected from original approx $0.77 — authoritative figure from official press release is $0.81",
+    "eps_surprise_nongaap": "+0.031 (+3.9% beat vs $0.7793 consensus)"
+  },
+  "forward_estimates": {
+    "fy26_full_year": {
+      "date": "2026-07-31",
+      "eps_avg": "3.6912",
+      "revenue_avg": "11292476710",
+      "analyst_count": 51
+    },
+    "fy27_full_year": {
+      "date": "2027-07-31",
+      "eps_avg": "2.3309",
+      "revenue_avg": "13563038170",
+      "analyst_count": 20
+    }
+  }
+}

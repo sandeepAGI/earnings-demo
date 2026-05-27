@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "symbol": "ZS",
+    "pulled": "2026-05-27",
+    "source": "web search (Alpha Vantage rate-limited)",
+    "note": "Key valuation data from web search. Full API pull pending rate limit reset."
+  },
+  "Symbol": "ZS",
+  "Name": "Zscaler Inc",
+  "Exchange": "NASDAQ",
+  "FiscalYearEnd": "July",
+  "LatestQuarter": "2026-04-30",
+  "Sector": "TECHNOLOGY",
+  "Industry": "SOFTWARE - INFRASTRUCTURE",
+  "note_market_cap": "Market cap data not recovered from web search — pull via API when rate limit resets",
+  "QuarterlyRevenueGrowthYOY": 0.25,
+  "rpo_bn": 6.5,
+  "arr_bn": 3.525
+}

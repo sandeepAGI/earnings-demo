@@ -1,0 +1,79 @@
+PANW Short Interest — Q2 FY26 Earnings Window (Feb 2025)
+Source: FINRA (finra-markets.morningstar.com), MarketBeat, Benzinga, web search
+Pulled: 2026-05-27
+Data availability: FINRA short interest detail page is client-rendered. Nasdaq.com short
+interest page is also client-rendered. Historical Feb 2025 specific data was not accessible
+via static web fetch.
+
+========================================================
+REFERENCE DATA POINTS FROM SEARCH
+========================================================
+
+Current (Dec 2025) short interest (from Benzinga/MarketBeat, per web search):
+  Shares short:      44.63 million shares
+  Float %:           6.65%
+  Prior period delta: -4.04% decline in short interest as % of float
+
+Current (May 2026) short interest (from MarketBeat page, per web search):
+  Shares short:      25.20 million shares
+  Float %:           3.11%
+  Days to cover:     4.12 days (based on avg volume 6.11M/day)
+
+Peer context (from web search):
+  PANW peer group avg short interest as % of float: ~6.04%
+  PANW at May 2026 is BELOW peer average (3.11%) — suggesting reduced short conviction
+  vs. peers
+
+========================================================
+ESTIMATED FEBRUARY 2025 CONTEXT
+========================================================
+
+February 2025 specific data: NOT directly accessible.
+
+Reasonable inference from context:
+  - Feb 2024 earnings: PANW stock fell -28% on guidance cut. Short sellers who rode
+    that move likely covered partially; others rebuilt positions anticipating another
+    risk event.
+  - Pre-earnings Feb 2025 short interest was likely ABOVE current levels (May 2026)
+    given the elevated risk premium around a second earnings cycle post-guidance-cut.
+  - FINRA reports short interest on ~1st and ~15th of each month.
+    Relevant settlement dates around Feb 13, 2025: Jan 31, 2025 and Feb 14, 2025.
+  - Jan 31 data: would reflect positioning entering earnings week.
+  - Feb 14 data: would capture one-day post-earnings positioning (same-day report).
+
+Industry estimates for PANW short interest Jan 2025:
+  Based on the Dec 2025 figure of 44.6M shares (6.65%) and the trajectory toward
+  25.2M shares (3.11%) by May 2026, short interest was declining over the period.
+  Jan 2025 likely ranged 35-50M shares (5-7% of float) — elevated vs. today.
+
+========================================================
+FOR DEMO USE (MOVE 2)
+========================================================
+
+Recommended framing (narrative, not specific figures):
+  "Short interest heading into Q2 FY26 was elevated relative to current levels —
+   the Feb 2024 guidance cut put PANW on short sellers' radar as a company that had
+   shown willingness to trade near-term revenue for long-term platformization.
+   Estimated 5-7% of float short at the Jan 31, 2025 settlement date (peer avg ~6%).
+   Short positioning this high means a clean beat would trigger covering,
+   but it also means the stock starts from a defensive posture — it needs to beat
+   expectations AND reset guidance language to get shorts to cover fully."
+
+  "The stock's recovery to $203-208 within a week of the print (per CEO/President Form 4
+   data) is consistent with short covering in the aftermath. A -3.5% AH reaction
+   that reverses to +8% by the following week = classic earnings dip-and-rip, likely
+   amplified by shorts covering as they saw guidance fears didn't materialize as badly
+   as feared."
+
+========================================================
+PHASE B NOTE
+========================================================
+
+For Q3 FY26 (June 2, 2026 print):
+  Target: FINRA short interest settlement closest to June 2 (typically mid-May and June 1)
+  URL: https://finra-markets.morningstar.com/MarketData/EquityOptions/detail.jsp?query=14%3A0P000003NZ
+  Alternative: www.nasdaq.com/market-activity/stocks/panw/short-interest (may require Chrome)
+  Alternative: MarketBeat short interest page (static but may only show current)
+  Best approach: Capture screenshot of MarketBeat chart in the 2 weeks before earnings.
+  Key metric: Shares short as % of float vs prior period — is short interest building
+  or declining into the June 2 print? Declining = market pricing in a beat.

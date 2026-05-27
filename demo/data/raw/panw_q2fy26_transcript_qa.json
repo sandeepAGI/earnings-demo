@@ -1,0 +1,128 @@
+{
+  "symbol": "PANW",
+  "fiscal_period": "Q2_FY26",
+  "fiscal_date_ending": "2025-01-31",
+  "call_date": "2025-02-13",
+  "source": "The Motley Fool transcript (transcribed)",
+  "parse_date": "2026-05-27",
+  "total_exchanges": 10,
+  "management_on_call": ["Nikesh Arora (Chairman & CEO)", "Dipak Golechha (CFO)", "Lee Klarich (Chief Product Officer, Q&A only)"],
+  "exchanges": [
+    {
+      "exchange_num": 1,
+      "analyst_name": "Saket Kalia",
+      "analyst_firm": "Barclays",
+      "topics": ["fcf", "deferred_payments", "platform_economics"],
+      "question_text": "FCF sustainability and deferred payment dynamics. How do platform deals affect FCF profile?",
+      "answer_text": "Nikesh: Platform deals are more efficient from a sales perspective — 50-60% of P&L is sales, marketing, and customer support; platform deals find efficiencies there. Dipak: Approaching end of deferred payment transition — not as much left to do, quite far along the journey.",
+      "respondent": "arora_golechha",
+      "key_signal": "neutral",
+      "analytical_note": "Confirms FCF model is maturing; deferred payment drag is near end. Bullish for FCF quality in FY27+."
+    },
+    {
+      "exchange_num": 2,
+      "analyst_name": "Hamza Fodderwala",
+      "analyst_firm": "Morgan Stanley",
+      "topics": ["ai", "deepseek", "security_demand"],
+      "question_text": "DeepSeek impact on cybersecurity demand. Does lower-cost AI model change the security landscape?",
+      "answer_text": "Nikesh: Viewed as a phenomenal pivotal moment — DeepSeek at 2% of cost of other models drives experimentation. Security imperative: deploy with firewalls, sequestered environment, AI guardrails. Any new technology requires you to put more security around it.",
+      "respondent": "arora",
+      "key_signal": "bullish",
+      "analytical_note": "Positioned DeepSeek as a security demand tailwind, not a threat. Consistent with broader PANW AI security thesis."
+    },
+    {
+      "exchange_num": 3,
+      "analyst_name": "Brian Essex",
+      "analyst_firm": "JPMorgan",
+      "topics": ["ai_security", "platform_vs_pointsolution", "win_rates", "cortex_cloud"],
+      "question_text": "AI for security differentiation and win rates versus point solutions. Is any point-solution business left?",
+      "answer_text": "Nikesh: Every security company claims platform now — real advantage is platformized customers have harmonized data, can build agents on top of 1,150 customer data sets. Win rates confirmed improving. Lee Klarich: Cortex Cloud connects AppSec through cloud through runtime through SOC — incredibly powerful. The bigger cloud security action is in runtime with agents; not the CNAPP players who won the last round.",
+      "respondent": "arora_klarich",
+      "key_signal": "bullish",
+      "analytical_note": "Win rate confirmation and differentiation claim on data harmonization. Lee Klarich's Cortex Cloud framing signals strategic shift in cloud security."
+    },
+    {
+      "exchange_num": 4,
+      "analyst_name": "Gabriela Borges",
+      "analyst_firm": "Goldman Sachs",
+      "topics": ["deferred_payments", "deal_structure", "guardrails"],
+      "question_text": "Guardrails on deferred payment deals. How is management controlling for credit risk and deal quality?",
+      "answer_text": "Dipak: Higher-end deals drive deferred payment requests. Hardware always upfront. Sales compensation and approval guardrails in place. Enabling platformization at scale.",
+      "respondent": "golechha",
+      "key_signal": "neutral",
+      "analytical_note": "Confirms risk controls exist. Hardware upfront policy limits cash flow risk. Approval guardrails reduce adverse selection."
+    },
+    {
+      "exchange_num": 5,
+      "analyst_name": "Jonathan Ho",
+      "analyst_firm": "William Blair",
+      "topics": ["cortex_cloud", "cnapp", "cloud_security", "product_strategy"],
+      "question_text": "Rationale for merging CNAPP (Prisma Cloud) into Cortex as Cortex Cloud. Why now?",
+      "answer_text": "Lee Klarich: Runtime security requires CNAPP context. Cleaner cloud posture makes it easier for AI to detect real attacks. Best outcome for customers achieved when they connect all aspects of cloud together.",
+      "respondent": "klarich",
+      "key_signal": "bullish",
+      "analytical_note": "Product consolidation is a strategic bet — simplifies the buyer journey, strengthens platform lock-in. Execution risk: can they integrate without disruption?"
+    },
+    {
+      "exchange_num": 6,
+      "analyst_name": "Peter Weed",
+      "analyst_firm": "Bernstein",
+      "topics": ["product_revenue", "hardware", "software_mix", "durability"],
+      "question_text": "Product revenue durability. Is hardware demand sustainable given software shift?",
+      "answer_text": "Nikesh: Hardware expected to deliver low to mid-single digits sustainably. Real growth driver is software firewalls and SASE replacing hardware mix. Cloud volume going up faster than data center volumes declining. Strategy is managing transition to higher-margin software.",
+      "respondent": "arora",
+      "key_signal": "neutral",
+      "analytical_note": "Hardware stable at low-single digits; software mix expansion is the margin expansion mechanism. No guidance cut signal here."
+    },
+    {
+      "exchange_num": 7,
+      "analyst_name": "Shaul Eyal",
+      "analyst_firm": "Cowen",
+      "topics": ["ibm", "qradar", "partnership", "migration"],
+      "question_text": "IBM/QRadar partnership update. How is the migration tracking?",
+      "answer_text": "Nikesh: One day a Harvard Business School case will be written on this for the right reasons. This has been a spectacular partner. Asian bank deal: was QRadar customer, ARR went up 5x. It couldn't have been better.",
+      "respondent": "arora",
+      "key_signal": "bullish",
+      "analytical_note": "QRadar migration contributing >$100M bookings in Q2. Management highly constructive. This is the external ARR contributor that Nowinski flags in exchange 9."
+    },
+    {
+      "exchange_num": 8,
+      "analyst_name": "Tal Liani",
+      "analyst_firm": "Bank of America",
+      "topics": ["gross_margin", "operating_margin", "saas_scale", "inventory"],
+      "question_text": "Gross margin pressure and operating margin sustainability. What is driving the gross margin decline?",
+      "answer_text": "Dipak: Gross margin pressure from (1) faster growth of newer SaaS offerings not yet at scale, and (2) one-time inventory write-offs on hardware (~40 bps) — will not repeat in H2. Nikesh: We still outperformed our margin expectations, both internally and externally.",
+      "respondent": "golechha_arora",
+      "key_signal": "neutral",
+      "analytical_note": "Two margin headwinds identified — one structural (SaaS scale), one one-time (inventory). The one-time item should be monitored in Q3 to confirm it doesn't recur."
+    },
+    {
+      "exchange_num": 9,
+      "analyst_name": "Andrew Nowinski",
+      "analyst_firm": "Wells Fargo",
+      "topics": ["arr", "net_new_arr", "qradar", "organic_growth", "bear_case"],
+      "question_text": "Net new ARR ex-QRadar appears to have declined year-over-year for two consecutive quarters. If you pull out the $74M from QRadar in Q1, it looks like net new ARR declined on a year-over-year basis for the last two consecutive quarters.",
+      "answer_text": "Dipak: Acknowledged, attributed to lapping a large step-up in cloud-delivered advanced subscription attaches from a year ago. Net new ARR on newer products driving platformization continues to go from strength to strength. Nikesh: Six years ago this was zero. We're very happy it's approaching $5B. We still believe we are on track to get to $15B on NGS ARR.",
+      "respondent": "golechha_arora",
+      "key_signal": "bearish",
+      "analytical_note": "THIS IS THE KEY BEAR CASE EXCHANGE. Nowinski explicitly flags that organic net new ARR (ex-QRadar) is declining YoY for two consecutive quarters. Management acknowledged but deflected to long-term trajectory. This is the metric to watch in Q3 — is it ex-QRadar improving? The $15B ARR target is the long-term anchor but the near-term deceleration is real."
+    },
+    {
+      "exchange_num": 10,
+      "analyst_name": "Matthew Hedberg",
+      "analyst_firm": "RBC Capital Markets",
+      "topics": ["agentic_ai", "xsiam", "identity", "ai_soc"],
+      "question_text": "Agentic AI security. How is PANW positioned for agentic AI security as a market opportunity?",
+      "answer_text": "Lee Klarich: Identity is not a magic bullet — also need to secure the AI environment itself, machine-to-machine communications, and agentic actions with AI-enabled SOC. Nikesh: XSIAM sold over 200 times in 24 months — fastest-growing product in cybersecurity. Expects to build agentic detection, remediation, and management within XSIAM.",
+      "respondent": "klarich_arora",
+      "key_signal": "bullish",
+      "analytical_note": "XSIAM positioned as the agentic AI SOC platform. 200+ customers in 24 months is a strong adoption signal. Agentic AI security is an emerging TAM expansion."
+    }
+  ],
+  "analytical_summary": {
+    "bullish_signals": ["DeepSeek as security demand tailwind", "Win rate improvement vs. point solutions", "QRadar migration exceeding expectations (>$100M Q2 bookings)", "XSIAM 200+ customers in 24 months", "Cortex Cloud unification strategic"],
+    "bearish_signals": ["Net new ARR ex-QRadar declining YoY for 2 consecutive quarters (Nowinski, exchange 9)", "Gross margin pressure from SaaS scale not yet achieved", "Q3 EPS guidance $0.76-0.77 below Q2 actual $0.81"],
+    "key_exchange_for_demo": 9,
+    "key_exchange_note": "Exchange 9 (Nowinski/Wells Fargo) is the most analytically important — surfaces the organic ARR deceleration that is obscured by QRadar. This is the bear case the buy-side is watching."
+  }
+}

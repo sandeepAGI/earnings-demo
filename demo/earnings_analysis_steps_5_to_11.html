@@ -1,0 +1,324 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: transparent; font-family: system-ui, -apple-system, sans-serif; padding: 16px; }
+  h2.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #5B8C5A; margin-bottom: 8px; padding-left: 4px;
+  }
+  .grid-row { display: grid; gap: 10px; margin-bottom: 10px; }
+  .row-4 { grid-template-columns: repeat(4, 1fr); }
+  .row-3 { grid-template-columns: repeat(3, 1fr); }
+
+  .card {
+    border-radius: 8px; padding: 12px 14px; border: 1px solid;
+  }
+  /* Step 5 */
+  .s5 { background: #EEF5EE; border-color: #5B8C5A; }
+  /* Step 6 */
+  .s6 { background: #EEF5EE; border-color: #5B8C5A; }
+  /* Step 7 */
+  .s7 { background: #EEF5EE; border-color: #5B8C5A; }
+  /* Step 8 */
+  .s8 { background: #EEF5EE; border-color: #5B8C5A; }
+  /* Step 9 */
+  .s9 { background: #F3EFF8; border-color: #7B5EA7; }
+  /* Step 10 */
+  .s10 { background: #F3EFF8; border-color: #7B5EA7; }
+  /* Step 11 */
+  .s11 { background: #F3EFF8; border-color: #7B5EA7; }
+
+  .card-header {
+    font-size: 11px; font-weight: 700; color: #1a1a1a;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 7px; margin-bottom: 9px;
+  }
+  .card-header .step-num {
+    display: inline-block; font-size: 9px; font-weight: 800;
+    background: #5B8C5A; color: white;
+    border-radius: 3px; padding: 1px 5px; margin-right: 5px; vertical-align: middle;
+  }
+  .card-header .step-num.purple { background: #7B5EA7; }
+
+  .subsection { margin-bottom: 9px; }
+  .subsection-title {
+    font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+    color: #5B8C5A; margin-bottom: 4px;
+  }
+  .subsection-title.purple { color: #7B5EA7; }
+
+  ul { list-style: none; padding: 0; }
+  ul li {
+    font-size: 10.5px; color: #333; padding: 2px 0 2px 12px;
+    position: relative; line-height: 1.4;
+  }
+  ul li::before {
+    content: "›"; position: absolute; left: 0;
+    color: #5B8C5A; font-weight: 700;
+  }
+  ul li.purple::before { color: #7B5EA7; }
+
+  .verdict-box {
+    background: rgba(91,140,90,0.1); border-radius: 5px;
+    padding: 6px 8px; margin-top: 6px;
+  }
+  .verdict-box.purple { background: rgba(123,94,167,0.1); }
+  .verdict-label {
+    font-size: 9px; font-weight: 700; color: #5B8C5A;
+    text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 2px;
+  }
+  .verdict-label.purple { color: #7B5EA7; }
+  .verdict-text { font-size: 10px; color: #444; line-height: 1.4; }
+
+  .connector {
+    text-align: center; font-size: 18px; color: #aaa;
+    line-height: 1; margin: 2px 0 6px;
+  }
+
+  .section-label.purple { color: #7B5EA7; }
+  .divider {
+    border: none; border-top: 1px dashed #ccc;
+    margin: 12px 0;
+  }
+</style>
+
+<h2 class="sr-only">Earnings analysis Steps 5 through 11: detailed sub-dimensions for each analytical step</h2>
+
+<div class="section-label">Phase 2 — Analysis: Steps 5–8</div>
+
+<div class="grid-row row-4">
+
+  <!-- STEP 5: Beat/Miss -->
+  <div class="card s5">
+    <div class="card-header"><span class="step-num">5</span> Beat / Miss Analysis</div>
+
+    <div class="subsection">
+      <div class="subsection-title">Metrics scored</div>
+      <ul>
+        <li>Revenue</li>
+        <li>Gross margin (bps)</li>
+        <li>EBITDA / Op. profit</li>
+        <li>EPS — adj. + GAAP</li>
+        <li>Key biz metrics (ARR, billings, etc.)</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">For every beat or miss, ask</div>
+      <ul>
+        <li>What specifically drove it?</li>
+        <li>One-time or recurring?</li>
+        <li>Did mgmt guide accordingly?</li>
+        <li>Thesis impact?</li>
+      </ul>
+    </div>
+
+    <div class="verdict-box">
+      <span class="verdict-label">Output</span>
+      <span class="verdict-text">Variance table: Reported vs. Our Est vs. Consensus + narrative for each line</span>
+    </div>
+  </div>
+
+  <!-- STEP 6: Segment / Geo -->
+  <div class="card s6">
+    <div class="card-header"><span class="step-num">6</span> Segment / Geo / Product</div>
+
+    <div class="subsection">
+      <div class="subsection-title">Dimensions to cut</div>
+      <ul>
+        <li>Business segment</li>
+        <li>Geography (NA, EMEA, APAC, China)</li>
+        <li>Product category / SKU</li>
+        <li>Channel (direct, wholesale, e-comm)</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">For each dimension</div>
+      <ul>
+        <li>What outperformed vs. est?</li>
+        <li>What underperformed?</li>
+        <li>QoQ and YoY trend</li>
+        <li>Mgmt forward commentary</li>
+      </ul>
+    </div>
+
+    <div class="verdict-box">
+      <span class="verdict-label">Output</span>
+      <span class="verdict-text">Segment waterfall — where the beat or miss actually came from</span>
+    </div>
+  </div>
+
+  <!-- STEP 7: Margin -->
+  <div class="card s7">
+    <div class="card-header"><span class="step-num">7</span> Margin Analysis</div>
+
+    <div class="subsection">
+      <div class="subsection-title">Margin lines examined</div>
+      <ul>
+        <li>Gross margin</li>
+        <li>Operating margin</li>
+        <li>Net margin</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Driver decomposition</div>
+      <ul>
+        <li>Pricing (ASP change?)</li>
+        <li>Mix (higher/lower margin products?)</li>
+        <li>Cost structure (COGS, R&D, S&M)</li>
+        <li>Operating leverage (scale?)</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Forward question</div>
+      <ul>
+        <li>Is expansion structural or temporary?</li>
+        <li>Management's margin commitment?</li>
+      </ul>
+    </div>
+
+    <div class="verdict-box">
+      <span class="verdict-label">Output</span>
+      <span class="verdict-text">Margin bridge: prior Q → current Q, with driver attribution</span>
+    </div>
+  </div>
+
+  <!-- STEP 8: Guidance -->
+  <div class="card s8">
+    <div class="card-header"><span class="step-num">8</span> Guidance Analysis</div>
+
+    <div class="subsection">
+      <div class="subsection-title">If guidance provided</div>
+      <ul>
+        <li>Raised / lowered / maintained?</li>
+        <li>Delta vs. prior guidance</li>
+        <li>Delta vs. Street consensus</li>
+        <li>Key assumptions disclosed?</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Credibility check</div>
+      <ul>
+        <li>Track record: sandbagger or stretch?</li>
+        <li>Implied growth decel or reaccel?</li>
+        <li>Any hedging language in tone?</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">If no guidance given</div>
+      <ul>
+        <li>Flag explicitly</li>
+        <li>Derive independent outlook from results + commentary</li>
+      </ul>
+    </div>
+
+    <div class="verdict-box">
+      <span class="verdict-label">Output</span>
+      <span class="verdict-text">Guidance delta table + credibility read + implied Street revision direction</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="connector">↓</div>
+
+<hr class="divider"/>
+
+<div class="section-label purple">Phase 2 continued — Model, Valuation &amp; Rating: Steps 9–11</div>
+
+<div class="grid-row row-3">
+
+  <!-- STEP 9: Model Update -->
+  <div class="card s9">
+    <div class="card-header"><span class="step-num purple">9</span> Update Financial Model</div>
+
+    <div class="subsection">
+      <div class="subsection-title purple">What gets updated</div>
+      <ul>
+        <li class="purple">Drop actuals into current quarter</li>
+        <li class="purple">Revise remaining quarters (current FY)</li>
+        <li class="purple">Revise next FY estimates</li>
+        <li class="purple">Year +2 if relevant</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title purple">Estimate change table format</div>
+      <ul>
+        <li class="purple">Old Est → New Est → Δ% → Reason</li>
+        <li class="purple">Revenue, EBITDA, EPS each row</li>
+        <li class="purple">Current FY + next FY</li>
+        <li class="purple">Every cell traceable to a source</li>
+      </ul>
+    </div>
+
+    <div class="verdict-box purple">
+      <span class="verdict-label purple">Output</span>
+      <span class="verdict-text">Old vs. new estimate table — the single most-read section of any earnings note</span>
+    </div>
+  </div>
+
+  <!-- STEP 10: Valuation & PT -->
+  <div class="card s10">
+    <div class="card-header"><span class="step-num purple">10</span> Valuation &amp; Price Target</div>
+
+    <div class="subsection">
+      <div class="subsection-title purple">Valuation refresh</div>
+      <ul>
+        <li class="purple">Recalc DCF with new cash flow est.</li>
+        <li class="purple">Update comps multiples (if peers reported)</li>
+        <li class="purple">Derive new fair value range</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title purple">Price target decision rules</div>
+      <ul>
+        <li class="purple">&gt;5% estimate change → usually move PT</li>
+        <li class="purple">&lt;5% change → may hold PT</li>
+        <li class="purple">Thesis shift → may move PT even if small Δ</li>
+      </ul>
+    </div>
+
+    <div class="verdict-box purple">
+      <span class="verdict-label purple">Output</span>
+      <span class="verdict-text">New price target (or explicit hold) + implied upside / downside from current price</span>
+    </div>
+  </div>
+
+  <!-- STEP 11: Rating -->
+  <div class="card s11">
+    <div class="card-header"><span class="step-num purple">11</span> Assess Rating Impact</div>
+
+    <div class="subsection">
+      <div class="subsection-title purple">Decision triggers</div>
+      <ul>
+        <li class="purple">Strong beat + guidance raised → consider upgrade</li>
+        <li class="purple">Miss + guidance cut → consider downgrade</li>
+        <li class="purple">Mixed / inline → usually maintain</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title purple">Three factors to weigh</div>
+      <ul>
+        <li class="purple">Stock reaction (market already moved?)</li>
+        <li class="purple">Valuation vs. new estimates (cheap/rich?)</li>
+        <li class="purple">Risk/reward asymmetry (skew shifted?)</li>
+      </ul>
+    </div>
+
+    <div class="verdict-box purple">
+      <span class="verdict-label purple">Output</span>
+      <span class="verdict-text">Rating: Maintained / Upgraded / Downgraded — with explicit rationale tied to the above</span>
+    </div>
+  </div>
+
+</div>

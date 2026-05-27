@@ -1,0 +1,22 @@
+{
+  "_meta": {
+    "symbol": "FTNT",
+    "pulled": "2026-05-27",
+    "source": "web search (Alpha Vantage rate-limited)",
+    "note": "Key valuation and analyst data from web search. Full API pull pending rate limit reset."
+  },
+  "Symbol": "FTNT",
+  "Name": "Fortinet Inc",
+  "Exchange": "NASDAQ",
+  "FiscalYearEnd": "December",
+  "LatestQuarter": "2026-03-31",
+  "MarketCapitalization": 92600000000,
+  "SharesOutstanding": 734000000,
+  "RevenueTTM_approx": 7200000000,
+  "PERatio_trailing": 47.22,
+  "QuarterlyRevenueGrowthYOY": 0.20,
+  "AnalystTargetPrice_note": "Multiple upgrades post Q1 beat",
+  "52WeekHigh_note": "37% rally in 7 sessions post Q1 earnings",
+  "Sector": "TECHNOLOGY",
+  "Industry": "SOFTWARE - INFRASTRUCTURE"
+}

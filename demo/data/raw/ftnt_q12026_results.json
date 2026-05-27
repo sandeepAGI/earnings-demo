@@ -1,0 +1,46 @@
+{
+  "_meta": {
+    "symbol": "FTNT",
+    "company": "Fortinet Inc",
+    "period": "Q1 2026",
+    "fiscal_date_ending": "2026-03-31",
+    "report_date": "2026-05-07",
+    "fiscal_year_end_month": 12,
+    "pulled": "2026-05-27",
+    "source": "SEC 8-K, Investing.com, web search",
+    "note": "Most recent quarter. One quarter ahead of PANW Q2 FY26. Fortinet is the margin leader in the peer set."
+  },
+  "quarterly_financials": {
+    "revenue_total_m": 1850,
+    "revenue_product_m": 645,
+    "revenue_services_m": 1205,
+    "revenue_yoy_growth_pct": 20.0,
+    "revenue_product_yoy_growth_pct": 41.0,
+    "billings_m": 2090,
+    "billings_yoy_growth_pct": 31.0,
+    "operating_margin_gaap_pct": 31.4,
+    "operating_margin_nongaap_pct": 35.8,
+    "operating_cashflow_m": 1080,
+    "fcf_m": 1010
+  },
+  "eps": {
+    "eps_nongaap_actual": 0.82,
+    "eps_nongaap_consensus": 0.61,
+    "eps_nongaap_beat": 0.21,
+    "eps_nongaap_beat_pct": 34.4,
+    "revenue_beat_pct": 6.7
+  },
+  "valuation": {
+    "market_cap_bn": 92.6,
+    "shares_outstanding_m": 734,
+    "pe_ratio_trailing": 47.22
+  },
+  "fy26_guidance_raised": {
+    "revenue_bn_low": 7.71,
+    "revenue_bn_high": 7.87,
+    "operating_margin_nongaap_pct_low": 33.0,
+    "operating_margin_nongaap_pct_high": 36.0,
+    "note": "Guidance raised post Q1 beat. 37% stock rally over 7 sessions after print."
+  },
+  "platform_narrative": "Fortinet is the margin story: 35.8% non-GAAP operating margin is the highest in the peer set. Product revenue +41% YoY signals hardware refresh cycle AND platform expansion. Billings +31% is a leading indicator. FCF $1.01B in a single quarter shows extraordinary cash conversion. FTNT competes on price/performance — the 'good enough' consolidation play vs PANW's premium platform narrative."
+}
