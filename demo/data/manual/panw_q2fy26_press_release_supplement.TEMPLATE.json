@@ -1,0 +1,68 @@
+{
+  "_instructions": "Fill in all null values from the PANW Q2 FY26 press release PDF. Save as panw_q2fy26_press_release_supplement.json (remove this _instructions field). All dollar figures in millions unless noted. Percentages as decimals e.g. 76.6, not 0.766.",
+  "_source": "PANW Q2 FY26 press release, fiscal date ending 2026-01-31, reported 2026-02-17",
+
+  "nongaap_metrics": {
+    "gross_margin_nongaap_pct":         null,
+    "operating_income_nongaap_m":       null,
+    "operating_margin_nongaap_pct":     null,
+    "eps_nongaap_diluted":              null,
+    "fcf_m":                            null,
+    "fcf_margin_pct":                   null,
+    "ebitda_m":                         null,
+    "_note": "EBITDA: if not stated, derive as non-GAAP OI + D&A from nongaap bridge table. Note the derivation."
+  },
+
+  "balance_sheet_highlights": {
+    "deferred_revenue_current_bn":      null,
+    "deferred_revenue_longterm_bn":     null,
+    "deferred_revenue_total_bn":        null,
+    "_note": "Deferred revenue is usually in the balance sheet section of the press release."
+  },
+
+  "operational_kpis": {
+    "platformized_customers":           null,
+    "ngs_arr_bn":                       null,
+    "ngs_arr_yoy_growth_pct":           null,
+    "_note": "Platformized customers and NGS ARR are typically in the earnings call prepared remarks, not the press release. Cross-reference the transcript."
+  },
+
+  "guidance_q3_fy26": {
+    "revenue_low_m":                    null,
+    "revenue_high_m":                   null,
+    "eps_nongaap_low":                  null,
+    "eps_nongaap_high":                 null,
+    "ngs_arr_low_bn":                   null,
+    "ngs_arr_high_bn":                  null,
+    "revision_vs_prior":                null,
+    "_note": "revision_vs_prior: 'raise' | 'maintain' | 'cut' | 'initial'"
+  },
+
+  "guidance_fy26_full_year": {
+    "revenue_low_m":                    null,
+    "revenue_high_m":                   null,
+    "eps_nongaap_low":                  null,
+    "eps_nongaap_high":                 null,
+    "fcf_margin_low_pct":               null,
+    "fcf_margin_high_pct":              null,
+    "revision_vs_prior":                null
+  },
+
+  "stock_reaction": {
+    "earnings_date":                    "2026-02-17",
+    "prior_close":                      null,
+    "after_hours_close":                null,
+    "next_day_open":                    null,
+    "_note": "Use Yahoo Finance or Bloomberg for price data around the Feb 17 date."
+  },
+
+  "beat_miss_vs_consensus": {
+    "eps_nongaap_actual":               null,
+    "eps_nongaap_consensus":            null,
+    "eps_beat_pct":                     null,
+    "revenue_actual_m":                 null,
+    "revenue_consensus_m":              null,
+    "revenue_beat_pct":                 null,
+    "_note": "Consensus figures come from gather.py FMP pull. Fill actuals from press release."
+  }
+}
