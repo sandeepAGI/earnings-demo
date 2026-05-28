@@ -441,6 +441,12 @@ html = f"""<!DOCTYPE html>
   .signal-title {{ font-weight: 700; font-size: 13px; color: var(--purple); }}
   .signal-meta {{ font-size: 11px; color: var(--muted); margin-bottom: 3px; }}
   .signal-note {{ font-size: 11.5px; color: var(--text); line-height: 1.5; }}
+  .signal-row {{ font-size: 12px; color: var(--text); margin: 5px 0; }}
+  .signal-row .sr-label {{ color: var(--muted); }}
+  .signal-row .sr-val {{ font-weight: 700; }}
+  .signal-row .sr-bull {{ color: var(--green); font-weight: 700; }}
+  .signal-row .sr-bear {{ color: var(--red); font-weight: 700; }}
+  .signal-insight {{ font-size: 11px; color: var(--muted); border-left: 2px solid var(--border); padding-left: 8px; line-height: 1.5; margin-top: 7px; }}
 
   /* ── Charts ── */
   .chart-wrap {{ position: relative; height: 220px; margin: 4px 0; }}
@@ -879,21 +885,47 @@ html += """    </div>
     <div class="section-body">
 """
 
-conf_badge = {'actual': 'badge-bull', 'estimated': 'badge-est', 'inferred': 'badge-neu'}
-for sig in sentiment:
-    cb = conf_badge.get(sig['confidence'], 'badge-neu')
-    range_str = '—'
-    if sig['value_low'] and sig['value_high']:
-        range_str = f"{sig['value_low']}–{sig['value_high']} {sig['unit']}"
-    elif sig['value']:
-        range_str = f"{sig['value']} {sig['unit']}"
-    html += f"""      <div class="signal-item">
+_sent_by_type = {s['signal_type']: s for s in sentiment}
+_si = _sent_by_type.get('short_interest', {})
+_pc = _sent_by_type.get('put_call_ratio', {})
+
+if _si:
+    html += """      <div class="signal-item">
         <div class="signal-header">
-          <span class="signal-title">{sig['signal_type'].replace('_',' ').title()}</span>
-          <span class="badge {cb}">{sig['confidence']}</span>
+          <span class="signal-title">Short Interest</span>
+          <span class="badge badge-bull">actual</span>
         </div>
-        <div class="signal-meta">Range: {range_str} &nbsp;·&nbsp; {sig['signal_date']}</div>
-        <div class="signal-note">{sig['context_note'][:220]}{"…" if len(sig['context_note']) > 220 else ""}</div>
+        <div class="signal-row">
+          <span class="sr-label">Two weeks pre-earnings (Jan 30 → Feb 13):&nbsp;</span>
+        </div>
+        <div class="signal-row">
+          <span class="sr-label">Float short&nbsp;</span><span class="sr-bear">6.7%</span>
+          <span style="color:var(--muted)">&nbsp;→&nbsp;</span><span class="sr-val">2.8%</span>
+          &nbsp;·&nbsp;<span class="sr-bull">-50.8% covering</span>
+          &nbsp;·&nbsp;<span class="sr-val">22.8M</span><span class="sr-label"> shares remaining</span>
+        </div>
+        <div class="signal-insight">Bullish positioning into the print — massive short covering in the final two weeks. Despite the setup, stock fell -8.5% AH.</div>
+      </div>
+"""
+
+if _pc:
+    html += """      <div class="signal-item">
+        <div class="signal-header">
+          <span class="signal-title">Put/Call Ratio</span>
+          <span class="badge badge-bull">actual</span>
+        </div>
+        <div class="signal-row">
+          <span class="sr-label">Earnings day (Feb 17):&nbsp;</span>
+          <span class="sr-label">vol&nbsp;</span><span class="sr-val">1.09</span>
+          &nbsp;·&nbsp;<span class="sr-label">OI&nbsp;</span><span class="sr-val">0.95</span>
+          &nbsp;·&nbsp;<span class="sr-label" style="font-style:italic">not elevated pre-print</span>
+        </div>
+        <div class="signal-row">
+          <span class="sr-label">Post-earnings (Feb 18):&nbsp;</span>
+          <span class="sr-label">vol&nbsp;</span><span class="sr-bear">4.02</span>
+          &nbsp;·&nbsp;<span class="sr-label" style="font-style:italic">extreme put buying</span>
+        </div>
+        <div class="signal-insight">Options market didn't anticipate the drop. P/C volume 4.02 day-after shows the market scrambling to reprice downside.</div>
       </div>
 """
 
