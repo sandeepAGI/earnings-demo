@@ -1,0 +1,329 @@
+{
+  "generated": "2026-05-28",
+  "symbol": "PANW",
+  "fiscal_period": "Q2_FY26",
+  "report_date": "2026-02-17",
+  "skill_version": "equity-research/earnings-analysis v0.1.0 (financial-services-plugins)",
+  "departures": [
+    {
+      "id": "D1",
+      "step": "1 \u2014 Data Freshness",
+      "departure": "Pre-staged raw files used instead of live web search.",
+      "reason": "Workshop reproducibility \u2014 the same output must render reliably before June 4, 2026. Live fetch produces non-deterministic content."
+    },
+    {
+      "id": "D2",
+      "step": "9 \u2014 Model Update",
+      "departure": "Directional EPS trajectory shown instead of old-vs-new model table.",
+      "reason": "No prior-quarter analyst model maintained for PANW in this pipeline. Consensus EPS history from yfinance used as substitute."
+    },
+    {
+      "id": "D3",
+      "step": "10 \u2014 Valuation",
+      "departure": "Peer NTM EV/Revenue multiples only \u2014 no DCF model.",
+      "reason": "No Bloomberg/FactSet access for live consensus forward estimates. Pre-staged peer files provide sufficient data for a directional price target range."
+    },
+    {
+      "id": "D4",
+      "step": "12\u201316 \u2014 Output Format",
+      "departure": "Structured JSON rendered as HTML (Tab 2) instead of 8\u201312 page DOCX.",
+      "reason": "Tab 2 of earnings_baseline.html is a web dashboard section. DOCX output format does not apply."
+    }
+  ],
+  "steps": {
+    "5_beat_miss": {
+      "eps_nongaap": {
+        "actual": 1.03,
+        "consensus": 0.9368,
+        "beat": 0.093,
+        "beat_pct": 9.9,
+        "signal": "beat",
+        "driver": "Platformization velocity and operating leverage. Non-GAAP OI margin 30.3% \u2014 third consecutive quarter above 30%."
+      },
+      "revenue": {
+        "actual_m": 2594,
+        "consensus_m": null,
+        "yoy_growth_pct": 14.9,
+        "note": "Revenue consensus not available in pre-staged files (null in yfinance free tier). Organic revenue growth +14.9% YoY. Chronosphere acquisition closed Feb 2026."
+      },
+      "ngs_arr": {
+        "actual_bn": 6.33,
+        "yoy_growth_pct": 33.0,
+        "organic_yoy_pct": 28,
+        "note": "Reported +33% YoY includes Chronosphere acquisition. Management cited +28% organic growth on the call. Platformized customer count: 1,550."
+      },
+      "stock_reaction": {
+        "ah_change_pct": -8.53,
+        "close_day_of": 163.5,
+        "open_next_day": 149.55,
+        "signal": "bearish_despite_beat",
+        "driver": "Market sold the Q3 guidance, not the Q2 beat. Q3 EPS guided $0.79 midpoint vs Q2 actual $1.03 \u2014 sequential step-down of $0.24. M&A integration costs (CyberArk, Chronosphere) diluting near-term EPS."
+      }
+    },
+    "6_segment_geo": {
+      "product_revenue_m": 514,
+      "subscription_revenue_m": 2080,
+      "subscription_mix_pct": 80.2,
+      "product_yoy_pct": 22.1,
+      "subscription_yoy_pct": 13.3,
+      "fcf_m": 384,
+      "fcf_margin_pct": 14.8,
+      "rpo_bn": 16.0,
+      "rpo_yoy_pct": 23.0,
+      "platformized_customers": 1550,
+      "segment_note": "Subscription/support is 80.2% of total revenue \u2014 high recurring base. Product revenue +22.1% YoY as platform consolidation drives firewall upgrades. FCF margin 14.8% is seasonally low (Q1 tends to be high due to annual billings timing). RPO $16.0B (+23.0% YoY) provides strong forward revenue visibility.",
+      "geo_note": "Geographic breakdown not available in supplemental data. Full geo breakdown requires the 10-Q filing. Prior year Q2 FY25: Americas +13%, EMEA +18%, JPAC +17% YoY. Management cited 'broad-based strength across regions' on the Q2 FY26 call."
+    },
+    "7_margin": {
+      "q2_fy26": {
+        "gross_margin_gaap_pct": 73.6,
+        "gross_margin_nongaap_pct": 76.1,
+        "oi_margin_gaap_pct": 15.3,
+        "oi_margin_nongaap_pct": 30.3,
+        "fcf_margin_pct": 14.8
+      },
+      "yoy_delta_bps": {
+        "gross_margin_gaap": 10,
+        "gross_margin_nongaap": -50,
+        "oi_margin_nongaap": 190,
+        "oi_margin_gaap": 460
+      },
+      "driver_note": "Non-GAAP gross margin 76.1% (-50bps YoY) \u2014 slight compression from mix shift toward lower-margin product revenue. Non-GAAP OI margin 30.3% (+190bps YoY) \u2014 third consecutive quarter above 30%, driven by operating leverage on subscription base. GAAP OI margin 15.3% (+460bps YoY improvement) \u2014 partly reflects Q2 FY25 litigation charge normalization. FCF margin 14.8% is seasonally low; Q1 FY26 was 68.2% due to annual billings concentration.",
+      "trajectory": [
+        {
+          "period": "Q3_FY24",
+          "gm_gaap_pct": 74.1,
+          "gm_nongaap_pct": 77.6,
+          "oi_gaap_pct": 8.9,
+          "oi_nongaap_pct": 25.6,
+          "fcf_margin_pct": 24.8
+        },
+        {
+          "period": "Q4_FY24",
+          "gm_gaap_pct": 73.8,
+          "gm_nongaap_pct": 76.8,
+          "oi_gaap_pct": 10.9,
+          "oi_nongaap_pct": 26.9,
+          "fcf_margin_pct": 21.3
+        },
+        {
+          "period": "Q1_FY25",
+          "gm_gaap_pct": 74.1,
+          "gm_nongaap_pct": 77.3,
+          "oi_gaap_pct": 13.4,
+          "oi_nongaap_pct": 28.8,
+          "fcf_margin_pct": 68.5
+        },
+        {
+          "period": "Q2_FY25",
+          "gm_gaap_pct": 73.5,
+          "gm_nongaap_pct": 76.6,
+          "oi_gaap_pct": 10.7,
+          "oi_nongaap_pct": 28.4,
+          "fcf_margin_pct": 22.6
+        },
+        {
+          "period": "Q3_FY25",
+          "gm_gaap_pct": 72.9,
+          "gm_nongaap_pct": 76.0,
+          "oi_gaap_pct": 9.6,
+          "oi_nongaap_pct": 27.4,
+          "fcf_margin_pct": 24.5
+        },
+        {
+          "period": "Q4_FY25",
+          "gm_gaap_pct": 73.2,
+          "gm_nongaap_pct": 75.8,
+          "oi_gaap_pct": 19.6,
+          "oi_nongaap_pct": 30.3,
+          "fcf_margin_pct": 36.8
+        },
+        {
+          "period": "Q1_FY26",
+          "gm_gaap_pct": 74.2,
+          "gm_nongaap_pct": 76.9,
+          "oi_gaap_pct": 12.5,
+          "oi_nongaap_pct": 30.2,
+          "fcf_margin_pct": 68.2
+        },
+        {
+          "period": "Q2_FY26",
+          "gm_gaap_pct": 73.6,
+          "gm_nongaap_pct": 76.1,
+          "oi_gaap_pct": 15.3,
+          "oi_nongaap_pct": 30.3,
+          "fcf_margin_pct": 14.8
+        }
+      ]
+    },
+    "8_guidance": {
+      "q3_fy26": {
+        "revenue_range_m": [
+          2941,
+          2945
+        ],
+        "revenue_midpoint": 2943,
+        "eps_range": [
+          0.78,
+          0.8
+        ],
+        "eps_midpoint": 0.79,
+        "ngs_arr_range_bn": [
+          7.94,
+          7.96
+        ],
+        "revision": "initial"
+      },
+      "fy26_full_year": {
+        "revenue_range_m": [
+          11280,
+          11310
+        ],
+        "revenue_midpoint": 11295,
+        "eps_range": [
+          3.65,
+          3.7
+        ],
+        "eps_midpoint": 3.675,
+        "fcf_margin_pct": 37.0,
+        "revision": "raise"
+      },
+      "key_signals": {
+        "q3_eps_step_down": "Q3 midpoint $0.79 vs Q2 actual $1.03 \u2014 step-down of $0.24",
+        "step_down_driver": "M&A integration costs from CyberArk and Chronosphere acquisitions, both closed in Feb 2026. Near-term EPS dilution expected through H2 FY26.",
+        "fy_guidance_raised": true,
+        "credibility_read": "PANW has a consistent track record of conservative guidance and beating. The Q3 step-down has a clear M&A rationale. Risk: integration extends into FY27.",
+        "ngs_arr_trajectory": "Q3 NGS ARR guided $7.94\u20137.96B implies continued platform momentum."
+      }
+    },
+    "9_estimate_revisions": {
+      "departure": "D2",
+      "note": "No prior analyst model maintained. EPS trajectory shown instead of old-vs-new table.",
+      "eps_history": [
+        {
+          "period": "2025-04-30",
+          "actual": 0.8,
+          "estimate": 0.772,
+          "beat_pct": 3.6
+        },
+        {
+          "period": "2025-07-31",
+          "actual": 0.95,
+          "estimate": 0.885,
+          "beat_pct": 7.3
+        },
+        {
+          "period": "2025-10-31",
+          "actual": 0.93,
+          "estimate": 0.891,
+          "beat_pct": 4.4
+        },
+        {
+          "period": "2026-01-31",
+          "actual": 1.03,
+          "estimate": 0.937,
+          "beat_pct": 9.9
+        }
+      ],
+      "fy26_build": {
+        "q1_actual": 0.93,
+        "q2_actual": 1.03,
+        "h1_total": 1.96,
+        "fy26_midpoint": 3.675,
+        "h2_implied": 1.715,
+        "h2_avg_per_qtr": 0.858
+      },
+      "direction": "FY26 guidance raised. Near-term deceleration (Q3 $0.79) reflects M&A dilution. H2 FY26 implied $1.715 total (avg $0.858/quarter) suggests re-acceleration into Q4 FY26 beyond the initial integration dip."
+    },
+    "10_valuation": {
+      "departure": "D3",
+      "note": "No DCF. Peer NTM EV/Revenue multiples used for PT range.",
+      "panw_price": 163.5,
+      "panw_shares_m": 711,
+      "panw_mktcap_b": 116.2,
+      "panw_ttm_rev_m": 9893,
+      "panw_ev_rev_ttm_x": 11.7,
+      "panw_ntm_rev_m": 12055,
+      "panw_ev_rev_ntm_x": 9.6,
+      "ntm_build": {
+        "q3_fy26_guided_m": 2943,
+        "q4_fy26_implied_m": 3284,
+        "q1_fy27_est_m": 2845,
+        "q2_fy27_est_m": 2983,
+        "total_ntm_m": 12055,
+        "assumption": "FY27 H1 estimated at +15% YoY from FY26 H1 actuals"
+      },
+      "target_multiple_range_x": [
+        10.0,
+        12.0
+      ],
+      "pt_low": 170,
+      "pt_high": 203,
+      "pt_midpoint": 186,
+      "implied_upside_pct": 13.8,
+      "peer_table": [
+        {
+          "symbol": "CRWD",
+          "ev_rev_ttm_x": 34.18,
+          "rev_growth_pct": 23.0,
+          "oi_margin_pct": 25.0,
+          "note": "Premium multiple reflects faster growth and ARR recovery"
+        },
+        {
+          "symbol": "FTNT",
+          "ev_rev_ttm_x": 12.5,
+          "rev_growth_pct": 20.0,
+          "oi_margin_pct": 35.8,
+          "note": "Margin leader; lower multiple reflects more hardware-oriented mix"
+        },
+        {
+          "symbol": "ZS",
+          "ev_rev_ttm_x": null,
+          "rev_growth_pct": 25.0,
+          "oi_margin_pct": 23.0,
+          "note": "EV not pre-staged; revenue miss this quarter notable"
+        },
+        {
+          "symbol": "PANW",
+          "ev_rev_ttm_x": 11.7,
+          "ev_rev_ntm_x": 9.6,
+          "rev_growth_pct": 14.9,
+          "oi_margin_pct": 30.3,
+          "note": "Subject company \u2014 NTM multiple computed"
+        }
+      ],
+      "rationale": "PANW trades at 11.7x TTM and 9.6x NTM EV/Revenue at the Feb 17 close of $163.5. Applying 10.0\u201312.0x NTM (discount to CRWD's 34.18x reflects PANW's lower growth rate of ~14.9% vs CRWD's ~23.0%) yields PT range $170\u2013$203. Midpoint $186 implies +13.8% upside from post-earnings close."
+    },
+    "11_rating": {
+      "rating": "Maintain Outperform",
+      "rating_short": "MAINTAIN",
+      "price_target": 186,
+      "pt_range": [
+        170,
+        203
+      ],
+      "current_price": 163.5,
+      "implied_upside_pct": 13.8,
+      "qa_signal_summary": {
+        "total_exchanges": 10,
+        "bullish": 7,
+        "bearish": 0,
+        "neutral": 3
+      },
+      "skill_criteria": {
+        "eps_beat_significant": true,
+        "fy_guidance_raised": true,
+        "q3_sequential_step_down": true,
+        "stock_already_adjusted": true
+      },
+      "rationale": "EPS beat of +9.9% and raised FY26 guidance (midpoint $3.675) support the thesis. Q3 EPS guidance ($0.79 midpoint) represents a $0.24 sequential step-down from Q2 actual \u2014 driven by M&A integration costs from CyberArk and Chronosphere, both acquired in Feb 2026. Stock fell 8.5% AH, partially absorbing the near-term headwind. At 9.6x NTM EV/Revenue, valuation reflects the integration discount. Platform thesis intact: NGS ARR +33.0% (organic +28%), 1,550 platformized customers, RPO $16.0B (+23.0% YoY). PT $186 based on 10.0\u201312.0x NTM EV/Revenue (13.8% upside). Q&A sentiment: 7 bullish / 0 bearish / 3 neutral exchanges.",
+      "key_risks": [
+        "M&A integration (CyberArk, Chronosphere) extends beyond H2 FY26, further pressuring EPS",
+        "CRWD platform recovery intensifies \u2014 net new ARR +47% YoY signals competitive re-acceleration",
+        "Platformization strategy slows if customers consolidate more slowly than guided",
+        "NGS ARR organic growth gap vs. reported (28% vs 33%) widens if Chronosphere contribution disappoints",
+        "FCF margin recovery in H2 FY26 requires billings concentration \u2014 execution risk"
+      ]
+    }
+  }
+}

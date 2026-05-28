@@ -333,6 +333,87 @@
   .plugin-context-label { font-size: 14px; font-weight: 700; color: var(--light-blue); margin-bottom: 5px; }
   .plugin-context-note { font-size: 12px; color: rgba(255,255,255,.82); line-height: 1.65; }
 
+  /* ── Tab 2: Earnings Analysis ── */
+  .skill-banner {
+    background: var(--purple); color: rgba(255,255,255,.75);
+    font-size: 11px; padding: 8px 18px; border-radius: 6px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;
+  }
+  .skill-banner strong { color: #fff; }
+  .skill-sep { color: rgba(255,255,255,.35); }
+
+  .an-hero {
+    background: var(--purple); border-radius: 8px; padding: 22px 26px;
+    color: #fff; margin-bottom: 20px;
+  }
+  .an-hero-top { display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; }
+  .an-rating-badge {
+    background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.35);
+    border-radius: 6px; padding: 6px 16px;
+    font-size: 13px; font-weight: 800; letter-spacing: .08em; color: #fff;
+    white-space: nowrap;
+  }
+  .an-rating-badge.upgrade { background: var(--green); border-color: var(--green); }
+  .an-pt-block { flex: 1; min-width: 160px; }
+  .an-pt-val { font-size: 32px; font-weight: 800; color: #fff; line-height: 1; }
+  .an-pt-label { font-size: 11px; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: .06em; margin-top: 3px; }
+  .an-pt-meta { font-size: 12px; color: rgba(255,255,255,.75); margin-top: 6px; }
+  .an-upside { color: #7DCEA0; font-weight: 700; }
+  .an-hero-rationale { font-size: 12.5px; color: rgba(255,255,255,.85); line-height: 1.65; border-top: 1px solid rgba(255,255,255,.15); padding-top: 12px; }
+  .an-risks-header { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .06em; margin: 12px 0 6px; }
+  .an-risks { list-style: none; padding: 0; margin: 0; }
+  .an-risks li { font-size: 11.5px; color: rgba(255,255,255,.7); padding: 3px 0 3px 14px; position: relative; }
+  .an-risks li::before { content: '▸'; position: absolute; left: 0; color: rgba(255,255,255,.35); }
+
+  .an-step-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--blue); margin-bottom: 10px;
+  }
+  .an-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 860px) { .an-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  .an-kpi {
+    background: var(--off-white); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px 14px;
+  }
+  .an-kpi-label { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 4px; }
+  .an-kpi-val { font-size: 22px; font-weight: 800; color: var(--purple); line-height: 1.1; }
+  .an-kpi-val.pos { color: var(--green); }
+  .an-kpi-val.neg { color: var(--red); }
+  .an-kpi-note { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.4; }
+
+  .an-flag {
+    border-left: 3px solid var(--amber); background: var(--amber-bg);
+    padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0;
+    font-size: 12px; color: var(--text);
+  }
+  .an-flag.neg { border-left-color: var(--red); background: var(--red-bg); }
+  .an-flag.pos { border-left-color: var(--green); background: var(--green-bg); }
+
+  .an-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .an-tbl th { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 700; padding: 5px 10px; text-align: left; border-bottom: 2px solid var(--border); }
+  .an-tbl td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .an-tbl tr:last-child td { border-bottom: none; }
+  .an-tbl td.num { text-align: right; font-weight: 700; color: var(--purple); }
+  .an-tbl td.muted { color: var(--muted); font-size: 11px; }
+  .an-tbl tr.highlight td { background: rgba(45,32,66,.04); }
+
+  .dep-panel { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .dep-header {
+    background: rgba(45,32,66,.06); padding: 9px 14px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--purple); border-bottom: 1px solid var(--border);
+  }
+  .dep-row { display: flex; gap: 10px; padding: 9px 14px; border-bottom: 1px solid var(--border); align-items: flex-start; }
+  .dep-row:last-child { border-bottom: none; }
+  .dep-badge {
+    background: var(--purple); color: #fff; font-size: 10px; font-weight: 800;
+    padding: 2px 7px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 1px;
+  }
+  .dep-content { font-size: 12px; color: var(--text); }
+  .dep-step { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 2px; }
+  .dep-what { margin-bottom: 3px; }
+  .dep-why { font-size: 11px; color: var(--muted); font-style: italic; }
+
   /* ── Secret sauce (Tab 3) ── */
   .sauce-outer {
     background: var(--purple); border-radius: 8px; padding: 22px 24px; color: #fff;
@@ -368,7 +449,7 @@
       <p>Fiscal period ending Jan 31, 2026 &nbsp;·&nbsp; Reported Feb 17, 2026 &nbsp;·&nbsp; <em>Everyone Is Wrong About AI, Including Me</em> — Digital FutureFest &#39;26</p>
     </div>
     <div class="header-meta">
-      Generated 2026-05-28 08:48<br>
+      Generated 2026-05-28 09:55<br>
       13 tables · 200 rows · earnings.db
       <br><span class="header-badge">Aileron Group · Workshop Use Only</span>
     </div>
@@ -945,31 +1026,361 @@
 </div><!-- /tab-data -->
 
 
-<!-- ════════════════════════════════════════════════════════════════════════
-     TAB 2 — PLACEHOLDER
-     Analysis has not been run. Process to be designed, tested on Q1 FY26,
-     then re-run on Q2 FY26 before any content appears here.
-     ════════════════════════════════════════════════════════════════════════ -->
 <div id="tab-sellside" class="tab-content">
 <div class="container">
 
-<!-- Placeholder -->
-<div class="plugin-context">
-  <div class="plugin-context-icon">⏳</div>
-  <div>
-    <div class="plugin-context-label">Analysis Not Yet Run</div>
-    <div class="plugin-context-note">
-      This tab will contain real output from the Earnings Reviewer skill once the process has been
-      designed, tested on Q1 FY26 (quarter ending October 31, 2024), and validated before being
-      re-run on Q2 FY26. Nothing appears here until that process has been completed and reviewed.
-      See STATUS.md and earnings_analysis_script.md for the planned approach.
+<div class="skill-banner">
+  Follows <strong>equity-research/earnings-analysis v0.1.0 (financial-services-plugins)</strong> &nbsp;·&nbsp;
+  Run: <strong>2026-05-28</strong> &nbsp;·&nbsp;
+  4 departures from skill spec (see panel below) &nbsp;·&nbsp;
+  Symbol: <strong>PANW</strong> &nbsp;·&nbsp; Period: <strong>Q2_FY26</strong>
+</div>
+
+<!-- ── Step 11: Rating Hero ──────────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>Step 11 — Rating &amp; Price Target</h2>
+    <span class="tag">skill: equity-research/earnings-analysis</span>
+  </div>
+  <div class="section-body">
+    <div class="an-hero">
+      <div class="an-hero-top">
+        <div class="an-rating-badge ">
+          MAINTAIN<br><span style="font-size:11px;opacity:.8">Maintain Outperform</span>
+        </div>
+        <div>
+          <div style="font-size:11px;opacity:.75;margin-bottom:2px">Price Target</div>
+          <div class="an-pt-val">$186</div>
+          <div style="font-size:11px;opacity:.75">
+            Range $170–$203 &nbsp;·&nbsp;
+            From $163.5 close &nbsp;·&nbsp;
+            <strong style="color:#a3e6b8">+13.8% upside</strong>
+          </div>
+        </div>
+        <div style="flex:1;min-width:160px">
+          <div style="font-size:11px;opacity:.75;margin-bottom:6px">Skill criteria applied</div>
+          <div style="font-size:12px;line-height:1.9">
+            ✓ EPS beat significant (&gt;5%)<br>
+            ✓ FY guidance raised<br>
+            ⚠ Q3 sequential step-down<br>
+            ✓ Stock already adjusted (–8.5% AH)
+          </div>
+        </div>
+        <div style="flex:1;min-width:140px">
+          <div style="font-size:11px;opacity:.75;margin-bottom:6px">Q&amp;A sentiment</div>
+          <div style="font-size:13px;line-height:2">
+            <span style="color:#a3e6b8;font-weight:700">● 7 bullish</span><br>
+            <span style="color:#e74c3c;font-weight:700">● 0 bearish</span><br>
+            <span style="opacity:.6;font-weight:700">● 3 neutral</span>
+          </div>
+        </div>
+      </div>
+      <div class="an-hero-rationale">EPS beat of +9.9% and raised FY26 guidance (midpoint $3.675) support the thesis. Q3 EPS guidance ($0.79 midpoint) represents a $0.24 sequential step-down from Q2 actual — driven by M&A integration costs from CyberArk and Chronosphere, both acquired in Feb 2026. Stock fell 8.5% AH, partially absorbing the near-term headwind. At 9.6x NTM EV/Revenue, valuation reflects the integration discount. Platform thesis intact: NGS ARR +33.0% (organic +28%), 1,550 platformized customers, RPO $16.0B (+23.0% YoY). PT $186 based on 10.0–12.0x NTM EV/Revenue (13.8% upside). Q&A sentiment: 7 bullish / 0 bearish / 3 neutral exchanges.</div>
+      <div style="margin-top:14px">
+        <div style="font-size:11px;color:rgba(255,255,255,.65);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Key Risks</div>
+        <ul style="margin:0;padding-left:18px;font-size:12px;color:rgba(255,255,255,.8);line-height:1.9">
+          <li>M&A integration (CyberArk, Chronosphere) extends beyond H2 FY26, further pressuring EPS</li>
+          <li>CRWD platform recovery intensifies — net new ARR +47% YoY signals competitive re-acceleration</li>
+          <li>Platformization strategy slows if customers consolidate more slowly than guided</li>
+          <li>NGS ARR organic growth gap vs. reported (28% vs 33%) widens if Chronosphere contribution disappoints</li>
+          <li>FCF margin recovery in H2 FY26 requires billings concentration — execution risk</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- STEPS 5-11 REMOVED — placeholder only until real output is generated -->
+<!-- ── Step 5: Beat/Miss ─────────────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>Step 5 — Beat / Miss Analysis</h2>
+    <span class="tag">Q2 FY26 vs. consensus</span>
+  </div>
+  <div class="section-body">
+    <div class="an-kpi-grid">
+      <div class="an-kpi">
+        <div class="an-kpi-label">Non-GAAP EPS</div>
+        <div class="an-kpi-val pos">+9.9% beat</div>
+        <div class="an-kpi-note">$1.03 actual vs $0.937 consensus (+$0.093)</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">Revenue (YoY)</div>
+        <div class="an-kpi-val pos">+14.9%</div>
+        <div class="an-kpi-note">$2594M &nbsp;·&nbsp; Revenue consensus not in pre-staged data</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">NGS ARR Growth</div>
+        <div class="an-kpi-val pos">+33.0%</div>
+        <div class="an-kpi-note">$6.33B &nbsp;·&nbsp; Organic +28% &nbsp;·&nbsp; 1,550 platformized</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">AH Reaction</div>
+        <div class="an-kpi-val neg">-8.53%</div>
+        <div class="an-kpi-note">$163.5 close → $149.55 open</div>
+      </div>
+    </div>
+    <div class="an-flag neg" style="margin-top:12px">
+      <strong>Reaction driver:</strong> Market sold the Q3 guidance, not the Q2 beat. Q3 EPS guided $0.79 midpoint vs Q2 actual $1.03 — sequential step-down of $0.24. M&A integration costs (CyberArk, Chronosphere) diluting near-term EPS.
+    </div>
+    <div class="an-flag pos" style="margin-top:8px">
+      <strong>EPS driver:</strong> Platformization velocity and operating leverage. Non-GAAP OI margin 30.3% — third consecutive quarter above 30%.
+    </div>
+  </div>
+</div>
+
+<!-- ── Step 6: Segment & Business Mix ───────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>Step 6 — Segment &amp; Business Mix</h2>
+    <span class="tag">Q2 FY26</span>
+  </div>
+  <div class="section-body">
+    <table class="an-tbl">
+      <thead><tr><th>Segment</th><th>Revenue</th><th>YoY</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Product</td><td class="num">$514M</td><td class="num pos">+22.1%</td><td class="muted">Hardware / appliances</td></tr>
+        <tr><td>Subscription &amp; Support</td><td class="num">$2080M</td><td class="num pos">+13.3%</td><td class="muted">80.2% of total revenue</td></tr>
+        <tr class="highlight"><td><strong>Total Revenue</strong></td><td class="num"><strong>$2594M</strong></td><td class="num"><strong>+14.9% YoY</strong></td><td class="muted">&nbsp;</td></tr>
+        <tr><td>Free Cash Flow</td><td class="num">$384M</td><td class="num">14.8% margin</td><td class="muted">Seasonally low; Q1 FY26 was 68.2%</td></tr>
+        <tr><td>RPO (Backlog)</td><td class="num">$16.0B</td><td class="num pos">+23.0%</td><td class="muted">Forward revenue visibility</td></tr>
+      </tbody>
+    </table>
+    <div class="an-flag pos" style="margin-top:12px">Subscription/support is 80.2% of total revenue — high recurring base. Product revenue +22.1% YoY as platform consolidation drives firewall upgrades. FCF margin 14.8% is seasonally low (Q1 tends to be high due to annual billings timing). RPO $16.0B (+23.0% YoY) provides strong forward revenue visibility.</div>
+    <div class="an-flag" style="margin-top:8px;border-left-color:#888;background:#f9f9f9">
+      <strong>Geographic note:</strong> Geographic breakdown not available in supplemental data. Full geo breakdown requires the 10-Q filing. Prior year Q2 FY25: Americas +13%, EMEA +18%, JPAC +17% YoY. Management cited 'broad-based strength across regions' on the Q2 FY26 call.
+    </div>
+  </div>
+</div>
+
+<!-- ── Step 7: Margin Analysis ──────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>Step 7 — Margin Analysis</h2>
+    <span class="tag">8-quarter trajectory</span>
+  </div>
+  <div class="section-body">
+    <div class="an-kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px">
+      <div class="an-kpi">
+        <div class="an-kpi-label">Non-GAAP Gross Margin</div>
+        <div class="an-kpi-val">76.1%</div>
+        <div class="an-kpi-note">GAAP 73.6% &nbsp;·&nbsp; YoY -50bps</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">Non-GAAP OI Margin</div>
+        <div class="an-kpi-val pos">30.3%</div>
+        <div class="an-kpi-note">GAAP 15.3% &nbsp;·&nbsp; YoY +190bps</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">FCF Margin</div>
+        <div class="an-kpi-val">14.8%</div>
+        <div class="an-kpi-note">Seasonally low; Q1 FY26 was 68.2%</div>
+      </div>
+    </div>
+    <table class="an-tbl">
+      <thead>
+        <tr><th>Period</th><th>GM GAAP</th><th>GM Non-GAAP</th><th>OI GAAP</th><th>OI Non-GAAP</th><th>FCF Margin</th></tr>
+      </thead>
+      <tbody>
+      <tr><td>Q3 FY24</td><td class="num">74.1%</td><td class="num">77.6%</td><td class="num">8.9%</td><td class="num">25.6%</td><td class="num">24.8%</td></tr>
+      <tr><td>Q4 FY24</td><td class="num">73.8%</td><td class="num">76.8%</td><td class="num">10.9%</td><td class="num">26.9%</td><td class="num">21.3%</td></tr>
+      <tr><td>Q1 FY25</td><td class="num">74.1%</td><td class="num">77.3%</td><td class="num">13.4%</td><td class="num">28.8%</td><td class="num">68.5%</td></tr>
+      <tr><td>Q2 FY25</td><td class="num">73.5%</td><td class="num">76.6%</td><td class="num">10.7%</td><td class="num">28.4%</td><td class="num">22.6%</td></tr>
+      <tr><td>Q3 FY25</td><td class="num">72.9%</td><td class="num">76.0%</td><td class="num">9.6%</td><td class="num">27.4%</td><td class="num">24.5%</td></tr>
+      <tr><td>Q4 FY25</td><td class="num">73.2%</td><td class="num">75.8%</td><td class="num">19.6%</td><td class="num">30.3%</td><td class="num">36.8%</td></tr>
+      <tr><td>Q1 FY26</td><td class="num">74.2%</td><td class="num">76.9%</td><td class="num">12.5%</td><td class="num">30.2%</td><td class="num">68.2%</td></tr>
+      <tr class="highlight"><td>Q2 FY26</td><td class="num">73.6%</td><td class="num">76.1%</td><td class="num">15.3%</td><td class="num">30.3%</td><td class="num">14.8%</td></tr>
+      </tbody>
+    </table>
+    <div class="an-flag pos" style="margin-top:12px">Non-GAAP gross margin 76.1% (-50bps YoY) — slight compression from mix shift toward lower-margin product revenue. Non-GAAP OI margin 30.3% (+190bps YoY) — third consecutive quarter above 30%, driven by operating leverage on subscription base. GAAP OI margin 15.3% (+460bps YoY improvement) — partly reflects Q2 FY25 litigation charge normalization. FCF margin 14.8% is seasonally low; Q1 FY26 was 68.2% due to annual billings concentration.</div>
+  </div>
+</div>
+
+<!-- ── Step 8: Guidance ──────────────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>Step 8 — Guidance Analysis</h2>
+    <span class="tag">Q3 FY26 + Full Year FY26</span>
+  </div>
+  <div class="section-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
+      <div class="an-kpi">
+        <div class="an-kpi-label">Q3 FY26 Revenue (guided)</div>
+        <div class="an-kpi-val">$2943M</div>
+        <div class="an-kpi-note">Range $2941–$2945M &nbsp;·&nbsp; initial</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">Q3 FY26 Non-GAAP EPS (guided)</div>
+        <div class="an-kpi-val neg">$0.79</div>
+        <div class="an-kpi-note">Range $0.78–$0.8 &nbsp;·&nbsp; vs Q2 actual $1.03</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">FY26 Revenue (raised)</div>
+        <div class="an-kpi-val pos">$11,295M</div>
+        <div class="an-kpi-note">Range $11,280–$11,310M</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">FY26 Non-GAAP EPS (raised)</div>
+        <div class="an-kpi-val pos">$3.675</div>
+        <div class="an-kpi-note">Range $3.65–$3.7 &nbsp;·&nbsp; FCF guided 37.0%</div>
+      </div>
+    </div>
+    <div class="an-flag neg">
+      <strong>Q3 step-down:</strong> Q3 midpoint $0.79 vs Q2 actual $1.03 — step-down of $0.24<br>
+      <strong>Driver:</strong> M&A integration costs from CyberArk and Chronosphere acquisitions, both closed in Feb 2026. Near-term EPS dilution expected through H2 FY26.
+    </div>
+    <div class="an-flag pos" style="margin-top:8px">
+      <strong>Credibility read:</strong> PANW has a consistent track record of conservative guidance and beating. The Q3 step-down has a clear M&A rationale. Risk: integration extends into FY27.
+    </div>
+    <div class="an-flag" style="margin-top:8px;border-left-color:#6c3baa;background:rgba(45,32,66,.05)">
+      <strong>NGS ARR trajectory:</strong> Q3 NGS ARR guided $7.94–7.96B implies continued platform momentum.
+    </div>
+  </div>
+</div>
+
+<!-- ── Step 9: Estimate Revisions (D2) ──────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>Step 9 — Estimate Revisions</h2>
+    <span class="tag" style="background:rgba(108,59,170,.12);color:#6c3baa">D2 departure</span>
+  </div>
+  <div class="section-body">
+    <div class="an-flag" style="border-left-color:#6c3baa;background:rgba(45,32,66,.05);margin-bottom:14px">
+      <strong>Departure D2:</strong> No prior analyst model maintained. EPS trajectory shown instead of old-vs-new table.
+    </div>
+    <table class="an-tbl" style="margin-bottom:14px">
+      <thead><tr><th>Quarter End</th><th>EPS Consensus</th><th>EPS Actual</th><th>Beat %</th></tr></thead>
+      <tbody>
+      <tr><td>2025-04-30</td><td class="num">$0.772</td><td class="num">$0.80</td><td class="num ">+3.6%</td></tr>
+      <tr><td>2025-07-31</td><td class="num">$0.885</td><td class="num">$0.95</td><td class="num pos">+7.3%</td></tr>
+      <tr><td>2025-10-31</td><td class="num">$0.891</td><td class="num">$0.93</td><td class="num ">+4.4%</td></tr>
+      <tr class="highlight"><td>2026-01-31</td><td class="num">$0.937</td><td class="num">$1.03</td><td class="num pos">+9.9%</td></tr>
+      </tbody>
+    </table>
+    <div class="an-flag pos">FY26 guidance raised. Near-term deceleration (Q3 $0.79) reflects M&A dilution. H2 FY26 implied $1.715 total (avg $0.858/quarter) suggests re-acceleration into Q4 FY26 beyond the initial integration dip.</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px">
+      <div class="an-kpi">
+        <div class="an-kpi-label">H1 FY26 Actual</div>
+        <div class="an-kpi-val">$1.96</div>
+        <div class="an-kpi-note">Q1 $0.93 + Q2 $1.03</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">H2 FY26 Implied</div>
+        <div class="an-kpi-val">$1.715</div>
+        <div class="an-kpi-note">FY mid $3.675 − H1 $1.96</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">H2 Avg / Quarter</div>
+        <div class="an-kpi-val">$0.858</div>
+        <div class="an-kpi-note">Implies re-acceleration into Q4 FY26</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Step 10: Valuation (D3) ──────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>Step 10 — Valuation</h2>
+    <span class="tag" style="background:rgba(108,59,170,.12);color:#6c3baa">D3 departure</span>
+  </div>
+  <div class="section-body">
+    <div class="an-flag" style="border-left-color:#6c3baa;background:rgba(45,32,66,.05);margin-bottom:14px">
+      <strong>Departure D3:</strong> No DCF. Peer NTM EV/Revenue multiples used for PT range.
+    </div>
+    <table class="an-tbl" style="margin-bottom:16px">
+      <thead><tr><th>Symbol</th><th>EV/Rev TTM</th><th>EV/Rev NTM</th><th>Rev Growth</th><th>OI Margin</th><th>Notes</th></tr></thead>
+      <tbody>
+      <tr><td><strong>CRWD</strong></td><td class="num">34.2x</td><td class="num">—</td><td class="num">23.0%</td><td class="num">25.0%</td><td class="muted">Premium multiple reflects faster growth and ARR recovery</td></tr>
+      <tr><td><strong>FTNT</strong></td><td class="num">12.5x</td><td class="num">—</td><td class="num">20.0%</td><td class="num">35.8%</td><td class="muted">Margin leader; lower multiple reflects more hardware-oriented mix</td></tr>
+      <tr><td><strong>ZS</strong></td><td class="num">—</td><td class="num">—</td><td class="num">25.0%</td><td class="num">23.0%</td><td class="muted">EV not pre-staged; revenue miss this quarter notable</td></tr>
+      <tr class="highlight"><td><strong>PANW</strong></td><td class="num">11.7x</td><td class="num">9.6x</td><td class="num">14.9%</td><td class="num">30.3%</td><td class="muted">Subject company — NTM multiple computed</td></tr>
+      </tbody>
+    </table>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px">
+      <div class="an-kpi">
+        <div class="an-kpi-label">PANW Market Cap</div>
+        <div class="an-kpi-val">$116.2B</div>
+        <div class="an-kpi-note">$163.5 × 711M shares</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">TTM Revenue</div>
+        <div class="an-kpi-val">$9,893M</div>
+        <div class="an-kpi-note">EV/Rev TTM 11.7x</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">NTM Revenue (est.)</div>
+        <div class="an-kpi-val">$12,055M</div>
+        <div class="an-kpi-note">EV/Rev NTM 9.6x</div>
+      </div>
+      <div class="an-kpi">
+        <div class="an-kpi-label">Target Multiple Range</div>
+        <div class="an-kpi-val">10.0–12.0x NTM</div>
+        <div class="an-kpi-note">Discount to CRWD reflects lower rev growth</div>
+      </div>
+    </div>
+    <div class="an-flag pos">PANW trades at 11.7x TTM and 9.6x NTM EV/Revenue at the Feb 17 close of $163.5. Applying 10.0–12.0x NTM (discount to CRWD's 34.18x reflects PANW's lower growth rate of ~14.9% vs CRWD's ~23.0%) yields PT range $170–$203. Midpoint $186 implies +13.8% upside from post-earnings close.</div>
+    <div style="margin-top:10px;font-size:11px;color:#888;padding:8px 12px;background:#f7f7f9;border-radius:4px">
+      <strong>NTM build:</strong>
+      Q3 FY26 guided $2,943M +
+      Q4 FY26 implied $3,284M +
+      Q1 FY27 est $2,845M +
+      Q2 FY27 est $2,983M =
+      <strong>$12,055M</strong>
+      &nbsp;·&nbsp; <em>FY27 H1 estimated at +15% YoY from FY26 H1 actuals</em>
+    </div>
+  </div>
+</div>
+
+<!-- ── Skill Departures Panel ────────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>Skill Departures</h2>
+    <span class="tag">where this run adapted the official workflow and why</span>
+  </div>
+  <div class="section-body">
+    <div class="dep-panel">
+      <div class="dep-header">
+        equity-research/earnings-analysis v0.1.0 (financial-services-plugins) &nbsp;·&nbsp; 4 departures &nbsp;·&nbsp; all other steps follow skill spec exactly
+      </div>
+    <div class="dep-row">
+      <span class="dep-badge">D1</span>
+      <div class="dep-content">
+        <div class="dep-step">Step 1 — Data Freshness</div>
+        <div class="dep-what">Pre-staged raw files used instead of live web search.</div>
+        <div class="dep-why">Why: Workshop reproducibility — the same output must render reliably before June 4, 2026. Live fetch produces non-deterministic content.</div>
+      </div>
+    </div>
+    <div class="dep-row">
+      <span class="dep-badge">D2</span>
+      <div class="dep-content">
+        <div class="dep-step">Step 9 — Model Update</div>
+        <div class="dep-what">Directional EPS trajectory shown instead of old-vs-new model table.</div>
+        <div class="dep-why">Why: No prior-quarter analyst model maintained for PANW in this pipeline. Consensus EPS history from yfinance used as substitute.</div>
+      </div>
+    </div>
+    <div class="dep-row">
+      <span class="dep-badge">D3</span>
+      <div class="dep-content">
+        <div class="dep-step">Step 10 — Valuation</div>
+        <div class="dep-what">Peer NTM EV/Revenue multiples only — no DCF model.</div>
+        <div class="dep-why">Why: No Bloomberg/FactSet access for live consensus forward estimates. Pre-staged peer files provide sufficient data for a directional price target range.</div>
+      </div>
+    </div>
+    <div class="dep-row">
+      <span class="dep-badge">D4</span>
+      <div class="dep-content">
+        <div class="dep-step">Step 12–16 — Output Format</div>
+        <div class="dep-what">Structured JSON rendered as HTML (Tab 2) instead of 8–12 page DOCX.</div>
+        <div class="dep-why">Why: Tab 2 of earnings_baseline.html is a web dashboard section. DOCX output format does not apply.</div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
 </div><!-- /tab-sellside container -->
 </div><!-- /tab-sellside -->
+
 
 <!-- ════════════════════════════════════════════════════════════════════════
      TAB 3 — PLACEHOLDER
@@ -996,8 +1407,8 @@
 </div><!-- /tab-buyside -->
 
 <div class="page-footer">
-  <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q2 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated 2026-05-28 08:48<br>
-  Tab 1: Baseline Data (real data from DB) &nbsp;·&nbsp; Tab 2: Placeholder — analysis not yet run &nbsp;·&nbsp; Tab 3: Placeholder — design not yet agreed<br>
+  <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q2 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated 2026-05-28 09:55<br>
+  Tab 1: Baseline Data (real data from DB) &nbsp;·&nbsp; Tab 2: Earnings Analysis (equity-research/earnings-analysis, 4 departures documented) &nbsp;·&nbsp; Tab 3: Placeholder — design not yet agreed<br>
   Phase B: re-run rebuild_db.py → generate_baseline.py after June 2, 2026 Q3 print
 </div>
 

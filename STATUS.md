@@ -1,22 +1,24 @@
 # Status
 
-*Last updated: 2026-05-28 (historical narrative and completed task detail in
+*Last updated: 2026-05-28 EOD (historical narrative and completed task detail in
 `STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
 
 ---
 
 ## Current Phase
 
-Phase 2 (demo build) — **Tab 1 visual layer in progress. Pipeline rebuild complete.**
+Phase 2 (demo build) — **Tab 1 complete. Tab 2 complete (Steps 5–11, recommendation live).**
 
-All 6 stages of the pipeline rebuild landed on 2026-05-27. Tab 1 charts are rendering with verified Q2 FY26 figures. Two visual enhancements added 2026-05-28: peer comparison bar charts (Revenue YoY, Non-GAAP OI Margin) and price event markers ①②③④. Two KPI fields remain unpopulated: `after_hours_reaction` (no daily price data in current pipeline) and sentiment signal numeric values (client-rendered source sites). See Data Quality Notes.
+Tab 1 is finalized: all KPIs populated with actual values (200 rows, 39/39 provenance tests pass). After-hours reaction: -8.5% (yfinance daily, overnight gap). Sentiment signals: short interest 2.8% float (Playwright/MarketBeat) and P/C ratio 1.09/4.02 (Playwright/Barchart).
 
-**Rebuild summary:** `demo/data/gather.py` → 7 raw files → `demo/data/rebuild_db.py` → 13 tables / 198 rows → `demo/data/tests/test_provenance.py` (39 tests, all pass) → `demo/generate_baseline.py` → `demo/earnings_baseline.html`.
+Tab 2 is complete: full sell-side analysis following `equity-research/earnings-analysis v0.1.0` (financial-services-plugins). Steps 5–11 rendered from real JSON output. Rating: Maintain Outperform, PT $186 (+13.8% upside). 4 departures from skill spec documented and visible in Tab 2. Script: `demo/data/analysis/run_earnings_analysis.py`. Output: `demo/data/analysis/panw_q2fy26_earnings_analysis.json`.
+
+**Rebuild summary:** `demo/data/gather.py` → 7 raw files → `demo/data/rebuild_db.py` → 13 tables / 200 rows → `demo/data/tests/test_provenance.py` (39 tests, all pass) → `demo/generate_baseline.py` → `demo/earnings_baseline.html`.
 
 **Full findings (audit):** `data-audit-findings.md` (project root).
 **Schema source-of-truth:** `demo/data/SCHEMA.md`.
 
-**Next action (Tab 1 completion):** Populate after-hours reaction and sentiment signal values — see Data Quality Notes for approach. After Tab 1 is complete, begin workshop materials track.
+**Next action:** Tab 3 design (buy-side layer), demo script, workshop materials. See Active Tasks.
 
 ---
 
@@ -36,9 +38,19 @@ All 6 stages of the pipeline rebuild landed on 2026-05-27. Tab 1 charts are rend
 - [x] Peer comparison charts added (Revenue YoY, Non-GAAP OI Margin horizontal bars, 4 companies)
 - [x] Price event markers added ①②③④ — earnings report months annotated on price chart
 
-### Tab 1 completion
-- [ ] After-hours reaction KPI — add daily price data to `gather.py` (yfinance 1d interval) and backfill `stock_ah_change_pct` + `stock_close_day_of` KPIs in `rebuild_db.py`
-- [ ] Sentiment signal values — extract short interest % and put/call ratio from context notes; update `sentiment_signals` table with `value` fields (tag as May 2026 current figures, confidence=estimated)
+### Tab 1 completion — COMPLETE
+- [x] After-hours reaction KPI — yfinance daily, Feb 17 close $163.50 → Feb 18 open $149.55, gap -8.53%
+- [x] Sentiment signal values — Playwright extraction: short interest 2.8% float (MarketBeat), P/C 1.09/4.02 (Barchart). Confidence=actual.
+- [x] Sentiment cards redesigned — story-first layout surfacing the positioning/reaction disconnect
+
+### Tab 2 — COMPLETE
+- [x] Agreed on content: full sell-side output Steps 5–11 including recommendation (Option A)
+- [x] Skill: `equity-research/earnings-analysis v0.1.0` from financial-services-plugins
+- [x] Script written: `demo/data/analysis/run_earnings_analysis.py` — 4 departures labeled inline
+- [x] Output validated: `panw_q2fy26_earnings_analysis.json` — Rating: Maintain Outperform, PT $186
+- [x] Tab 2 wired into `generate_baseline.py` — all steps render from JSON, departures panel visible
+- [x] HTML confirmed in browser — Steps 5–11 all render, peer table, valuation, skill banner
+- [ ] Phase B: re-run on Q3 FY26 after June 2 print (same script, new data)
 
 ### Workshop design
 - [ ] Compressed 45-minute agenda pass
@@ -74,8 +86,8 @@ All 6 stages of the pipeline rebuild landed on 2026-05-27. Tab 1 charts are rend
 4. Beat 2 prompt sequence: what are the exact structured prompts participants follow?
 5. Concrete take-home artifact: branch-demo had a dashboard. What is earnings-demo's equivalent?
 6. Fallback recording scope: both moves, or just Move 1? Move 2 (sentiment layer) is easiest to skip.
-7. Pipeline (remaining from `data-audit-findings.md`, fiscal-year question now resolved): mounted FS workaround for DB, treatment of omitted Form 4s, sparse Q4 FY25 row handling, peer period footnote convention.
-8. Stage-gate discipline started in Design — is the same commit pattern (`STAGE: <name> approved`) sufficient for Data/Script/Test/Learn, or does each stage need mechanical guardrails (tests, linters) per the Session 4 finding?
+7. **Tab 2 design:** What does Tab 2 contain — sell-side baseline (Steps 5–8 from Earnings Reviewer), buy-side framework output, or both? Does it serve as a static reference during the demo, or as the captured artifact of the live demo session? Resolve before any analysis is run.
+8. Pipeline (remaining from `data-audit-findings.md`): treatment of omitted Form 4s, sparse Q4 FY25 row handling, peer period footnote convention.
 
 ---
 
