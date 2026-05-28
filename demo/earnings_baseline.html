@@ -239,6 +239,12 @@
   /* ── Misc ── */
   .event-key { font-weight: 600; color: var(--purple); font-size: 12px; }
   .divider { height: 1px; background: var(--border); margin: 14px 0; }
+  .ev-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--blue); color: #fff; font-size: 10px; font-weight: 700; flex-shrink: 0;
+  }
+  .ev-badge.primary { background: var(--purple); }
 
   /* ── Buy-side tab specific ── */
   .bs-context {
@@ -356,7 +362,7 @@
       <p>Fiscal period ending Jan 31, 2026 &nbsp;·&nbsp; Reported Feb 17, 2026 &nbsp;·&nbsp; <em>Everyone Is Wrong About AI, Including Me</em> — Digital FutureFest &#39;26</p>
     </div>
     <div class="header-meta">
-      Generated 2026-05-27 22:31<br>
+      Generated 2026-05-27 22:55<br>
       13 tables · 198 rows · earnings.db
       <br><span class="header-badge">Aileron Group · Workshop Use Only</span>
     </div>
@@ -638,6 +644,22 @@
   </div>
 </div>
 
+<!-- ═══ PEER COMPARISON CHARTS ═════════════════════════════════════════════ -->
+<div class="two-col">
+  <div class="section">
+    <div class="section-header"><h2>Revenue Growth — YoY</h2><span class="tag">Most Recent Reported Quarter per Company</span></div>
+    <div class="section-body">
+      <div class="chart-wrap"><canvas id="peerRevYoyChart"></canvas></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><h2>Non-GAAP Operating Margin</h2><span class="tag">Most Recent Reported Quarter per Company</span></div>
+    <div class="section-body">
+      <div class="chart-wrap"><canvas id="peerOiMarginChart"></canvas></div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ BUY-SIDE SIGNALS ════════════════════════════════════════════════════ -->
 <div class="two-col">
   <div class="section">
@@ -856,44 +878,40 @@ Data availability: Historical put/call ratios on barchart.com…</div>
     <div class="divider"></div>
     <table>
       <thead>
-        <tr><th>Event</th><th>Month</th><th class="num">Open</th><th class="num">High</th><th class="num">Low</th><th class="num">Close</th><th>Note</th></tr>
+        <tr><th></th><th>Event</th><th class="num">Open</th><th class="num">High</th><th class="num">Low</th><th class="num">Close</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td class="event-key">Q2 Fy25 Earnings</td>
-          <td>2025-02</td>
+          <td><span class="ev-badge">1</span></td>
+          <td class="event-key">Q2 FY25 earnings report month (Feb 13, 2025)</td>
           <td class="num">$181.56</td>
           <td class="num">$208.39</td>
           <td class="num">$180.12</td>
           <td class="num">$190.43</td>
-          <td style="font-size:11px;color:var(--muted)">Q2 FY25 earnings report month (Feb 13, 2025)</td>
         </tr>
         <tr>
-          <td class="event-key">Q4 Fy25 Earnings</td>
-          <td>2025-08</td>
+          <td><span class="ev-badge">2</span></td>
+          <td class="event-key">Q4 FY25 earnings report month (Aug 18, 2025)</td>
           <td class="num">$173.13</td>
           <td class="num">$192.79</td>
           <td class="num">$165.21</td>
           <td class="num">$190.52</td>
-          <td style="font-size:11px;color:var(--muted)">Q4 FY25 earnings report month (Aug 18, 2025)</td>
         </tr>
         <tr>
-          <td class="event-key">Q1 Fy26 Earnings</td>
-          <td>2025-11</td>
+          <td><span class="ev-badge">3</span></td>
+          <td class="event-key">Q1 FY26 earnings report month (Nov 19, 2025)</td>
           <td class="num">$219.97</td>
           <td class="num">$220.47</td>
           <td class="num">$180.05</td>
           <td class="num">$190.13</td>
-          <td style="font-size:11px;color:var(--muted)">Q1 FY26 earnings report month (Nov 19, 2025)</td>
         </tr>
         <tr>
-          <td class="event-key">Q2 Fy26 Earnings</td>
-          <td>2026-02</td>
+          <td><span class="ev-badge primary">4</span></td>
+          <td class="event-key">Q2 FY26 earnings report month (Feb 17, 2026)</td>
           <td class="num">$177.45</td>
           <td class="num">$177.73</td>
           <td class="num">$139.57</td>
           <td class="num">$148.92</td>
-          <td style="font-size:11px;color:var(--muted)">Q2 FY26 earnings report month (Feb 17, 2026)</td>
         </tr>
       </tbody>
     </table>
@@ -960,7 +978,7 @@ Data availability: Historical put/call ratios on barchart.com…</div>
 </div><!-- /tab-buyside -->
 
 <div class="page-footer">
-  <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q2 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated 2026-05-27 22:31<br>
+  <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q2 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated 2026-05-27 22:55<br>
   Tab 1: Baseline Data (real data from DB) &nbsp;·&nbsp; Tab 2: Placeholder — analysis not yet run &nbsp;·&nbsp; Tab 3: Placeholder — design not yet agreed<br>
   Phase B: re-run rebuild_db.py → generate_baseline.py after June 2, 2026 Q3 print
 </div>
@@ -978,6 +996,43 @@ function showTab(name, btn) {
   tab.classList.add('active');
   if (btn) btn.classList.add('active');
 }
+
+// ── Price event markers (from DB price_events, numbered chronologically) ─────
+var priceEventMarkers = [{"idx": 44, "num": 1, "primary": false}, {"idx": 50, "num": 2, "primary": false}, {"idx": 53, "num": 3, "primary": false}, {"idx": 56, "num": 4, "primary": true}];
+var earningsMarkerPlugin = {
+  id: 'earningsMarkers',
+  afterDraw: function(chart) {
+    if (chart.canvas.id !== 'priceChart') return;
+    var ctx = chart.ctx, xScale = chart.scales.x, yScale = chart.scales.y;
+    if (!xScale || !yScale) return;
+    var top = yScale.top, bottom = yScale.bottom;
+    priceEventMarkers.forEach(function(ev) {
+      var x = xScale.getPixelForValue(ev.idx);
+      if (x == null || isNaN(x)) return;
+      ctx.save();
+      // Vertical line
+      ctx.beginPath();
+      ctx.strokeStyle = ev.primary ? '#2D2042' : '#60B5E5';
+      ctx.lineWidth   = ev.primary ? 1.5 : 1;
+      if (!ev.primary) ctx.setLineDash([4, 3]);
+      ctx.moveTo(x, top); ctx.lineTo(x, bottom);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      // Numbered circle at top of plot area
+      var r = 8, cy = top - r - 4;
+      ctx.beginPath();
+      ctx.arc(x, cy, r, 0, 2 * Math.PI);
+      ctx.fillStyle = ev.primary ? '#2D2042' : '#60B5E5';
+      ctx.fill();
+      ctx.font = 'bold 8px Montserrat, sans-serif';
+      ctx.fillStyle = '#fff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(String(ev.num), x, cy);
+      ctx.restore();
+    });
+  }
+};
 
 // ── Charts ────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
@@ -1121,14 +1176,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   } catch(e) { console.error('epsChart:', e); }
 
-  // ── Price history ────────────────────────────────────────────────────────
+  // ── Price history with earnings event markers ①②③④ ──────────────────────
   try {
     var priceLabels = ["2021-06-01", "2021-07-01", "2021-08-01", "2021-09-01", "2021-10-01", "2021-11-01", "2021-12-01", "2022-01-01", "2022-02-01", "2022-03-01", "2022-04-01", "2022-05-01", "2022-06-01", "2022-07-01", "2022-08-01", "2022-09-01", "2022-10-01", "2022-11-01", "2022-12-01", "2023-01-01", "2023-02-01", "2023-03-01", "2023-04-01", "2023-05-01", "2023-06-01", "2023-07-01", "2023-08-01", "2023-09-01", "2023-10-01", "2023-11-01", "2023-12-01", "2024-01-01", "2024-02-01", "2024-03-01", "2024-04-01", "2024-05-01", "2024-06-01", "2024-07-01", "2024-08-01", "2024-09-01", "2024-10-01", "2024-11-01", "2024-12-01", "2025-01-01", "2025-02-01", "2025-03-01", "2025-04-01", "2025-05-01", "2025-06-01", "2025-07-01", "2025-08-01", "2025-09-01", "2025-10-01", "2025-11-01", "2025-12-01", "2026-01-01", "2026-02-01", "2026-03-01", "2026-04-01", "2026-05-01"];
     var priceData   = [61.8417, 66.5083, 76.84, 79.8333, 84.8483, 91.1567, 92.7933, 86.2333, 99.0417, 103.7517, 93.5467, 83.7967, 82.3233, 83.1833, 92.8017, 81.895, 85.795, 84.95, 69.77, 79.32, 94.185, 99.87, 91.23, 106.695, 127.755, 124.98, 121.65, 117.22, 121.51, 147.545, 147.44, 169.255, 155.275, 142.065, 145.445, 147.455, 169.505, 162.365, 181.36, 170.9, 180.165, 193.91, 181.96, 184.42, 190.43, 170.64, 186.93, 192.42, 204.64, 173.6, 190.52, 203.62, 220.24, 190.13, 184.2, 176.97, 148.92, 160.32, 179.32, 248.47];
-    var earningsIdx = priceLabels.findIndex(function(l) { return l === '2025-02-28'; });
-    var ptColors = priceLabels.map(function(_, i) { return i === earningsIdx ? C.red : C.blue; });
     new Chart(document.getElementById('priceChart'), {
       type: 'line',
+      plugins: [earningsMarkerPlugin],
       data: {
         labels: priceLabels,
         datasets: [{
@@ -1138,14 +1192,15 @@ document.addEventListener('DOMContentLoaded', function() {
           backgroundColor: 'rgba(96,181,229,.08)',
           fill: true,
           borderWidth: 2,
-          pointRadius: 2.5,
-          pointBackgroundColor: ptColors,
+          pointRadius: 2,
+          pointBackgroundColor: C.blue,
           tension: 0.15
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        layout: { padding: { top: 24 } },
         plugins: { legend: { display: false } },
         scales: {
           x: { grid: { color: C.border }, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
@@ -1154,6 +1209,66 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   } catch(e) { console.error('priceChart:', e); }
+
+  // ── Peer revenue YoY growth ──────────────────────────────────────────────
+  try {
+    new Chart(document.getElementById('peerRevYoyChart'), {
+      type: 'bar',
+      data: {
+        labels: ["PANW", "CRWD", "FTNT", "ZS"],
+        datasets: [{
+          label: 'Revenue YoY Growth (%)',
+          data: [14.9, 23.0, 20.0, 25.0],
+          backgroundColor: ['rgba(45,32,66,.8)', 'rgba(96,181,229,.8)', 'rgba(30,126,52,.8)', 'rgba(183,119,13,.8)'],
+          borderColor:     ['#2D2042', '#60B5E5', '#1E7E34', '#B7770D'],
+          borderWidth: 1.5,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Revenue YoY Growth — Most Recent Reported Quarter', color: C.muted, font: { size: 11 } }
+        },
+        scales: {
+          x: { grid: { color: C.border }, ticks: { font: { size: 10 }, callback: function(v) { return v + '%'; } } },
+          y: { grid: { display: false }, ticks: { font: { size: 11, weight: '600' } } }
+        }
+      }
+    });
+  } catch(e) { console.error('peerRevYoyChart:', e); }
+
+  // ── Peer non-GAAP operating margin ──────────────────────────────────────
+  try {
+    new Chart(document.getElementById('peerOiMarginChart'), {
+      type: 'bar',
+      data: {
+        labels: ["PANW", "CRWD", "FTNT", "ZS"],
+        datasets: [{
+          label: 'Non-GAAP OI Margin (%)',
+          data: [30.3, 25.0, 35.8, 23.0],
+          backgroundColor: ['rgba(45,32,66,.8)', 'rgba(96,181,229,.8)', 'rgba(30,126,52,.8)', 'rgba(183,119,13,.8)'],
+          borderColor:     ['#2D2042', '#60B5E5', '#1E7E34', '#B7770D'],
+          borderWidth: 1.5,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Non-GAAP Operating Margin — Most Recent Reported Quarter', color: C.muted, font: { size: 11 } }
+        },
+        scales: {
+          x: { grid: { color: C.border }, ticks: { font: { size: 10 }, callback: function(v) { return v + '%'; } } },
+          y: { grid: { display: false }, ticks: { font: { size: 11, weight: '600' } } }
+        }
+      }
+    });
+  } catch(e) { console.error('peerOiMarginChart:', e); }
 
 });
 </script>

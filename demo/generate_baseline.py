@@ -166,6 +166,19 @@ eps_est     = [e['eps_nongaap_estimate'] for e in eps_chart]
 price_labels = [p['month_date'] for p in price_hist]
 price_closes = [p['close_price'] for p in price_hist]
 
+# Price event markers — sorted chronologically, numbered 1–N for chart annotation
+price_events_sorted = sorted(price_events, key=lambda e: e['event_month'])
+price_event_markers = []
+for _i, _ev in enumerate(price_events_sorted):
+    _idx = next((j for j, lbl in enumerate(price_labels) if lbl == _ev['event_month']), None)
+    if _idx is not None:
+        price_event_markers.append({'idx': _idx, 'num': _i + 1, 'primary': _ev['event_key'] == 'q2_fy26_earnings'})
+
+# Peer comparison chart data (already in PEER_ROWS, no new queries needed)
+peer_chart_symbols   = [r['symbol'] for r in PEER_ROWS]
+peer_chart_rev_yoy   = [r.get('rev_yoy') for r in PEER_ROWS]
+peer_chart_oi_margin = [r.get('oi_margin') for r in PEER_ROWS]
+
 SIGNAL_BADGE = {'bullish': '▲', 'bearish': '▼', 'neutral': '●'}
 generated_at = datetime.now().strftime('%Y-%m-%d %H:%M')
 
@@ -436,6 +449,12 @@ html = f"""<!DOCTYPE html>
   /* ── Misc ── */
   .event-key {{ font-weight: 600; color: var(--purple); font-size: 12px; }}
   .divider {{ height: 1px; background: var(--border); margin: 14px 0; }}
+  .ev-badge {{
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--blue); color: #fff; font-size: 10px; font-weight: 700; flex-shrink: 0;
+  }}
+  .ev-badge.primary {{ background: var(--purple); }}
 
   /* ── Buy-side tab specific ── */
   .bs-context {{
@@ -814,6 +833,22 @@ html += """      </tbody>
   </div>
 </div>
 
+<!-- ═══ PEER COMPARISON CHARTS ═════════════════════════════════════════════ -->
+<div class="two-col">
+  <div class="section">
+    <div class="section-header"><h2>Revenue Growth — YoY</h2><span class="tag">Most Recent Reported Quarter per Company</span></div>
+    <div class="section-body">
+      <div class="chart-wrap"><canvas id="peerRevYoyChart"></canvas></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><h2>Non-GAAP Operating Margin</h2><span class="tag">Most Recent Reported Quarter per Company</span></div>
+    <div class="section-body">
+      <div class="chart-wrap"><canvas id="peerOiMarginChart"></canvas></div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ BUY-SIDE SIGNALS ════════════════════════════════════════════════════ -->
 <div class="two-col">
   <div class="section">
@@ -910,20 +945,20 @@ html += """  </div>
     <div class="divider"></div>
     <table>
       <thead>
-        <tr><th>Event</th><th>Month</th><th class="num">Open</th><th class="num">High</th><th class="num">Low</th><th class="num">Close</th><th>Note</th></tr>
+        <tr><th></th><th>Event</th><th class="num">Open</th><th class="num">High</th><th class="num">Low</th><th class="num">Close</th></tr>
       </thead>
       <tbody>
 """
 
-for ev in price_events:
+for _n, ev in enumerate(price_events_sorted, 1):
+    _bc = 'ev-badge primary' if ev['event_key'] == 'q2_fy26_earnings' else 'ev-badge'
     html += f"""        <tr>
-          <td class="event-key">{ev['event_key'].replace('_',' ').title()}</td>
-          <td>{ev['event_month'][:7]}</td>
+          <td><span class="{_bc}">{_n}</span></td>
+          <td class="event-key">{ev['event_note'] or ev['event_key'].replace('_',' ').title()}</td>
           <td class="num">${ev['open_price']:.2f}</td>
           <td class="num">${ev['high_price']:.2f}</td>
           <td class="num">${ev['low_price']:.2f}</td>
           <td class="num">${ev['close_price']:.2f}</td>
-          <td style="font-size:11px;color:var(--muted)">{(ev['event_note'] or '')[:120]}{"…" if ev['event_note'] and len(ev['event_note']) > 120 else ""}</td>
         </tr>
 """
 
@@ -1010,6 +1045,43 @@ function showTab(name, btn) {{
   tab.classList.add('active');
   if (btn) btn.classList.add('active');
 }}
+
+// ── Price event markers (from DB price_events, numbered chronologically) ─────
+var priceEventMarkers = {json.dumps(price_event_markers)};
+var earningsMarkerPlugin = {{
+  id: 'earningsMarkers',
+  afterDraw: function(chart) {{
+    if (chart.canvas.id !== 'priceChart') return;
+    var ctx = chart.ctx, xScale = chart.scales.x, yScale = chart.scales.y;
+    if (!xScale || !yScale) return;
+    var top = yScale.top, bottom = yScale.bottom;
+    priceEventMarkers.forEach(function(ev) {{
+      var x = xScale.getPixelForValue(ev.idx);
+      if (x == null || isNaN(x)) return;
+      ctx.save();
+      // Vertical line
+      ctx.beginPath();
+      ctx.strokeStyle = ev.primary ? '#2D2042' : '#60B5E5';
+      ctx.lineWidth   = ev.primary ? 1.5 : 1;
+      if (!ev.primary) ctx.setLineDash([4, 3]);
+      ctx.moveTo(x, top); ctx.lineTo(x, bottom);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      // Numbered circle at top of plot area
+      var r = 8, cy = top - r - 4;
+      ctx.beginPath();
+      ctx.arc(x, cy, r, 0, 2 * Math.PI);
+      ctx.fillStyle = ev.primary ? '#2D2042' : '#60B5E5';
+      ctx.fill();
+      ctx.font = 'bold 8px Montserrat, sans-serif';
+      ctx.fillStyle = '#fff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(String(ev.num), x, cy);
+      ctx.restore();
+    }});
+  }}
+}};
 
 // ── Charts ────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {{
@@ -1153,14 +1225,13 @@ document.addEventListener('DOMContentLoaded', function() {{
     }});
   }} catch(e) {{ console.error('epsChart:', e); }}
 
-  // ── Price history ────────────────────────────────────────────────────────
+  // ── Price history with earnings event markers ①②③④ ──────────────────────
   try {{
     var priceLabels = {json.dumps(price_labels)};
     var priceData   = {json.dumps(price_closes)};
-    var earningsIdx = priceLabels.findIndex(function(l) {{ return l === '2025-02-28'; }});
-    var ptColors = priceLabels.map(function(_, i) {{ return i === earningsIdx ? C.red : C.blue; }});
     new Chart(document.getElementById('priceChart'), {{
       type: 'line',
+      plugins: [earningsMarkerPlugin],
       data: {{
         labels: priceLabels,
         datasets: [{{
@@ -1170,14 +1241,15 @@ document.addEventListener('DOMContentLoaded', function() {{
           backgroundColor: 'rgba(96,181,229,.08)',
           fill: true,
           borderWidth: 2,
-          pointRadius: 2.5,
-          pointBackgroundColor: ptColors,
+          pointRadius: 2,
+          pointBackgroundColor: C.blue,
           tension: 0.15
         }}]
       }},
       options: {{
         responsive: true,
         maintainAspectRatio: false,
+        layout: {{ padding: {{ top: 24 }} }},
         plugins: {{ legend: {{ display: false }} }},
         scales: {{
           x: {{ grid: {{ color: C.border }}, ticks: {{ maxTicksLimit: 12, font: {{ size: 10 }} }} }},
@@ -1186,6 +1258,66 @@ document.addEventListener('DOMContentLoaded', function() {{
       }}
     }});
   }} catch(e) {{ console.error('priceChart:', e); }}
+
+  // ── Peer revenue YoY growth ──────────────────────────────────────────────
+  try {{
+    new Chart(document.getElementById('peerRevYoyChart'), {{
+      type: 'bar',
+      data: {{
+        labels: {json.dumps(peer_chart_symbols)},
+        datasets: [{{
+          label: 'Revenue YoY Growth (%)',
+          data: {json.dumps(peer_chart_rev_yoy)},
+          backgroundColor: ['rgba(45,32,66,.8)', 'rgba(96,181,229,.8)', 'rgba(30,126,52,.8)', 'rgba(183,119,13,.8)'],
+          borderColor:     ['#2D2042', '#60B5E5', '#1E7E34', '#B7770D'],
+          borderWidth: 1.5,
+        }}]
+      }},
+      options: {{
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {{
+          legend: {{ display: false }},
+          title: {{ display: true, text: 'Revenue YoY Growth — Most Recent Reported Quarter', color: C.muted, font: {{ size: 11 }} }}
+        }},
+        scales: {{
+          x: {{ grid: {{ color: C.border }}, ticks: {{ font: {{ size: 10 }}, callback: function(v) {{ return v + '%'; }} }} }},
+          y: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 11, weight: '600' }} }} }}
+        }}
+      }}
+    }});
+  }} catch(e) {{ console.error('peerRevYoyChart:', e); }}
+
+  // ── Peer non-GAAP operating margin ──────────────────────────────────────
+  try {{
+    new Chart(document.getElementById('peerOiMarginChart'), {{
+      type: 'bar',
+      data: {{
+        labels: {json.dumps(peer_chart_symbols)},
+        datasets: [{{
+          label: 'Non-GAAP OI Margin (%)',
+          data: {json.dumps(peer_chart_oi_margin)},
+          backgroundColor: ['rgba(45,32,66,.8)', 'rgba(96,181,229,.8)', 'rgba(30,126,52,.8)', 'rgba(183,119,13,.8)'],
+          borderColor:     ['#2D2042', '#60B5E5', '#1E7E34', '#B7770D'],
+          borderWidth: 1.5,
+        }}]
+      }},
+      options: {{
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {{
+          legend: {{ display: false }},
+          title: {{ display: true, text: 'Non-GAAP Operating Margin — Most Recent Reported Quarter', color: C.muted, font: {{ size: 11 }} }}
+        }},
+        scales: {{
+          x: {{ grid: {{ color: C.border }}, ticks: {{ font: {{ size: 10 }}, callback: function(v) {{ return v + '%'; }} }} }},
+          y: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 11, weight: '600' }} }} }}
+        }}
+      }}
+    }});
+  }} catch(e) {{ console.error('peerOiMarginChart:', e); }}
 
 }});
 </script>
