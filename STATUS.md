@@ -1,22 +1,22 @@
 # Status
 
-*Last updated: 2026-05-27 (end of day; historical narrative and completed task
-detail in `STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
+*Last updated: 2026-05-28 (historical narrative and completed task detail in
+`STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
 
 ---
 
 ## Current Phase
 
-Phase 2 (demo build) — **pipeline rebuild complete. Tab 1 is final. Phase 2 unpaused.**
+Phase 2 (demo build) — **Tab 1 visual layer in progress. Pipeline rebuild complete.**
 
-All 6 stages of the pipeline rebuild landed on 2026-05-27 (6 commits, all gated by `STAGE:` commits). The DB is correct and reproducible. `earnings_baseline.html` Tab 1 shows verified Q2 FY26 figures. Tabs 2 and 3 remain honest placeholders pending the earnings reviewer process design.
+All 6 stages of the pipeline rebuild landed on 2026-05-27. Tab 1 charts are rendering with verified Q2 FY26 figures. Two visual enhancements added 2026-05-28: peer comparison bar charts (Revenue YoY, Non-GAAP OI Margin) and price event markers ①②③④. Two KPI fields remain unpopulated: `after_hours_reaction` (no daily price data in current pipeline) and sentiment signal numeric values (client-rendered source sites). See Data Quality Notes.
 
-**Rebuild summary:** `demo/data/gather.py` → 7 raw files → `demo/data/rebuild_db.py` → 13 tables / 197 rows → `demo/data/tests/test_provenance.py` (39 tests, all pass) → `demo/generate_baseline.py` → `demo/earnings_baseline.html`.
+**Rebuild summary:** `demo/data/gather.py` → 7 raw files → `demo/data/rebuild_db.py` → 13 tables / 198 rows → `demo/data/tests/test_provenance.py` (39 tests, all pass) → `demo/generate_baseline.py` → `demo/earnings_baseline.html`.
 
 **Full findings (audit):** `data-audit-findings.md` (project root).
 **Schema source-of-truth:** `demo/data/SCHEMA.md`.
 
-**Next action:** Begin workshop materials track (compressed 45-min agenda, exercise brief, facilitator guide, run of show). Separately, begin Tab 2 design — the earnings reviewer process for the demo block needs to be designed, tested, and run before Tab 2 gets populated.
+**Next action (Tab 1 completion):** Populate after-hours reaction and sentiment signal values — see Data Quality Notes for approach. After Tab 1 is complete, begin workshop materials track.
 
 ---
 
@@ -32,6 +32,13 @@ All 6 stages of the pipeline rebuild landed on 2026-05-27 (6 commits, all gated 
 - [x] `SCHEMA.md` updated with verified Q2 FY26 figures
 - [x] `LESSONS_LEARNED.md` updated (Sessions 6 and 7)
 - [x] Stage-gate commits: Design, Data, Script, Test, Learn, Build all committed
+- [x] XBRL integration: backfilled 4 null PANW YoY values; populated GAAP gross margins for FTNT/ZS peers
+- [x] Peer comparison charts added (Revenue YoY, Non-GAAP OI Margin horizontal bars, 4 companies)
+- [x] Price event markers added ①②③④ — earnings report months annotated on price chart
+
+### Tab 1 completion
+- [ ] After-hours reaction KPI — add daily price data to `gather.py` (yfinance 1d interval) and backfill `stock_ah_change_pct` + `stock_close_day_of` KPIs in `rebuild_db.py`
+- [ ] Sentiment signal values — extract short interest % and put/call ratio from context notes; update `sentiment_signals` table with `value` fields (tag as May 2026 current figures, confidence=estimated)
 
 ### Workshop design
 - [ ] Compressed 45-minute agenda pass
@@ -88,6 +95,8 @@ All 6 stages of the pipeline rebuild landed on 2026-05-27 (6 commits, all gated 
 
 **`eps_history`:** Only 14 quarters of history (back to Q1 FY23) on Alpha Vantage free tier. Sufficient for demo.
 
-**Short interest / put-call:** Historical Feb 2025 data not accessible via static web fetch (both platforms are client-rendered JavaScript). Narrative fallbacks in respective `.txt` files. Phase B action: capture live via Claude in Chrome before June 2 print.
+**Short interest / put-call:** Historical Feb 2026 data not accessible via static web fetch (both platforms are client-rendered JavaScript). Narrative fallbacks in `panw_q2fy26_short_interest.txt` and `panw_q2fy26_put_call.txt`. Current (May 2026) figures ARE in the context notes: short interest 3.11% float / 25.2M shares; P/C volume 0.94, P/C OI 1.01. Context note text erroneously says "Feb 2025" — should be "Feb 2026". Phase B: capture live via Claude in Chrome before June 2 print for real Feb 2026 historical figures.
+
+**After-hours reaction (Q2 FY26):** `stock_ah_change_pct` and `stock_close_day_of` KPIs are missing from `company_kpis`. The `stock_reaction` block in `panw_q2fy26_press_release.json` contains Q2 FY25 data (source URL is the Feb 2025 press release, `close_price_day_of: 187.68` exceeds Feb 2026 monthly high of $177.73). Do not use. Fix: add `yf.Ticker("PANW").history(period="5y", interval="1d")` to `gather.py`, save as `panw_price_daily.json`, then in `rebuild_db.py` use Feb 17 close and Feb 18 open to compute the post-earnings gap.
 
 **`panw_q2fy26_press_release.json` line 62:** Deferred revenue note reads "Current .60B + LT .66B" (missing leading "5"s). Total ($11.26B) and the script's hardcoded values (5.60 + 5.66) confirm the typo. The DB is correct because of the hardcoded supplement; the raw JSON note should be fixed when the file is re-touched.

@@ -286,6 +286,16 @@ with open(require_file("panw_q2fy26_form4_summary.json")) as f: form4    = json.
 with open(require_file("panw_q2fy26_short_interest.txt")) as f: si_text  = f.read()
 with open(require_file("panw_q2fy26_put_call.txt"))      as f: pc_text   = f.read()
 with open(require_file("peer_snapshot.json"))            as f: peer_raw  = json.load(f)
+with open(require_file("panw_price_daily.json"))         as f: daily_raw = json.load(f)
+
+# After-hours reaction: Feb 17 close → Feb 18 open overnight gap
+_daily_by_date = {r["date"]: r for r in daily_raw["rows"]}
+_feb17 = _daily_by_date.get("2026-02-17")
+_feb18 = _daily_by_date.get("2026-02-18")
+if not (_feb17 and _feb18):
+    raise KeyError("panw_price_daily.json missing 2026-02-17 or 2026-02-18 — re-run gather.py")
+_ah_chg = round((_feb18["open"] / _feb17["close"] - 1) * 100, 2)
+
 
 def load_peer(fname: str) -> dict:
     p = RAW / fname
@@ -298,6 +308,11 @@ def load_peer(fname: str) -> dict:
 crwd_results = load_peer("crwd_q4fy26_results.json")
 ftnt_results = load_peer("ftnt_q12026_results.json")
 zs_results   = load_peer("zs_q3fy26_results.json")
+
+# Confirmed sentiment values (Playwright browser extract — 2026-05-28)
+_sent = load_peer("panw_q2fy26_sentiment_signals.json")
+_si   = _sent.get("short_interest", {}) if _sent else {}
+_pc   = _sent.get("put_call", {})       if _sent else {}
 
 # XBRL-derived data (optional: files created by gather_edgar_xbrl(), used to backfill nulls)
 xbrl_panw  = load_peer("panw_revenue_xbrl.json")
@@ -527,6 +542,14 @@ kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
     "eps_nongaap_beat_pct", q2_eps["eps_surprise_pct"], "pct", "Non-GAAP EPS Beat vs Consensus",
     f"Actual ${q2_eps['eps_nongaap_actual']} vs consensus ${q2_eps['eps_nongaap_estimate']}",
     "panw_earnings_estimates.json")
+
+# After-hours reaction: Feb 17 close → Feb 18 open gap (yfinance daily)
+kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
+    "stock_close_day_of", _feb17["close"], "$", "Stock Close Day-of Earnings",
+    "Feb 17, 2026 regular-hours close", "panw_price_daily.json")
+kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
+    "stock_ah_change_pct", _ah_chg, "pct", "After-Hours Reaction (overnight gap)",
+    f"Feb 17 close ${_feb17['close']} → Feb 18 open ${_feb18['open']}", "panw_price_daily.json")
 
 # CRWD Q4 FY26 KPIs
 if crwd_results:
@@ -802,18 +825,49 @@ for ex in qa_raw["exchanges"]:
 # ===========================================================================
 SS_COLS = "symbol,fiscal_period,signal_date,signal_type,value,value_low,value_high,unit,confidence,context_note,data_source"
 
+# Short interest: last report before earnings = Feb 13, 2026 (MarketBeat via Playwright)
+_si_val     = _si.get("float_pct")           # 2.8% float
+_si_hi      = _si.get("prior_float_pct")     # 6.7% float peak (Jan 30)
+_si_note    = (
+    f"PANW Short Interest — Q2 FY26 Earnings Window (Feb 2026)\n"
+    f"Source: {_si.get('source', 'MarketBeat')}  |  Pulled: 2026-05-28 via Playwright\n\n"
+    f"Last report before earnings (2026-02-13):\n"
+    f"  Shares short: {_si.get('shares_short_m')}M  |  Float %: {_si_val}%  |  Days to cover: {_si.get('days_to_cover')}\n\n"
+    f"Prior report (2026-01-30): {_si.get('prior_shares_short_m')}M shares, {_si_hi}% float\n"
+    f"Change: {_si.get('change_pct')}% — massive short covering going into earnings.\n\n"
+    f"{_si.get('note', '')}"
+) if _si else si_text[:1000]
+_si_conf    = "actual" if _si else "estimated"
+_si_date    = _si.get("report_date", "2026-02-17") if _si else "2026-02-17"
+
 ins("sentiment_signals", SS_COLS, (
-    "PANW", "Q2_FY26", "2026-02-17", "short_interest",
-    None, None, None, "pct_float", "estimated",
-    si_text[:1000],   # first 1000 chars of narrative as context
-    "panw_q2fy26_short_interest.txt",
+    "PANW", "Q2_FY26", _si_date, "short_interest",
+    _si_val, None, _si_hi, "pct_float", _si_conf,
+    _si_note,
+    "panw_q2fy26_sentiment_signals.json",
 ))
+
+# Put/call ratio: earnings day (Feb 17, 2026) from Barchart Highcharts via Playwright
+_pc_day     = _pc.get("earnings_day", {}) if _pc else {}
+_pc_post    = _pc.get("post_earnings_day", {}) if _pc else {}
+_pc_vol     = _pc_day.get("pc_volume_ratio")   # 1.09 on Feb 17
+_pc_oi      = _pc_day.get("pc_oi_ratio")       # 0.95 on Feb 17
+_pc_post_v  = _pc_post.get("pc_volume_ratio")  # 4.02 on Feb 18 (extreme put buying)
+_pc_note    = (
+    f"PANW Put/Call Ratio — Q2 FY26 Earnings Window (Feb 2026)\n"
+    f"Source: {_pc.get('source', 'Barchart')}  |  Pulled: 2026-05-28 via Playwright\n\n"
+    f"Earnings day (2026-02-17, close ${_pc_day.get('price_close')}):\n"
+    f"  P/C Volume Ratio: {_pc_vol}  |  P/C OI Ratio: {_pc_oi}\n\n"
+    f"Post-earnings day (2026-02-18, close ${_pc_post.get('price_close')}):\n"
+    f"  P/C Volume Ratio: {_pc_post_v}  — {_pc_post.get('note', '')}"
+) if _pc else pc_text[:1000]
+_pc_conf    = "actual" if _pc else "estimated"
 
 ins("sentiment_signals", SS_COLS, (
     "PANW", "Q2_FY26", "2026-02-17", "put_call_ratio",
-    None, None, None, "ratio", "estimated",
-    pc_text[:1000],
-    "panw_q2fy26_put_call.txt",
+    _pc_vol, _pc_oi, _pc_post_v, "ratio", _pc_conf,
+    _pc_note,
+    "panw_q2fy26_sentiment_signals.json",
 ))
 
 

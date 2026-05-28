@@ -461,6 +461,53 @@ def gather_price() -> None:
 
 
 # ---------------------------------------------------------------------------
+# [5b] yfinance daily price → panw_price_daily.json
+# Used to compute after-hours reaction: Feb 17 close → Feb 18 open gap.
+# ---------------------------------------------------------------------------
+
+def gather_price_daily() -> None:
+    import yfinance as yf
+
+    print("\n[5b] yfinance daily → panw_price_daily.json")
+    ticker = yf.Ticker("PANW")
+    # Q2 FY26 window ± 1 month (earnings reported Feb 17, 2026)
+    hist = ticker.history(start="2025-10-01", end="2026-03-31", interval="1d")
+
+    if hist.empty:
+        fail("yfinance returned empty daily price history for PANW")
+
+    records = []
+    for date, row in hist.iterrows():
+        records.append({
+            "date": date.strftime("%Y-%m-%d"),
+            "open":   round(float(row["Open"]),   4),
+            "high":   round(float(row["High"]),   4),
+            "low":    round(float(row["Low"]),    4),
+            "close":  round(float(row["Close"]),  4),
+            "volume": int(row["Volume"]),
+        })
+
+    payload = {
+        "source": "yfinance PANW daily",
+        "retrieved_date": "2026-05-28",
+        "ticker": "PANW",
+        "interval": "1d",
+        "start": "2025-10-01",
+        "end": "2026-03-31",
+        "records": records,
+    }
+
+    by_date = {r["date"]: r for r in records}
+    feb17 = by_date.get("2026-02-17")
+    feb18 = by_date.get("2026-02-18")
+    if feb17 and feb18:
+        gap = round((feb18["open"] / feb17["close"] - 1) * 100, 2)
+        print(f"    Feb 17 close: ${feb17['close']}  |  Feb 18 open: ${feb18['open']}  |  AH gap: {gap:+.2f}%")
+    print(f"    {len(records)} daily bars")
+    write_raw("panw_price_daily.json", payload)
+
+
+# ---------------------------------------------------------------------------
 # [6/6] edgartools Form 4 → panw_q2fy26_form4_summary.json
 # ---------------------------------------------------------------------------
 
@@ -709,6 +756,7 @@ def main() -> None:
     gather_transcript()
     gather_yf_estimates()
     gather_price()
+    gather_price_daily()
     gather_form4()
     gather_edgar_xbrl()
 

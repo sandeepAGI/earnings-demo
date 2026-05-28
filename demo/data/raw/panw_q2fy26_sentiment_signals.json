@@ -1,0 +1,36 @@
+{
+  "symbol": "PANW",
+  "fiscal_period": "Q2_FY26",
+  "report_date": "2026-02-17",
+  "pulled": "2026-05-28",
+  "method": "Playwright browser (JavaScript-rendered pages — static fetch fails on both sources)",
+  "short_interest": {
+    "report_date": "2026-02-13",
+    "shares_short_m": 22.768,
+    "float_pct": 2.8,
+    "days_to_cover": 1.31,
+    "price_on_date": 166.95,
+    "prior_report_date": "2026-01-30",
+    "prior_shares_short_m": 46.29,
+    "prior_float_pct": 6.7,
+    "change_pct": -50.8,
+    "note": "Massive short covering in the 2 weeks before earnings — 6.7% to 2.8% float. Despite covering, stock fell -8.5% AH.",
+    "source": "MarketBeat.com/stocks/NASDAQ/PANW/short-interest/"
+  },
+  "put_call": {
+    "earnings_day": {
+      "date": "2026-02-17",
+      "price_close": 163.5,
+      "pc_volume_ratio": 1.09,
+      "pc_oi_ratio": 0.95
+    },
+    "post_earnings_day": {
+      "date": "2026-02-18",
+      "price_close": 152.35,
+      "pc_volume_ratio": 4.02,
+      "pc_oi_ratio": 0.91,
+      "note": "P/C volume 4.02 — extreme put buying on day of earnings reaction"
+    },
+    "source": "Barchart.com/stocks/quotes/PANW/put-call-ratios (Highcharts data)"
+  }
+}
