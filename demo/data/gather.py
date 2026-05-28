@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 gather.py — Stage 2: Data Gather
-Pulls financial data from PDFs (Anthropic API), FMP, yfinance, and edgartools.
+Pulls financial data from PDFs (Anthropic API), FMP, yfinance, edgartools, and SEC EDGAR XBRL.
 Writes validated raw files to demo/data/raw/.
 
 Run from project root: python demo/data/gather.py
@@ -10,6 +10,8 @@ import base64
 import json
 import os
 import sys
+import time
+import urllib.request
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -545,6 +547,152 @@ def gather_form4() -> None:
 
 
 # ---------------------------------------------------------------------------
+# [7/7] SEC EDGAR XBRL → panw_revenue_xbrl.json + peers_gross_margin_xbrl.json
+# ---------------------------------------------------------------------------
+
+_XBRL_HEADERS = {"User-Agent": "Aileron Group info@aileron-group.com"}
+_XBRL_CIKS    = {"PANW": "0001327567", "FTNT": "0001262039", "ZS": "0001713683"}
+
+
+def _xbrl_fetch(symbol: str) -> dict:
+    cik = _XBRL_CIKS[symbol]
+    url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
+    req = urllib.request.Request(url, headers=_XBRL_HEADERS)
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        return json.loads(resp.read())
+
+
+def _xbrl_by_end(facts: dict, key: str, filter_fn) -> dict:
+    seen = {}
+    for row in facts.get(key, {}).get("units", {}).get("USD", []):
+        if filter_fn(row) and row["end"] not in seen:
+            seen[row["end"]] = row["val"]
+    return seen
+
+
+def _is_single_quarter(row: dict) -> bool:
+    from datetime import datetime
+    try:
+        s = datetime.strptime(row["start"], "%Y-%m-%d")
+        e = datetime.strptime(row["end"],   "%Y-%m-%d")
+        return 80 <= (e - s).days <= 100
+    except (KeyError, ValueError):
+        return False
+
+
+def _is_annual(row: dict) -> bool:
+    from datetime import datetime
+    try:
+        s = datetime.strptime(row["start"], "%Y-%m-%d")
+        e = datetime.strptime(row["end"],   "%Y-%m-%d")
+        return 350 <= (e - s).days <= 380
+    except (KeyError, ValueError):
+        return False
+
+
+def gather_edgar_xbrl() -> None:
+    print("\n[7/7] SEC EDGAR XBRL → panw_revenue_xbrl.json + peers_gross_margin_xbrl.json")
+    REV_KEY = "RevenueFromContractWithCustomerExcludingAssessedTax"
+
+    # --- PANW quarterly and annual revenue ---
+    print("    Fetching PANW XBRL (rate: 10 req/s max)...")
+    panw_us_gaap = _xbrl_fetch("PANW")["facts"].get("us-gaap", {})
+    rev_q   = _xbrl_by_end(panw_us_gaap, REV_KEY, _is_single_quarter)
+    rev_ann = _xbrl_by_end(panw_us_gaap, REV_KEY, _is_annual)
+    print(f"    PANW single-quarter points: {len(rev_q)}  annual points: {len(rev_ann)}")
+
+    # Fiscal period → end date (PANW July fiscal year-end)
+    PANW_PERIOD_END = {
+        "Q1_FY23": "2022-10-31",
+        "Q2_FY23": "2023-01-31",
+        "Q3_FY23": "2023-04-30",
+        "Q1_FY24": "2023-10-31",
+        "Q2_FY24": "2024-01-31",
+        "Q3_FY24": "2024-04-30",
+        "Q1_FY25": "2024-10-31",
+        "Q2_FY25": "2025-01-31",
+        "Q3_FY25": "2025-04-30",
+        "Q1_FY26": "2025-10-31",
+        "Q2_FY26": "2026-01-31",
+    }
+    PANW_FY_END = {"FY23": "2023-07-31", "FY24": "2024-07-31", "FY25": "2025-07-31"}
+
+    quarterly_rev = {p: rev_q.get(end) for p, end in PANW_PERIOD_END.items()}
+    annual_rev    = {fy: rev_ann.get(end) for fy, end in PANW_FY_END.items()}
+
+    # Derive Q4 = FY_annual - Q1 - Q2 - Q3
+    for fy_label, fy_total in annual_rev.items():
+        num = fy_label[2:]
+        q1 = quarterly_rev.get(f"Q1_FY{num}")
+        q2 = quarterly_rev.get(f"Q2_FY{num}")
+        q3 = quarterly_rev.get(f"Q3_FY{num}")
+        if all(v is not None for v in [fy_total, q1, q2, q3]):
+            quarterly_rev[f"Q4_FY{num}"] = fy_total - q1 - q2 - q3
+
+    # YoY for quarters where supplemental has null (no adjacent quarter in 8-quarter window)
+    NULL_PERIODS = {
+        "Q3_FY24": "Q3_FY23",
+        "Q4_FY24": "Q4_FY23",
+        "Q1_FY25": "Q1_FY24",
+        "Q2_FY25": "Q2_FY24",
+    }
+    yoy_by_period = {}
+    for period, prior in NULL_PERIODS.items():
+        cur  = quarterly_rev.get(period)
+        prev = quarterly_rev.get(prior)
+        if cur and prev:
+            yoy = round((cur - prev) / prev * 100, 1)
+            yoy_by_period[period] = yoy
+            print(f"    YoY {period}: ${cur/1e6:.0f}M / ${prev/1e6:.0f}M = {yoy:+.1f}%")
+        else:
+            print(f"    WARNING: cannot compute YoY for {period} (cur={cur}, prev={prev})")
+
+    write_raw("panw_revenue_xbrl.json", {
+        "source": "SEC EDGAR XBRL API",
+        "note": "Single-quarter filter: 80-100 day duration. Q4 derived as FY_annual - Q1 - Q2 - Q3.",
+        "retrieved_date": "2026-05-27",
+        "quarterly_revenue_m": {p: round(v/1e6, 1) if v else None
+                                 for p, v in sorted(quarterly_rev.items())},
+        "annual_revenue_m": {fy: round(v/1e6, 1) if v else None
+                              for fy, v in annual_rev.items()},
+        "yoy_by_period": yoy_by_period,
+    })
+
+    # --- Peer GAAP gross margins (FTNT, ZS) ---
+    peers_payload: dict = {
+        "source": "SEC EDGAR XBRL API",
+        "retrieved_date": "2026-05-27",
+        "note": "GAAP gross margins only. Most recent reported single quarter per ticker.",
+    }
+
+    for symbol in ("FTNT", "ZS"):
+        time.sleep(0.2)
+        print(f"    Fetching {symbol} XBRL...")
+        try:
+            facts = _xbrl_fetch(symbol)["facts"].get("us-gaap", {})
+            rev_p = _xbrl_by_end(facts, REV_KEY, _is_single_quarter)
+            gp_p  = _xbrl_by_end(facts, "GrossProfit", _is_single_quarter)
+            common = sorted(set(rev_p) & set(gp_p))
+            if common:
+                end_date = common[-1]
+                rv, gp = rev_p[end_date], gp_p[end_date]
+                gm = round(gp / rv * 100, 1)
+                print(f"    {symbol}: end={end_date}  GP=${gp/1e6:.0f}M / Rev=${rv/1e6:.0f}M = {gm}%")
+                peers_payload[f"{symbol.lower()}_quarter_end"]           = end_date
+                peers_payload[f"{symbol.lower()}_revenue_m"]             = round(rv/1e6, 1)
+                peers_payload[f"{symbol.lower()}_gross_profit_m"]        = round(gp/1e6, 1)
+                peers_payload[f"{symbol.lower()}_gross_margin_gaap_pct"] = gm
+            else:
+                print(f"    WARNING: no common quarters for {symbol}")
+                peers_payload[f"{symbol.lower()}_gross_margin_gaap_pct"] = None
+        except Exception as exc:
+            print(f"    WARNING: {symbol} XBRL fetch failed: {exc}")
+            peers_payload[f"{symbol.lower()}_gross_margin_gaap_pct"] = None
+
+    write_raw("peers_gross_margin_xbrl.json", peers_payload)
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -562,6 +710,7 @@ def main() -> None:
     gather_yf_estimates()
     gather_price()
     gather_form4()
+    gather_edgar_xbrl()
 
     print("\n" + "=" * 60)
     print("gather.py complete. Check demo/data/raw/ for output files.")

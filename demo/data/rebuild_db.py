@@ -299,6 +299,16 @@ crwd_results = load_peer("crwd_q4fy26_results.json")
 ftnt_results = load_peer("ftnt_q12026_results.json")
 zs_results   = load_peer("zs_q3fy26_results.json")
 
+# XBRL-derived data (optional: files created by gather_edgar_xbrl(), used to backfill nulls)
+xbrl_panw  = load_peer("panw_revenue_xbrl.json")
+xbrl_peers = load_peer("peers_gross_margin_xbrl.json")
+
+# PANW YoY for quarters where supplemental has null (no adjacent quarter in 8-quarter window)
+xbrl_yoy_by_period = xbrl_panw.get("yoy_by_period", {}) if xbrl_panw else {}
+# Peer GAAP gross margins from XBRL (supplemental peer files have null for these)
+ftnt_gm_gaap = xbrl_peers.get("ftnt_gross_margin_gaap_pct") if xbrl_peers else None
+zs_gm_gaap   = xbrl_peers.get("zs_gross_margin_gaap_pct")   if xbrl_peers else None
+
 # Index supplemental quarters by fiscal_period
 supp_by_period = {q["fiscal_period"]: q for q in supp["quarters"]}
 
@@ -390,7 +400,7 @@ for period, row in supp_by_period.items():
         row["revenue_total_m"],
         row.get("revenue_product_m"),
         row.get("revenue_subscription_support_m"),
-        row.get("revenue_yoy_growth_pct"),
+        row.get("revenue_yoy_growth_pct") or xbrl_yoy_by_period.get(period),
         row.get("gross_profit_gaap_m"),
         row.get("gross_margin_gaap_pct"),
         row.get("gross_margin_nongaap_pct"),
@@ -433,7 +443,7 @@ if ftnt_results:
         fqf.get("revenue_product_m"),
         fqf.get("revenue_services_m"),
         fqf.get("revenue_yoy_growth_pct"),
-        None, None, None,
+        None, ftnt_gm_gaap, None,
         None, None,
         fqf.get("operating_margin_gaap_pct"),
         fqf.get("operating_margin_nongaap_pct"),
@@ -450,7 +460,7 @@ if zs_results:
         "ZS", "peer", "Q3_FY26", "2026-04-30", "2026-05-26",
         zqf.get("revenue_total_m"), None, None,
         zqf.get("revenue_yoy_growth_pct"),
-        None, None, None,
+        None, zs_gm_gaap, None,
         None, None, None, zqf.get("operating_margin_nongaap_pct"),
         None, None, None,
         zs_results.get("eps", {}).get("eps_nongaap_actual"),
@@ -569,6 +579,10 @@ if zs_results:
         None, "zs_q3fy26_results.json")
     kpi("ZS", "peer", "Q3_FY26", "2026-04-30", "ending_arr_m", zk.get("ending_arr_m"), "m", "Ending ARR",
         f"+{zk.get('ending_arr_yoy_growth_pct')}% YoY", "zs_q3fy26_results.json")
+    if zk.get("ending_arr_m"):
+        kpi("ZS", "peer", "Q3_FY26", "2026-04-30", "ending_arr_bn",
+            round(zk["ending_arr_m"] / 1000, 3), "bn", "Ending ARR",
+            f"+{zk.get('ending_arr_yoy_growth_pct')}% YoY", "zs_q3fy26_results.json")
     kpi("ZS", "peer", "Q3_FY26", "2026-04-30", "net_new_arr_m", zk.get("net_new_arr_m"), "m", "Net New ARR",
         None, "zs_q3fy26_results.json")
     kpi("ZS", "peer", "Q3_FY26", "2026-04-30", "rpo_bn", zk.get("rpo_bn"), "bn", "Remaining Performance Obligation",
