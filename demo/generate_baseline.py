@@ -838,6 +838,12 @@ html = f"""<!DOCTYPE html>
     cursor: pointer; white-space: nowrap; transition: opacity .15s;
   }}
   .chat-send:disabled {{ opacity: .45; cursor: default; }}
+  .chat-clear-btn {{
+    margin-left: auto; font-size: 11px; color: var(--muted); background: none;
+    border: 1px solid var(--border); border-radius: 12px; padding: 3px 10px;
+    cursor: pointer; transition: color .15s, border-color .15s;
+  }}
+  .chat-clear-btn:hover {{ color: var(--red); border-color: var(--red); }}
   .chat-offline-note {{
     background: #fff8e1; border: 1px solid #f0d060;
     border-radius: 6px; padding: 12px 16px; font-size: 12.5px;
@@ -1704,6 +1710,7 @@ if _bs:
   <div class="chat-section-header">
     <span class="chat-section-title">Ask the Analyst</span>
     <span class="chat-server-badge" id="serverBadge">checking...</span>
+    <button class="chat-clear-btn" onclick="clearChat()" title="Clear conversation">&#x21BA; Clear</button>
   </div>
   <div class="chat-subtitle">
     Backed by Claude Opus + Tavily web search. Context: sell-side analysis, buy-side framework, CRWD peer results, and PANW Q2 FY26 transcript.
@@ -2100,6 +2107,18 @@ function bsToggle(head) {{
   chev.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
 }}
 
+// ── Tab 3: clear chat ────────────────────────────────────────────────────────
+function clearChat() {{
+  _chatHistory = [];
+  var win = document.getElementById('chatWindow');
+  if (!win) return;
+  win.innerHTML = '<div class="chat-empty" id="chatEmpty">Ask a question above to start the analysis.</div>';
+  var inp = document.getElementById('chatInput');
+  if (inp) inp.value = '';
+  var btn = document.getElementById('chatSend');
+  if (btn) btn.disabled = false;
+}}
+
 // ── Tab 3: fill suggestion into input ────────────────────────────────────────
 function fillQ(text) {{
   var inp = document.getElementById('chatInput');
@@ -2224,6 +2243,14 @@ async function sendChat() {{
             }}
             win.scrollTop = win.scrollHeight;
           }} else if (eventType === 'done') {{
+            _chatHistory.push({{ role: 'assistant', content: rawAccum }});
+            break;
+          }} else if (eventType === 'error') {{
+            var msg = '';
+            try {{ msg = JSON.parse(payload).message; }} catch(e) {{}}
+            contentDiv.textContent = 'Server error: ' + (msg || 'unknown');
+            // Roll back the user message so history stays clean
+            _chatHistory.pop();
             break;
           }}
           eventType = '';
@@ -2232,9 +2259,10 @@ async function sendChat() {{
     }}
   }} catch(err) {{
     contentDiv.textContent = 'Error: ' + err.message;
+    // Roll back the user message so history stays clean
+    _chatHistory.pop();
   }}
 
-  _chatHistory.push({{ role: 'assistant', content: rawAccum }});
   btn.disabled = false;
   win.scrollTop = win.scrollHeight;
 }}

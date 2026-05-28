@@ -608,6 +608,12 @@
     cursor: pointer; white-space: nowrap; transition: opacity .15s;
   }
   .chat-send:disabled { opacity: .45; cursor: default; }
+  .chat-clear-btn {
+    margin-left: auto; font-size: 11px; color: var(--muted); background: none;
+    border: 1px solid var(--border); border-radius: 12px; padding: 3px 10px;
+    cursor: pointer; transition: color .15s, border-color .15s;
+  }
+  .chat-clear-btn:hover { color: var(--red); border-color: var(--red); }
   .chat-offline-note {
     background: #fff8e1; border: 1px solid #f0d060;
     border-radius: 6px; padding: 12px 16px; font-size: 12.5px;
@@ -650,7 +656,7 @@
       <p>Fiscal period ending Jan 31, 2026 &nbsp;·&nbsp; Reported Feb 17, 2026 &nbsp;·&nbsp; <em>Everyone Is Wrong About AI, Including Me</em> — Digital FutureFest &#39;26</p>
     </div>
     <div class="header-meta">
-      Generated 2026-05-28 12:48<br>
+      Generated 2026-05-28 13:28<br>
       13 tables · 200 rows · earnings.db
       <br><span class="header-badge">Aileron Group · Workshop Use Only</span>
     </div>
@@ -1610,6 +1616,7 @@
   <div class="chat-section-header">
     <span class="chat-section-title">Ask the Analyst</span>
     <span class="chat-server-badge" id="serverBadge">checking...</span>
+    <button class="chat-clear-btn" onclick="clearChat()" title="Clear conversation">&#x21BA; Clear</button>
   </div>
   <div class="chat-subtitle">
     Backed by Claude Opus + Tavily web search. Context: sell-side analysis, buy-side framework, CRWD peer results, and PANW Q2 FY26 transcript.
@@ -1671,7 +1678,7 @@
 
 
 <div class="page-footer">
-  <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q2 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated 2026-05-28 12:48<br>
+  <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q2 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated 2026-05-28 13:28<br>
   Tab 1: Baseline Data (real data from DB) &nbsp;·&nbsp; Tab 2: Sell-Side Analysis (equity-research/earnings-analysis, 4 departures) &nbsp;·&nbsp; Tab 3: Buy-Side Layer (Claude API + Tavily)<br>
   Phase B: re-run rebuild_db.py &#8594; run_earnings_analysis.py &#8594; generate_baseline.py after June 2, 2026 Q3 print
 </div>
@@ -1976,6 +1983,18 @@ function bsToggle(head) {
   chev.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
 }
 
+// ── Tab 3: clear chat ────────────────────────────────────────────────────────
+function clearChat() {
+  _chatHistory = [];
+  var win = document.getElementById('chatWindow');
+  if (!win) return;
+  win.innerHTML = '<div class="chat-empty" id="chatEmpty">Ask a question above to start the analysis.</div>';
+  var inp = document.getElementById('chatInput');
+  if (inp) inp.value = '';
+  var btn = document.getElementById('chatSend');
+  if (btn) btn.disabled = false;
+}
+
 // ── Tab 3: fill suggestion into input ────────────────────────────────────────
 function fillQ(text) {
   var inp = document.getElementById('chatInput');
@@ -2100,6 +2119,14 @@ async function sendChat() {
             }
             win.scrollTop = win.scrollHeight;
           } else if (eventType === 'done') {
+            _chatHistory.push({ role: 'assistant', content: rawAccum });
+            break;
+          } else if (eventType === 'error') {
+            var msg = '';
+            try { msg = JSON.parse(payload).message; } catch(e) {}
+            contentDiv.textContent = 'Server error: ' + (msg || 'unknown');
+            // Roll back the user message so history stays clean
+            _chatHistory.pop();
             break;
           }
           eventType = '';
@@ -2108,9 +2135,10 @@ async function sendChat() {
     }
   } catch(err) {
     contentDiv.textContent = 'Error: ' + err.message;
+    // Roll back the user message so history stays clean
+    _chatHistory.pop();
   }
 
-  _chatHistory.push({ role: 'assistant', content: rawAccum });
   btn.disabled = false;
   win.scrollTop = win.scrollHeight;
 }

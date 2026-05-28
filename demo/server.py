@@ -134,59 +134,68 @@ def serve_dashboard():
 @app.post("/chat")
 async def chat(req: ChatRequest):
     async def event_stream():
-        messages = req.messages
+        try:
+            messages = req.messages
 
-        # First pass — may include tool use
-        response = claude.messages.create(
-            model="claude-opus-4-7",
-            max_tokens=2048,
-            system=SYSTEM,
-            tools=[SEARCH_TOOL],
-            messages=messages,
-        )
-
-        # Handle tool use
-        if response.stop_reason == "tool_use":
-            tool_block = next(b for b in response.content if b.type == "tool_use")
-            query = tool_block.input["query"]
-
-            # Signal to frontend: search is happening
-            yield f"event: searching\ndata: {json.dumps({'query': query})}\n\n"
-
-            # Execute search
-            results = tavily.search(query=query, search_depth="basic", max_results=4)
-            search_text = "\n\n".join(
-                f"[{r['title']}]\n{r['content']}" for r in results.get("results", [])
-            )
-
-            # Continue with tool result — now stream
-            messages = messages + [
-                {"role": "assistant", "content": response.content},
-                {"role": "user", "content": [
-                    {"type": "tool_result", "tool_use_id": tool_block.id, "content": search_text}
-                ]},
-            ]
-
-            with claude.messages.stream(
+            # First pass — may include tool use
+            response = claude.messages.create(
                 model="claude-opus-4-7",
                 max_tokens=2048,
                 system=SYSTEM,
+                tools=[SEARCH_TOOL],
                 messages=messages,
-            ) as stream:
-                for text in stream.text_stream:
-                    yield f"event: token\ndata: {json.dumps({'text': text})}\n\n"
+            )
 
-        else:
-            # No tool use — stream from the completed response
-            for block in response.content:
-                if hasattr(block, "text"):
-                    # Emit in small chunks to get streaming feel
-                    text = block.text
-                    chunk = 12
-                    for i in range(0, len(text), chunk):
-                        yield f"event: token\ndata: {json.dumps({'text': text[i:i+chunk]})}\n\n"
+            # Handle tool use
+            if response.stop_reason == "tool_use":
+                tool_block = next(b for b in response.content if b.type == "tool_use")
+                query = tool_block.input["query"]
 
-        yield "event: done\ndata: {}\n\n"
+                # Signal to frontend: search is happening
+                yield f"event: searching\ndata: {json.dumps({'query': query})}\n\n"
+
+                # Execute search
+                results = tavily.search(query=query, search_depth="basic", max_results=4)
+                search_text = "\n\n".join(
+                    f"[{r['title']}]\n{r['content']}" for r in results.get("results", [])
+                )
+
+                # Convert SDK content blocks to plain dicts for the follow-up call
+                assistant_content = [
+                    block.model_dump() for block in response.content
+                ]
+
+                # Continue with tool result — now stream
+                followup_messages = messages + [
+                    {"role": "assistant", "content": assistant_content},
+                    {"role": "user", "content": [
+                        {"type": "tool_result", "tool_use_id": tool_block.id, "content": search_text}
+                    ]},
+                ]
+
+                with claude.messages.stream(
+                    model="claude-opus-4-7",
+                    max_tokens=2048,
+                    system=SYSTEM,
+                    messages=followup_messages,
+                ) as stream:
+                    for text in stream.text_stream:
+                        yield f"event: token\ndata: {json.dumps({'text': text})}\n\n"
+
+            else:
+                # No tool use — stream from the completed response
+                for block in response.content:
+                    if hasattr(block, "text"):
+                        text = block.text
+                        chunk = 12
+                        for i in range(0, len(text), chunk):
+                            yield f"event: token\ndata: {json.dumps({'text': text[i:i+chunk]})}\n\n"
+
+            yield "event: done\ndata: {}\n\n"
+
+        except Exception as e:
+            print(f"ERROR in event_stream: {type(e).__name__}: {e}")
+            yield f"event: error\ndata: {json.dumps({'message': str(e)})}\n\n"
 
     return StreamingResponse(event_stream(), media_type="text/event-stream")
 
