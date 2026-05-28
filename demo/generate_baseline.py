@@ -25,7 +25,8 @@ DB_PATH       = _HERE / "data" / "db" / "earnings.db"
 OUT_PATH      = _HERE / "earnings_baseline.html"
 CHARTJS_CACHE = Path(tempfile.gettempdir()) / "chartjs_440.min.js"
 CHARTJS_CDN   = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js'
-ANALYSIS_PATH = _HERE / "data" / "analysis" / "panw_q2fy26_earnings_analysis.json"
+ANALYSIS_PATH  = _HERE / "data" / "analysis" / "panw_q2fy26_earnings_analysis.json"
+BUYSIDE_PATH   = _HERE / "data" / "analysis" / "panw_q2fy26_buyside_analysis.json"
 
 # ── Preflight ──────────────────────────────────────────────────────────────────
 if not DB_PATH.exists():
@@ -76,6 +77,15 @@ if ANALYSIS_PATH.exists():
 else:
     print(f"  ⚠️  Analysis not found: {ANALYSIS_PATH}")
     print("     Run: python3 demo/data/analysis/run_earnings_analysis.py")
+
+# ── Buy-side JSON (Tab 3) ──────────────────────────────────────────────────────
+_bs = {}
+if BUYSIDE_PATH.exists():
+    with open(BUYSIDE_PATH) as _f:
+        _bs = json.load(_f)
+else:
+    print(f"  ⚠️  Buy-side analysis not found: {BUYSIDE_PATH}")
+    print("     Run: python3 demo/data/analysis/run_buyside_analysis.py")
 qa_exchanges  = q("SELECT * FROM transcript_qa WHERE symbol=? ORDER BY exchange_num", (PRIMARY_SYMBOL,))
 peers         = q("SELECT * FROM quarterly_financials WHERE company_type='peer' ORDER BY symbol")
 peer_kpis     = q("SELECT * FROM company_kpis WHERE company_type='peer' ORDER BY symbol, kpi_name")
@@ -250,6 +260,7 @@ html = f"""<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 {chart_script_tag}
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 <style>
   :root {{
     --blue:       #60B5E5;
@@ -725,6 +736,115 @@ html = f"""<!DOCTYPE html>
     letter-spacing: .07em; color: var(--muted); margin-bottom: 10px;
   }}
 
+  /* ── Tab 3: Buy-side static cards ── */
+  .bs-framing {{
+    border-left: 4px solid var(--purple); background: var(--off-white);
+    border-radius: 0 8px 8px 0; padding: 16px 20px; margin-bottom: 24px;
+  }}
+  .bs-framing-label {{
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--purple); margin-bottom: 6px;
+  }}
+  .bs-framing-text {{ font-size: 14px; font-style: italic; color: var(--text); line-height: 1.6; }}
+  .bs-cards {{ display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }}
+  .bs-card {{
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+    border-top: 3px solid var(--purple);
+  }}
+  .bs-card-head {{
+    padding: 12px 18px; background: var(--off-white);
+    display: flex; align-items: center; gap: 12px; cursor: pointer;
+  }}
+  .bs-card-head:hover {{ background: #ede8f5; }}
+  .bs-card-num {{
+    background: var(--purple); color: #fff; font-size: 11px; font-weight: 800;
+    width: 22px; height: 22px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; flex-shrink: 0;
+  }}
+  .bs-card-title {{ font-size: 13.5px; font-weight: 700; color: var(--text); flex: 1; }}
+  .bs-card-chevron {{ font-size: 12px; color: var(--muted); transition: transform .2s; }}
+  .bs-card-body {{ padding: 0 18px 0; max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s; }}
+  .bs-card-body.open {{ max-height: 800px; padding: 14px 18px 18px; }}
+  .bs-card-q {{ font-size: 12px; color: var(--muted); font-style: italic; margin-bottom: 12px; line-height: 1.55; }}
+  .bs-card-a {{ font-size: 13px; color: var(--text); line-height: 1.75; }}
+  .bs-card-a p {{ margin: 0 0 10px; }}
+  .bs-card-a p:last-child {{ margin-bottom: 0; }}
+  .bs-card-a strong {{ color: var(--purple); }}
+
+  /* ── Tab 3: Chat section ── */
+  .chat-section {{
+    border-top: 2px solid var(--border); padding-top: 28px; margin-top: 8px;
+  }}
+  .chat-section-header {{ display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }}
+  .chat-section-title {{ font-size: 16px; font-weight: 800; color: var(--text); }}
+  .chat-server-badge {{
+    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px;
+    background: #eee; color: #999;
+  }}
+  .chat-server-badge.live {{ background: #e8f8ee; color: #27ae60; }}
+  .chat-subtitle {{ font-size: 12.5px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }}
+  .chat-suggestions {{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }}
+  .chat-suggestion {{
+    font-size: 12px; padding: 6px 12px; border-radius: 16px;
+    border: 1px solid var(--purple); color: var(--purple); background: transparent;
+    cursor: pointer; transition: background .15s, color .15s;
+  }}
+  .chat-suggestion:hover {{ background: var(--purple); color: #fff; }}
+  .chat-window {{
+    border: 1px solid var(--border); border-radius: 8px; background: #fff;
+    min-height: 120px; max-height: 520px; overflow-y: auto;
+    padding: 16px; margin-bottom: 12px; scroll-behavior: smooth;
+  }}
+  .chat-empty {{
+    text-align: center; color: var(--muted); font-size: 13px;
+    padding: 32px 0; font-style: italic;
+  }}
+  .chat-msg {{ margin-bottom: 16px; }}
+  .chat-msg:last-child {{ margin-bottom: 0; }}
+  .chat-msg-role {{
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .07em; margin-bottom: 5px;
+  }}
+  .chat-msg.user .chat-msg-role {{ color: var(--blue); }}
+  .chat-msg.assistant .chat-msg-role {{ color: var(--purple); }}
+  .chat-msg-content {{
+    font-size: 13px; line-height: 1.72; color: var(--text);
+    background: var(--off-white); padding: 10px 14px; border-radius: 6px;
+  }}
+  .chat-msg.user .chat-msg-content {{ background: #eef4fb; }}
+  .chat-searching {{
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 11.5px; color: #888; font-style: italic;
+    background: #fff8e1; padding: 6px 12px; border-radius: 14px;
+    border: 1px solid #f0d060; margin-bottom: 8px;
+  }}
+  .chat-searching-dot {{
+    width: 6px; height: 6px; border-radius: 50%; background: #c8a000;
+    animation: pulse-dot 1s infinite;
+  }}
+  @keyframes pulse-dot {{
+    0%, 100% {{ opacity: 1; }} 50% {{ opacity: .3; }}
+  }}
+  .chat-input-row {{ display: flex; gap: 8px; }}
+  .chat-input {{
+    flex: 1; padding: 10px 14px; border: 1px solid var(--border);
+    border-radius: 6px; font-size: 13px; font-family: inherit;
+    outline: none; resize: none;
+  }}
+  .chat-input:focus {{ border-color: var(--purple); }}
+  .chat-send {{
+    padding: 10px 20px; background: var(--purple); color: #fff;
+    border: none; border-radius: 6px; font-size: 13px; font-weight: 700;
+    cursor: pointer; white-space: nowrap; transition: opacity .15s;
+  }}
+  .chat-send:disabled {{ opacity: .45; cursor: default; }}
+  .chat-offline-note {{
+    background: #fff8e1; border: 1px solid #f0d060;
+    border-radius: 6px; padding: 12px 16px; font-size: 12.5px;
+    color: #7a5c00; margin-bottom: 14px; display: none;
+  }}
+  .chat-offline-note code {{ background: rgba(0,0,0,.07); padding: 2px 5px; border-radius: 3px; }}
+
   /* ── Secret sauce (Tab 3) ── */
   .sauce-outer {{
     background: var(--purple); border-radius: 8px; padding: 22px 24px; color: #fff;
@@ -777,7 +897,7 @@ html = f"""<!DOCTYPE html>
       Claude for Financial Services <span class="tab-label-pill">Earnings Reviewer</span>
     </button>
     <button class="tab-btn" onclick="showTab('buyside', this)">
-      Buy-Side Layer <span class="tab-label-pill">Cowork</span>
+      Buy-Side Layer <span class="tab-label-pill">Claude API</span>
     </button>
   </div>
 </div>
@@ -1532,6 +1652,130 @@ if _an:
 </div><!-- /tab-sellside -->
 """
 
+# ── Tab 3: pre-render buy-side static section + chat UI ──────────────────────
+import re as _re
+
+def _md_to_html(text):
+    text = _re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+    paras = [p.strip() for p in text.split('\n\n') if p.strip()]
+    return ''.join(f'<p>{p}</p>' for p in paras)
+
+_tab3_html = ""
+if _bs:
+    _bs_cards = ""
+    for _i, _bq in enumerate(_bs["questions"], 1):
+        _a_html = _md_to_html(_bq["answer"])
+        _q_esc  = _bq["question"].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        _t_esc  = _bq["title"].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        _bs_cards += f"""
+  <div class="bs-card">
+    <div class="bs-card-head" onclick="bsToggle(this)">
+      <div class="bs-card-num">{_i}</div>
+      <div class="bs-card-title">{_t_esc}</div>
+      <div class="bs-card-chevron">&#9660;</div>
+    </div>
+    <div class="bs-card-body">
+      <div class="bs-card-q">{_q_esc}</div>
+      <div class="bs-card-a">{_a_html}</div>
+    </div>
+  </div>"""
+
+    _bs_generated = _bs.get("generated", "")
+    _bs_framing   = _bs.get("framing", "")
+
+    _tab3_html = f"""<div id="tab-buyside" class="tab-content">
+<div class="container">
+
+<div class="bs-framing">
+  <div class="bs-framing-label">Buy-Side Perspective</div>
+  <div class="bs-framing-text">{_bs_framing}</div>
+</div>
+
+<div class="section-header" style="margin-bottom:16px">
+  <h2>Five Questions a Buy-Side Analyst Would Ask</h2>
+  <span class="tag">Pre-run &#183; {_bs_generated}</span>
+</div>
+<div class="bs-cards">
+{_bs_cards}
+</div>
+
+<!-- ── Chat section ── -->
+<div class="chat-section">
+  <div class="chat-section-header">
+    <span class="chat-section-title">Ask the Analyst</span>
+    <span class="chat-server-badge" id="serverBadge">checking...</span>
+  </div>
+  <div class="chat-subtitle">
+    Backed by Claude Opus + Tavily web search. Context: sell-side analysis, buy-side framework, CRWD peer results, and PANW Q2 FY26 transcript.
+  </div>
+
+  <div class="chat-offline-note" id="offlineNote">
+    <strong>Server not running.</strong> Start with: <code>python3 demo/server.py</code> then reload.
+  </div>
+
+  <div class="chat-suggestions">
+    <button class="chat-suggestion" onclick="fillQ('What is the most important number to watch in Q3 FY26, and why?')">Q3 metric to watch</button>
+    <button class="chat-suggestion" onclick="fillQ('How does CrowdStrike platform recovery change the PANW investment thesis?')">CRWD competitive read</button>
+    <button class="chat-suggestion" onclick="fillQ('Bull case: where is the sell-side PT of $186 too conservative?')">Bull case</button>
+    <button class="chat-suggestion" onclick="fillQ('What is the organic NGS ARR story stripped of CyberArk and Chronosphere?')">Organic ARR clarity</button>
+  </div>
+
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-empty" id="chatEmpty">Ask a question above to start the analysis.</div>
+  </div>
+
+  <div class="chat-input-row">
+    <textarea class="chat-input" id="chatInput" rows="2" placeholder="Ask about PANW Q2 FY26..."></textarea>
+    <button class="chat-send" id="chatSend" onclick="sendChat()">Send &#x2192;</button>
+  </div>
+</div>
+
+<!-- ── What powers this ── -->
+<div class="sauce-outer" style="margin-top:32px">
+  <h3>What&#39;s powering this</h3>
+  <div class="sauce-intro">
+    Every response draws on pre-loaded context: sell-side research note (Steps 5&#8211;11), buy-side framework interrogation (5 questions), CRWD Q4 FY26 peer results, PANW Q2 FY26 earnings call transcript excerpt, and DB KPIs. Web search via Tavily is available as a tool for current market data after Feb 17, 2026.
+  </div>
+  <div class="sauce-grid">
+    <div class="sauce-card">
+      <div class="sc-label">Model</div>
+      <div class="sc-value">Opus 4</div>
+      <div class="sc-note">claude-opus-4-7 via Anthropic API</div>
+    </div>
+    <div class="sauce-card">
+      <div class="sc-label">Context</div>
+      <div class="sc-value">~12K</div>
+      <div class="sc-note">chars of earnings context pre-loaded at server startup</div>
+    </div>
+    <div class="sauce-card fresh">
+      <div class="sc-label">Web Search</div>
+      <div class="sc-value">Live</div>
+      <div class="sc-note">Tavily &#8212; triggered by Claude when current data is needed</div>
+    </div>
+    <div class="sauce-card">
+      <div class="sc-label">Streaming</div>
+      <div class="sc-value">SSE</div>
+      <div class="sc-note">Server-Sent Events stream tokens as they arrive from Claude</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+</div><!-- /tab-buyside -->
+"""
+else:
+    _tab3_html = """<div id="tab-buyside" class="tab-content">
+<div class="container">
+<div class="plugin-context">
+  <div class="plugin-context-icon">&#9203;</div>
+  <div>
+    <div class="plugin-context-label">Buy-Side Analysis Not Found</div>
+    <div class="plugin-context-note">Run: python3 demo/data/analysis/run_buyside_analysis.py</div>
+  </div>
+</div>
+</div>
+</div>"""
+
 html += f"""      </tbody>
     </table>
     <div class="info-box" style="margin-top:12px">
@@ -1548,34 +1792,12 @@ html += f"""      </tbody>
 
 {_tab2_html}
 
-<!-- ════════════════════════════════════════════════════════════════════════
-     TAB 3 — PLACEHOLDER
-     Buy-side layer not yet designed. Design to be confirmed before any
-     content is added. No content here until the process is agreed and tested.
-     ════════════════════════════════════════════════════════════════════════ -->
-<div id="tab-buyside" class="tab-content">
-<div class="container">
-
-<div class="plugin-context">
-  <div class="plugin-context-icon">⏳</div>
-  <div>
-    <div class="plugin-context-label">Buy-Side Layer — Not Yet Designed</div>
-    <div class="plugin-context-note">
-      This tab will contain the buy-side analytical layer once the process has been agreed and the
-      earnings reviewer output from Tab 2 exists as a foundation to build on. No content here until
-      the Tab 2 process is complete and the buy-side design is approved. See STATUS.md.
-    </div>
-  </div>
-</div>
-
-<!-- TAB 3 CONTENT REMOVED — placeholder only -->
-</div><!-- /tab-buyside container -->
-</div><!-- /tab-buyside -->
+{_tab3_html}
 
 <div class="page-footer">
   <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q2 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated {generated_at}<br>
-  Tab 1: Baseline Data (real data from DB) &nbsp;·&nbsp; Tab 2: Earnings Analysis (equity-research/earnings-analysis, 4 departures documented) &nbsp;·&nbsp; Tab 3: Placeholder — design not yet agreed<br>
-  Phase B: re-run rebuild_db.py → generate_baseline.py after June 2, 2026 Q3 print
+  Tab 1: Baseline Data (real data from DB) &nbsp;·&nbsp; Tab 2: Sell-Side Analysis (equity-research/earnings-analysis, 4 departures) &nbsp;·&nbsp; Tab 3: Buy-Side Layer (Claude API + Tavily)<br>
+  Phase B: re-run rebuild_db.py &#8594; run_earnings_analysis.py &#8594; generate_baseline.py after June 2, 2026 Q3 print
 </div>
 
 <script>
@@ -1865,7 +2087,178 @@ document.addEventListener('DOMContentLoaded', function() {{
     }});
   }} catch(e) {{ console.error('peerOiMarginChart:', e); }}
 
+  // ── Tab 3: server ping on load ────────────────────────────────────────────
+  pingServer();
+
 }});
+
+// ── Tab 3: accordion ─────────────────────────────────────────────────────────
+function bsToggle(head) {{
+  var body = head.nextElementSibling;
+  var chev = head.querySelector('.bs-card-chevron');
+  body.classList.toggle('open');
+  chev.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}}
+
+// ── Tab 3: fill suggestion into input ────────────────────────────────────────
+function fillQ(text) {{
+  var inp = document.getElementById('chatInput');
+  if (inp) {{ inp.value = text; inp.focus(); }}
+}}
+
+// ── Tab 3: chat state ─────────────────────────────────────────────────────────
+var _chatHistory = [];
+
+function _addMsg(role, contentHtml) {{
+  var win = document.getElementById('chatWindow');
+  var empty = document.getElementById('chatEmpty');
+  if (empty) empty.style.display = 'none';
+  var div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  var roleDiv = document.createElement('div');
+  roleDiv.className = 'chat-msg-role';
+  roleDiv.textContent = role === 'user' ? 'You' : 'Analyst';
+  var contentDiv = document.createElement('div');
+  contentDiv.className = 'chat-msg-content';
+  if (typeof DOMPurify !== 'undefined') {{
+    contentDiv.innerHTML = DOMPurify.sanitize(contentHtml);
+  }} else {{
+    contentDiv.textContent = contentHtml.replace(/<[^>]+>/g, '');
+  }}
+  div.appendChild(roleDiv);
+  div.appendChild(contentDiv);
+  win.appendChild(div);
+  win.scrollTop = win.scrollHeight;
+  return contentDiv;
+}}
+
+function _renderMd(raw) {{
+  var s = raw
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  // Bold and italic
+  s = s.replace(/\\*\\*(.+?)\\*\\*/g, '<strong>$1</strong>');
+  s = s.replace(/\\*(.+?)\\*/g, '<em>$1</em>');
+  // Paragraphs
+  s = s.split(/\\n\\n+/).map(function(p) {{ return '<p>' + p.replace(/\\n/g, '<br>') + '</p>'; }}).join('');
+  return s;
+}}
+
+async function sendChat() {{
+  var inp = document.getElementById('chatInput');
+  var btn = document.getElementById('chatSend');
+  var text = (inp.value || '').trim();
+  if (!text) return;
+
+  inp.value = '';
+  btn.disabled = true;
+  _addMsg('user', _renderMd(text));
+  _chatHistory.push({{ role: 'user', content: text }});
+
+  // Streaming assistant message container
+  var win = document.getElementById('chatWindow');
+  var div = document.createElement('div');
+  div.className = 'chat-msg assistant';
+  var roleDiv = document.createElement('div');
+  roleDiv.className = 'chat-msg-role';
+  roleDiv.textContent = 'Analyst';
+  var contentDiv = document.createElement('div');
+  contentDiv.className = 'chat-msg-content';
+  div.appendChild(roleDiv);
+  div.appendChild(contentDiv);
+  win.appendChild(div);
+  win.scrollTop = win.scrollHeight;
+
+  var rawAccum = '';
+  var searchBadge = null;
+
+  try {{
+    var resp = await fetch('/chat', {{
+      method: 'POST',
+      headers: {{ 'Content-Type': 'application/json' }},
+      body: JSON.stringify({{ messages: _chatHistory }})
+    }});
+
+    var reader = resp.body.getReader();
+    var decoder = new TextDecoder();
+    var buf = '';
+
+    while (true) {{
+      var result = await reader.read();
+      if (result.done) break;
+      buf += decoder.decode(result.value, {{ stream: true }});
+      var lines = buf.split('\\n');
+      buf = lines.pop();
+
+      var eventType = '';
+      for (var i = 0; i < lines.length; i++) {{
+        var line = lines[i];
+        if (line.startsWith('event: ')) {{
+          eventType = line.slice(7).trim();
+        }} else if (line.startsWith('data: ')) {{
+          var payload = line.slice(6);
+          if (eventType === 'searching') {{
+            var q = '';
+            try {{ q = JSON.parse(payload).query; }} catch(e) {{}}
+            if (!searchBadge) {{
+              searchBadge = document.createElement('div');
+              searchBadge.className = 'chat-searching';
+              searchBadge.innerHTML = '<span class="chat-searching-dot"></span> Searching: <em>' + q + '</em>';
+              contentDiv.appendChild(searchBadge);
+              win.scrollTop = win.scrollHeight;
+            }}
+          }} else if (eventType === 'token') {{
+            var tok = '';
+            try {{ tok = JSON.parse(payload).text; }} catch(e) {{}}
+            rawAccum += tok;
+            var rendered = _renderMd(rawAccum);
+            if (typeof DOMPurify !== 'undefined') {{
+              contentDiv.innerHTML = DOMPurify.sanitize(rendered);
+            }} else {{
+              contentDiv.textContent = rawAccum;
+            }}
+            if (searchBadge && contentDiv.contains(searchBadge)) {{
+              contentDiv.removeChild(searchBadge);
+              searchBadge = null;
+            }}
+            win.scrollTop = win.scrollHeight;
+          }} else if (eventType === 'done') {{
+            break;
+          }}
+          eventType = '';
+        }}
+      }}
+    }}
+  }} catch(err) {{
+    contentDiv.textContent = 'Error: ' + err.message;
+  }}
+
+  _chatHistory.push({{ role: 'assistant', content: rawAccum }});
+  btn.disabled = false;
+  win.scrollTop = win.scrollHeight;
+}}
+
+// ── Tab 3: server liveness check ─────────────────────────────────────────────
+function pingServer() {{
+  var badge = document.getElementById('serverBadge');
+  var note  = document.getElementById('offlineNote');
+  if (!badge) return;
+  fetch('/chat', {{
+    method: 'POST',
+    headers: {{ 'Content-Type': 'application/json' }},
+    body: JSON.stringify({{ messages: [] }})
+  }}).then(function(r) {{
+    if (r.ok || r.status === 422) {{
+      badge.textContent = 'live';
+      badge.classList.add('live');
+      if (note) note.style.display = 'none';
+    }} else {{ throw new Error('status ' + r.status); }}
+  }}).catch(function() {{
+    badge.textContent = 'offline';
+    if (note) note.style.display = 'block';
+  }});
+}}
 </script>
 </body>
 </html>
@@ -1877,6 +2270,6 @@ size = OUT_PATH.stat().st_size
 print(f"\n  ✅ {OUT_PATH}")
 print(f"     Size:      {size:,} bytes")
 print(f"     Generated: {generated_at}")
-print(f"     Tabs:      Baseline Data | Claude for Financial Services: Earnings Reviewer | Buy-Side Layer")
+print(f"     Tabs:      Baseline Data | Earnings Reviewer | Buy-Side Layer (Claude API + Tavily)")
 print(f"     Charts:    Chart.js {'embedded inline' if chartjs_js else 'CDN link (offline may fail)'}")
 print(f"     Branding:  Aileron Group (Montserrat · #60B5E5 · #2D2042 · #B3DCF3)")
