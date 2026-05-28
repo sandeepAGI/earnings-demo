@@ -2191,6 +2191,7 @@ async function sendChat() {{
 
   var rawAccum = '';
   var searchBadge = null;
+  var streamDone = false;
 
   try {{
     var resp = await fetch('/chat', {{
@@ -2203,7 +2204,7 @@ async function sendChat() {{
     var decoder = new TextDecoder();
     var buf = '';
 
-    while (true) {{
+    while (!streamDone) {{
       var result = await reader.read();
       if (result.done) break;
       buf += decoder.decode(result.value, {{ stream: true }});
@@ -2244,13 +2245,14 @@ async function sendChat() {{
             win.scrollTop = win.scrollHeight;
           }} else if (eventType === 'done') {{
             _chatHistory.push({{ role: 'assistant', content: rawAccum }});
+            streamDone = true;
             break;
           }} else if (eventType === 'error') {{
             var msg = '';
             try {{ msg = JSON.parse(payload).message; }} catch(e) {{}}
             contentDiv.textContent = 'Server error: ' + (msg || 'unknown');
-            // Roll back the user message so history stays clean
             _chatHistory.pop();
+            streamDone = true;
             break;
           }}
           eventType = '';
@@ -2259,7 +2261,6 @@ async function sendChat() {{
     }}
   }} catch(err) {{
     contentDiv.textContent = 'Error: ' + err.message;
-    // Roll back the user message so history stays clean
     _chatHistory.pop();
   }}
 

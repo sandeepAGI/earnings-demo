@@ -7,6 +7,7 @@ Usage:
     Open: http://localhost:8000
 """
 
+import asyncio
 import json
 import os
 import sqlite3
@@ -18,7 +19,6 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from tavily import TavilyClient
 
@@ -30,8 +30,11 @@ for key in ("ANTHROPIC_API_KEY", "TAVILY_API_KEY"):
     if not os.environ.get(key):
         sys.exit(f"Missing {key} in .env")
 
-claude  = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-tavily  = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
+# Sync client for the non-streaming first pass (run via asyncio.to_thread)
+claude_sync  = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+# Async client for the streaming follow-up
+claude_async = anthropic.AsyncAnthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+tavily       = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
 
 # ── Load context once at startup ──────────────────────────────────────────────
 def _load():
@@ -131,65 +134,108 @@ class ChatRequest(BaseModel):
 def serve_dashboard():
     return FileResponse(ROOT / "earnings_baseline.html")
 
+def _sanitize_messages(messages: list) -> list:
+    """Remove any tool_use/tool_result blocks that crept into client history.
+
+    The server handles tool calls internally; the client should only have plain
+    text turns. If a prior session stored raw API content blocks, strip them so
+    the next Claude call doesn't get a 400.
+    """
+    clean = []
+    skip_next = False
+    for msg in messages:
+        if skip_next:
+            skip_next = False
+            continue
+        role = msg.get("role", "")
+        content = msg.get("content", "")
+        if role == "assistant" and isinstance(content, list):
+            text = " ".join(
+                b.get("text", "") for b in content
+                if isinstance(b, dict) and b.get("type") == "text"
+            ).strip()
+            has_tool_use = any(
+                isinstance(b, dict) and b.get("type") == "tool_use"
+                for b in content
+            )
+            if has_tool_use:
+                skip_next = True  # drop the following tool_result user message
+            if text:
+                clean.append({"role": "assistant", "content": text})
+        elif role == "user" and isinstance(content, list):
+            has_tool_result = any(
+                isinstance(b, dict) and b.get("type") == "tool_result"
+                for b in content
+            )
+            if not has_tool_result:
+                clean.append(msg)
+        else:
+            clean.append(msg)
+    return clean
+
+
 @app.post("/chat")
 async def chat(req: ChatRequest):
     async def event_stream():
         try:
-            messages = req.messages
+            messages = _sanitize_messages(req.messages)
+            if not messages:
+                yield "event: done\ndata: {}\n\n"
+                return
 
-            # First pass — may include tool use
-            response = claude.messages.create(
-                model="claude-opus-4-7",
-                max_tokens=2048,
-                system=SYSTEM,
-                tools=[SEARCH_TOOL],
-                messages=messages,
-            )
-
-            # Handle tool use
-            if response.stop_reason == "tool_use":
-                tool_block = next(b for b in response.content if b.type == "tool_use")
-                query = tool_block.input["query"]
-
-                # Signal to frontend: search is happening
-                yield f"event: searching\ndata: {json.dumps({'query': query})}\n\n"
-
-                # Execute search
-                results = tavily.search(query=query, search_depth="basic", max_results=4)
-                search_text = "\n\n".join(
-                    f"[{r['title']}]\n{r['content']}" for r in results.get("results", [])
-                )
-
-                # Convert SDK content blocks to plain dicts for the follow-up call
-                assistant_content = [
-                    block.model_dump() for block in response.content
-                ]
-
-                # Continue with tool result — now stream
-                followup_messages = messages + [
-                    {"role": "assistant", "content": assistant_content},
-                    {"role": "user", "content": [
-                        {"type": "tool_result", "tool_use_id": tool_block.id, "content": search_text}
-                    ]},
-                ]
-
-                with claude.messages.stream(
+            # Agentic loop: handle multiple tool calls before the final response.
+            # Claude may return multiple tool_use blocks in a single turn (parallel
+            # searches for compound questions). Every tool_use must have a matching
+            # tool_result in the next user message or the API returns 400.
+            MAX_ROUNDS = 5
+            for _ in range(MAX_ROUNDS):
+                response = await asyncio.to_thread(
+                    claude_sync.messages.create,
                     model="claude-opus-4-7",
                     max_tokens=2048,
                     system=SYSTEM,
-                    messages=followup_messages,
-                ) as stream:
-                    for text in stream.text_stream:
-                        yield f"event: token\ndata: {json.dumps({'text': text})}\n\n"
+                    tools=[SEARCH_TOOL],
+                    messages=messages,
+                )
 
-            else:
-                # No tool use — stream from the completed response
-                for block in response.content:
-                    if hasattr(block, "text"):
-                        text = block.text
-                        chunk = 12
-                        for i in range(0, len(text), chunk):
-                            yield f"event: token\ndata: {json.dumps({'text': text[i:i+chunk]})}\n\n"
+                if response.stop_reason != "tool_use":
+                    break
+
+                # Collect ALL tool_use blocks (Claude may request several at once)
+                tool_blocks = [b for b in response.content if b.type == "tool_use"]
+
+                tool_results = []
+                for tb in tool_blocks:
+                    yield f"event: searching\ndata: {json.dumps({'query': tb.input['query']})}\n\n"
+                    raw = await asyncio.to_thread(
+                        tavily.search, tb.input["query"], search_depth="basic", max_results=4
+                    )
+                    search_text = "\n\n".join(
+                        f"[{r['title']}]\n{r['content']}" for r in raw.get("results", [])
+                    )
+                    tool_results.append({
+                        "type": "tool_result",
+                        "tool_use_id": tb.id,
+                        "content": search_text,
+                    })
+
+                # One assistant turn (with all tool_use blocks) + one user turn (all results)
+                messages = messages + [
+                    {"role": "assistant", "content": [b.model_dump() for b in response.content]},
+                    {"role": "user", "content": tool_results},
+                ]
+
+            # Stream the final text response with the async client.
+            # At this point messages is either the original (no searches) or includes
+            # all completed tool_use/tool_result pairs — both are valid for a text call.
+            async with claude_async.messages.stream(
+                model="claude-opus-4-7",
+                max_tokens=2048,
+                system=SYSTEM,
+                messages=messages,
+            ) as stream:
+                async for text in stream.text_stream:
+                    yield f"event: token\ndata: {json.dumps({'text': text})}\n\n"
 
             yield "event: done\ndata: {}\n\n"
 

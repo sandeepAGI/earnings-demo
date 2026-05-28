@@ -656,7 +656,7 @@
       <p>Fiscal period ending Jan 31, 2026 &nbsp;·&nbsp; Reported Feb 17, 2026 &nbsp;·&nbsp; <em>Everyone Is Wrong About AI, Including Me</em> — Digital FutureFest &#39;26</p>
     </div>
     <div class="header-meta">
-      Generated 2026-05-28 13:28<br>
+      Generated 2026-05-28 13:55<br>
       13 tables · 200 rows · earnings.db
       <br><span class="header-badge">Aileron Group · Workshop Use Only</span>
     </div>
@@ -1678,7 +1678,7 @@
 
 
 <div class="page-footer">
-  <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q2 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated 2026-05-28 13:28<br>
+  <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q2 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated 2026-05-28 13:55<br>
   Tab 1: Baseline Data (real data from DB) &nbsp;·&nbsp; Tab 2: Sell-Side Analysis (equity-research/earnings-analysis, 4 departures) &nbsp;·&nbsp; Tab 3: Buy-Side Layer (Claude API + Tavily)<br>
   Phase B: re-run rebuild_db.py &#8594; run_earnings_analysis.py &#8594; generate_baseline.py after June 2, 2026 Q3 print
 </div>
@@ -2067,6 +2067,7 @@ async function sendChat() {
 
   var rawAccum = '';
   var searchBadge = null;
+  var streamDone = false;
 
   try {
     var resp = await fetch('/chat', {
@@ -2079,7 +2080,7 @@ async function sendChat() {
     var decoder = new TextDecoder();
     var buf = '';
 
-    while (true) {
+    while (!streamDone) {
       var result = await reader.read();
       if (result.done) break;
       buf += decoder.decode(result.value, { stream: true });
@@ -2120,13 +2121,14 @@ async function sendChat() {
             win.scrollTop = win.scrollHeight;
           } else if (eventType === 'done') {
             _chatHistory.push({ role: 'assistant', content: rawAccum });
+            streamDone = true;
             break;
           } else if (eventType === 'error') {
             var msg = '';
             try { msg = JSON.parse(payload).message; } catch(e) {}
             contentDiv.textContent = 'Server error: ' + (msg || 'unknown');
-            // Roll back the user message so history stays clean
             _chatHistory.pop();
+            streamDone = true;
             break;
           }
           eventType = '';
@@ -2135,7 +2137,6 @@ async function sendChat() {
     }
   } catch(err) {
     contentDiv.textContent = 'Error: ' + err.message;
-    // Roll back the user message so history stays clean
     _chatHistory.pop();
   }
 
