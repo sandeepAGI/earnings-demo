@@ -1,6 +1,6 @@
 # Lessons Learned
 
-*Last updated: 2026-05-27 (end of day)*
+*Last updated: 2026-05-27 (session 6)*
 
 This file captures technical workarounds, design decisions, and things that failed or surprised us. Update at the end of every working session. Promote patterns to findings when they recur.
 
@@ -8,22 +8,52 @@ This file captures technical workarounds, design decisions, and things that fail
 
 ## Synthesized Findings
 
-### SQLite on mounted filesystem fails silently
-**Pattern (confirmed):** SQLite databases cannot be reliably written to or read from the mounted workspace filesystem (`/sessions/.../mnt/`). `shutil.copy2()` reports success but writes 0 bytes. Binary `open(path, 'wb').write(data)` reports success but file remains 0 bytes. The `sqlite3` module raises `disk I/O error` when reading from the mount even if the file shows non-zero size. A stale `earnings.db-journal` file on the mount can block deletion.
+### SQLite: /tmp workaround was Cowork-specific; not needed in Claude Code
+**Pattern:** The "SQLite fails silently on mounted FS" finding was specific to the Cowork environment. In Claude Code (terminal-first), SQLite writes cleanly to `demo/data/db/earnings.db` — 131KB, confirmed readable. The `/tmp` workaround has been retired.
 
-**Solution:** DB lives in `/tmp` permanently. It is ephemeral across sessions — rebuilt by `rebuild_db.py` at the start of each session (takes ~1 second). The HTML artifact is the persistent output; it is plain text and writes cleanly to the mount.
-
-**The two-step workflow:**
+**Current state:** DB lives at `demo/data/db/` (gitignored, rebuilt on each run). The two-step workflow is:
 ```
-python3 demo/data/rebuild_db.py      # → /tmp/earnings_v2.db
-python3 demo/generate_baseline.py    # → /mnt/.../earnings_baseline.html
+python demo/data/rebuild_db.py      # → demo/data/db/earnings.db
+python demo/generate_baseline.py    # → demo/earnings_baseline.html
 ```
 
-**Related:** branch-demo CLAUDE.md documents the same pattern for `branch_selection.db`. Branch-demo's DB IS on the mount (29MB, working) — likely because it was built before the mount filesystem behavior changed, or because it was moved there via a different mechanism. Do not attempt to replicate.
+**Cowork context (historical):** `/sessions/.../mnt/` filesystem in Cowork failed silently for SQLite binary writes. This finding was real in that environment but does not apply here.
 
 ---
 
 ## Session Log
+
+### 2026-05-27 (session 6) — Pipeline rebuild: Data, Script, Test stages complete
+
+Stages 2 through 4 executed and committed. Full pipeline operational.
+
+**Work completed:**
+
+- **`gather.py` written and run**: 6 sections, all succeeded. PDF extraction (3 PDFs → 5 raw files) via Anthropic Claude API. yfinance for EPS history and price. edgartools for Form 4 (26 filings, full Q2 FY26 window). FMP rejected — all v3 endpoints are now legacy/blocked post-Aug 2025.
+- **FMP fully deprecated**: Attempted earnings-surprises, analyst-estimates, income-statement, key-metrics, financial-reports-json. All returned 403 "Legacy Endpoint." FMP cannot be used on the free tier as of Aug 2025. yfinance earnings_history is the replacement for EPS consensus data (4 quarters of non-GAAP actual + estimate). Revenue consensus is not available from any free API for historical quarters — `revenue_consensus_m` is null.
+- **edgartools identity requirement**: SEC EDGAR requires a User-Agent header. Fix: `edgar.set_identity("Aileron Group info@aileron-group.com")` before any EDGAR call.
+- **`rebuild_db.py` fully rewritten**: Portable paths, correct Q2 FY26 dates (2026-01-31 fiscal, 2026-02-17 report), all data from new raw files, Form 4 from JSON (26 filings, 62 transactions), no hardcoded analytical prose, no silent fallback defaults. All 13 tables populated. 197 rows total.
+- **`test_provenance.py` written**: 39 tests, all pass. Provenance (non-null data_source, real files), Q2 FY26 figure verification, staleness check (fiscal date must be 2026-01-31), row count sanity for all key tables.
+- **SCHEMA.md updated**: Signed-off supplements corrected to Q2 FY26 actuals (76.1% GM, $384M FCF, $12.429B deferred rev, 1,550 platformized customers). Superseded files documented.
+
+**Verified Q2 FY26 figures (all from PDF extraction, confirmed by tests):**
+- Revenue: $2,594M (+14.9% YoY)
+- Non-GAAP EPS: $1.03 vs $0.937 consensus (+9.94% beat)
+- Non-GAAP gross margin: 76.1%
+- Non-GAAP OI margin: 30.3%
+- FCF: $384M (14.8% margin, standard)
+- NGS ARR: $6.33B (+33% YoY)
+- Platformized customers: 1,550
+- Deferred revenue: $12.429B ($6.248B current + $6.181B long-term)
+
+**Gaps / known limitations:**
+- EBITDA is null — D&A not in supplemental PDF; cannot derive without fabricating.
+- Revenue consensus null — not available from yfinance or any free API for historical quarters.
+- is_10b5_1_plan null in insider_transactions — edgartools does not surface this at transaction level in our extraction structure.
+
+**Stage 6 (generate_baseline.py) is next** — fix paths, remove hardcoded analytical prose (lines 847, 879), remove silent fallbacks.
+
+---
 
 ### 2026-05-27 (session 5, end of day) — Pipeline rebuild: Design stage approved
 
