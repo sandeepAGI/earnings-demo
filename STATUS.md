@@ -7,33 +7,31 @@ detail in `STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)
 
 ## Current Phase
 
-Phase 2 (demo build) — **pipeline rebuild active, Design stage approved.** The fiscal-year question is resolved: the operator obtained the actual PANW Q2 FY26 materials (Feb 17, 2026 print) and dropped the source PDFs into `demo/data/manual/`. The Design stage closed with the first stage-gate commit (`STAGE: Design approved 2026-05-27`). The build contract is operationalized in `demo/data/SCHEMA.md` (6 rules, signed-off hardcoded supplements enumerated). API stack locked: FMP + yfinance + edgartools + Anthropic. `gather.py` exists as the Stage 2 entry point; `rebuild_db.py` is in place. Pipeline now in the Data stage of the Design → Data → Script → Test → Learn → Build sequence.
+Phase 2 (demo build) — **pipeline rebuild complete. Tab 1 is final. Phase 2 unpaused.**
+
+All 6 stages of the pipeline rebuild landed on 2026-05-27 (6 commits, all gated by `STAGE:` commits). The DB is correct and reproducible. `earnings_baseline.html` Tab 1 shows verified Q2 FY26 figures. Tabs 2 and 3 remain honest placeholders pending the earnings reviewer process design.
+
+**Rebuild summary:** `demo/data/gather.py` → 7 raw files → `demo/data/rebuild_db.py` → 13 tables / 197 rows → `demo/data/tests/test_provenance.py` (39 tests, all pass) → `demo/generate_baseline.py` → `demo/earnings_baseline.html`.
 
 **Full findings (audit):** `data-audit-findings.md` (project root).
 **Schema source-of-truth:** `demo/data/SCHEMA.md`.
 
-Tab 1 of `earnings_baseline.html` is not final until the rebuilt data flows through. Tabs 2 and 3 remain honest placeholders.
-
-**Next action:** verify the seven signed-off hardcoded supplements against the actual Q2 FY26 press release PDF; complete the manual `panw_q2fy26_press_release_supplement.json` from the template; run `gather.py` end to end; commit `STAGE: Data approved`.
+**Next action:** Begin workshop materials track (compressed 45-min agenda, exercise brief, facilitator guide, run of show). Separately, begin Tab 2 design — the earnings reviewer process for the demo block needs to be designed, tested, and run before Tab 2 gets populated.
 
 ---
 
 ## Active Tasks
 
-### Pipeline rebuild (Data stage active)
+### Pipeline rebuild — COMPLETE
 - [x] Resolve fiscal-year question: real Q2 FY26 materials sourced into `demo/data/manual/`
-- [x] Finalize build contract — operationalized in `demo/data/SCHEMA.md` (6 rules at top)
-- [x] API stack locked: FMP + yfinance + edgartools + Anthropic; `.env.example` added
-- [x] Schema doc written: 13 tables mapped to sources, hardcoded supplements enumerated
-- [x] `gather.py` (Stage 2 entry point) drafted; `manual/README.md` documents required files
-- [x] Stage-gate discipline started: first commit `STAGE: Design approved 2026-05-27`
-- [ ] Verify all 7 signed-off hardcoded supplements against actual Q2 FY26 press release PDF (table in `SCHEMA.md` is "Pending")
-- [ ] Complete `panw_q2fy26_press_release_supplement.json` from the template in `manual/`
-- [ ] Run `gather.py` end to end; confirm all raw files written with provenance
-- [ ] Commit `STAGE: Data approved` once raw files validated
-- [ ] Run `rebuild_db.py` → confirm provenance tests pass → commit `STAGE: Script approved`
-- [ ] Re-run `generate_baseline.py` against rebuilt DB; remove silent fallbacks and hardcoded analytical prose
-- [ ] Update `EARNINGS-ANALYSIS-GUIDE.md` to match the rebuilt schema
+- [x] Build contract operationalized in `demo/data/SCHEMA.md` (6 rules at top)
+- [x] API stack: FMP deprecated (free tier blocked Aug 2025), replaced with yfinance + edgartools + Anthropic PDF extraction + SEC EDGAR XBRL research done
+- [x] `gather.py` run end to end — 7 raw files written with provenance
+- [x] `rebuild_db.py` rewritten — 13 tables, 197 rows, 39/39 provenance tests pass
+- [x] `generate_baseline.py` fixed — portable paths, no analytical callouts, no stale fallbacks, all dates from DB
+- [x] `SCHEMA.md` updated with verified Q2 FY26 figures
+- [x] `LESSONS_LEARNED.md` updated (Sessions 6 and 7)
+- [x] Stage-gate commits: Design, Data, Script, Test, Learn, Build all committed
 
 ### Workshop design
 - [ ] Compressed 45-minute agenda pass

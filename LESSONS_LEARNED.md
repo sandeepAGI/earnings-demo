@@ -1,6 +1,6 @@
 # Lessons Learned
 
-*Last updated: 2026-05-27 (session 6)*
+*Last updated: 2026-05-27 (session 7)*
 
 This file captures technical workarounds, design decisions, and things that failed or surprised us. Update at the end of every working session. Promote patterns to findings when they recur.
 
@@ -51,7 +51,38 @@ Stages 2 through 4 executed and committed. Full pipeline operational.
 - Revenue consensus null — not available from yfinance or any free API for historical quarters.
 - is_10b5_1_plan null in insider_transactions — edgartools does not surface this at transaction level in our extraction structure.
 
-**Stage 6 (generate_baseline.py) is next** — fix paths, remove hardcoded analytical prose (lines 847, 879), remove silent fallbacks.
+---
+
+### 2026-05-27 (session 7) — Pipeline rebuild Stage 6: generate_baseline.py
+
+Stage 6 complete. Pipeline rebuild is fully done; `earnings_baseline.html` Tab 1 is final.
+
+**Work completed:**
+
+- **Paths fixed**: all `/tmp/earnings_v2.db`, `/sessions/trusting-brave-ritchie/...` hardcoded paths replaced with `pathlib.Path(__file__).parent` resolution. `os` import removed; file writes use Path `.write_text()` / `.read_text()`.
+- **Stale literal fallbacks removed**: `panw_q2.get('eps_nongaap', 0.81)`, `panw_q2.get('revenue_total_m', 2257.4)`, `consensus.get('eps_consensus_nongaap', 0.779)`, and six guidance fallbacks (all with stale FY25 values) converted to direct dict access or `.get() or 0` without embedded stale data.
+- **Five analytical callouts removed** (the hard rule from Session 3 was violated in five places):
+  1. "GAAP OI Trap" (blamed litigation normalisation, stated "+13.5%" as fact)
+  2. "Platformisation thesis" (stated bull/bear case in template)
+  3. "Guidance Trap" (analytical interpretation of sequential EPS step-down)
+  4. "Peer read" (stated thesis and bear case with hardcoded growth percentages)
+  5. "Analytical read" (Arora $143.7M block commentary, Jenkins "mild constructive tell")
+  6. "Phase B note" (dip-and-rip $187.68 → $208.39)
+- **Stale dates fixed**: `Feb 13, 2025` → `Feb 17, 2026` (report date from DB); `Jan 31, 2025` → `Jan 31, 2026` (fiscal date from DB). Now computed from `panw_q2` dict, not hardcoded.
+- **DB info computed**: header now shows `13 tables · 197 rows · earnings.db` (not the old hardcoded `/tmp/earnings_v2.db`).
+- **Dead JS removed**: `setHz()` function and hz-related element ID references had no matching HTML elements — removed.
+- **Insider display aggregated**: 30 individual sale rows replaced with a 5-row aggregated query (by insider, sum shares/value, date range). Display no longer crashes on null `price_per_share` or hardcodes `10b5-1` badge for all transactions.
+- **GAAP OI YoY computed from DB**: `gaap_oi_yoy` now computed as `(Q2FY26_oi - Q2FY25_oi) / |Q2FY25_oi| * 100` = +65% (Q2 FY25 GAAP OI was depressed by one-time charge). Old code showed 0 because the KPI wasn't in the KPI table.
+- **FY revenue guidance lookup fixed**: `g_fy_rev` looked for `metric='revenue_bn'` but DB stores it as `metric='revenue_m'`. Display now shows $11.28–$11.31B (was $0.00–$0.00B).
+- **EPS chart corrected**: column names changed from `eps_gaap_actual` → `eps_nongaap_actual` and `eps_gaap_estimated` → `eps_nongaap_estimate` to match actual DB schema. Chart labels and title updated to say "Non-GAAP."
+- **Revenue mix computed**: subscription/product % are now computed from DB values (80.2% / 19.8%), not hardcoded stale values (81.3% / 18.7%).
+
+**Remaining known gaps (unchanged from Session 6):**
+- `revenue_consensus_m` = null (no free API has historical revenue consensus)
+- `stock_ah_change_pct` and `stock_close_day_of` = null (not in DB; these would require a live price feed at the time of the earnings release)
+- `is_10b5_1_plan` = null (edgartools transaction-level attribute not extracted)
+- `revenue_beat_pct` = 0 (no revenue consensus to compute against; display shows "Consensus — · beat +0.0%")
+- XSIAM customer count (200+) hardcoded — from transcript text, no KPI slot in DB; acceptable as a factual data point from a stated source, not an analytical conclusion
 
 ---
 
