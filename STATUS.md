@@ -50,7 +50,7 @@ Tab 2 is complete: full sell-side analysis following `equity-research/earnings-a
 - [x] Output validated: `panw_q2fy26_earnings_analysis.json` — Rating: Maintain Outperform, PT $186
 - [x] Tab 2 wired into `generate_baseline.py` — all steps render from JSON, departures panel visible
 - [x] HTML confirmed in browser — Steps 5–11 all render, peer table, valuation, skill banner
-- [ ] Phase B: re-run on Q3 FY26 after June 2 print (same script, new data)
+- [ ] **Phase B (June 3):** Q3 FY26 prints June 2. On June 3: run `demo/data/gather.py` to refresh raw files, then `python3 demo/data/analysis/run_earnings_analysis.py` to regenerate `panw_q3fy26_earnings_analysis.json`, then `python3 demo/generate_baseline.py`. Tab 2 updates automatically from the new JSON. No HTML edits needed.
 
 ### Workshop design
 - [ ] Compressed 45-minute agenda pass
