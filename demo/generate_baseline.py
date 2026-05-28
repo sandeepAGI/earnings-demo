@@ -634,6 +634,97 @@ html = f"""<!DOCTYPE html>
   .dep-what {{ margin-bottom: 3px; }}
   .dep-why {{ font-size: 11px; color: var(--muted); font-style: italic; }}
 
+  /* ── Tab 2: Tool intro card ── */
+  .tool-intro {{
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 24px;
+  }}
+  @media (max-width: 860px) {{ .tool-intro {{ grid-template-columns: 1fr; }} }}
+  .tool-panel {{ padding: 18px 20px; border-right: 1px solid var(--border); }}
+  .tool-panel:last-child {{ border-right: none; }}
+  .tool-panel-icon {{ font-size: 22px; margin-bottom: 8px; }}
+  .tool-panel-title {{
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--purple); margin-bottom: 7px;
+  }}
+  .tool-panel-body {{ font-size: 12.5px; color: var(--text); line-height: 1.7; }}
+  .tool-panel-body strong {{ color: var(--purple); }}
+  .tool-panel.adapt {{ background: #fffcf0; }}
+  .tool-panel.adapt .tool-panel-title {{ color: #96720a; }}
+  .tool-adapt-row {{ display: flex; gap: 8px; margin-bottom: 6px; font-size: 12px; line-height: 1.45; }}
+  .tool-adapt-id {{
+    background: var(--purple); color: #fff; font-size: 9px; font-weight: 800;
+    padding: 2px 5px; border-radius: 3px; flex-shrink: 0; margin-top: 1px;
+  }}
+
+  /* ── Tab 2: Report note layout ── */
+  .rn-cover {{
+    background: var(--purple); color: #fff; border-radius: 8px;
+    padding: 20px 24px; margin-bottom: 20px;
+  }}
+  .rn-cover-top {{
+    display: flex; align-items: flex-start; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; margin-bottom: 14px;
+  }}
+  .rn-cover-company {{ font-size: 20px; font-weight: 800; letter-spacing: -.01em; }}
+  .rn-cover-meta {{ font-size: 12px; opacity: .72; margin-top: 3px; }}
+  .rn-cover-right {{ text-align: right; }}
+  .rn-cover-date {{ font-size: 12px; opacity: .72; margin-bottom: 2px; }}
+  .rn-cover-type {{ font-size: 10px; opacity: .55; text-transform: uppercase; letter-spacing: .07em; }}
+  .rn-cover-stats {{
+    display: flex; gap: 28px; padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,.2); flex-wrap: wrap; align-items: flex-end;
+  }}
+  .rn-stat {{ min-width: 80px; }}
+  .rn-stat-label {{ font-size: 10px; opacity: .62; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }}
+  .rn-stat-val {{ font-size: 22px; font-weight: 800; line-height: 1; }}
+  .rn-stat-val.up {{ color: #a3e6b8; }}
+  .rn-stat-val.dn {{ color: #ff9494; }}
+  .rn-stat-note {{ font-size: 11px; opacity: .68; margin-top: 3px; }}
+
+  .rn-keypoints {{
+    background: var(--off-white); border: 1px solid var(--border);
+    border-left: 4px solid var(--purple); border-radius: 0 6px 6px 0;
+    padding: 14px 18px; margin-bottom: 22px;
+  }}
+  .rn-keypoints-label {{
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--purple); margin-bottom: 8px;
+  }}
+  .rn-keypoints ul {{ margin: 0; padding-left: 16px; }}
+  .rn-keypoints li {{ font-size: 13px; line-height: 1.65; margin-bottom: 5px; }}
+  .rn-keypoints li:last-child {{ margin-bottom: 0; }}
+
+  .rn-section {{ margin-bottom: 24px; }}
+  .rn-section-title {{
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .09em; color: var(--muted); padding-bottom: 7px;
+    border-bottom: 2px solid var(--border); margin-bottom: 14px;
+  }}
+  .rn-two-col {{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }}
+  @media (max-width: 760px) {{ .rn-two-col {{ grid-template-columns: 1fr; }} }}
+  .rn-prose {{ font-size: 13px; line-height: 1.78; color: var(--text); }}
+  .rn-prose p {{ margin: 0 0 10px; }}
+  .rn-prose p:last-child {{ margin-bottom: 0; }}
+  .rn-risks {{ margin: 0; padding-left: 18px; }}
+  .rn-risks li {{ font-size: 13px; line-height: 1.65; margin-bottom: 6px; color: var(--text); }}
+  .rn-risks li:last-child {{ margin-bottom: 0; }}
+  .rn-callout {{
+    background: #fff8e1; border-left: 3px solid #e6a817;
+    padding: 10px 14px; border-radius: 0 5px 5px 0;
+    font-size: 12.5px; line-height: 1.6; margin-top: 12px;
+  }}
+  .rn-callout.neg {{ background: #fff0f0; border-left-color: #e74c3c; }}
+  .rn-callout.pos {{ background: #f0fff5; border-left-color: #27ae60; }}
+
+  .rn-methodology {{
+    border-top: 1px solid var(--border); margin-top: 28px; padding-top: 16px;
+  }}
+  .rn-methodology-title {{
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--muted); margin-bottom: 10px;
+  }}
+
   /* ── Secret sauce (Tab 3) ── */
   .sauce-outer {{
     background: var(--purple); border-radius: 8px; padding: 22px 24px; color: #fff;
@@ -683,7 +774,7 @@ html = f"""<!DOCTYPE html>
       Baseline Data <span class="tab-label-pill">Raw Data</span>
     </button>
     <button class="tab-btn" onclick="showTab('sellside', this)">
-      Claude Analysis <span class="tab-label-pill">Steps 5–8</span>
+      Claude for Financial Services <span class="tab-label-pill">Earnings Reviewer</span>
     </button>
     <button class="tab-btn" onclick="showTab('buyside', this)">
       Buy-Side Layer <span class="tab-label-pill">Cowork</span>
@@ -1096,8 +1187,22 @@ if _an:
     _s10 = _an["steps"]["10_valuation"]
     _s11 = _an["steps"]["11_rating"]
 
-    _dep_rows = ""
+    # ── Departures: adapt rows (intro card) and full dep-panel rows ──────────
+    _adapt_rows = ""
+    _dep_rows   = ""
+    _adapt_labels = {
+        "D1": "Pre-staged data — no live web search",
+        "D2": "EPS trajectory — no prior analyst model",
+        "D3": "Peer multiples only — no DCF",
+        "D4": "HTML output — not Word doc",
+    }
     for _d in _an["departures"]:
+        _short = _adapt_labels.get(_d["id"], _d["departure"])
+        _adapt_rows += (
+            f'        <div class="tool-adapt-row">'
+            f'<span class="tool-adapt-id">{_d["id"]}</span>'
+            f'<span>{_short}</span></div>\n'
+        )
         _dep_rows += (
             f'    <div class="dep-row">\n'
             f'      <span class="dep-badge">{_d["id"]}</span>\n'
@@ -1109,39 +1214,48 @@ if _an:
             f'    </div>\n'
         )
 
-    _risks = "".join(f"          <li>{_r}</li>\n" for _r in _s11["key_risks"])
-
-    _rbc = "upgrade" if "Upgrade" in _s11["rating"] else ("downgrade" if "Downgrade" in _s11["rating"] else "")
-
-    _seg = (
-        f'        <tr><td>Product</td><td class="num">${_s6["product_revenue_m"]}M</td>'
-        f'<td class="num pos">+{_s6["product_yoy_pct"]}%</td><td class="muted">Hardware / appliances</td></tr>\n'
-        f'        <tr><td>Subscription &amp; Support</td><td class="num">${_s6["subscription_revenue_m"]}M</td>'
-        f'<td class="num pos">+{_s6["subscription_yoy_pct"]}%</td><td class="muted">{_s6["subscription_mix_pct"]}% of total revenue</td></tr>\n'
-        f'        <tr class="highlight"><td><strong>Total Revenue</strong></td>'
-        f'<td class="num"><strong>${_s5["revenue"]["actual_m"]}M</strong></td>'
-        f'<td class="num"><strong>+{_s5["revenue"]["yoy_growth_pct"]}% YoY</strong></td><td class="muted">&nbsp;</td></tr>\n'
-        f'        <tr><td>Free Cash Flow</td><td class="num">${_s6["fcf_m"]}M</td>'
-        f'<td class="num">{_s6["fcf_margin_pct"]}% margin</td><td class="muted">Seasonally low; Q1 FY26 was 68.2%</td></tr>\n'
-        f'        <tr><td>RPO (Backlog)</td><td class="num">${_s6["rpo_bn"]}B</td>'
-        f'<td class="num pos">+{_s6["rpo_yoy_pct"]}%</td><td class="muted">Forward revenue visibility</td></tr>\n'
+    # ── Financial highlights table rows ──────────────────────────────────────
+    _fin_rows = (
+        f'      <tr class="highlight">'
+        f'<td><strong>Non-GAAP EPS</strong></td>'
+        f'<td class="num"><strong>${_s5["eps_nongaap"]["actual"]}</strong></td>'
+        f'<td class="num pos"><strong>+{_s5["eps_nongaap"]["beat_pct"]}% beat</strong></td>'
+        f'<td class="muted">vs ${_s5["eps_nongaap"]["consensus"]:.3f} consensus</td></tr>\n'
+        f'      <tr><td>Revenue</td>'
+        f'<td class="num">${_s5["revenue"]["actual_m"]:,}M</td>'
+        f'<td class="num pos">+{_s5["revenue"]["yoy_growth_pct"]}% YoY</td>'
+        f'<td class="muted">Revenue consensus not available</td></tr>\n'
+        f'      <tr><td>NGS ARR</td>'
+        f'<td class="num">${_s5["ngs_arr"]["actual_bn"]}B</td>'
+        f'<td class="num pos">+{_s5["ngs_arr"]["yoy_growth_pct"]}% YoY</td>'
+        f'<td class="muted">Organic +{_s5["ngs_arr"]["organic_yoy_pct"]}% · 1,550 platformized customers</td></tr>\n'
+        f'      <tr><td>After-Hours Reaction</td>'
+        f'<td class="num neg">{_s5["stock_reaction"]["ah_change_pct"]:+.2f}%</td>'
+        f'<td class="muted" colspan="2">${_s5["stock_reaction"]["close_day_of"]} close → ${_s5["stock_reaction"]["open_next_day"]} open · market sold the guidance, not the beat</td></tr>\n'
     )
 
-    _traj = ""
-    for _t in _s7["trajectory"]:
+    # ── Margin table rows (last 4 quarters + current) ─────────────────────────
+    _traj_rows = ""
+    for _t in _s7["trajectory"][-4:]:
         _hl = ' class="highlight"' if _t["period"] == "Q2_FY26" else ""
-        _traj += (
+        _traj_rows += (
             f'      <tr{_hl}><td>{_t["period"].replace("_"," ")}</td>'
-            f'<td class="num">{_t["gm_gaap_pct"]}%</td>'
             f'<td class="num">{_t["gm_nongaap_pct"]}%</td>'
-            f'<td class="num">{_t["oi_gaap_pct"]}%</td>'
             f'<td class="num">{_t["oi_nongaap_pct"]}%</td>'
             f'<td class="num">{_t["fcf_margin_pct"]}%</td></tr>\n'
         )
 
+    # ── Guidance table rows ──────────────────────────────────────────────────
+    _q3_rev  = f'${_s8["q3_fy26"]["revenue_midpoint"]:,}M'
+    _q3_eps  = f'${_s8["q3_fy26"]["eps_midpoint"]}'
+    _q3_arr  = f'${_s8["q3_fy26"]["ngs_arr_range_bn"][0]}–{_s8["q3_fy26"]["ngs_arr_range_bn"][1]}B'
+    _fy_rev  = f'${_s8["fy26_full_year"]["revenue_midpoint"]:,}M'
+    _fy_eps  = f'${_s8["fy26_full_year"]["eps_midpoint"]}'
+
+    # ── EPS beat trend rows ──────────────────────────────────────────────────
     _eps_rows = ""
     for _e in _s9["eps_history"]:
-        _hl = ' class="highlight"' if _e["period"] == "2026-01-31" else ""
+        _hl   = ' class="highlight"' if _e["period"] == "2026-01-31" else ""
         _bcls = "pos" if _e["beat_pct"] > 5 else ""
         _eps_rows += (
             f'      <tr{_hl}><td>{_e["period"]}</td>'
@@ -1150,11 +1264,12 @@ if _an:
             f'<td class="num {_bcls}">+{_e["beat_pct"]}%</td></tr>\n'
         )
 
+    # ── Peer table rows ──────────────────────────────────────────────────────
     _peer_rows = ""
     for _p in _s10["peer_table"]:
-        _hl = ' class="highlight"' if _p["symbol"] == "PANW" else ""
+        _hl    = ' class="highlight"' if _p["symbol"] == "PANW" else ""
         _ev_ttm = f'{_p["ev_rev_ttm_x"]:.1f}x' if _p.get("ev_rev_ttm_x") else "—"
-        _ev_ntm = f'{_p["ev_rev_ntm_x"]}x' if _p.get("ev_rev_ntm_x") else "—"
+        _ev_ntm = f'{_p["ev_rev_ntm_x"]}x'     if _p.get("ev_rev_ntm_x") else "—"
         _peer_rows += (
             f'      <tr{_hl}><td><strong>{_p["symbol"]}</strong></td>'
             f'<td class="num">{_ev_ttm}</td>'
@@ -1164,297 +1279,252 @@ if _an:
             f'<td class="muted">{_p["note"]}</td></tr>\n'
         )
 
+    # ── Key risks ────────────────────────────────────────────────────────────
+    _risks = "".join(f"      <li>{_r}</li>\n" for _r in _s11["key_risks"])
+
     _tab2_html = f"""<div id="tab-sellside" class="tab-content">
 <div class="container">
 
-<div class="skill-banner">
-  Follows <strong>{_an["skill_version"]}</strong> &nbsp;·&nbsp;
-  Run: <strong>{_an["generated"]}</strong> &nbsp;·&nbsp;
-  {len(_an["departures"])} departures from skill spec (see panel below) &nbsp;·&nbsp;
-  Symbol: <strong>{_an["symbol"]}</strong> &nbsp;·&nbsp; Period: <strong>{_an["fiscal_period"]}</strong>
-</div>
-
-<!-- ── Step 11: Rating Hero ──────────────────────────────────────────────── -->
-<div class="section">
-  <div class="section-header">
-    <h2>Step 11 — Rating &amp; Price Target</h2>
-    <span class="tag">skill: equity-research/earnings-analysis</span>
+<!-- ── Tool intro card ──────────────────────────────────────────────────── -->
+<div class="tool-intro">
+  <div class="tool-panel">
+    <div class="tool-panel-icon">🔬</div>
+    <div class="tool-panel-title">The Tool</div>
+    <div class="tool-panel-body">
+      <strong>Claude for Financial Services:<br>Earnings Reviewer Agent</strong><br><br>
+      A sell-side earnings update workflow that processes a quarterly earnings release
+      and produces a formal research note with a rating and price target.<br><br>
+      <span style="font-size:11px;color:#888">{_an["skill_version"]}</span>
+    </div>
   </div>
-  <div class="section-body">
-    <div class="an-hero">
-      <div class="an-hero-top">
-        <div class="an-rating-badge {_rbc}">
-          {_s11["rating_short"]}<br><span style="font-size:11px;opacity:.8">{_s11["rating"]}</span>
-        </div>
-        <div>
-          <div style="font-size:11px;opacity:.75;margin-bottom:2px">Price Target</div>
-          <div class="an-pt-val">${_s11["price_target"]}</div>
-          <div style="font-size:11px;opacity:.75">
-            Range ${_s11["pt_range"][0]}–${_s11["pt_range"][1]} &nbsp;·&nbsp;
-            From ${_s11["current_price"]} close &nbsp;·&nbsp;
-            <strong style="color:#a3e6b8">+{_s11["implied_upside_pct"]}% upside</strong>
-          </div>
-        </div>
-        <div style="flex:1;min-width:160px">
-          <div style="font-size:11px;opacity:.75;margin-bottom:6px">Skill criteria applied</div>
-          <div style="font-size:12px;line-height:1.9">
-            {"✓" if _s11["skill_criteria"]["eps_beat_significant"] else "✗"} EPS beat significant (&gt;5%)<br>
-            {"✓" if _s11["skill_criteria"]["fy_guidance_raised"] else "✗"} FY guidance raised<br>
-            {"⚠" if _s11["skill_criteria"]["q3_sequential_step_down"] else "✓"} Q3 sequential step-down<br>
-            {"✓" if _s11["skill_criteria"]["stock_already_adjusted"] else "—"} Stock already adjusted (–8.5% AH)
-          </div>
-        </div>
-        <div style="flex:1;min-width:140px">
-          <div style="font-size:11px;opacity:.75;margin-bottom:6px">Q&amp;A sentiment</div>
-          <div style="font-size:13px;line-height:2">
-            <span style="color:#a3e6b8;font-weight:700">● {_s11["qa_signal_summary"]["bullish"]} bullish</span><br>
-            <span style="color:#e74c3c;font-weight:700">● {_s11["qa_signal_summary"]["bearish"]} bearish</span><br>
-            <span style="opacity:.6;font-weight:700">● {_s11["qa_signal_summary"]["neutral"]} neutral</span>
-          </div>
-        </div>
-      </div>
-      <div class="an-hero-rationale">{_s11["rationale"]}</div>
-      <div style="margin-top:14px">
-        <div style="font-size:11px;color:rgba(255,255,255,.65);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Key Risks</div>
-        <ul style="margin:0;padding-left:18px;font-size:12px;color:rgba(255,255,255,.8);line-height:1.9">
-{_risks}        </ul>
-      </div>
+  <div class="tool-panel">
+    <div class="tool-panel-icon">📋</div>
+    <div class="tool-panel-title">The Process</div>
+    <div class="tool-panel-body">
+      11-step workflow covering data collection, beat/miss analysis, segment review,
+      margin analysis, guidance analysis, estimate revisions, valuation, and
+      rating — following standard sell-side research conventions.<br><br>
+      Output: <strong>Rating + Price Target</strong>, structured as a research note.
+    </div>
+  </div>
+  <div class="tool-panel adapt">
+    <div class="tool-panel-icon">⚡</div>
+    <div class="tool-panel-title">4 Adaptations from Full Spec</div>
+    <div class="tool-panel-body">
+{_adapt_rows}      <span style="font-size:11px;color:#888">Full detail in Methodology Note below.</span>
     </div>
   </div>
 </div>
 
-<!-- ── Step 5: Beat/Miss ─────────────────────────────────────────────────── -->
-<div class="section">
-  <div class="section-header">
-    <h2>Step 5 — Beat / Miss Analysis</h2>
-    <span class="tag">Q2 FY26 vs. consensus</span>
-  </div>
-  <div class="section-body">
-    <div class="an-kpi-grid">
-      <div class="an-kpi">
-        <div class="an-kpi-label">Non-GAAP EPS</div>
-        <div class="an-kpi-val pos">+{_s5["eps_nongaap"]["beat_pct"]}% beat</div>
-        <div class="an-kpi-note">${_s5["eps_nongaap"]["actual"]} actual vs ${_s5["eps_nongaap"]["consensus"]:.3f} consensus (+${_s5["eps_nongaap"]["beat"]:.3f})</div>
-      </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">Revenue (YoY)</div>
-        <div class="an-kpi-val pos">+{_s5["revenue"]["yoy_growth_pct"]}%</div>
-        <div class="an-kpi-note">${_s5["revenue"]["actual_m"]}M &nbsp;·&nbsp; Revenue consensus not in pre-staged data</div>
-      </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">NGS ARR Growth</div>
-        <div class="an-kpi-val pos">+{_s5["ngs_arr"]["yoy_growth_pct"]}%</div>
-        <div class="an-kpi-note">${_s5["ngs_arr"]["actual_bn"]}B &nbsp;·&nbsp; Organic +{_s5["ngs_arr"]["organic_yoy_pct"]}% &nbsp;·&nbsp; 1,550 platformized</div>
-      </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">AH Reaction</div>
-        <div class="an-kpi-val neg">{_s5["stock_reaction"]["ah_change_pct"]:+.2f}%</div>
-        <div class="an-kpi-note">${_s5["stock_reaction"]["close_day_of"]} close → ${_s5["stock_reaction"]["open_next_day"]} open</div>
-      </div>
+<!-- ── Report cover ──────────────────────────────────────────────────────── -->
+<div class="rn-cover">
+  <div class="rn-cover-top">
+    <div>
+      <div class="rn-cover-company">Palo Alto Networks, Inc. &nbsp;<span style="font-size:13px;opacity:.7">PANW · NASDAQ</span></div>
+      <div class="rn-cover-meta">Cybersecurity &nbsp;·&nbsp; Q2 FY26 Earnings Update &nbsp;·&nbsp; Feb 17, 2026</div>
     </div>
-    <div class="an-flag neg" style="margin-top:12px">
-      <strong>Reaction driver:</strong> {_s5["stock_reaction"]["driver"]}
-    </div>
-    <div class="an-flag pos" style="margin-top:8px">
-      <strong>EPS driver:</strong> {_s5["eps_nongaap"]["driver"]}
+    <div class="rn-cover-right">
+      <div class="rn-cover-date">Earnings call: Feb 17, 2026</div>
+      <div class="rn-cover-type">Sell-side research note</div>
     </div>
   </div>
-</div>
-
-<!-- ── Step 6: Segment & Business Mix ───────────────────────────────────── -->
-<div class="section">
-  <div class="section-header">
-    <h2>Step 6 — Segment &amp; Business Mix</h2>
-    <span class="tag">Q2 FY26</span>
-  </div>
-  <div class="section-body">
-    <table class="an-tbl">
-      <thead><tr><th>Segment</th><th>Revenue</th><th>YoY</th><th>Notes</th></tr></thead>
-      <tbody>
-{_seg}      </tbody>
-    </table>
-    <div class="an-flag pos" style="margin-top:12px">{_s6["segment_note"]}</div>
-    <div class="an-flag" style="margin-top:8px;border-left-color:#888;background:#f9f9f9">
-      <strong>Geographic note:</strong> {_s6["geo_note"]}
+  <div class="rn-cover-stats">
+    <div class="rn-stat">
+      <div class="rn-stat-label">Rating</div>
+      <div class="rn-stat-val">{_s11["rating_short"]}</div>
+      <div class="rn-stat-note">{_s11["rating"]}</div>
+    </div>
+    <div class="rn-stat">
+      <div class="rn-stat-label">Price Target</div>
+      <div class="rn-stat-val up">${_s11["price_target"]}</div>
+      <div class="rn-stat-note">Range ${_s11["pt_range"][0]}–${_s11["pt_range"][1]}</div>
+    </div>
+    <div class="rn-stat">
+      <div class="rn-stat-label">Implied Upside</div>
+      <div class="rn-stat-val up">+{_s11["implied_upside_pct"]}%</div>
+      <div class="rn-stat-note">From ${_s11["current_price"]} close</div>
+    </div>
+    <div class="rn-stat">
+      <div class="rn-stat-label">AH Reaction</div>
+      <div class="rn-stat-val dn">{_s5["stock_reaction"]["ah_change_pct"]:+.1f}%</div>
+      <div class="rn-stat-note">Feb 17 close → Feb 18 open</div>
+    </div>
+    <div class="rn-stat">
+      <div class="rn-stat-label">Q&amp;A Sentiment</div>
+      <div class="rn-stat-val" style="font-size:14px;line-height:1.5">
+        <span style="color:#a3e6b8">{_s11["qa_signal_summary"]["bullish"]}B</span> /
+        <span style="color:#ff9494">{_s11["qa_signal_summary"]["bearish"]}Br</span> /
+        <span style="opacity:.7">{_s11["qa_signal_summary"]["neutral"]}N</span>
+      </div>
+      <div class="rn-stat-note">10 analyst exchanges</div>
     </div>
   </div>
 </div>
 
-<!-- ── Step 7: Margin Analysis ──────────────────────────────────────────── -->
+<!-- ── Key Takeaways ─────────────────────────────────────────────────────── -->
+<div class="rn-keypoints">
+  <div class="rn-keypoints-label">Key Takeaways</div>
+  <ul>
+    <li><strong>Beat:</strong> Non-GAAP EPS ${_s5["eps_nongaap"]["actual"]} vs. ${_s5["eps_nongaap"]["consensus"]:.3f} consensus (+{_s5["eps_nongaap"]["beat_pct"]}%). Revenue +{_s5["revenue"]["yoy_growth_pct"]}% YoY to ${_s5["revenue"]["actual_m"]:,}M. NGS ARR +{_s5["ngs_arr"]["yoy_growth_pct"]}% to ${_s5["ngs_arr"]["actual_bn"]}B ({_s5["ngs_arr"]["organic_yoy_pct"]}% organic). {_s5["eps_nongaap"]["driver"]}</li>
+    <li><strong>Reaction:</strong> Stock fell {_s5["stock_reaction"]["ah_change_pct"]:+.1f}% AH despite the beat. {_s5["stock_reaction"]["driver"]}</li>
+    <li><strong>Thesis intact:</strong> Platform consolidation on track — 1,550 platformized customers, RPO ${_s6["rpo_bn"]}B (+{_s6["rpo_yoy_pct"]}%). FY26 guidance raised. {_s8["key_signals"]["credibility_read"]}</li>
+  </ul>
+</div>
+
+<!-- ── Financial Highlights ──────────────────────────────────────────────── -->
 <div class="section">
   <div class="section-header">
-    <h2>Step 7 — Margin Analysis</h2>
-    <span class="tag">8-quarter trajectory</span>
+    <h2>Financial Highlights</h2>
+    <span class="tag">Q2 FY26 · Feb 17, 2026</span>
   </div>
   <div class="section-body">
-    <div class="an-kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px">
-      <div class="an-kpi">
-        <div class="an-kpi-label">Non-GAAP Gross Margin</div>
-        <div class="an-kpi-val">{_s7["q2_fy26"]["gross_margin_nongaap_pct"]}%</div>
-        <div class="an-kpi-note">GAAP {_s7["q2_fy26"]["gross_margin_gaap_pct"]}% &nbsp;·&nbsp; YoY {_s7["yoy_delta_bps"]["gross_margin_nongaap"]:+d}bps</div>
+    <div class="rn-two-col">
+      <div>
+        <table class="an-tbl">
+          <thead><tr><th>Metric</th><th>Actual</th><th>vs. Estimate</th><th>Notes</th></tr></thead>
+          <tbody>
+{_fin_rows}          </tbody>
+        </table>
       </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">Non-GAAP OI Margin</div>
-        <div class="an-kpi-val pos">{_s7["q2_fy26"]["oi_margin_nongaap_pct"]}%</div>
-        <div class="an-kpi-note">GAAP {_s7["q2_fy26"]["oi_margin_gaap_pct"]}% &nbsp;·&nbsp; YoY +{_s7["yoy_delta_bps"]["oi_margin_nongaap"]}bps</div>
-      </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">FCF Margin</div>
-        <div class="an-kpi-val">{_s7["q2_fy26"]["fcf_margin_pct"]}%</div>
-        <div class="an-kpi-note">Seasonally low; Q1 FY26 was 68.2%</div>
+      <div>
+        <table class="an-tbl" style="margin-bottom:10px">
+          <thead><tr><th>Margin (Non-GAAP)</th><th>Q2 FY26</th><th>YoY</th><th>FCF</th></tr></thead>
+          <tbody>
+            <tr><td>Gross Margin</td><td class="num">{_s7["q2_fy26"]["gross_margin_nongaap_pct"]}%</td><td class="num">{_s7["yoy_delta_bps"]["gross_margin_nongaap"]:+d}bps</td><td class="muted" rowspan="2" style="vertical-align:middle">FCF {_s7["q2_fy26"]["fcf_margin_pct"]}%<br><span style="font-size:10px">Q1 FY26: 68.2%</span></td></tr>
+            <tr class="highlight"><td><strong>OI Margin</strong></td><td class="num"><strong>{_s7["q2_fy26"]["oi_margin_nongaap_pct"]}%</strong></td><td class="num pos"><strong>+{_s7["yoy_delta_bps"]["oi_margin_nongaap"]}bps</strong></td></tr>
+          </tbody>
+        </table>
+        <table class="an-tbl">
+          <thead><tr><th>Margin Trend</th><th>GM</th><th>OI</th><th>FCF</th></tr></thead>
+          <tbody>
+{_traj_rows}          </tbody>
+        </table>
       </div>
     </div>
-    <table class="an-tbl">
+    <div class="rn-callout neg" style="margin-top:14px">
+      {_s7["driver_note"]}
+    </div>
+  </div>
+</div>
+
+<!-- ── Guidance ───────────────────────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>Guidance</h2>
+    <span class="tag">Next quarter + Full year</span>
+  </div>
+  <div class="section-body">
+    <table class="an-tbl" style="margin-bottom:14px">
       <thead>
-        <tr><th>Period</th><th>GM GAAP</th><th>GM Non-GAAP</th><th>OI GAAP</th><th>OI Non-GAAP</th><th>FCF Margin</th></tr>
+        <tr><th></th><th>Revenue</th><th>Non-GAAP EPS</th><th>NGS ARR</th><th>Signal</th></tr>
       </thead>
       <tbody>
-{_traj}      </tbody>
+        <tr>
+          <td><strong>Q3 FY26</strong></td>
+          <td class="num">{_q3_rev} <span style="font-size:10px;color:#888">(${_s8["q3_fy26"]["revenue_range_m"][0]}–{_s8["q3_fy26"]["revenue_range_m"][1]}M)</span></td>
+          <td class="num neg"><strong>{_q3_eps}</strong> <span style="font-size:10px;color:#888">(${_s8["q3_fy26"]["eps_range"][0]}–{_s8["q3_fy26"]["eps_range"][1]})</span></td>
+          <td class="num">{_q3_arr}</td>
+          <td class="muted">{_s8["q3_fy26"]["revision"]}</td>
+        </tr>
+        <tr class="highlight">
+          <td><strong>FY26 Full Year</strong></td>
+          <td class="num">{_fy_rev} <span style="font-size:10px;color:#888">(${_s8["fy26_full_year"]["revenue_range_m"][0]:,}–{_s8["fy26_full_year"]["revenue_range_m"][1]:,}M)</span></td>
+          <td class="num pos"><strong>{_fy_eps}</strong> <span style="font-size:10px;color:#888">(${_s8["fy26_full_year"]["eps_range"][0]}–{_s8["fy26_full_year"]["eps_range"][1]})</span></td>
+          <td class="muted">—</td>
+          <td class="muted pos">{_s8["fy26_full_year"]["revision"]} ↑</td>
+        </tr>
+      </tbody>
     </table>
-    <div class="an-flag pos" style="margin-top:12px">{_s7["driver_note"]}</div>
-  </div>
-</div>
-
-<!-- ── Step 8: Guidance ──────────────────────────────────────────────────── -->
-<div class="section">
-  <div class="section-header">
-    <h2>Step 8 — Guidance Analysis</h2>
-    <span class="tag">Q3 FY26 + Full Year FY26</span>
-  </div>
-  <div class="section-body">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
-      <div class="an-kpi">
-        <div class="an-kpi-label">Q3 FY26 Revenue (guided)</div>
-        <div class="an-kpi-val">${_s8["q3_fy26"]["revenue_midpoint"]}M</div>
-        <div class="an-kpi-note">Range ${_s8["q3_fy26"]["revenue_range_m"][0]}–${_s8["q3_fy26"]["revenue_range_m"][1]}M &nbsp;·&nbsp; {_s8["q3_fy26"]["revision"]}</div>
-      </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">Q3 FY26 Non-GAAP EPS (guided)</div>
-        <div class="an-kpi-val neg">${_s8["q3_fy26"]["eps_midpoint"]}</div>
-        <div class="an-kpi-note">Range ${_s8["q3_fy26"]["eps_range"][0]}–${_s8["q3_fy26"]["eps_range"][1]} &nbsp;·&nbsp; vs Q2 actual $1.03</div>
-      </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">FY26 Revenue (raised)</div>
-        <div class="an-kpi-val pos">${_s8["fy26_full_year"]["revenue_midpoint"]:,}M</div>
-        <div class="an-kpi-note">Range ${_s8["fy26_full_year"]["revenue_range_m"][0]:,}–${_s8["fy26_full_year"]["revenue_range_m"][1]:,}M</div>
-      </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">FY26 Non-GAAP EPS (raised)</div>
-        <div class="an-kpi-val pos">${_s8["fy26_full_year"]["eps_midpoint"]}</div>
-        <div class="an-kpi-note">Range ${_s8["fy26_full_year"]["eps_range"][0]}–${_s8["fy26_full_year"]["eps_range"][1]} &nbsp;·&nbsp; FCF guided {_s8["fy26_full_year"]["fcf_margin_pct"]}%</div>
-      </div>
+    <div class="rn-callout neg">
+      <strong>Q3 step-down:</strong> {_s8["key_signals"]["q3_eps_step_down"]} &nbsp;·&nbsp; {_s8["key_signals"]["step_down_driver"]}
     </div>
-    <div class="an-flag neg">
-      <strong>Q3 step-down:</strong> {_s8["key_signals"]["q3_eps_step_down"]}<br>
-      <strong>Driver:</strong> {_s8["key_signals"]["step_down_driver"]}
-    </div>
-    <div class="an-flag pos" style="margin-top:8px">
-      <strong>Credibility read:</strong> {_s8["key_signals"]["credibility_read"]}
-    </div>
-    <div class="an-flag" style="margin-top:8px;border-left-color:#6c3baa;background:rgba(45,32,66,.05)">
-      <strong>NGS ARR trajectory:</strong> {_s8["key_signals"]["ngs_arr_trajectory"]}
+    <div class="rn-callout pos" style="margin-top:8px">
+      <strong>Full-year credibility:</strong> {_s8["key_signals"]["credibility_read"]}
     </div>
   </div>
 </div>
 
-<!-- ── Step 9: Estimate Revisions (D2) ──────────────────────────────────── -->
+<!-- ── Business Highlights ───────────────────────────────────────────────── -->
 <div class="section">
   <div class="section-header">
-    <h2>Step 9 — Estimate Revisions</h2>
-    <span class="tag" style="background:rgba(108,59,170,.12);color:#6c3baa">D2 departure</span>
+    <h2>Business Highlights</h2>
+    <span class="tag">Platformization · Segment mix · Backlog</span>
   </div>
   <div class="section-body">
-    <div class="an-flag" style="border-left-color:#6c3baa;background:rgba(45,32,66,.05);margin-bottom:14px">
-      <strong>Departure D2:</strong> {_s9["note"]}
+    <div class="rn-prose">
+      <p><strong>Platformization:</strong> NGS ARR reached ${_s5["ngs_arr"]["actual_bn"]}B (+{_s5["ngs_arr"]["yoy_growth_pct"]}% reported, +{_s5["ngs_arr"]["organic_yoy_pct"]}% organic), with 1,550 platformized customers. The gap between reported and organic growth reflects the Chronosphere acquisition (closed Feb 2026). Management cited broad-based adoption across cloud security, identity, and SASE. Q3 NGS ARR guided ${_s8["key_signals"]["ngs_arr_trajectory"].split("$")[1].split("B")[0]}B, implying continued platform momentum.</p>
+      <p><strong>Revenue mix:</strong> Subscription and support represented {_s6["subscription_mix_pct"]}% of total revenue at ${_s6["subscription_revenue_m"]}M (+{_s6["subscription_yoy_pct"]}% YoY), providing a high-quality recurring base. Product revenue of ${_s6["product_revenue_m"]}M (+{_s6["product_yoy_pct"]}% YoY) reflects platform consolidation driving firewall refresh cycles.</p>
+      <p><strong>Forward visibility:</strong> RPO of ${_s6["rpo_bn"]}B (+{_s6["rpo_yoy_pct"]}% YoY) provides strong 12-month revenue visibility. Free cash flow of ${_s6["fcf_m"]}M ({_s6["fcf_margin_pct"]}% margin) was seasonally low; Q1 FY26 FCF margin was 68.2% due to annual billings concentration. FY26 FCF margin guidance is {_s8["fy26_full_year"]["fcf_margin_pct"]}%.</p>
     </div>
-    <table class="an-tbl" style="margin-bottom:14px">
-      <thead><tr><th>Quarter End</th><th>EPS Consensus</th><th>EPS Actual</th><th>Beat %</th></tr></thead>
-      <tbody>
-{_eps_rows}      </tbody>
-    </table>
-    <div class="an-flag pos">{_s9["direction"]}</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px">
-      <div class="an-kpi">
-        <div class="an-kpi-label">H1 FY26 Actual</div>
-        <div class="an-kpi-val">${_s9["fy26_build"]["h1_total"]}</div>
-        <div class="an-kpi-note">Q1 ${_s9["fy26_build"]["q1_actual"]} + Q2 ${_s9["fy26_build"]["q2_actual"]}</div>
+  </div>
+</div>
+
+<!-- ── EPS Trend & Estimate Context ─────────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>EPS Trend</h2>
+    <span class="tag">4-quarter beat history</span>
+  </div>
+  <div class="section-body">
+    <div class="rn-two-col">
+      <div>
+        <table class="an-tbl">
+          <thead><tr><th>Quarter End</th><th>Consensus</th><th>Actual</th><th>Beat</th></tr></thead>
+          <tbody>
+{_eps_rows}          </tbody>
+        </table>
       </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">H2 FY26 Implied</div>
-        <div class="an-kpi-val">${_s9["fy26_build"]["h2_implied"]}</div>
-        <div class="an-kpi-note">FY mid ${_s9["fy26_build"]["fy26_midpoint"]} − H1 ${_s9["fy26_build"]["h1_total"]}</div>
-      </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">H2 Avg / Quarter</div>
-        <div class="an-kpi-val">${_s9["fy26_build"]["h2_avg_per_qtr"]}</div>
-        <div class="an-kpi-note">Implies re-acceleration into Q4 FY26</div>
+      <div class="rn-prose" style="padding-top:4px">
+        <p>{_s9["direction"]}</p>
+        <p>FY26 EPS build: H1 actual ${_s9["fy26_build"]["h1_total"]} (Q1 ${_s9["fy26_build"]["q1_actual"]} + Q2 ${_s9["fy26_build"]["q2_actual"]}). FY26 midpoint ${_s9["fy26_build"]["fy26_midpoint"]} implies H2 of ${_s9["fy26_build"]["h2_implied"]} (avg ${_s9["fy26_build"]["h2_avg_per_qtr"]}/quarter), suggesting re-acceleration into Q4 FY26 beyond the initial M&amp;A integration dip.</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── Step 10: Valuation (D3) ──────────────────────────────────────────── -->
+<!-- ── Valuation & Price Target ──────────────────────────────────────────── -->
 <div class="section">
   <div class="section-header">
-    <h2>Step 10 — Valuation</h2>
-    <span class="tag" style="background:rgba(108,59,170,.12);color:#6c3baa">D3 departure</span>
+    <h2>Valuation &amp; Price Target</h2>
+    <span class="tag">NTM EV/Revenue · Peer comps</span>
   </div>
   <div class="section-body">
-    <div class="an-flag" style="border-left-color:#6c3baa;background:rgba(45,32,66,.05);margin-bottom:14px">
-      <strong>Departure D3:</strong> {_s10["note"]}
-    </div>
     <table class="an-tbl" style="margin-bottom:16px">
-      <thead><tr><th>Symbol</th><th>EV/Rev TTM</th><th>EV/Rev NTM</th><th>Rev Growth</th><th>OI Margin</th><th>Notes</th></tr></thead>
+      <thead><tr><th>Company</th><th>EV/Rev TTM</th><th>EV/Rev NTM</th><th>Rev Growth</th><th>OI Margin</th><th>Notes</th></tr></thead>
       <tbody>
 {_peer_rows}      </tbody>
     </table>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px">
-      <div class="an-kpi">
-        <div class="an-kpi-label">PANW Market Cap</div>
-        <div class="an-kpi-val">${_s10["panw_mktcap_b"]}B</div>
-        <div class="an-kpi-note">${_s10["panw_price"]} × {_s10["panw_shares_m"]}M shares</div>
-      </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">TTM Revenue</div>
-        <div class="an-kpi-val">${_s10["panw_ttm_rev_m"]:,}M</div>
-        <div class="an-kpi-note">EV/Rev TTM {_s10["panw_ev_rev_ttm_x"]}x</div>
-      </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">NTM Revenue (est.)</div>
-        <div class="an-kpi-val">${_s10["panw_ntm_rev_m"]:,}M</div>
-        <div class="an-kpi-note">EV/Rev NTM {_s10["panw_ev_rev_ntm_x"]}x</div>
-      </div>
-      <div class="an-kpi">
-        <div class="an-kpi-label">Target Multiple Range</div>
-        <div class="an-kpi-val">{_s10["target_multiple_range_x"][0]}–{_s10["target_multiple_range_x"][1]}x NTM</div>
-        <div class="an-kpi-note">Discount to CRWD reflects lower rev growth</div>
-      </div>
-    </div>
-    <div class="an-flag pos">{_s10["rationale"]}</div>
-    <div style="margin-top:10px;font-size:11px;color:#888;padding:8px 12px;background:#f7f7f9;border-radius:4px">
-      <strong>NTM build:</strong>
-      Q3 FY26 guided ${_s10["ntm_build"]["q3_fy26_guided_m"]:,}M +
-      Q4 FY26 implied ${_s10["ntm_build"]["q4_fy26_implied_m"]:,}M +
-      Q1 FY27 est ${_s10["ntm_build"]["q1_fy27_est_m"]:,}M +
-      Q2 FY27 est ${_s10["ntm_build"]["q2_fy27_est_m"]:,}M =
-      <strong>${_s10["ntm_build"]["total_ntm_m"]:,}M</strong>
-      &nbsp;·&nbsp; <em>{_s10["ntm_build"]["assumption"]}</em>
+    <div class="rn-prose">
+      <p>{_s10["rationale"]}</p>
+      <p style="font-size:11.5px;color:#888">
+        NTM revenue estimate: Q3 FY26 guided ${_s10["ntm_build"]["q3_fy26_guided_m"]:,}M + Q4 FY26 implied ${_s10["ntm_build"]["q4_fy26_implied_m"]:,}M + Q1–Q2 FY27 estimated ${_s10["ntm_build"]["q1_fy27_est_m"]:,}M / ${_s10["ntm_build"]["q2_fy27_est_m"]:,}M = <strong>${_s10["ntm_build"]["total_ntm_m"]:,}M</strong>. {_s10["ntm_build"]["assumption"]}.
+      </p>
     </div>
   </div>
 </div>
 
-<!-- ── Skill Departures Panel ────────────────────────────────────────────── -->
+<!-- ── Key Risks ─────────────────────────────────────────────────────────── -->
 <div class="section">
   <div class="section-header">
-    <h2>Skill Departures</h2>
-    <span class="tag">where this run adapted the official workflow and why</span>
+    <h2>Key Risks</h2>
   </div>
   <div class="section-body">
-    <div class="dep-panel">
-      <div class="dep-header">
-        {_an["skill_version"]} &nbsp;·&nbsp; {len(_an["departures"])} departures &nbsp;·&nbsp; all other steps follow skill spec exactly
-      </div>
-{_dep_rows}    </div>
+    <ul class="rn-risks">
+{_risks}    </ul>
+  </div>
+</div>
+
+<!-- ── Methodology Note ──────────────────────────────────────────────────── -->
+<div class="rn-methodology">
+  <div class="rn-methodology-title">Methodology Note — Adaptations from Skill Spec</div>
+  <div class="dep-panel">
+    <div class="dep-header">
+      {_an["skill_version"]} &nbsp;·&nbsp; {len(_an["departures"])} adaptations from full spec &nbsp;·&nbsp; all other steps follow official workflow
+    </div>
+{_dep_rows}  </div>
+  <div style="font-size:11px;color:#aaa;margin-top:10px">
+    Analysis generated {_an["generated"]} from pre-staged PANW Q2 FY26 source files.
+    Workshop use only. Not investment advice.
   </div>
 </div>
 
@@ -1807,6 +1877,6 @@ size = OUT_PATH.stat().st_size
 print(f"\n  ✅ {OUT_PATH}")
 print(f"     Size:      {size:,} bytes")
 print(f"     Generated: {generated_at}")
-print(f"     Tabs:      Baseline Data | Claude Analysis (Steps 5–8) | Buy-Side Layer")
+print(f"     Tabs:      Baseline Data | Claude for Financial Services: Earnings Reviewer | Buy-Side Layer")
 print(f"     Charts:    Chart.js {'embedded inline' if chartjs_js else 'CDN link (offline may fail)'}")
 print(f"     Branding:  Aileron Group (Montserrat · #60B5E5 · #2D2042 · #B3DCF3)")
