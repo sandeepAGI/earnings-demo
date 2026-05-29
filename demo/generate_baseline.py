@@ -771,6 +771,67 @@ html = f"""<!DOCTYPE html>
   .bs-card-a p:last-child {{ margin-bottom: 0; }}
   .bs-card-a strong {{ color: var(--purple); }}
 
+  /* ── Tab 3: dimension pill ── */
+  .dim-pill {{
+    display: inline-block; font-size: 9px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .07em; padding: 2px 9px; border-radius: 10px; white-space: nowrap;
+    background: rgba(112,80,166,.12); color: var(--purple); flex-shrink: 0;
+  }}
+
+  /* ── Tab 3: horizon banner ── */
+  .hz-banner {{
+    display: flex; align-items: stretch; background: var(--purple); color: #fff;
+    border-radius: 8px; padding: 14px 20px; margin-bottom: 20px; flex-wrap: wrap; gap: 0;
+  }}
+  .hz-banner-item {{
+    font-size: 13px; font-weight: 800; letter-spacing: -.01em;
+    padding: 0 20px; border-right: 1px solid rgba(255,255,255,.2); flex-shrink: 0;
+  }}
+  .hz-banner-item:first-child {{ padding-left: 0; }}
+  .hz-banner-item:last-child {{ border-right: none; }}
+  .hz-banner-label {{ font-size: 9px; font-weight: 700; opacity: .6; display: block; margin-bottom: 2px; text-transform: uppercase; letter-spacing: .07em; }}
+
+  /* ── Tab 3: framework intro (5 dim mini-cards) ── */
+  .fw-intro {{
+    background: var(--off-white); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 18px; margin-bottom: 24px;
+  }}
+  .fw-intro-label {{
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--purple); margin-bottom: 12px;
+  }}
+  .fw-intro-dims {{
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+  }}
+  @media (max-width: 860px) {{ .fw-intro-dims {{ grid-template-columns: 1fr 1fr; }} }}
+  .fw-dim {{
+    background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--purple);
+    border-radius: 6px; padding: 10px 12px;
+  }}
+  .fw-dim-name {{ font-size: 11px; font-weight: 800; color: var(--purple); margin-bottom: 4px; }}
+  .fw-dim-def {{ font-size: 11px; color: var(--muted); line-height: 1.5; }}
+
+  /* ── Tab 3: recommendation card ── */
+  .rec-card {{
+    background: var(--purple); color: #fff; border-radius: 8px;
+    padding: 22px 24px; margin-bottom: 32px;
+  }}
+  .rec-header {{ display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 4px; }}
+  .rec-label {{ font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; opacity: .6; margin-bottom: 4px; }}
+  .rec-stance {{ font-size: 30px; font-weight: 900; letter-spacing: -.02em; color: #fff; line-height: 1; }}
+  .rec-stance.buy  {{ color: #7dffb0; }}
+  .rec-stance.hold {{ color: #ffe77d; }}
+  .rec-stance.sell {{ color: #ff8a8a; }}
+  .rec-hz {{ font-size: 10px; font-weight: 700; opacity: .6; text-transform: uppercase; letter-spacing: .07em; margin-top: 6px; }}
+  .rec-row {{
+    padding: 10px 0; border-top: 1px solid rgba(255,255,255,.15);
+    font-size: 13px; color: rgba(255,255,255,.9); line-height: 1.65;
+  }}
+  .rec-row-label {{
+    font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+    opacity: .55; margin-bottom: 3px;
+  }}
+
   /* ── Tab 3: Chat section ── */
   .chat-section {{
     border-top: 2px solid var(--border); padding-top: 28px; margin-top: 8px;
@@ -1668,42 +1729,96 @@ def _md_to_html(text):
 
 _tab3_html = ""
 if _bs:
+    _dim_short = {
+        "Alpha Edge":              "Is the market&#39;s post-earnings verdict right — or is it mispricing something?",
+        "Thesis Integrity":        "Are the core bull-case metrics still proving out?",
+        "Guidance Credibility":    "What is management&#39;s forward signal — sandbagging, caution, or stretch?",
+        "Peer Context":            "Who is winning the key strategic trade in the competitive set?",
+        "Sentiment / Positioning": "Does the positioning setup create asymmetric risk/reward independent of fundamentals?",
+    }
+    _fw           = _bs.get("framework", {})
+    _rec          = _bs.get("recommendation", {})
+    _bs_generated = _bs.get("generated", "")
+
+    # ── Horizon banner ──────────────────────────────────────────────
+    _hz_banner = f"""<div class="hz-banner">
+  <div class="hz-banner-item"><span class="hz-banner-label">Horizon</span>{_fw.get("horizon", "6 months").title()}</div>
+  <div class="hz-banner-item"><span class="hz-banner-label">Objective</span>{_fw.get("objective", "alpha vs. market").title()}</div>
+  <div class="hz-banner-item"><span class="hz-banner-label">Role</span>{_fw.get("role", "buy-side").title()}</div>
+</div>"""
+
+    # ── Framework intro (5 dimension mini-cards) ────────────────────
+    _fw_dims_html = ""
+    for _dim in _bs["dimensions"]:
+        _dname = _dim["dimension"]
+        _ddesc = _dim_short.get(_dname, "")
+        _fw_dims_html += f"""
+    <div class="fw-dim">
+      <div class="fw-dim-name">{_dname}</div>
+      <div class="fw-dim-def">{_ddesc}</div>
+    </div>"""
+    _fw_intro = f"""<div class="fw-intro">
+  <div class="fw-intro-label">Buy-Side Framework — 5 Analytical Lenses</div>
+  <div class="fw-intro-dims">{_fw_dims_html}
+  </div>
+</div>"""
+
+    # ── Accordion cards ─────────────────────────────────────────────
     _bs_cards = ""
-    for _i, _bq in enumerate(_bs["questions"], 1):
-        _a_html = _md_to_html(_bq["answer"])
-        _q_esc  = _bq["question"].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        _t_esc  = _bq["title"].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    for _i, _dim in enumerate(_bs["dimensions"], 1):
+        _a_html = _md_to_html(_dim["answer"])
+        _q_esc  = _dim["question"].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        _dname  = _dim["dimension"]
         _bs_cards += f"""
   <div class="bs-card">
     <div class="bs-card-head" onclick="bsToggle(this)">
       <div class="bs-card-num">{_i}</div>
-      <div class="bs-card-title">{_t_esc}</div>
+      <div class="bs-card-title">{_q_esc}</div>
+      <div class="dim-pill">{_dname}</div>
       <div class="bs-card-chevron">&#9660;</div>
     </div>
     <div class="bs-card-body">
-      <div class="bs-card-q">{_q_esc}</div>
       <div class="bs-card-a">{_a_html}</div>
     </div>
   </div>"""
 
-    _bs_generated = _bs.get("generated", "")
-    _bs_framing   = _bs.get("framing", "")
+    # ── Recommendation card ─────────────────────────────────────────
+    def _esc(s): return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    _stance_raw  = _rec.get("stance", "").strip()
+    _stance_cls  = _stance_raw.lower()
+    _rec_card = f"""<div class="rec-card">
+  <div class="rec-header">
+    <div>
+      <div class="rec-label">Investment Recommendation</div>
+      <div class="rec-stance {_stance_cls}">{_stance_raw}</div>
+    </div>
+    <div class="rec-hz">6-Month Horizon</div>
+  </div>
+  <div class="rec-row"><div class="rec-row-label">Primary Conviction</div>{_esc(_rec.get("conviction",""))}</div>
+  <div class="rec-row"><div class="rec-row-label">Key Uncertainty</div>{_esc(_rec.get("uncertainty",""))}</div>
+  <div class="rec-row"><div class="rec-row-label">Rationale</div>{_esc(_rec.get("rationale",""))}</div>
+</div>"""
 
     _tab3_html = f"""<div id="tab-buyside" class="tab-content">
 <div class="container">
 
-<div class="bs-framing">
-  <div class="bs-framing-label">Buy-Side Perspective</div>
-  <div class="bs-framing-text">{_bs_framing}</div>
+<div class="section-header" style="margin-bottom:12px">
+  <h2>Buy-Side Analysis</h2>
+  <span class="tag">Pre-run &#183; {_bs_generated}</span>
 </div>
 
+{_hz_banner}
+
+{_fw_intro}
+
 <div class="section-header" style="margin-bottom:16px">
-  <h2>Five Questions a Buy-Side Analyst Would Ask</h2>
-  <span class="tag">Pre-run &#183; {_bs_generated}</span>
+  <h3 style="margin:0;font-size:14px;font-weight:700;color:var(--text)">Five-Dimension Interrogation</h3>
 </div>
 <div class="bs-cards">
 {_bs_cards}
 </div>
+
+{_rec_card}
 
 <!-- ── Chat section ── -->
 <div class="chat-section">
@@ -1723,7 +1838,7 @@ if _bs:
   <div class="chat-suggestions">
     <button class="chat-suggestion" onclick="fillQ('What is the most important number to watch in Q3 FY26, and why?')">Q3 metric to watch</button>
     <button class="chat-suggestion" onclick="fillQ('How does CrowdStrike platform recovery change the PANW investment thesis?')">CRWD competitive read</button>
-    <button class="chat-suggestion" onclick="fillQ('Bull case: where is the sell-side PT of $186 too conservative?')">Bull case</button>
+    <button class="chat-suggestion" onclick="fillQ('How does the 6-month view change if this is a 3-month trade instead?')">Horizon comparison</button>
     <button class="chat-suggestion" onclick="fillQ('What is the organic NGS ARR story stripped of CyberArk and Chronosphere?')">Organic ARR clarity</button>
   </div>
 
@@ -1741,7 +1856,7 @@ if _bs:
 <div class="sauce-outer" style="margin-top:32px">
   <h3>What&#39;s powering this</h3>
   <div class="sauce-intro">
-    Every response draws on pre-loaded context: sell-side research note (Steps 5&#8211;11), buy-side framework interrogation (5 questions), CRWD Q4 FY26 peer results, PANW Q2 FY26 earnings call transcript excerpt, and DB KPIs. Web search via Tavily is available as a tool for current market data after Feb 17, 2026.
+    Every response draws on pre-loaded context: sell-side research note (Steps 5&#8211;11), buy-side framework interrogation (5 dimensions), CRWD Q4 FY26 peer results, PANW Q2 FY26 earnings call transcript excerpt, and DB KPIs. Web search via Tavily is available as a tool for current market data after Feb 17, 2026.
   </div>
   <div class="sauce-grid">
     <div class="sauce-card">
