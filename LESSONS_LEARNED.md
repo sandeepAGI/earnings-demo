@@ -1,6 +1,6 @@
 # Lessons Learned
 
-*Last updated: 2026-05-27 (session 7)*
+*Last updated: 2026-05-28 (session 8, continued — Tab 3 framework redesign)*
 
 This file captures technical workarounds, design decisions, and things that failed or surprised us. Update at the end of every working session. Promote patterns to findings when they recur.
 
@@ -22,6 +22,86 @@ python demo/generate_baseline.py    # → demo/earnings_baseline.html
 ---
 
 ## Session Log
+
+### 2026-05-28 (session 8) — Tab 1 completion, Tab 2 sell-side, Tab 3 buy-side + live chat
+
+Heavy build day. Tabs 1, 2, and 3 of `earnings_baseline.html` all reached completion. Pipeline gained an SEC EDGAR XBRL layer to backfill nulls. Tab 3 introduced the first live agentic surface in the project (Claude Opus + Tavily, SSE streaming, FastAPI server).
+
+**XBRL backfill (early AM):**
+- New `panw_revenue_xbrl.json` and `peers_gross_margin_xbrl.json` raw files via SEC EDGAR XBRL frames API.
+- Backfilled 4 null PANW YoY values that yfinance / Alpha Vantage could not supply for historical quarters.
+- Populated GAAP gross margins for FTNT and ZS peers — peer comparison charts (Revenue YoY, Non-GAAP OI Margin horizontal bars, 4 companies) added to the dashboard.
+- Price chart annotated with earnings-month markers ①②③④ to align price action with quarterly prints.
+- Commit: `STAGE: Data approved 2026-05-28 — SEC EDGAR XBRL integration` (ba29e85). XBRL is now part of the API stack alongside FMP-deprecated / yfinance / edgartools / Anthropic.
+
+**Tab 1 completion (mid-AM):**
+- After-hours reaction KPI populated: yfinance daily, Feb 17 close $163.50 → Feb 18 open $149.55, gap **-8.53%**. Resolves the Session 6 known gap on `stock_ah_change_pct`. Daily-bar overnight gap is the chosen proxy; intraday after-hours feeds are not free.
+- Sentiment signals values extracted via Playwright: short interest 2.8% float (MarketBeat), put/call 1.09 volume / 4.02 OI (Barchart). Confidence flag = actual (not narrative fallback).
+- Sentiment cards redesigned to a story-first layout that surfaces the positioning vs. reaction disconnect, instead of a flat KPI grid.
+- Commits: `Tab 1 complete — after-hours reaction and sentiment signals populated` (a6189b9), `Redesign sentiment signals cards — story-first layout` (c17e41a).
+
+**Tab 2 — sell-side analysis (late AM):**
+- Resolved Open Question 7 from STATUS.md: Tab 2 is **full sell-side output** following the off-the-shelf `equity-research/earnings-analysis v0.1.0` skill from `financial-services-plugins`. Option A. Steps 5 through 11 render from real JSON, including the recommendation.
+- Script `demo/data/analysis/run_earnings_analysis.py` wraps the skill, runs against the rebuilt Q2 FY26 DB, and writes `panw_q2fy26_earnings_analysis.json`.
+- Output: Maintain Outperform, PT **$186** (+13.8% upside vs. spot).
+- **Four departures from the skill's default output are documented inline and visible in the rendered tab** — this is the demo's pedagogical hook for Tab 2 (off-the-shelf baseline, then show where a buy-side practitioner would deliberately depart). Departures panel is wired into the HTML, not buried in JSON.
+- Tab 2 redesigned to a report-note layout with a tool intro card and a new tab name; replaces the previous "Sell-Side Plugin Output" framing from Session 3 (which was fabricated and torn down).
+- Commits: `STAGE: Tab 2 Analysis approved` (281494c), `Redesign Tab 2: report-note layout, tool intro card, new tab name` (4633e62).
+
+**Tab 3 — buy-side static + live chat (afternoon / evening):**
+- Resolved Open Question 7 (Tab 3 portion): hybrid design — **pre-run static buy-side Q&As** plus **live chat surface**, not one or the other.
+- Static layer: `demo/data/analysis/run_buyside_analysis.py` runs five buy-side questions through Claude Opus (claude-opus-4-7) grounded on the Q2 FY26 context. Output `panw_q2fy26_buyside_analysis.json` renders as a five-card accordion in the tab.
+- Live layer: `demo/server.py` — FastAPI server with SSE streaming, CORS, and a Claude + Tavily web search tool loop. Start with `python3 demo/server.py` → `http://localhost:8000`. The tab pings `/chat` on load and shows a live/offline badge so the room knows whether the chat surface is up.
+- **Agentic loop hardened to handle multiple parallel tool calls per turn.** First version assumed Claude would emit one tool_use per turn; in practice compound questions (e.g., "how does PANW compare to FTNT and CRWD on growth and margins") trigger multiple parallel `web_search` calls. The loop now matches every `tool_use` block with a `tool_result` block before submitting the next round, preventing the API from rejecting the conversation as malformed. This is the fix in commit 428ad30.
+- Chat hardening also covered: error handling (graceful display, no silent failures), history rollback on error so a failed exchange doesn't poison the next turn, clear-history button. Commit d437712.
+- DOMPurify wrapped around the SSE-rendered HTML to prevent XSS from model output or search results.
+- Suggestion chips pre-fill common buy-side questions to lower the friction of the first interaction.
+- Sauce panel ("What's powering this") makes the stack visible: Claude Opus + Tavily + the Q2 FY26 context bundle.
+- Commits: `STAGE: Tab 3 complete — buy-side layer + live chat` (92865a4), `Fix chat: error handling, history rollback, clear button` (d437712), `Fix Tab 3 chat: handle multiple parallel tool calls per turn` (428ad30).
+
+**Tab 3 framework redesign (session 8 continuation):**
+
+The original Tab 3 static section had 5 pre-written question titles with Claude-generated answers against a loosely defined brief. User flagged that this missed the core design intent: buy-side analysis requires an explicit framework (horizon, alpha edge, peer context, positioning) not just a list of analyst questions.
+
+Full redesign:
+- `run_buyside_analysis.py` rewritten from scratch. Five fixed dimension definitions (reusable across quarters — only the answers change per print). Claude generates the quarter-specific question from each definition, then answers it. A sixth call synthesizes stance, conviction, uncertainty, and rationale. Script uses delimiter-based response parsing (`---QUESTION---` / `---ANSWER---` markers) instead of JSON to handle unescaped quotes in transcript-grounded answers.
+- New output schema: `framework` dict + `dimensions[]` (id, dimension, question, answer) + `recommendation` (stance, conviction, uncertainty, rationale). Old schema had `questions[]` with title/question/answer — not compatible; both the script and the HTML renderer were rewritten together.
+- Tab 3 HTML redesigned: horizon banner (purple strip declaring 6-month / alpha vs. market / buy-side), framework intro (5 mini-cards with one-line dimension definitions — explains the lens before showing the output), accordion cards now carry a dimension pill label showing which lens each card represents, recommendation card is always visible and prominent (stance in green/amber/red depending on buy/hold/sell).
+- Suggestion chips updated: "Bull case" replaced with "How does the 6-month view change if this is a 3-month trade instead?" — horizon comparison is the key buy-side departure from sell-side thinking and reinforces the framework.
+- Commits: `STAGE: Tab 3 buy-side framework redesign complete` (783da22).
+
+**Key technical finding — delimiter parsing vs. JSON for Claude responses containing quoted text:**
+When Claude answers grounded in earnings transcripts, management commentary (e.g., "organic is roughly in line") breaks `json.loads()` because the unescaped quotes corrupt the JSON structure. Delimiter-based parsing (`text.find("---FIELD---")`) is robust against any content in the value, including nested quotes, dashes, and brackets. Use delimiters when asking Claude to produce structured output that may contain arbitrary quoted text.
+
+**Key design finding — fixed dimensions with variable questions:**
+Fixing the dimension *definitions* and asking Claude to generate the quarter-specific *question* from each one is more reusable than fixing questions: the definition stays stable across quarters, the question adapts to what this specific print actually raised. Phase B (Q3 FY26) is a straight re-run of the same script — same 5 definitions, new questions and answers from the new data.
+
+**Phase B procedure documented (June 3 refresh for Q3 FY26 print):**
+- Re-run `demo/data/gather.py` → `python3 demo/data/analysis/run_earnings_analysis.py` → `python3 demo/generate_baseline.py`. Tab 2 updates automatically from the new JSON. No HTML edits needed.
+- Tab 3 static Q&As: re-run `run_buyside_analysis.py` if the questions need to track new disclosures.
+- Commit: `STATUS: note June 3 Phase B refresh procedure for Q3 FY26` (c461190).
+
+**Decisions made today:**
+- Tab 2 is the off-the-shelf sell-side baseline, full Steps 5–11 from `equity-research/earnings-analysis v0.1.0`. Departures from the skill default are surfaced explicitly as the pedagogical hook — not hidden inside the JSON.
+- Tab 3 is **hybrid**: pre-run static buy-side Q&As (accordion) plus a live chat surface. The static layer guarantees there is always something to show; the live layer is the live demonstration of an analyst-as-conversation-partner.
+- The live chat uses Claude Opus + Tavily web search via SSE — the first agentic surface in the project. Agentic loop must reconcile every `tool_use` with a `tool_result` before the next round, no matter how many parallel calls Claude emits in a single turn.
+- After-hours reaction is approximated by the overnight gap between consecutive daily bars (Feb 17 close → Feb 18 open). Free intraday after-hours feeds are not available; the daily-bar gap is the honest substitute.
+- Sentiment signal cards lead with the **positioning-vs-reaction disconnect**, not raw KPI tiles. The story is the divergence.
+- XBRL is part of the standing API stack; not a one-off backfill. Frames API is reliable for both PANW YoY history and peer GAAP gross margins.
+
+**Gaps / known limitations carried forward:**
+- `revenue_consensus_m` still null (no free API has historical revenue consensus).
+- `is_10b5_1_plan` still null (edgartools does not surface this at transaction level).
+- `revenue_beat_pct` display still shows "Consensus — · beat +0.0%" because there is nothing to compare against.
+- Some pre-Q2 FY26 short interest / P/C historical points remain narrative fallback (client-rendered platforms; static web fetch insufficient). Phase B can capture live via Claude in Chrome before the June 2 print.
+
+**Hard-rules check (this matters):**
+- Tab 2: real output from a real run of the `equity-research/earnings-analysis` skill, not fabricated; departures explicitly labeled as departures.
+- Tab 3 static: real Claude Opus output on actual Q2 FY26 context, not pre-written analytical conclusions.
+- Tab 3 live: runs live in the browser session with the user's API keys; nothing is pre-rendered.
+- The Session 3 failure pattern (fabricated analytical content presented as tool output) does not recur in today's build.
+
+---
 
 ### 2026-05-27 (session 6) — Pipeline rebuild: Data, Script, Test stages complete
 
@@ -263,6 +343,14 @@ No work done today. No new files in `workshop/`, `demo/`, or `feed-app/`.
 
 **The "manual/" folder is a first-class input, not a workaround.** Session 5 ratified this for materials that are not API-accessible at the required granularity (PANW press release PDFs, transcripts, earnings decks). A `manual/` folder with a README, a validation contract enforced by the gather script, and explicit failure on missing/invalid files is the right pattern. Distinguish this from the Session 3 anti-pattern of hardcoding values directly in code — the difference is that `manual/` content is sourced, named, validated, and traceable; hardcoded code values are none of those things.
 
+**Agentic tool loops must reconcile every `tool_use` with a `tool_result` before the next round.** Surfaced in Session 8 when Tab 3's live chat broke on compound questions. The model can emit multiple parallel tool_use blocks in a single turn (e.g., two parallel `web_search` calls when asked to compare three companies on two dimensions). The loop has to collect every tool_use, run them all, post every matching tool_result, and only then submit the next user-or-model message. Skipping or merging tool_results yields a malformed conversation that the API rejects. Carry this pattern forward to any future agentic surface in the project.
+
+**Use delimiter-based parsing, not JSON, when Claude responses may contain arbitrary quoted text.** When Claude grounds answers in earnings transcripts or call Q&A, management commentary (literal quoted speech) breaks `json.loads()`. Delimiter markers (`---FIELD---`) are robust against any content in the value. The fallback chain is: try JSON → try delimiters → exit loudly. Do not silently swallow parse errors.
+
+**Fixed dimension definitions with variable questions is the right structure for reusable analytical frameworks.** Fixing the *definition* of each analytical lens and asking Claude to generate the quarter-specific *question* from it keeps the framework stable across quarterly refreshes while allowing the output to adapt to what each specific print actually raised. Phase B re-runs require no script edits — only new data. Apply this pattern to any recurring analytical workflow that shares a framework but needs quarter-specific output.
+
+**Off-the-shelf skill output plus explicit departures is the demo's pedagogical shape.** Session 8 settled Tab 2 as the off-the-shelf sell-side baseline (`equity-research/earnings-analysis v0.1.0`), with the four places a buy-side practitioner would deliberately depart from the skill default surfaced as labeled departures in the rendered tab. This generalizes: when demonstrating a domain skill to sophisticated users, ship the unmodified default first, then make the human judgment visible as deliberate departures. The contrast is the lesson.
+
 ---
 
 ## Decision Log
@@ -300,3 +388,15 @@ No work done today. No new files in `workshop/`, `demo/`, or `feed-app/`.
 | 2026-05-27 (EOD) | `manual/` is a first-class input folder with a README, validation contract, and loud failure on missing files | Distinguishes legitimate manual ingestion (sourced, named, validated, traceable) from the Session 3 anti-pattern of hardcoded values in code (none of those things). |
 | 2026-05-27 (EOD) | Stage gates expressed as git commits (`STAGE: <name> approved`), not markdown checkboxes | A markdown checkbox can be flipped without thought; a commit forces a deliberate act and leaves a timestamped, attributable record. First gate `STAGE: Design approved 2026-05-27` (fedd02c) closes the Design stage. |
 | 2026-05-27 (EOD) | Hardcoded supplement verification status carried over from Q2 FY25 does not count | Each of the seven values in `SCHEMA.md` must be re-verified against the actual Q2 FY26 press release PDF before the Data stage closes. Marked "Pending" in the schema table. |
+| 2026-05-28 | SEC EDGAR XBRL frames API added to the standing data stack | Backfills 4 null PANW YoY values and peer GAAP gross margins (FTNT, ZS) that yfinance / Alpha Vantage cannot supply for historical quarters. Not a one-off backfill — part of the pipeline going forward. |
+| 2026-05-28 | After-hours reaction approximated by daily-bar overnight gap (Feb 17 close → Feb 18 open) | Free intraday after-hours feeds are not available. The daily-bar gap is the honest substitute. Closes the Session 6 known gap on `stock_ah_change_pct`. |
+| 2026-05-28 | Sentiment signal cards lead with the positioning-vs-reaction disconnect, not raw KPI tiles | The story is the divergence between positioning (short interest, P/C) and the price reaction. A flat KPI grid buried the point. |
+| 2026-05-28 | Tab 2 is the off-the-shelf sell-side baseline from `equity-research/earnings-analysis v0.1.0` (Option A: Steps 5–11 including recommendation), with four explicitly labeled departures | Resolves Open Question 7. The contrast between the skill default and the buy-side departures is the lesson — ship the default first, then make human judgment visible. Departures are surfaced in the rendered tab, not hidden in JSON. |
+| 2026-05-28 | Tab 3 is hybrid: pre-run static buy-side Q&A accordion plus live chat surface | Resolves Tab 3 portion of Open Question 7. Static layer guarantees something to show; live layer is the agentic demonstration. Belt-and-suspenders against any live failure. |
+| 2026-05-28 | Live chat stack: Claude Opus 4.7 + Tavily web search + FastAPI server + SSE streaming + DOMPurify | First agentic surface in the project. Live/offline badge on tab load. Suggestion chips lower friction of first interaction. Clear-history button for clean state. |
+| 2026-05-28 | Agentic tool loop must match every `tool_use` block with a `tool_result` before the next round, no matter how many parallel calls Claude emits | Compound questions trigger multiple parallel `web_search` tool_use blocks in one turn. Skipping or merging tool_results yields a malformed conversation the API rejects. Promoted to Synthesized Findings. |
+| 2026-05-28 | June 3 Phase B refresh procedure documented in STATUS.md | After June 2 Q3 FY26 print: re-run `demo/data/gather.py` → `run_earnings_analysis.py` → `generate_baseline.py`. Tab 2 updates automatically from the new JSON; no HTML edits. Tab 3 static Q&As re-run only if questions need to track new disclosures. |
+| 2026-05-28 | Tab 3 static section redesigned: fixed dimension definitions + Claude-generated questions + recommendation synthesis | Original 5 Q&As missed the explicit buy-side framework (horizon, alpha edge, peer context, positioning). Fixed definitions are reusable across quarters; Claude generates the quarter-specific question from each. Phase B is a straight re-run, no script edits. |
+| 2026-05-28 | Delimiter-based response parsing (`---FIELD---`) for structured Claude output containing quoted text | JSON parsing fails when transcript-grounded answers contain unescaped management quotes. Delimiter markers are robust against any content. Carry forward to any script asking Claude to produce structured output grounded in call transcripts. |
+| 2026-05-28 | Tab 3 HTML: horizon banner + framework intro + dimension pills + always-visible recommendation card | Pedagogical sequence: declare the framework first (banner + 5 mini-cards), then show the output (accordions with dimension pill), then state the verdict (recommendation card). Matches how a real buy-side framework write-up is structured. |
+| 2026-05-28 | "Bull case" chip replaced with "Horizon comparison" (how does the 6-month view change if this is a 3-month trade?) | Horizon is the primary departure between sell-side and buy-side analytical framing. The chip should reinforce the framework's core dimension, not restate a generic bull case. |

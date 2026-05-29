@@ -1,6 +1,6 @@
 # Status
 
-*Last updated: 2026-05-28 EOD (historical narrative and completed task detail in
+*Last updated: 2026-05-28 EOD — Tab 3 framework redesign complete. Demo build done. (historical narrative and completed task detail in
 `STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
 
 ---
@@ -20,7 +20,7 @@ Tab 3: buy-side layer + live chat. Full framework redesign: horizon banner (6-mo
 **Full findings (audit):** `data-audit-findings.md` (project root).
 **Schema source-of-truth:** `demo/data/SCHEMA.md`.
 
-**Next action:** Demo script, workshop materials. See Active Tasks.
+**Next action:** Demo script and workshop materials. Phase B (June 3): refresh pipeline after Q3 FY26 print. See Active Tasks.
 
 ---
 
@@ -107,7 +107,7 @@ Tab 3: buy-side layer + live chat. Full framework redesign: horizon banner (6-mo
 
 ## Blockers
 
-**Fiscal-year question resolved (2026-05-27 EOD).** Actual Q2 FY26 source PDFs are in `demo/data/manual/`. Pipeline rebuild now active, no external blockers. Downstream work (Tab 1 finalization, Tab 2 design, demo script, fallback recording) remains dependent on the rebuild reaching the Test stage, but it is no longer blocked on a decision.
+**No active blockers.** Demo build (Tabs 1–3) is complete as of 2026-05-28 EOD. Workshop materials (agenda, exercise brief, facilitator guide, run of show) and the demo script are open but not blocked on any decision or data dependency. Phase B (June 3 pipeline refresh after Q3 FY26 print) is a scheduled action, not a blocker.
 
 ---
 
