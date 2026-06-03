@@ -1,25 +1,24 @@
 # Status
 
-*Last updated: 2026-06-03 — Q3 FY26 PANW print released June 2. All 7 pipeline scripts updated for Q3 FY26 refresh. PDFs dropped into `demo/data/manual/`. Placeholder sentiment files created (Playwright capture pending before June 4). Pipeline ready to run. (Historical narrative and completed task detail in `STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
+*Last updated: 2026-06-03 EOD — Q3 FY26 pipeline run complete, Tab 2 redo with corrected skill logic landed, Tab 3 renamed Decision Layer, presenter script refreshed to Q3, server smoke tests pass. Workshop is tomorrow. (Historical narrative and completed task detail in `STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
 
 ---
 
 ## Current Phase
 
-Phase 2 (demo build) — **Tab 1 complete. Tab 2 complete. Tab 3 complete.**
+Phase 2 (demo build) — **COMPLETE. Dashboard, chat, and presenter script all workshop-ready.**
 
-Tab 1: all KPIs populated with actual values (200 rows, 39/39 provenance tests pass). After-hours reaction: -8.5% (yfinance daily, overnight gap). Sentiment: short interest 2.8% float (Playwright/MarketBeat), P/C 1.09/4.02 (Playwright/Barchart). *(Q2 FY26 baseline — Q3 FY26 refresh in progress)*
+Tab 1: all KPIs reflect Q3 FY26 (200 rows, 39/39 provenance tests pass). After-hours reaction: -4.4% (Jun 2 close $297.18 → Jun 3 open $284.00). Sentiment: short interest 3.48% float (Playwright/MarketBeat, May 15), P/C volume 0.94 / OI 1.00 / IV rank 100% (Playwright/Barchart, Jun 3 intraday). Confidence: actual.
 
-Tab 2: full sell-side analysis following `equity-research/earnings-analysis v0.1.0`. Steps 5–11 rendered from real JSON output. Rating: Maintain Outperform, PT $186 (+13.8% upside). 4 departures documented and visible. Script: `demo/data/analysis/run_earnings_analysis.py`. Output: `demo/data/analysis/panw_q3fy26_earnings_analysis.json`. *(Q3 FY26 output pending pipeline run)*
+Tab 2 (Earnings Reviewer): full sell-side analysis following `equity-research/earnings-analysis v0.1.0`. Steps 5–11 rendered from current Q3 FY26 JSON. Rating: **Maintain Outperform, PT $174 (–41.4% implied)** — primary trigger met (EPS +6.25% beat, FY26 raised, Q4 step-up $0.12), three moderating factors against upgrade (stock –4.4% AH, valuation 18.8x NTM vs 10–12x target, asymmetric risk/reward). Added this session: Rating Logic section (walks the skill's reasoning chain), Margin Analysis section, 4th Key Takeaway bullet anchoring the rating decision, substantive data-derived cross-reference text replacing "See transcript" placeholders. 4 departures documented; D1 reason trimmed.
 
-Tab 3: buy-side layer + live chat. Full framework redesign: horizon banner (6-month, alpha vs. market, buy-side), framework intro (5-dimension mini-cards with one-line definitions), 5 accordion cards (Claude-generated questions, dimension pill labels, answers pre-run), recommendation card (stance Buy, conviction/uncertainty/rationale from synthesis pass). Chat section: Claude Opus + Tavily web search via `demo/server.py` (FastAPI, SSE streaming, DOMPurify). Agentic loop handles compound questions: Claude may issue multiple parallel searches per turn; all tool_use blocks are matched with tool_results before the next round. Suggestion chips: Q3 metric, CRWD read, Horizon comparison (new), Organic ARR clarity. *(Q3 FY26 output pending pipeline run)*
+Tab 3 (Decision Layer — renamed from Buy-Side Layer): same 5-dimension framework, accordion cards, and recommendation card. Live chat: Claude Opus + Tavily web search via `demo/server.py` (FastAPI, SSE streaming, DOMPurify). Smoke tested end-to-end June 3: plain Q&A returns correct Q3 data; web search fires Tavily and streams synthesized response on intraday price.
 
-**Rebuild summary:** `demo/data/gather.py` → 7 raw files → `demo/data/rebuild_db.py` → 13 tables / 200 rows → `demo/data/tests/test_provenance.py` (39 tests, all pass) → `demo/generate_baseline.py` → `demo/earnings_baseline.html`.
+**Rebuild summary:** `demo/data/gather.py` → raw files (Q3 FY26 supplemental, transcript, earnings estimates, peer comps, Form 4, sentiment) → `demo/data/rebuild_db.py` → 13 tables / 200+ rows → `demo/data/tests/test_provenance.py` (39 tests, all pass) → `demo/data/analysis/run_earnings_analysis.py` + `run_buyside_analysis.py` → `demo/generate_baseline.py` → `demo/earnings_baseline.html`.
 
-**Full findings (audit):** `data-audit-findings.md` (project root).
-**Schema source-of-truth:** `demo/data/SCHEMA.md`.
+**Presenter script:** `demo/earnings_analysis_script.md` — DATA PACKAGE refreshed to Q3 FY26 actuals; Steps 5–8 prompts and Decision Layer cards updated for the Q3 narrative anchors (organic 28% vs reported 60% NGS ARR, Q4 step-up, Arora open-market purchase, PANW now top of peer growth).
 
-**Next action:** Run the Q3 FY26 pipeline now (June 3): `python demo/data/gather.py` → `rebuild_db.py` → provenance tests → `run_earnings_analysis.py` → `run_buyside_analysis.py` → `generate_baseline.py`. After pipeline completes: (1) capture real sentiment data via Playwright (MarketBeat short interest + Barchart P/C), re-run rebuild_db.py with real figures, (2) build the PANW one-pager in Claude Code from the refreshed data layer (facts only, no sell-side/buy-side conclusions). See Active Tasks.
+**Next action:** Workshop day tomorrow. Remaining items are deck QR codes / fallback / facilitation materials — see Active Tasks.
 
 ---
 
@@ -51,7 +50,8 @@ Tab 3: buy-side layer + live chat. Full framework redesign: horizon banner (6-mo
 - [x] Output validated: `panw_q2fy26_earnings_analysis.json` — Rating: Maintain Outperform, PT $186
 - [x] Tab 2 wired into `generate_baseline.py` — all steps render from JSON, departures panel visible
 - [x] HTML confirmed in browser — Steps 5–11 all render, peer table, valuation, skill banner
-- [ ] **Phase B (June 3) — IN PROGRESS:** Q3 FY26 print released June 2. Scripts updated, PDFs in `demo/data/manual/`. Step 1: `python demo/data/gather.py`. Then rebuild_db.py → tests → run_earnings_analysis.py → generate_baseline.py.
+- [x] **Phase B (June 3):** Q3 FY26 pipeline run complete. Pipeline: gather → rebuild_db → tests (39/39) → run_earnings_analysis → run_buyside_analysis → generate_baseline. Rating: Maintain Outperform, PT $174.
+- [x] **Session 10 (June 3 EOD):** 8 QC bugs fixed (rounding, hardcoded values, stale YoY refs, missing KPIs); Step 11 rating logic rewritten to apply skill's "Consider:" moderating factors faithfully; Rating Logic + Margin Analysis sections added; Key Takeaways "See transcript" placeholders replaced with substantive data-derived content; cover stats colored by sign. Documented in `LESSONS_LEARNED.md` Session 10.
 
 ### Tab 3 — COMPLETE
 - [x] Design agreed: static buy-side Q&A (pre-run) + live chat (Claude API + Tavily)
@@ -63,7 +63,8 @@ Tab 3: buy-side layer + live chat. Full framework redesign: horizon banner (6-mo
 - [x] JavaScript: accordion toggle, suggestion chips, SSE chat streaming, DOMPurify sanitization
 - [x] Live/offline server badge — pings `/chat` on tab load
 - [x] End-to-end tested: simple, single-search, and multi-search compound questions all work
-- [ ] **Phase B (June 3) — IN PROGRESS:** Re-run `run_buyside_analysis.py` after gather.py + rebuild_db.py complete.
+- [x] **Phase B (June 3):** Re-run `run_buyside_analysis.py` with Q3 FY26 data complete; chat smoke tests pass.
+- [x] **Session 10 (June 3 EOD):** Tab renamed Buy-Side Layer → Decision Layer; framework intro renamed Decision Framework — Five Analytical Lenses. Substantive (Role: Buy-Side banner, chat persona, file paths) retained.
 
 ### Workshop design
 - [ ] Compressed 45-minute agenda pass
@@ -91,7 +92,7 @@ Tab 3: buy-side layer + live chat. Full framework redesign: horizon banner (6-mo
 Microsoft Forms over Mentimeter. Reasons: bundled with M365 (zero cost), anonymous responses native, word cloud + bar chart + detailed-list visualizations in present mode, structured multi-field submission for Beat 3, Excel export, embeds in PowerPoint. Q3 re-poll cut from the original design (verbal show-of-hands at debrief replaces it).
 
 ### Logistics
-- [ ] Buy MacBook Pro adapter before June 4
+- [x] MacBook Pro adapter — confirmed (2026-06-03)
 
 ---
 
