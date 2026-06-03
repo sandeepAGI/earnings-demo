@@ -48,7 +48,7 @@ DEPARTURES = [
         "id": "D1",
         "step": "1 — Data Freshness",
         "departure": "Pre-staged raw files used instead of live web search.",
-        "reason": "Workshop reproducibility — the same output must render reliably for the June 4, 2026 workshop. Live fetch produces non-deterministic content.",
+        "reason": "Workshop reproducibility — the same output must render reliably for the June 4, 2026 workshop.",
     },
     {
         "id": "D2",
@@ -141,6 +141,11 @@ ah_pct     = float(kpis["stock_ah_change_pct"])
 close_px   = float(kpis["stock_close_day_of"])
 open_next  = float(kpis["stock_open_next_day"])
 
+rev_beat_m   = round(rev_actual_m - rev_cons_m) if rev_cons_m else None
+oi_ng_q3     = q3["operating_margin_nongaap_pct"]
+oi_ng_py_val = q3_py["operating_margin_nongaap_pct"]
+oi_ng_bps_q3 = round((oi_ng_q3 - oi_ng_py_val) * 100)
+
 beat_miss = {
     "eps_nongaap": {
         "actual":     eps_actual,
@@ -148,7 +153,11 @@ beat_miss = {
         "beat":       eps_beat,
         "beat_pct":   eps_beat_pct,
         "signal":     "beat" if eps_beat > 0 else "miss",
-        "driver":     "See transcript for management commentary on EPS drivers.",
+        "driver": (
+            f"Revenue beat +${rev_beat_m}M vs consensus; "
+            f"non-GAAP OI margin {oi_ng_q3}% ({oi_ng_bps_q3:+d}bps YoY) held near prior-year levels, "
+            f"suggesting top-line outperformance flowed through to EPS."
+        ) if rev_beat_m else "Revenue outperformance at maintained non-GAAP margins drove the beat.",
     },
     "revenue": {
         "actual_m":       rev_actual_m,
@@ -161,15 +170,21 @@ beat_miss = {
         "actual_bn":          ngs_arr_bn,
         "yoy_growth_pct":     ngs_arr_yoy,
         "organic_yoy_pct":    ngs_arr_organic_yoy,
-        "note": f"NGS ARR +{ngs_arr_yoy}% YoY reported. "
-                f"Organic growth figure requires transcript review — set ngs_arr_organic_yoy above.",
+        "note": (
+            f"Reported NGS ARR +{ngs_arr_yoy}% YoY included CyberArk and Chronosphere acquisitions. "
+            f"Organic growth +{ngs_arr_organic_yoy:.0f}% YoY (ex-acquisitions)."
+        ),
     },
     "stock_reaction": {
         "ah_change_pct": ah_pct,
         "close_day_of":  close_px,
         "open_next_day": open_next,
         "signal":        "bearish_despite_beat" if ah_pct < -3 else ("bullish" if ah_pct > 3 else "neutral"),
-        "driver": "See transcript and guidance analysis for stock reaction context.",
+        "driver": (
+            f"Reported NGS ARR +{ngs_arr_yoy}% included CyberArk and Chronosphere acquisitions; "
+            f"organic growth +{ngs_arr_organic_yoy:.0f}% may have disappointed vs. headline. "
+            f"Sell-the-news dynamic: stock entered print at ${close_px:.2f} on elevated expectations."
+        ),
     },
 }
 
@@ -292,6 +307,11 @@ fy_rev_mid  = round((fyg["revenue_low_m"]   + fyg["revenue_high_m"])   / 2)
 
 eps_delta_to_q4 = round(eps_actual - q4_eps_mid, 3)  # positive = step-down, negative = step-up
 
+_hist_beats  = sorted(est["earnings_history"], key=lambda x: x["fiscal_date_ending"])
+_beat_count  = sum(1 for e in _hist_beats if e.get("eps_surprise_pct", 0) > 0)
+_avg_beat    = round(sum(e["eps_surprise_pct"] for e in _hist_beats if e.get("eps_surprise_pct", 0) > 0) / max(_beat_count, 1), 1)
+_step_dir    = "step-up" if eps_delta_to_q4 < 0 else "step-down"
+
 guidance_analysis = {
     "q4_fy26": {
         "revenue_range_m":  [q4g["revenue_low_m"], q4g["revenue_high_m"]],
@@ -312,7 +332,12 @@ guidance_analysis = {
     "key_signals": {
         "q4_eps_vs_q3_actual": f"Q4 midpoint ${q4_eps_mid:.2f} vs Q3 actual ${eps_actual:.2f} — {'step-down' if eps_delta_to_q4 > 0 else 'step-up'} of ${abs(eps_delta_to_q4):.2f}",
         "fy_guidance_raised":  fyg["revision_vs_prior"] == "raise",
-        "credibility_read":    "PANW has a consistent track record of conservative guidance and beating. See transcript for management tone.",
+        "credibility_read": (
+            f"Beat EPS consensus in {_beat_count} of the last {len(_hist_beats)} quarters "
+            f"(avg +{_avg_beat}% on beats). "
+            f"Q4 FY26 ${q4_eps_mid:.2f} midpoint is a {_step_dir} of ${abs(eps_delta_to_q4):.2f} "
+            f"from Q3 actual — consistent with PANW's pattern of raising guidance after the beat."
+        ),
         "ngs_arr_trajectory":  f"Q4 NGS ARR guided ${q4g.get('ngs_arr_low_bn')}–{q4g.get('ngs_arr_high_bn')}B.",
     },
 }
@@ -477,27 +502,53 @@ print(f"  NTM revenue: ${ntm_rev_m:,}M | PT range: ${pt_lo}–${pt_hi} | Midpoin
 
 print("\n[STEP 11] Rating Assessment (skill criteria applied)...")
 
-eps_sig_beat    = eps_beat_pct >= 5.0
-fy_raised       = fyg["revision_vs_prior"] == "raise"
-q4_step_down    = q4_eps_mid < eps_actual
-stock_adjusted  = ah_pct < -5.0
-
-# Skill logic:
+# Primary trigger per skill Step 11:
 # "significantly better + guidance raised → Consider upgrade"
-# "inline or mixed → Usually maintain"
-# "significantly worse + guidance cut → Consider downgrade"
-if eps_sig_beat and fy_raised and not q4_step_down:
+eps_sig_beat = eps_beat_pct >= 5.0
+fy_raised    = fyg["revision_vs_prior"] == "raise"
+q4_step_up   = q4_eps_mid > eps_actual
+
+upgrade_trigger = eps_sig_beat and fy_raised
+
+# Moderating factors per skill Step 11 "Consider:":
+# - Stock reaction (up/down/flat?)
+# - Valuation (expensive/cheap relative to new estimates?)
+# - Risk/reward (asymmetry shifted?)
+stock_negative   = ah_pct <= -3.0
+valuation_rich   = ev_ntm > mult_hi          # NTM multiple above target high end
+asym_negative    = upside_pct < -15.0        # PT meaningfully below current price
+
+moderators_against_upgrade = sum([stock_negative, valuation_rich, asym_negative])
+
+# Apply skill discipline: trigger is permission to "consider", not a mandate.
+# The moderating considerations decide whether to upgrade or maintain.
+if upgrade_trigger and moderators_against_upgrade == 0:
     rating = "Upgrade to Outperform"
     rating_short = "UPGRADE"
-elif eps_sig_beat and fy_raised and q4_step_down and stock_adjusted:
+    rating_basis = "primary trigger met; no moderating factors against."
+elif upgrade_trigger and moderators_against_upgrade >= 2:
     rating = "Maintain Outperform"
     rating_short = "MAINTAIN"
-elif not eps_sig_beat or not fy_raised:
+    rating_basis = (
+        f"primary trigger met (EPS beat +{eps_beat_pct}%, FY26 guidance raised), but "
+        f"{moderators_against_upgrade} of 3 moderating factors argue against upgrade — "
+        f"holding rating at Outperform without the upgrade step."
+    )
+elif upgrade_trigger and moderators_against_upgrade == 1:
+    rating = "Upgrade to Outperform"
+    rating_short = "UPGRADE"
+    rating_basis = (
+        f"primary trigger met; one moderating factor against (noted in rationale) but "
+        f"insufficient to block upgrade."
+    )
+elif not upgrade_trigger and (eps_beat_pct >= 0 or fy_raised):
+    rating = "Maintain Outperform"
+    rating_short = "MAINTAIN"
+    rating_basis = "results inline/mixed — usually maintain rating per skill."
+else:
     rating = "Maintain / Under Review"
     rating_short = "MAINTAIN"
-else:
-    rating = "Maintain Outperform"
-    rating_short = "MAINTAIN"
+    rating_basis = "results below expectations — review pending."
 
 # Q&A signal count — answered/partial/deflected schema
 qa_exchanges = qa.get("exchanges", [])
@@ -519,17 +570,29 @@ rating_output = {
         "deflected": deflected_qa,
     },
     "skill_criteria": {
-        "eps_beat_significant": eps_sig_beat,
-        "fy_guidance_raised":   fy_raised,
-        "q4_sequential_step_down": q4_step_down,
-        "stock_already_adjusted":  stock_adjusted,
+        "primary_trigger": {
+            "eps_beat_significant":  eps_sig_beat,
+            "fy_guidance_raised":    fy_raised,
+            "q4_step_up_vs_actual":  q4_step_up,
+            "trigger_met":           upgrade_trigger,
+        },
+        "moderating_factors": {
+            "stock_reaction_negative":    {"value": stock_negative, "data": f"AH {ah_pct:+.1f}%"},
+            "valuation_rich_vs_target":   {"value": valuation_rich, "data": f"NTM {ev_ntm}x vs {mult_lo}–{mult_hi}x target"},
+            "risk_reward_asymmetric_neg": {"value": asym_negative,  "data": f"implied {upside_pct:+.1f}% to PT"},
+            "count_against_upgrade":      moderators_against_upgrade,
+        },
+        "decision_basis": rating_basis,
     },
     "rationale": (
-        f"EPS beat of +{eps_beat_pct}% and FY26 guidance {fyg['revision_vs_prior']} (midpoint ${fy_eps_mid}) support "
-        f"the thesis. Q4 EPS guidance midpoint ${q4_eps_mid:.2f} vs Q3 actual ${eps_actual:.2f}. "
-        f"Stock {'fell' if ah_pct < 0 else 'rose'} {abs(ah_pct):.1f}% AH. "
-        f"Platform metrics: NGS ARR +{ngs_arr_yoy}%, {plat_count} platformized customers, RPO ${rpo_bn}B (+{rpo_yoy}% YoY). "
-        f"PT ${pt_mid_val} based on {mult_lo}–{mult_hi}x NTM EV/Revenue ({upside_pct:+.1f}% upside). "
+        f"Primary trigger: EPS beat +{eps_beat_pct}% and FY26 guidance {fyg['revision_vs_prior']} "
+        f"(midpoint ${fy_eps_mid}) make this an upgrade-eligible print. "
+        f"Moderating factors per skill: stock reaction {ah_pct:+.1f}% AH ({'against' if stock_negative else 'neutral/for'} upgrade); "
+        f"valuation {ev_ntm}x NTM vs {mult_lo}–{mult_hi}x target multiple ({'expensive' if valuation_rich else 'in-range'}); "
+        f"risk/reward asymmetry {upside_pct:+.1f}% to PT ({'negatively skewed' if asym_negative else 'balanced'}). "
+        f"{moderators_against_upgrade} of 3 moderators against upgrade → {rating}. "
+        f"Platform metrics support the standing Outperform thesis: NGS ARR +{ngs_arr_yoy}% (organic +{ngs_arr_organic_yoy:.0f}%), "
+        f"{plat_count} platformized customers, RPO ${rpo_bn}B (+{rpo_yoy}% YoY). "
         f"Q&A management responsiveness: {answered_qa} answered / {partial_qa} partial / {deflected_qa} deflected."
     ),
     "key_risks": [

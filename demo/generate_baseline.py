@@ -7,7 +7,7 @@ Three-tab output:
   Tab 1 — Baseline Data:      data tables, KPIs, charts from the DB
   Tab 2 — Claude Analysis:    placeholder until earnings reviewer process is designed,
                                tested on Q1 FY26, validated, and re-run on Q2 FY26
-  Tab 3 — Buy-Side Layer:     infrastructure cards + 4 prompt cards for live demo.
+  Tab 3 — Decision Layer:     infrastructure cards + 4 prompt cards for live demo.
                                No pre-written analytical conclusions.
 
 Chart.js is downloaded once and embedded inline so the HTML works offline
@@ -969,7 +969,7 @@ html = f"""<!DOCTYPE html>
       Claude for Financial Services <span class="tab-label-pill">Earnings Reviewer</span>
     </button>
     <button class="tab-btn" onclick="showTab('buyside', this)">
-      Buy-Side Layer <span class="tab-label-pill">Claude API</span>
+      Decision Layer <span class="tab-label-pill">Claude API</span>
     </button>
   </div>
 </div>
@@ -1474,6 +1474,34 @@ if _an:
     # ── Key risks ────────────────────────────────────────────────────────────
     _risks = "".join(f"      <li>{_r}</li>\n" for _r in _s11["key_risks"])
 
+    # ── Margin trajectory (last 4 reported quarters) ─────────────────────────
+    _margin_trajectory_rows = ""
+    for _t in _s7["trajectory"][-4:]:
+        _hl = ' class="highlight"' if _t["period"] == "Q3_FY26" else ""
+        _margin_trajectory_rows += (
+            f'      <tr{_hl}><td><strong>{_t["period"].replace("_", " ")}</strong></td>'
+            f'<td class="num">{_t["gm_nongaap_pct"]}%</td>'
+            f'<td class="num">{_t["oi_nongaap_pct"]}%</td>'
+            f'<td class="num">{_t["fcf_margin_pct"]}%</td></tr>\n'
+        )
+
+    # ── Rating logic: primary trigger + moderating factors ───────────────────
+    _pt    = _s11["skill_criteria"]["primary_trigger"]
+    _mf    = _s11["skill_criteria"]["moderating_factors"]
+    _tick  = lambda b: '<span class="pos">✓</span>' if b else '<span class="neg">✗</span>'
+    _aglbl = lambda b: '<span class="neg">against upgrade</span>' if b else '<span class="pos">supports upgrade</span>'
+
+    _trigger_rows = (
+        f'      <tr><td>EPS beat ≥ 5% vs consensus</td><td class="num">+{_s5["eps_nongaap"]["beat_pct"]}%</td><td>{_tick(_pt["eps_beat_significant"])}</td></tr>\n'
+        f'      <tr><td>FY guidance raised</td><td class="muted">{_s8["fy26_full_year"]["revision"]}</td><td>{_tick(_pt["fy_guidance_raised"])}</td></tr>\n'
+        f'      <tr><td>Q4 EPS stepping up vs Q3 actual</td><td class="num">${_s8["q4_fy26"]["eps_midpoint"]:.2f} vs ${_s5["eps_nongaap"]["actual"]}</td><td>{_tick(_pt["q4_step_up_vs_actual"])}</td></tr>\n'
+    )
+    _moderator_rows = (
+        f'      <tr><td>Stock reaction</td><td class="num">{_mf["stock_reaction_negative"]["data"]}</td><td>{_aglbl(_mf["stock_reaction_negative"]["value"])}</td></tr>\n'
+        f'      <tr><td>Valuation vs target multiple</td><td class="num">{_mf["valuation_rich_vs_target"]["data"]}</td><td>{_aglbl(_mf["valuation_rich_vs_target"]["value"])}</td></tr>\n'
+        f'      <tr><td>Risk/reward asymmetry</td><td class="num">{_mf["risk_reward_asymmetric_neg"]["data"]}</td><td>{_aglbl(_mf["risk_reward_asymmetric_neg"]["value"])}</td></tr>\n'
+    )
+
     _tab2_html = f"""<div id="tab-sellside" class="tab-content">
 <div class="container">
 
@@ -1528,12 +1556,12 @@ if _an:
     </div>
     <div class="rn-stat">
       <div class="rn-stat-label">Price Target</div>
-      <div class="rn-stat-val up">${_s11["price_target"]}</div>
+      <div class="rn-stat-val {('up' if _s11['price_target'] >= _s11['current_price'] else 'dn')}">${_s11["price_target"]}</div>
       <div class="rn-stat-note">Range ${_s11["pt_range"][0]}–${_s11["pt_range"][1]}</div>
     </div>
     <div class="rn-stat">
       <div class="rn-stat-label">Implied Upside</div>
-      <div class="rn-stat-val up">{_s11["implied_upside_pct"]:+.1f}%</div>
+      <div class="rn-stat-val {('up' if _s11['implied_upside_pct'] >= 0 else 'dn')}">{_s11["implied_upside_pct"]:+.1f}%</div>
       <div class="rn-stat-note">From ${_s11["current_price"]} close</div>
     </div>
     <div class="rn-stat">
@@ -1560,6 +1588,7 @@ if _an:
     <li><strong>Beat:</strong> Non-GAAP EPS ${_s5["eps_nongaap"]["actual"]} vs. ${_s5["eps_nongaap"]["consensus"]:.3f} consensus (+{_s5["eps_nongaap"]["beat_pct"]}%). Revenue +{_s5["revenue"]["yoy_growth_pct"]}% YoY to ${_s5["revenue"]["actual_m"]:,}M. NGS ARR +{_s5["ngs_arr"]["yoy_growth_pct"]}% to ${_s5["ngs_arr"]["actual_bn"]}B ({_s5["ngs_arr"]["organic_yoy_pct"]}% organic). {_s5["eps_nongaap"]["driver"]}</li>
     <li><strong>Reaction:</strong> Stock fell {_s5["stock_reaction"]["ah_change_pct"]:+.1f}% AH despite the beat. {_s5["stock_reaction"]["driver"]}</li>
     <li><strong>Thesis intact:</strong> Platform consolidation on track — {_s6["platformized_customers"]:,} platformized customers, RPO ${_s6["rpo_bn"]}B (+{_s6["rpo_yoy_pct"]}%). FY26 guidance raised. {_s8["key_signals"]["credibility_read"]}</li>
+    <li><strong>Rating:</strong> {_s11["rating"]}, PT ${_s11["price_target"]} ({_s11["implied_upside_pct"]:+.1f}% to PT). Skill primary trigger met (EPS +{_s5["eps_nongaap"]["beat_pct"]}% beat, FY26 raised, Q4 stepping up ${round(_s8["q4_fy26"]["eps_midpoint"] - _s5["eps_nongaap"]["actual"], 2):.2f}) — the print is upgrade-eligible. Moderating factors per skill: stock {_s5["stock_reaction"]["ah_change_pct"]:+.1f}% AH (against), valuation {_s10["panw_ev_rev_ntm_x"]}x NTM vs 10–12x target (expensive), implied {_s11["implied_upside_pct"]:+.1f}% to PT (negative asymmetry). {_s11["skill_criteria"]["moderating_factors"]["count_against_upgrade"]} of 3 moderators argue against upgrade → maintain.</li>
   </ul>
 </div>
 
@@ -1654,6 +1683,64 @@ if _an:
   </div>
 </div>
 
+<!-- ── Margin Analysis ──────────────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>Margin Analysis</h2>
+    <span class="tag">Q3 FY26 vs Q3 FY25 · GAAP and Non-GAAP</span>
+  </div>
+  <div class="section-body">
+    <table class="an-tbl" style="margin-bottom:14px">
+      <thead>
+        <tr><th>Margin</th><th>Q3 FY26</th><th>YoY Δ (bps)</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Gross margin · Non-GAAP</strong></td>
+          <td class="num">{_s7["q3_fy26"]["gross_margin_nongaap_pct"]}%</td>
+          <td class="num {('pos' if _s7['yoy_delta_bps']['gross_margin_nongaap'] >= 0 else 'neg')}"><strong>{_s7["yoy_delta_bps"]["gross_margin_nongaap"]:+d}bps</strong></td>
+          <td class="muted">Hardware mix vs. software dilution</td>
+        </tr>
+        <tr>
+          <td><strong>Gross margin · GAAP</strong></td>
+          <td class="num">{_s7["q3_fy26"]["gross_margin_gaap_pct"]}%</td>
+          <td class="num {('pos' if _s7['yoy_delta_bps']['gross_margin_gaap'] >= 0 else 'neg')}"><strong>{_s7["yoy_delta_bps"]["gross_margin_gaap"]:+d}bps</strong></td>
+          <td class="muted">Includes stock-comp and amortisation</td>
+        </tr>
+        <tr class="highlight">
+          <td><strong>Operating margin · Non-GAAP</strong></td>
+          <td class="num">{_s7["q3_fy26"]["oi_margin_nongaap_pct"]}%</td>
+          <td class="num {('pos' if _s7['yoy_delta_bps']['oi_margin_nongaap'] >= 0 else 'neg')}"><strong>{_s7["yoy_delta_bps"]["oi_margin_nongaap"]:+d}bps</strong></td>
+          <td class="muted">Held near prior-year — EPS beat flowed from top-line</td>
+        </tr>
+        <tr>
+          <td><strong>Operating margin · GAAP</strong></td>
+          <td class="num">{_s7["q3_fy26"]["oi_margin_gaap_pct"]}%</td>
+          <td class="num {('pos' if _s7['yoy_delta_bps']['oi_margin_gaap'] >= 0 else 'neg')}"><strong>{_s7["yoy_delta_bps"]["oi_margin_gaap"]:+d}bps</strong></td>
+          <td class="muted">Q3 FY26 one-time charge — see Tab 1 callout</td>
+        </tr>
+        <tr>
+          <td><strong>Free cash flow margin</strong></td>
+          <td class="num">{_s7["q3_fy26"]["fcf_margin_pct"]}%</td>
+          <td class="muted">—</td>
+          <td class="muted">Seasonally mid; Q1 highest due to annual billings</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="rn-prose">
+      <p>{_s7["driver_note"]}</p>
+    </div>
+    <div style="margin-top:12px">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px">Non-GAAP OI margin · last 4 quarters</div>
+      <table class="an-tbl" style="font-size:11.5px">
+        <thead><tr><th>Quarter</th><th>GM Non-GAAP</th><th>OI Non-GAAP</th><th>FCF margin</th></tr></thead>
+        <tbody>
+{_margin_trajectory_rows}        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- ── EPS Trend & Estimate Context ─────────────────────────────────────── -->
 <div class="section">
   <div class="section-header">
@@ -1693,6 +1780,40 @@ if _an:
       <p>{_s10["rationale"]}</p>
       <p style="font-size:11.5px;color:#888">
         NTM revenue estimate: Q4 FY26 implied ${_s10["ntm_build"]["q4_fy26_implied_m"]:,}M + Q1 FY27 ${_s10["ntm_build"]["q1_fy27_est_m"]:,}M + Q2 FY27 ${_s10["ntm_build"]["q2_fy27_est_m"]:,}M + Q3 FY27 ${_s10["ntm_build"]["q3_fy27_est_m"]:,}M = <strong>${_s10["ntm_build"]["total_ntm_m"]:,}M</strong>. {_s10["ntm_build"]["assumption"]}.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ── Rating Logic ──────────────────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-header">
+    <h2>Rating Logic</h2>
+    <span class="tag">Skill Step 11 walkthrough</span>
+  </div>
+  <div class="section-body">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px">Primary trigger — does the print make this upgrade-eligible?</div>
+    <table class="an-tbl" style="margin-bottom:14px">
+      <thead><tr><th>Criterion</th><th>Reading</th><th>Met</th></tr></thead>
+      <tbody>
+{_trigger_rows}        <tr class="highlight"><td colspan="2"><strong>Trigger met</strong> — print is upgrade-eligible</td><td>{_tick(_pt["trigger_met"])}</td></tr>
+      </tbody>
+    </table>
+
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px">Moderating factors — should the upgrade actually happen?</div>
+    <table class="an-tbl" style="margin-bottom:14px">
+      <thead><tr><th>Factor (per skill)</th><th>Data</th><th>Direction</th></tr></thead>
+      <tbody>
+{_moderator_rows}        <tr class="highlight"><td colspan="2"><strong>Moderators against upgrade</strong></td><td class="num"><strong>{_mf["count_against_upgrade"]} of 3</strong></td></tr>
+      </tbody>
+    </table>
+
+    <div class="rn-callout {('neg' if _mf['count_against_upgrade'] >= 2 else 'pos')}">
+      <strong>Decision:</strong> {_s11["skill_criteria"]["decision_basis"]}
+    </div>
+    <div class="rn-prose" style="margin-top:12px">
+      <p style="font-size:11.5px;color:#666">
+        The skill (equity-research/earnings-analysis v0.1.0) says: <em>"significantly better + guidance raised → Consider upgrade,"</em> then mandates considering stock reaction, valuation, and risk/reward asymmetry before locking the rating. The rating reflects this discipline: the trigger condition is permission to consider an upgrade, not a mandate to upgrade.
       </p>
     </div>
   </div>
@@ -1766,7 +1887,7 @@ if _bs:
       <div class="fw-dim-def">{_ddesc}</div>
     </div>"""
     _fw_intro = f"""<div class="fw-intro">
-  <div class="fw-intro-label">Buy-Side Framework — 5 Analytical Lenses</div>
+  <div class="fw-intro-label">Decision Framework — Five Analytical Lenses</div>
   <div class="fw-intro-dims">{_fw_dims_html}
   </div>
 </div>"""
@@ -1811,7 +1932,7 @@ if _bs:
 <div class="container">
 
 <div class="section-header" style="margin-bottom:12px">
-  <h2>Buy-Side Analysis</h2>
+  <h2>Decision Layer</h2>
   <span class="tag">Pre-run &#183; {_bs_generated}</span>
 </div>
 
@@ -1899,7 +2020,7 @@ else:
 <div class="plugin-context">
   <div class="plugin-context-icon">&#9203;</div>
   <div>
-    <div class="plugin-context-label">Buy-Side Analysis Not Found</div>
+    <div class="plugin-context-label">Decision Layer Not Found</div>
     <div class="plugin-context-note">Run: python3 demo/data/analysis/run_buyside_analysis.py</div>
   </div>
 </div>
@@ -1926,7 +2047,7 @@ html += f"""      </tbody>
 
 <div class="page-footer">
   <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q3 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated {generated_at}<br>
-  Tab 1: Baseline Data (real data from DB) &nbsp;·&nbsp; Tab 2: Sell-Side Analysis (equity-research/earnings-analysis, 4 departures) &nbsp;·&nbsp; Tab 3: Buy-Side Layer (Claude API + Tavily)<br>
+  Tab 1: Baseline Data (real data from DB) &nbsp;·&nbsp; Tab 2: Sell-Side Analysis (equity-research/earnings-analysis, 4 departures) &nbsp;·&nbsp; Tab 3: Decision Layer (Claude API + Tavily)<br>
   Phase B: re-run rebuild_db.py &#8594; run_earnings_analysis.py &#8594; generate_baseline.py after June 2, 2026 Q3 print
 </div>
 
@@ -2422,6 +2543,6 @@ size = OUT_PATH.stat().st_size
 print(f"\n  ✅ {OUT_PATH}")
 print(f"     Size:      {size:,} bytes")
 print(f"     Generated: {generated_at}")
-print(f"     Tabs:      Baseline Data | Earnings Reviewer | Buy-Side Layer (Claude API + Tavily)")
+print(f"     Tabs:      Baseline Data | Earnings Reviewer | Decision Layer (Claude API + Tavily)")
 print(f"     Charts:    Chart.js {'embedded inline' if chartjs_js else 'CDN link (offline may fail)'}")
 print(f"     Branding:  Aileron Group (Montserrat · #60B5E5 · #2D2042 · #B3DCF3)")

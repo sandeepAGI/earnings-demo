@@ -9,7 +9,7 @@
       "id": "D1",
       "step": "1 \u2014 Data Freshness",
       "departure": "Pre-staged raw files used instead of live web search.",
-      "reason": "Workshop reproducibility \u2014 the same output must render reliably for the June 4, 2026 workshop. Live fetch produces non-deterministic content."
+      "reason": "Workshop reproducibility \u2014 the same output must render reliably for the June 4, 2026 workshop."
     },
     {
       "id": "D2",
@@ -38,7 +38,7 @@
         "beat": 0.05,
         "beat_pct": 6.2,
         "signal": "beat",
-        "driver": "See transcript for management commentary on EPS drivers."
+        "driver": "Revenue beat +$62M vs consensus; non-GAAP OI margin 27.1% (-30bps YoY) held near prior-year levels, suggesting top-line outperformance flowed through to EPS."
       },
       "revenue": {
         "actual_m": 3002,
@@ -51,14 +51,14 @@
         "actual_bn": 8.13,
         "yoy_growth_pct": 60.0,
         "organic_yoy_pct": 28.0,
-        "note": "NGS ARR +60.0% YoY reported. Organic growth figure requires transcript review \u2014 set ngs_arr_organic_yoy above."
+        "note": "Reported NGS ARR +60.0% YoY included CyberArk and Chronosphere acquisitions. Organic growth +28% YoY (ex-acquisitions)."
       },
       "stock_reaction": {
         "ah_change_pct": -4.44,
         "close_day_of": 297.18,
         "open_next_day": 284.0,
         "signal": "bearish_despite_beat",
-        "driver": "See transcript and guidance analysis for stock reaction context."
+        "driver": "Reported NGS ARR +60.0% included CyberArk and Chronosphere acquisitions; organic growth +28% may have disappointed vs. headline. Sell-the-news dynamic: stock entered print at $297.18 on elevated expectations."
       }
     },
     "6_segment_geo": {
@@ -192,7 +192,7 @@
       "key_signals": {
         "q4_eps_vs_q3_actual": "Q4 midpoint $0.97 vs Q3 actual $0.85 \u2014 step-up of $0.12",
         "fy_guidance_raised": true,
-        "credibility_read": "PANW has a consistent track record of conservative guidance and beating. See transcript for management tone.",
+        "credibility_read": "Beat EPS consensus in 5 of the last 5 quarters (avg +6.3% on beats). Q4 FY26 $0.97 midpoint is a step-up of $0.12 from Q3 actual \u2014 consistent with PANW's pattern of raising guidance after the beat.",
         "ngs_arr_trajectory": "Q4 NGS ARR guided $8.9\u20138.95B."
       }
     },
@@ -302,8 +302,8 @@
       "rationale": "PANW trades at 22.4x TTM and 18.8x NTM EV/Revenue at the Jun 2 close of $297.18. Applying 10.0\u201312.0x NTM (discount to CRWD's 34.18x reflects PANW's lower growth rate of ~31.1% vs CRWD's ~23.0%) yields PT range $158\u2013$189. Midpoint $174 implies -41.4% upside from post-earnings close."
     },
     "11_rating": {
-      "rating": "Upgrade to Outperform",
-      "rating_short": "UPGRADE",
+      "rating": "Maintain Outperform",
+      "rating_short": "MAINTAIN",
       "price_target": 174,
       "pt_range": [
         158,
@@ -318,12 +318,30 @@
         "deflected": 0
       },
       "skill_criteria": {
-        "eps_beat_significant": true,
-        "fy_guidance_raised": true,
-        "q4_sequential_step_down": false,
-        "stock_already_adjusted": false
+        "primary_trigger": {
+          "eps_beat_significant": true,
+          "fy_guidance_raised": true,
+          "q4_step_up_vs_actual": true,
+          "trigger_met": true
+        },
+        "moderating_factors": {
+          "stock_reaction_negative": {
+            "value": true,
+            "data": "AH -4.4%"
+          },
+          "valuation_rich_vs_target": {
+            "value": true,
+            "data": "NTM 18.8x vs 10.0\u201312.0x target"
+          },
+          "risk_reward_asymmetric_neg": {
+            "value": true,
+            "data": "implied -41.4% to PT"
+          },
+          "count_against_upgrade": 3
+        },
+        "decision_basis": "primary trigger met (EPS beat +6.2%, FY26 guidance raised), but 3 of 3 moderating factors argue against upgrade \u2014 holding rating at Outperform without the upgrade step."
       },
-      "rationale": "EPS beat of +6.2% and FY26 guidance raise (midpoint $3.78) support the thesis. Q4 EPS guidance midpoint $0.97 vs Q3 actual $0.85. Stock fell 4.4% AH. Platform metrics: NGS ARR +60.0%, 2280 platformized customers, RPO $18.4B (+36.0% YoY). PT $174 based on 10.0\u201312.0x NTM EV/Revenue (-41.4% upside). Q&A management responsiveness: 3 answered / 6 partial / 0 deflected.",
+      "rationale": "Primary trigger: EPS beat +6.2% and FY26 guidance raise (midpoint $3.78) make this an upgrade-eligible print. Moderating factors per skill: stock reaction -4.4% AH (against upgrade); valuation 18.8x NTM vs 10.0\u201312.0x target multiple (expensive); risk/reward asymmetry -41.4% to PT (negatively skewed). 3 of 3 moderators against upgrade \u2192 Maintain Outperform. Platform metrics support the standing Outperform thesis: NGS ARR +60.0% (organic +28%), 2280 platformized customers, RPO $18.4B (+36.0% YoY). Q&A management responsiveness: 3 answered / 6 partial / 0 deflected.",
       "key_risks": [
         "Platformization velocity slows if customer consolidation pace disappoints",
         "CRWD competitive recovery intensifies and captures consolidation deals",
