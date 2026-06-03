@@ -309,10 +309,43 @@ crwd_results = load_peer("crwd_q4fy26_results.json")
 ftnt_results = load_peer("ftnt_q12026_results.json")
 zs_results   = load_peer("zs_q3fy26_results.json")
 
-# Confirmed sentiment values (Playwright browser extract — capture before June 4 workshop)
-_sent = load_peer("panw_q3fy26_sentiment_signals.json")
-_si   = _sent.get("short_interest", {}) if _sent else {}
-_pc   = _sent.get("put_call", {})       if _sent else {}
+# Parse sentiment values directly from the txt files via regex
+import re as _re
+
+def _parse_si(text):
+    """Extract key values from short interest txt file."""
+    m_float  = _re.search(r'% of float:\s+([\d.]+)%', text)
+    m_dtc    = _re.search(r'Days to cover:\s+([\d.]+)', text)
+    m_shares = _re.search(r'Shares short:\s+([\d,]+)', text)
+    m_change = _re.search(r'Change vs prior:\s+([+-]?[\d.]+)%', text)
+    m_prior  = _re.search(r'Prior report.*?\n.*?% of float:\s+([\d.]+)%', text, _re.DOTALL)
+    if not (m_float and m_dtc):
+        return {}
+    return {
+        "float_pct": float(m_float.group(1)),
+        "prior_float_pct": float(m_prior.group(1)) if m_prior else None,
+        "days_to_cover": float(m_dtc.group(1)),
+        "shares_short_m": round(int(m_shares.group(1).replace(",", "")) / 1e6, 2) if m_shares else None,
+        "change_pct": float(m_change.group(1)) if m_change else None,
+    }
+
+def _parse_pc(text):
+    """Extract key values from put/call txt file."""
+    m_vol  = _re.search(r'Put/Call Volume Ratio:\s+([\d.]+)', text)
+    m_oi   = _re.search(r'Put/Call OI Ratio:\s+([\d.]+)', text)
+    m_iv   = _re.search(r'Implied Volatility:\s+([\d.]+)%', text)
+    m_ivr  = _re.search(r'IV Rank:\s+([\d.]+)%', text)
+    if not m_vol:
+        return {}
+    return {
+        "pc_volume_ratio": float(m_vol.group(1)),
+        "pc_oi_ratio": float(m_oi.group(1)) if m_oi else None,
+        "iv_pct": float(m_iv.group(1)) if m_iv else None,
+        "iv_rank_pct": float(m_ivr.group(1)) if m_ivr else None,
+    }
+
+_si = _parse_si(si_text)
+_pc = _parse_pc(pc_text)
 
 # XBRL-derived data (optional: files created by gather_edgar_xbrl(), used to backfill nulls)
 xbrl_panw  = load_peer("panw_revenue_xbrl.json")
@@ -544,6 +577,11 @@ kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
     f"Actual ${q3_eps['eps_nongaap_actual']} vs consensus ${q3_eps['eps_nongaap_estimate']}",
     "panw_earnings_estimates.json")
 
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
+    "revenue_beat_pct", guidance["beat_miss_q3_fy26"]["revenue_beat_pct"], "pct", "Revenue Beat vs Consensus",
+    f"Actual ${guidance['beat_miss_q3_fy26']['revenue_actual_m']}M vs consensus ${guidance['beat_miss_q3_fy26']['revenue_consensus_m']}M",
+    "panw_q3fy26_guidance.json")
+
 # After-hours reaction: Jun 2 close → Jun 3 open gap (yfinance daily)
 kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
     "stock_close_day_of", _jun02["close"], "$", "Stock Close Day-of Earnings",
@@ -628,7 +666,7 @@ ins("consensus_estimates",
         "PANW", "Q3_FY26", "2026-04-30",
         q3_eps["eps_nongaap_estimate"],
         None,   # GAAP consensus not in yfinance earnings_history
-        None,   # Revenue consensus not available from free APIs for historical quarters
+        guidance["beat_miss_q3_fy26"]["revenue_consensus_m"],
         None,
         "panw_earnings_estimates.json",
     )
@@ -826,49 +864,28 @@ for ex in qa_raw["exchanges"]:
 # ===========================================================================
 SS_COLS = "symbol,fiscal_period,signal_date,signal_type,value,value_low,value_high,unit,confidence,context_note,data_source"
 
-# Short interest: last report before earnings = ~May 30, 2026 (MarketBeat via Playwright)
+# Short interest: last report before earnings (May 15, 2026 — MarketBeat via Playwright)
 _si_val     = _si.get("float_pct")
 _si_hi      = _si.get("prior_float_pct")
-_si_note    = (
-    f"PANW Short Interest — Q3 FY26 Earnings Window (Jun 2026)\n"
-    f"Source: {_si.get('source', 'MarketBeat')}  |  Pulled via Playwright\n\n"
-    f"Last report before earnings:\n"
-    f"  Shares short: {_si.get('shares_short_m')}M  |  Float %: {_si_val}%  |  Days to cover: {_si.get('days_to_cover')}\n\n"
-    f"Prior report: {_si.get('prior_shares_short_m')}M shares, {_si_hi}% float\n"
-    f"Change: {_si.get('change_pct')}%\n\n"
-    f"{_si.get('note', '')}"
-) if _si else si_text[:1000]
 _si_conf    = "actual" if _si else "placeholder"
-_si_date    = _si.get("report_date", "2026-06-02") if _si else "2026-06-02"
 
 ins("sentiment_signals", SS_COLS, (
-    "PANW", "Q3_FY26", _si_date, "short_interest",
+    "PANW", "Q3_FY26", "2026-05-15", "short_interest",
     _si_val, None, _si_hi, "pct_float", _si_conf,
-    _si_note,
-    "panw_q3fy26_sentiment_signals.json",
+    si_text[:2000],
+    "panw_q3fy26_short_interest.txt",
 ))
 
-# Put/call ratio: earnings day (Jun 2, 2026) from Barchart Highcharts via Playwright
-_pc_day     = _pc.get("earnings_day", {}) if _pc else {}
-_pc_post    = _pc.get("post_earnings_day", {}) if _pc else {}
-_pc_vol     = _pc_day.get("pc_volume_ratio")
-_pc_oi      = _pc_day.get("pc_oi_ratio")
-_pc_post_v  = _pc_post.get("pc_volume_ratio")
-_pc_note    = (
-    f"PANW Put/Call Ratio — Q3 FY26 Earnings Window (Jun 2026)\n"
-    f"Source: {_pc.get('source', 'Barchart')}  |  Pulled via Playwright\n\n"
-    f"Earnings day (2026-06-02, close ${_pc_day.get('price_close')}):\n"
-    f"  P/C Volume Ratio: {_pc_vol}  |  P/C OI Ratio: {_pc_oi}\n\n"
-    f"Post-earnings day (2026-06-03, close ${_pc_post.get('price_close')}):\n"
-    f"  P/C Volume Ratio: {_pc_post_v}  — {_pc_post.get('note', '')}"
-) if _pc else pc_text[:1000]
+# Put/call ratio: post-earnings day (Jun 3, 2026 — Barchart via Playwright)
+_pc_vol     = _pc.get("pc_volume_ratio")
+_pc_oi      = _pc.get("pc_oi_ratio")
 _pc_conf    = "actual" if _pc else "placeholder"
 
 ins("sentiment_signals", SS_COLS, (
-    "PANW", "Q3_FY26", "2026-06-02", "put_call_ratio",
-    _pc_vol, _pc_oi, _pc_post_v, "ratio", _pc_conf,
-    _pc_note,
-    "panw_q3fy26_sentiment_signals.json",
+    "PANW", "Q3_FY26", "2026-06-03", "put_call_ratio",
+    _pc_vol, _pc_oi, None, "ratio", _pc_conf,
+    pc_text[:2000],
+    "panw_q3fy26_put_call.txt",
 ))
 
 

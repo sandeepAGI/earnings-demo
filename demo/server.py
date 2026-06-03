@@ -76,7 +76,7 @@ Peer CRWD EV/Rev TTM: {sell["steps"]["10_valuation"]["peer_table"][0]["ev_rev_tt
 {json.dumps(kpis, indent=2)}
 
 --- BUY-SIDE FRAMEWORK INTERROGATION (pre-run) ---
-{chr(10).join(f'Q: {q["title"]}{chr(10)}A: {q["answer"]}{chr(10)}' for q in buy["questions"])}
+{chr(10).join(f'Q ({d["dimension"]}): {d["question"]}{chr(10)}A: {d["answer"]}{chr(10)}' for d in buy["dimensions"])}
 
 --- CRWD Q4 FY26 (peer) ---
 {json.dumps(crwd, indent=2)}

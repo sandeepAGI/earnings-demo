@@ -23,6 +23,36 @@ python demo/generate_baseline.py    # → demo/earnings_baseline.html
 
 ## Session Log
 
+### 2026-06-03 (session 10) — QC pass: 8 bugs fixed, 2 false positives diagnosed
+
+Full QC of the three-tab dashboard via two parallel Explore agents cross-checking every displayed value against the DB. Eight real bugs were found and fixed. Two of the ten agent-reported issues were false positives (correct behavior misread as bugs). Root causes fell into four patterns:
+
+**Pattern 1 — f-string sign anti-pattern (`+{negative}%`)**
+Three bugs shared the same root: the author prepended a literal `+` before the format expression instead of using Python's built-in `+` sign specifier. `f'+{-30}%'` → `+-30%`; the fix is `f'{-30:+.0f}%'`. Affected: GAAP OI YoY display (line 1023), OI margin bps in Tab 2 (line 1581). In both cases a hardcoded `+` was prepended to a value that could be negative. Rule going forward: **always use `{value:+.Nf}` for values that may be negative; never prepend a literal `+`.**
+
+**Pattern 2 — Python banker's rounding on exact `.5` values**
+Python's default `:.0f` and `:.2f` format specifiers use round-half-to-even (banker's rounding), which rounds `.5` to the nearest *even* digit rather than up. This affected:
+- ZS Revenue 850.5 → displayed as `$850M` instead of `$851M` (expected 851)
+- ZS ARR 3.525 → displayed as `$3.52B` instead of `$3.53B` (expected 3.53)
+- FY FCF margin guidance 37.5–37.5 → displayed as `38–38%` instead of `37.5–37.5%`
+Fix: added a `_rhu(v, decimals)` helper (round-half-up using `math.floor(v * factor + 0.5) / factor`) applied in `fmt_cell` for `$M` and `$B` formats; FCF margin guidance switched from `:.0f` to `:.1f` since values are exactly 37.5. Rule going forward: **use `_rhu()` in any `fmt_cell` path where exact `.5` values could appear; use `:.1f` or `:.nf` when the natural precision of the data is not integer.**
+
+**Pattern 3 — hardcoded values that don't read from DB**
+Two bugs were literal hardcoded values left from an earlier draft that bypassed the DB entirely:
+- PANW `'profitable': 1` in `PEER_ROWS` — hardcoded True regardless of net income. Q3 FY26 PANW had net income -$177M (GAAP unprofitable). Fix: read `panw_q2.get('gaap_profitable')` from DB.
+- Q4 EPS guidance `class="guidance-value neg"` — hardcoded `neg` was a leftover from Q2 FY26 when the sequential EPS step-down was the signal. Q4 FY26 guidance ($0.96–$0.98) is above Q3 actual ($0.85). Fix: dynamic class computed from guidance midpoint vs actual EPS. Rule going forward: **no literal financial judgments (profitable/unprofitable, positive/negative direction) may be hardcoded in templates; derive from DB values at generate time.**
+
+**Pattern 4 — stale quarter reference in YoY lookups**
+The variable computing GAAP OI YoY was looking up `Q2_FY25` as the prior-year comparison when the primary quarter changed to Q3 FY26. YoY comparison must use the same fiscal quarter one year prior (`Q3_FY25`, not `Q2_FY25`). Fix: update the period string in the prior-year lookup. This was a copy-paste artifact from the Q2 FY26 build. The note in the KPI card ("Prior year had one-time charges") was also stale — in Q3 FY26 it is the *current* quarter with the one-time GAAP charge, not the prior year. Updated to "Q3 FY26 one-time charge — compare non-GAAP". Rule going forward: **when updating the primary period for a quarterly refresh, grep for all prior-year period strings and update them at the same time.**
+
+**Missing KPI — `revenue_beat_pct`**
+The `revenue_beat_pct` KPI was never written to `company_kpis` in `rebuild_db.py`, so the dashboard displayed `beat +0.0%`. The value (2.11%) was already in the guidance JSON under `beat_miss_q3_fy26.revenue_beat_pct`. Fix: add the `kpi()` call in `rebuild_db.py` immediately after `eps_nongaap_beat_pct`. The `eps_nongaap_beat_pct` KPI was written correctly because it came from a dedicated EPS history JSON with an explicit field; revenue beat was a derived field in the guidance JSON that was not wired through.
+
+**False positives from agent QC (issues #7 and #8)**
+The QC agent flagged Nikesh Arora as "missing from insiders" due to the `transaction_code='S'` filter. In Q3 FY26, Arora made no open-market sales — he purchased 68,185 shares at ~$147 (code `P`, acquired_disposed=`A`). The filter is correct; Arora should not appear in a sales table. Similarly, Klarich shows 12 S transactions and Paul shows 4 S transactions, which are correct counts. The `F`-code transactions (tax withholding on RSU vesting) are appropriately excluded from a discretionary sales display. The QC agent's reasoning was: "the filter excludes his transactions" — technically true, but those transactions are purchases, not sales. Rule going forward: **before concluding a filter is wrong, confirm what transaction codes the excluded rows actually have.**
+
+---
+
 ### 2026-06-03 (session 9) — Q3 FY26 pipeline refresh: all scripts updated
 
 PANW Q3 FY26 earnings released June 2, 2026. Updated all 7 pipeline scripts for the Q3 FY26 refresh. PDFs (supplemental, presentation, transcript) dropped into `demo/data/manual/`. Pipeline is ready to run.

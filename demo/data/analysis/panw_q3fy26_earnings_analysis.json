@@ -42,7 +42,7 @@
       },
       "revenue": {
         "actual_m": 3002,
-        "consensus_m": null,
+        "consensus_m": 2940.0,
         "yoy_growth_pct": 31.1,
         "note": "Revenue consensus not available in pre-staged files (null in yfinance free tier)."
       },
@@ -55,7 +55,7 @@
       "stock_reaction": {
         "ah_change_pct": -4.44,
         "close_day_of": 297.18,
-        "open_next_day": null,
+        "open_next_day": 284.0,
         "signal": "bearish_despite_beat",
         "driver": "See transcript and guidance analysis for stock reaction context."
       }

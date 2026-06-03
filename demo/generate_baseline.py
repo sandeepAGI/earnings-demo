@@ -16,7 +16,7 @@ Chart.js is downloaded once and embedded inline so the HTML works offline
 Run: python3 demo/generate_baseline.py  (from earnings-demo root)
 """
 
-import sqlite3, json, sys, urllib.request, tempfile
+import sqlite3, json, math, sys, urllib.request, tempfile
 from datetime import datetime
 from pathlib import Path
 
@@ -105,12 +105,17 @@ def sg(d, key, fmt=None, fallback='—'):
     if fmt == 'pct_plain': return f'{v:.1f}%'
     return str(v)
 
+def _rhu(v, decimals=0):
+    """Round half-up, avoiding Python's banker's rounding on exact .5 values."""
+    factor = 10 ** decimals
+    return math.floor(v * factor + 0.5) / factor
+
 def fmt_cell(v, fmt='', na='—'):
     if v is None: return na
-    if fmt == '$M':        return f'${v:,.0f}M'
+    if fmt == '$M':        return f'${_rhu(v):,.0f}M'
     if fmt == 'pct':       return f'{v:+.1f}%'
     if fmt == 'pct_plain': return f'{v:.1f}%'
-    if fmt == '$B':        return f'${v:.2f}B'
+    if fmt == '$B':        return f'${_rhu(v, 2):.2f}B'
     if fmt == 'yn':        return '✓' if v else '✗'
     return str(v)
 
@@ -130,7 +135,7 @@ ah_chg      = kpis.get('stock_ah_change_pct', {}).get('kpi_value')
 stock_close = kpis.get('stock_close_day_of', {}).get('kpi_value')
 sbc         = kpis.get('sbc_m', {}).get('kpi_value')
 # Compute GAAP OI YoY from quarterly data (prior-year same quarter)
-_q2_fy25    = next((r for r in panw_hist if r['fiscal_period'] == 'Q2_FY25'), None)
+_q2_fy25    = next((r for r in panw_hist if r['fiscal_period'] == 'Q3_FY25'), None)
 _oi_now     = panw_q2.get('operating_income_gaap_m')
 _oi_prior   = _q2_fy25.get('operating_income_gaap_m') if _q2_fy25 else None
 gaap_oi_yoy = ((_oi_now - _oi_prior) / abs(_oi_prior) * 100) if (_oi_now and _oi_prior) else None
@@ -140,9 +145,9 @@ platf_cust  = kpis.get('platformized_customers', {}).get('kpi_value') or 0
 defer_total = kpis.get('deferred_rev_total_bn', {}).get('kpi_value') or 0
 
 # Guidance lookups
-g_q3_rev  = next((g for g in guidance_rows if g['issued_for_period']=='Q3_FY26' and g['metric']=='revenue_m'), {})
-g_q3_eps  = next((g for g in guidance_rows if g['issued_for_period']=='Q3_FY26' and g['metric']=='eps_nongaap'), {})
-g_q3_arr  = next((g for g in guidance_rows if g['issued_for_period']=='Q3_FY26' and g['metric']=='ngs_arr_bn'), {})
+g_q3_rev  = next((g for g in guidance_rows if g['issued_for_period']=='Q4_FY26' and g['metric']=='revenue_m'), {})
+g_q3_eps  = next((g for g in guidance_rows if g['issued_for_period']=='Q4_FY26' and g['metric']=='eps_nongaap'), {})
+g_q3_arr  = next((g for g in guidance_rows if g['issued_for_period']=='Q4_FY26' and g['metric']=='ngs_arr_bn'), {})
 g_fy_rev  = next((g for g in guidance_rows if g['issued_for_period']=='FY26_Full' and g['metric']=='revenue_m'), {})
 g_fy_eps  = next((g for g in guidance_rows if g['issued_for_period']=='FY26_Full' and g['metric']=='eps_nongaap'), {})
 g_fy_fcf  = next((g for g in guidance_rows if g['issued_for_period']=='FY26_Full' and g['metric']=='fcf_margin_pct'), {})
@@ -156,7 +161,7 @@ for pk in peer_kpis:
 PEER_ROWS = [
     {'symbol': 'PANW', 'rev_m': panw_q2.get('revenue_total_m'), 'rev_yoy': panw_q2.get('revenue_yoy_growth_pct'),
      'arr_bn': ngs_arr, 'arr_yoy': ngs_arr_yoy, 'oi_margin': panw_q2.get('operating_margin_nongaap_pct'),
-     'profitable': 1, 'period': PRIMARY_PERIOD},
+     'profitable': panw_q2.get('gaap_profitable'), 'period': PRIMARY_PERIOD},
 ]
 for sym in ['CRWD', 'FTNT', 'ZS']:
     p  = peer_dict.get(sym, {})
@@ -192,14 +197,14 @@ price_event_markers = []
 for _i, _ev in enumerate(price_events_sorted):
     _idx = next((j for j, lbl in enumerate(price_labels) if lbl == _ev['event_month']), None)
     if _idx is not None:
-        price_event_markers.append({'idx': _idx, 'num': _i + 1, 'primary': _ev['event_key'] == 'q2_fy26_earnings'})
+        price_event_markers.append({'idx': _idx, 'num': _i + 1, 'primary': _ev['event_key'] == 'q3_fy26_earnings'})
 
 # Peer comparison chart data (already in PEER_ROWS, no new queries needed)
 peer_chart_symbols   = [r['symbol'] for r in PEER_ROWS]
 peer_chart_rev_yoy   = [r.get('rev_yoy') for r in PEER_ROWS]
 peer_chart_oi_margin = [r.get('oi_margin') for r in PEER_ROWS]
 
-SIGNAL_BADGE = {'bullish': '▲', 'bearish': '▼', 'neutral': '●'}
+SIGNAL_BADGE = {'answered': '✓', 'partial': '◑', 'deflected': '✗'}
 generated_at = datetime.now().strftime('%Y-%m-%d %H:%M')
 
 def _fmt_date(iso):
@@ -1020,8 +1025,8 @@ html = f"""<!DOCTYPE html>
       </div>
       <div class="kpi-card accent">
         <div class="kpi-label">GAAP OI YoY Growth</div>
-        <div class="kpi-value neu">{f'+{gaap_oi_yoy:.0f}%' if gaap_oi_yoy is not None else '—'}</div>
-        <div class="kpi-note">⚠️ Prior year had one-time charges — compare non-GAAP</div>
+        <div class="kpi-value neu">{f'{gaap_oi_yoy:+.0f}%' if gaap_oi_yoy is not None else '—'}</div>
+        <div class="kpi-note">⚠️ Q3 FY26 one-time charge — compare non-GAAP</div>
       </div>
     </div>
   </div>
@@ -1134,14 +1139,14 @@ html = f"""<!DOCTYPE html>
   <div class="section-body">
     <div class="guidance-grid">
       <div class="guidance-panel">
-        <div class="guidance-panel-header">Q3 FY26 Guidance</div>
+        <div class="guidance-panel-header">Q4 FY26 Guidance</div>
         <div class="guidance-row">
           <span class="guidance-label">Revenue</span>
           <span class="guidance-value">${g_q3_rev.get('low_value', 0):,.0f}–${g_q3_rev.get('high_value', 0):,.0f}M</span>
         </div>
         <div class="guidance-row">
           <span class="guidance-label">Non-GAAP EPS</span>
-          <span class="guidance-value neg">${g_q3_eps.get('low_value', 0):.2f}–${g_q3_eps.get('high_value', 0):.2f}</span>
+          <span class="guidance-value {('pos' if (g_q3_eps.get('low_value') or 0) + (g_q3_eps.get('high_value') or 0) > 2 * (panw_q2.get('eps_nongaap') or 0) else 'neg')}">${g_q3_eps.get('low_value', 0):.2f}–${g_q3_eps.get('high_value', 0):.2f}</span>
         </div>
         <div class="guidance-row">
           <span class="guidance-label">NGS ARR</span>
@@ -1160,7 +1165,7 @@ html = f"""<!DOCTYPE html>
         </div>
         <div class="guidance-row">
           <span class="guidance-label">FCF Margin</span>
-          <span class="guidance-value">{g_fy_fcf.get('low_value', 0):.0f}–{g_fy_fcf.get('high_value', 0):.0f}%</span>
+          <span class="guidance-value">{g_fy_fcf.get('low_value', 0):.1f}–{g_fy_fcf.get('high_value', 0):.1f}%</span>
         </div>
       </div>
     </div>
@@ -1298,26 +1303,26 @@ if _pc:
       </div>
 """
 
-html += """    </div>
+html += f"""    </div>
   </div>
 </div>
 
 <!-- ═══ Q&A ANALYSIS ════════════════════════════════════════════════════════ -->
 <div class="section">
   <div class="section-header">
-    <h2>Q&amp;A Exchange Analysis — 10 Analyst Exchanges</h2>
+    <h2>Q&amp;A Exchange Analysis — {len(qa_exchanges)} Analyst Exchanges</h2>
     <span class="tag">Jun 2, 2026 Earnings Call</span>
   </div>
   <div class="section-body">
 """
 
 for ex in qa_exchanges:
-    sig   = ex.get('key_signal', 'neutral')
-    bc    = {'bullish': 'badge-bull', 'bearish': 'badge-bear', 'neutral': 'badge-neu'}.get(sig, 'badge-neu')
-    emoji = SIGNAL_BADGE.get(sig, '●')
+    sig   = ex.get('key_signal', 'partial')
+    bc    = {'answered': 'badge-bull', 'deflected': 'badge-bear', 'partial': 'badge-neu'}.get(sig, 'badge-neu')
+    emoji = SIGNAL_BADGE.get(sig, '◑')
     topics = json.loads(ex.get('topics', '[]')) if ex.get('topics') else []
     topic_str = ' · '.join(topics)
-    item_class = 'qa-item bear' if sig == 'bearish' else 'qa-item'
+    item_class = 'qa-item bear' if sig == 'deflected' else 'qa-item'
     html += f"""    <div class="{item_class}">
       <div class="qa-header">
         <div class="qa-num">{ex['exchange_num']}</div>
@@ -1352,7 +1357,7 @@ html += """  </div>
 """
 
 for _n, ev in enumerate(price_events_sorted, 1):
-    _bc = 'ev-badge primary' if ev['event_key'] == 'q2_fy26_earnings' else 'ev-badge'
+    _bc = 'ev-badge primary' if ev['event_key'] == 'q3_fy26_earnings' else 'ev-badge'
     html += f"""        <tr>
           <td><span class="{_bc}">{_n}</span></td>
           <td class="event-key">{ev['event_note'] or ev['event_key'].replace('_',' ').title()}</td>
@@ -1415,7 +1420,7 @@ if _an:
         f'      <tr><td>NGS ARR</td>'
         f'<td class="num">${_s5["ngs_arr"]["actual_bn"]}B</td>'
         f'<td class="num pos">+{_s5["ngs_arr"]["yoy_growth_pct"]}% YoY</td>'
-        f'<td class="muted">Organic +{_s5["ngs_arr"]["organic_yoy_pct"]}% · 1,550 platformized customers</td></tr>\n'
+        f'<td class="muted">Organic +{_s5["ngs_arr"]["organic_yoy_pct"]}% · {_s6["platformized_customers"]:,} platformized customers</td></tr>\n'
         f'      <tr><td>After-Hours Reaction</td>'
         f'<td class="num neg">{_s5["stock_reaction"]["ah_change_pct"]:+.2f}%</td>'
         f'<td class="muted" colspan="2">${_s5["stock_reaction"]["close_day_of"]} close → ${_s5["stock_reaction"]["open_next_day"]} open · market sold the guidance, not the beat</td></tr>\n'
@@ -1528,7 +1533,7 @@ if _an:
     </div>
     <div class="rn-stat">
       <div class="rn-stat-label">Implied Upside</div>
-      <div class="rn-stat-val up">+{_s11["implied_upside_pct"]}%</div>
+      <div class="rn-stat-val up">{_s11["implied_upside_pct"]:+.1f}%</div>
       <div class="rn-stat-note">From ${_s11["current_price"]} close</div>
     </div>
     <div class="rn-stat">
@@ -1537,13 +1542,13 @@ if _an:
       <div class="rn-stat-note">Jun 2 close → Jun 3 open</div>
     </div>
     <div class="rn-stat">
-      <div class="rn-stat-label">Q&amp;A Sentiment</div>
+      <div class="rn-stat-label">Mgmt Responsiveness</div>
       <div class="rn-stat-val" style="font-size:14px;line-height:1.5">
-        <span style="color:#a3e6b8">{_s11["qa_signal_summary"]["bullish"]}B</span> /
-        <span style="color:#ff9494">{_s11["qa_signal_summary"]["bearish"]}Br</span> /
-        <span style="opacity:.7">{_s11["qa_signal_summary"]["neutral"]}N</span>
+        <span style="color:#a3e6b8">{sum(1 for e in qa_exchanges if e.get('key_signal')=='answered')}✓</span> /
+        <span style="opacity:.7">{sum(1 for e in qa_exchanges if e.get('key_signal')=='partial')}◑</span> /
+        <span style="color:#ff9494">{sum(1 for e in qa_exchanges if e.get('key_signal')=='deflected')}✗</span>
       </div>
-      <div class="rn-stat-note">10 analyst exchanges</div>
+      <div class="rn-stat-note">{len(qa_exchanges)} exchanges · answered/partial/deflected</div>
     </div>
   </div>
 </div>
@@ -1554,7 +1559,7 @@ if _an:
   <ul>
     <li><strong>Beat:</strong> Non-GAAP EPS ${_s5["eps_nongaap"]["actual"]} vs. ${_s5["eps_nongaap"]["consensus"]:.3f} consensus (+{_s5["eps_nongaap"]["beat_pct"]}%). Revenue +{_s5["revenue"]["yoy_growth_pct"]}% YoY to ${_s5["revenue"]["actual_m"]:,}M. NGS ARR +{_s5["ngs_arr"]["yoy_growth_pct"]}% to ${_s5["ngs_arr"]["actual_bn"]}B ({_s5["ngs_arr"]["organic_yoy_pct"]}% organic). {_s5["eps_nongaap"]["driver"]}</li>
     <li><strong>Reaction:</strong> Stock fell {_s5["stock_reaction"]["ah_change_pct"]:+.1f}% AH despite the beat. {_s5["stock_reaction"]["driver"]}</li>
-    <li><strong>Thesis intact:</strong> Platform consolidation on track — 1,550 platformized customers, RPO ${_s6["rpo_bn"]}B (+{_s6["rpo_yoy_pct"]}%). FY26 guidance raised. {_s8["key_signals"]["credibility_read"]}</li>
+    <li><strong>Thesis intact:</strong> Platform consolidation on track — {_s6["platformized_customers"]:,} platformized customers, RPO ${_s6["rpo_bn"]}B (+{_s6["rpo_yoy_pct"]}%). FY26 guidance raised. {_s8["key_signals"]["credibility_read"]}</li>
   </ul>
 </div>
 
@@ -1578,7 +1583,7 @@ if _an:
           <thead><tr><th>Margin (Non-GAAP)</th><th>Q3 FY26</th><th>YoY</th><th>FCF</th></tr></thead>
           <tbody>
             <tr><td>Gross Margin</td><td class="num">{_s7["q3_fy26"]["gross_margin_nongaap_pct"]}%</td><td class="num">{_s7["yoy_delta_bps"]["gross_margin_nongaap"]:+d}bps</td><td class="muted" rowspan="2" style="vertical-align:middle">FCF {_s7["q3_fy26"]["fcf_margin_pct"]}%<br><span style="font-size:10px">Q1 FY26: 68.2%</span></td></tr>
-            <tr class="highlight"><td><strong>OI Margin</strong></td><td class="num"><strong>{_s7["q3_fy26"]["oi_margin_nongaap_pct"]}%</strong></td><td class="num pos"><strong>+{_s7["yoy_delta_bps"]["oi_margin_nongaap"]}bps</strong></td></tr>
+            <tr class="highlight"><td><strong>OI Margin</strong></td><td class="num"><strong>{_s7["q3_fy26"]["oi_margin_nongaap_pct"]}%</strong></td><td class="num {'pos' if _s7['yoy_delta_bps']['oi_margin_nongaap'] >= 0 else 'neg'}"><strong>{_s7["yoy_delta_bps"]["oi_margin_nongaap"]:+d}bps</strong></td></tr>
           </tbody>
         </table>
         <table class="an-tbl">
@@ -1642,7 +1647,7 @@ if _an:
   </div>
   <div class="section-body">
     <div class="rn-prose">
-      <p><strong>Platformization:</strong> NGS ARR reached ${_s5["ngs_arr"]["actual_bn"]}B (+{_s5["ngs_arr"]["yoy_growth_pct"]}% reported, +{_s5["ngs_arr"]["organic_yoy_pct"]}% organic), with 1,550 platformized customers. The gap between reported and organic growth reflects the Chronosphere acquisition (closed Feb 2026). Management cited broad-based adoption across cloud security, identity, and SASE. Q3 NGS ARR guided ${_s8["key_signals"]["ngs_arr_trajectory"].split("$")[1].split("B")[0]}B, implying continued platform momentum.</p>
+      <p><strong>Platformization:</strong> NGS ARR reached ${_s5["ngs_arr"]["actual_bn"]}B (+{_s5["ngs_arr"]["yoy_growth_pct"]}% reported, +{_s5["ngs_arr"]["organic_yoy_pct"]}% organic), with {_s6["platformized_customers"]:,} platformized customers. The gap between reported and organic growth reflects CyberArk and Chronosphere acquisitions. Management cited broad-based adoption across cloud security, identity, and SASE. {_s8["key_signals"]["ngs_arr_trajectory"]}</p>
       <p><strong>Revenue mix:</strong> Subscription and support represented {_s6["subscription_mix_pct"]}% of total revenue at ${_s6["subscription_revenue_m"]}M (+{_s6["subscription_yoy_pct"]}% YoY), providing a high-quality recurring base. Product revenue of ${_s6["product_revenue_m"]}M (+{_s6["product_yoy_pct"]}% YoY) reflects platform consolidation driving firewall refresh cycles.</p>
       <p><strong>Forward visibility:</strong> RPO of ${_s6["rpo_bn"]}B (+{_s6["rpo_yoy_pct"]}% YoY) provides strong 12-month revenue visibility. Free cash flow of ${_s6["fcf_m"]}M ({_s6["fcf_margin_pct"]}% margin) was seasonally low; Q1 FY26 FCF margin was 68.2% due to annual billings concentration. FY26 FCF margin guidance is {_s8["fy26_full_year"]["fcf_margin_pct"]}%.</p>
     </div>
@@ -1906,7 +1911,7 @@ html += f"""      </tbody>
     <div class="info-box" style="margin-top:12px">
       <strong>Split note</strong>
       PANW executed a 2:1 stock split on Dec 12, 2024. Pre-split prices (before Dec 2024) are stored raw —
-      divide by 2 to compare on a like-for-like basis. {len(price_hist)} months of monthly OHLCV data (Jan 2023 – May 2026).
+      divide by 2 to compare on a like-for-like basis. {len(price_hist)} months of monthly OHLCV data ({price_hist[0]['month_date'][:7]} – {price_hist[-1]['month_date'][:7]}).
     </div>
   </div>
 </div>
