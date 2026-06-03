@@ -43,8 +43,9 @@
       "revenue": {
         "actual_m": 3002,
         "consensus_m": 2940.0,
+        "beat_pct": 2.11,
         "yoy_growth_pct": 31.1,
-        "note": "Revenue consensus not available in pre-staged files (null in yfinance free tier)."
+        "note": "Revenue $3,002M vs consensus $2,940.0M (+2.11% beat)."
       },
       "ngs_arr": {
         "actual_bn": 8.13,
@@ -298,7 +299,7 @@
           "note": "Subject company \u2014 NTM multiple computed"
         }
       ],
-      "rationale": "PANW trades at 22.4x TTM and 18.8x NTM EV/Revenue at the Jun 2 close of $297.18. Applying 10.0\u201312.0x NTM (discount to CRWD's 34.18x reflects PANW's lower growth rate of ~31.1% vs CRWD's ~23.0%) yields PT range $158\u2013$189. Midpoint $174 implies +-41.4% upside from post-earnings close."
+      "rationale": "PANW trades at 22.4x TTM and 18.8x NTM EV/Revenue at the Jun 2 close of $297.18. Applying 10.0\u201312.0x NTM (discount to CRWD's 34.18x reflects PANW's lower growth rate of ~31.1% vs CRWD's ~23.0%) yields PT range $158\u2013$189. Midpoint $174 implies -41.4% upside from post-earnings close."
     },
     "11_rating": {
       "rating": "Upgrade to Outperform",
@@ -312,9 +313,9 @@
       "implied_upside_pct": -41.4,
       "qa_signal_summary": {
         "total_exchanges": 9,
-        "bullish": 9,
-        "bearish": 0,
-        "neutral": 0
+        "answered": 3,
+        "partial": 6,
+        "deflected": 0
       },
       "skill_criteria": {
         "eps_beat_significant": true,
@@ -322,7 +323,7 @@
         "q4_sequential_step_down": false,
         "stock_already_adjusted": false
       },
-      "rationale": "EPS beat of +6.2% and FY26 guidance raise (midpoint $3.78) support the thesis. Q4 EPS guidance midpoint $0.97 vs Q3 actual $0.85. Stock fell 4.4% AH. Platform metrics: NGS ARR +60.0%, 2280 platformized customers, RPO $18.4B (+36.0% YoY). PT $174 based on 10.0\u201312.0x NTM EV/Revenue (-41.4% upside). Q&A sentiment: 9 bullish / 0 bearish / 0 neutral exchanges.",
+      "rationale": "EPS beat of +6.2% and FY26 guidance raise (midpoint $3.78) support the thesis. Q4 EPS guidance midpoint $0.97 vs Q3 actual $0.85. Stock fell 4.4% AH. Platform metrics: NGS ARR +60.0%, 2280 platformized customers, RPO $18.4B (+36.0% YoY). PT $174 based on 10.0\u201312.0x NTM EV/Revenue (-41.4% upside). Q&A management responsiveness: 3 answered / 6 partial / 0 deflected.",
       "key_risks": [
         "Platformization velocity slows if customer consolidation pace disappoints",
         "CRWD competitive recovery intensifies and captures consolidation deals",

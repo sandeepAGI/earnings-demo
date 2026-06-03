@@ -1416,7 +1416,7 @@ if _an:
         f'      <tr><td>Revenue</td>'
         f'<td class="num">${_s5["revenue"]["actual_m"]:,}M</td>'
         f'<td class="num pos">+{_s5["revenue"]["yoy_growth_pct"]}% YoY</td>'
-        f'<td class="muted">Revenue consensus not available</td></tr>\n'
+        f'<td class="muted">{("vs $" + str(int(_s5["revenue"]["consensus_m"])) + "M consensus (+" + str(_s5["revenue"]["beat_pct"]) + "% beat)") if _s5["revenue"].get("consensus_m") else "Revenue consensus not available"}</td></tr>\n'
         f'      <tr><td>NGS ARR</td>'
         f'<td class="num">${_s5["ngs_arr"]["actual_bn"]}B</td>'
         f'<td class="num pos">+{_s5["ngs_arr"]["yoy_growth_pct"]}% YoY</td>'

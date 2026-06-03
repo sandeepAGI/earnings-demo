@@ -589,6 +589,9 @@ kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
 kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
     "stock_ah_change_pct", _ah_chg, "pct", "After-Hours Reaction (overnight gap)",
     f"Jun 2 close ${_jun02['close']} → Jun 3 open ${_jun03['open']}", "panw_price_daily.json")
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
+    "stock_open_next_day", _jun03["open"], "$", "Stock Open Day After Earnings",
+    "Jun 3, 2026 regular-hours open", "panw_price_daily.json")
 
 # CRWD Q4 FY26 KPIs
 if crwd_results:

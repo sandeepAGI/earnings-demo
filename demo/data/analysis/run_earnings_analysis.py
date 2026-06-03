@@ -126,8 +126,10 @@ eps_cons     = q3_eps["eps_nongaap_estimate"]
 eps_beat     = round(eps_actual - eps_cons, 3)
 eps_beat_pct = round(q3_eps["eps_surprise_pct"], 1)
 
-rev_actual_m = q3["revenue_total_m"]
-rev_yoy_pct  = q3["revenue_yoy_growth_pct"]
+rev_actual_m  = q3["revenue_total_m"]
+rev_yoy_pct   = q3["revenue_yoy_growth_pct"]
+rev_cons_m    = guide["beat_miss_q3_fy26"].get("revenue_consensus_m")
+rev_beat_pct  = guide["beat_miss_q3_fy26"].get("revenue_beat_pct")
 
 ngs_arr_bn  = guide["operational_kpis"]["ngs_arr_bn"]
 ngs_arr_yoy = guide["operational_kpis"]["ngs_arr_yoy_growth_pct"]
@@ -137,6 +139,7 @@ ngs_arr_organic_yoy = 28.0
 
 ah_pct     = float(kpis["stock_ah_change_pct"])
 close_px   = float(kpis["stock_close_day_of"])
+open_next  = float(kpis["stock_open_next_day"])
 
 beat_miss = {
     "eps_nongaap": {
@@ -148,10 +151,11 @@ beat_miss = {
         "driver":     "See transcript for management commentary on EPS drivers.",
     },
     "revenue": {
-        "actual_m":      rev_actual_m,
-        "consensus_m":   None,
+        "actual_m":       rev_actual_m,
+        "consensus_m":    rev_cons_m,
+        "beat_pct":       rev_beat_pct,
         "yoy_growth_pct": rev_yoy_pct,
-        "note": "Revenue consensus not available in pre-staged files (null in yfinance free tier).",
+        "note": f"Revenue ${rev_actual_m:,}M vs consensus ${rev_cons_m:,}M (+{rev_beat_pct}% beat)." if rev_cons_m else "Revenue consensus not available.",
     },
     "ngs_arr": {
         "actual_bn":          ngs_arr_bn,
@@ -163,7 +167,7 @@ beat_miss = {
     "stock_reaction": {
         "ah_change_pct": ah_pct,
         "close_day_of":  close_px,
-        "open_next_day": float(kpis.get("stock_open_next_day", 0)) or None,
+        "open_next_day": open_next,
         "signal":        "bearish_despite_beat" if ah_pct < -3 else ("bullish" if ah_pct > 3 else "neutral"),
         "driver": "See transcript and guidance analysis for stock reaction context.",
     },
@@ -460,12 +464,12 @@ valuation = {
         f"Applying {mult_lo}–{mult_hi}x NTM (discount to CRWD's {crwd['ttm_from_overview']['ev_to_revenue_ttm']}x "
         f"reflects PANW's lower growth rate of ~{rev_yoy_pct}% vs CRWD's ~{crwd['quarterly_financials']['revenue_yoy_growth_pct']}%) "
         f"yields PT range ${pt_lo}–${pt_hi}. "
-        f"Midpoint ${pt_mid_val} implies +{upside_pct}% upside from post-earnings close."
+        f"Midpoint ${pt_mid_val} implies {upside_pct:+.1f}% upside from post-earnings close."
     ),
 }
 
 print(f"  Mkt cap: ${mktcap_b}B | TTM Rev: ${ttm_rev_m:,}M | EV/Rev TTM: {ev_ttm}x | NTM: {ev_ntm}x")
-print(f"  NTM revenue: ${ntm_rev_m:,}M | PT range: ${pt_lo}–${pt_hi} | Midpoint: ${pt_mid_val} (+{upside_pct}%)")
+print(f"  NTM revenue: ${ntm_rev_m:,}M | PT range: ${pt_lo}–${pt_hi} | Midpoint: ${pt_mid_val} ({upside_pct:+.1f}%)")
 
 
 # ── SKILL STEP 11: Rating ──────────────────────────────────────────────────────
@@ -495,10 +499,11 @@ else:
     rating = "Maintain Outperform"
     rating_short = "MAINTAIN"
 
-# Q&A signal count
-bullish_qa = sum(1 for ex in qa.get("exchanges", []) if ex.get("key_signal") == "bullish")
-bearish_qa = sum(1 for ex in qa.get("exchanges", []) if ex.get("key_signal") == "bearish")
-neutral_qa = sum(1 for ex in qa.get("exchanges", []) if ex.get("key_signal") == "neutral")
+# Q&A signal count — answered/partial/deflected schema
+qa_exchanges = qa.get("exchanges", [])
+answered_qa  = sum(1 for ex in qa_exchanges if ex.get("key_signal") == "answered")
+partial_qa   = sum(1 for ex in qa_exchanges if ex.get("key_signal") == "partial")
+deflected_qa = sum(1 for ex in qa_exchanges if ex.get("key_signal") == "deflected")
 
 rating_output = {
     "rating":           rating,
@@ -508,10 +513,10 @@ rating_output = {
     "current_price":    close_px,
     "implied_upside_pct": upside_pct,
     "qa_signal_summary": {
-        "total_exchanges": len(qa.get("exchanges", [])),
-        "bullish": bullish_qa,
-        "bearish": bearish_qa,
-        "neutral": neutral_qa,
+        "total_exchanges": len(qa_exchanges),
+        "answered":  answered_qa,
+        "partial":   partial_qa,
+        "deflected": deflected_qa,
     },
     "skill_criteria": {
         "eps_beat_significant": eps_sig_beat,
@@ -524,8 +529,8 @@ rating_output = {
         f"the thesis. Q4 EPS guidance midpoint ${q4_eps_mid:.2f} vs Q3 actual ${eps_actual:.2f}. "
         f"Stock {'fell' if ah_pct < 0 else 'rose'} {abs(ah_pct):.1f}% AH. "
         f"Platform metrics: NGS ARR +{ngs_arr_yoy}%, {plat_count} platformized customers, RPO ${rpo_bn}B (+{rpo_yoy}% YoY). "
-        f"PT ${pt_mid_val} based on {mult_lo}–{mult_hi}x NTM EV/Revenue ({upside_pct}% upside). "
-        f"Q&A sentiment: {bullish_qa} bullish / {bearish_qa} bearish / {neutral_qa} neutral exchanges."
+        f"PT ${pt_mid_val} based on {mult_lo}–{mult_hi}x NTM EV/Revenue ({upside_pct:+.1f}% upside). "
+        f"Q&A management responsiveness: {answered_qa} answered / {partial_qa} partial / {deflected_qa} deflected."
     ),
     "key_risks": [
         "Platformization velocity slows if customer consolidation pace disappoints",
@@ -537,7 +542,7 @@ rating_output = {
 }
 
 print(f"  Rating: {rating}")
-print(f"  PT: ${pt_mid_val} (range ${pt_lo}–${pt_hi}) | Upside: +{upside_pct}%")
+print(f"  PT: ${pt_mid_val} (range ${pt_lo}–${pt_hi}) | Upside: {upside_pct:+.1f}%")
 
 
 # ── Assemble and Write Output ──────────────────────────────────────────────────
@@ -564,5 +569,5 @@ with open(OUT, "w") as f:
     json.dump(output, f, indent=2)
 
 print(f"\n✅ Analysis complete → {OUT}")
-print(f"   Rating: {rating} | PT: ${pt_mid_val} | Upside: +{upside_pct}%")
+print(f"   Rating: {rating} | PT: ${pt_mid_val} | Upside: {upside_pct:+.1f}%")
 print(f"   Departures documented: {len(DEPARTURES)}")
