@@ -1,7 +1,6 @@
 # Status
 
-*Last updated: 2026-05-28 EOD — Tab 3 framework redesign complete. Demo build done. (historical narrative and completed task detail in
-`STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
+*Last updated: 2026-06-03 — Q3 FY26 PANW print released June 2. All 7 pipeline scripts updated for Q3 FY26 refresh. PDFs dropped into `demo/data/manual/`. Placeholder sentiment files created (Playwright capture pending before June 4). Pipeline ready to run. (Historical narrative and completed task detail in `STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
 
 ---
 
@@ -9,18 +8,18 @@
 
 Phase 2 (demo build) — **Tab 1 complete. Tab 2 complete. Tab 3 complete.**
 
-Tab 1: all KPIs populated with actual values (200 rows, 39/39 provenance tests pass). After-hours reaction: -8.5% (yfinance daily, overnight gap). Sentiment: short interest 2.8% float (Playwright/MarketBeat), P/C 1.09/4.02 (Playwright/Barchart).
+Tab 1: all KPIs populated with actual values (200 rows, 39/39 provenance tests pass). After-hours reaction: -8.5% (yfinance daily, overnight gap). Sentiment: short interest 2.8% float (Playwright/MarketBeat), P/C 1.09/4.02 (Playwright/Barchart). *(Q2 FY26 baseline — Q3 FY26 refresh in progress)*
 
-Tab 2: full sell-side analysis following `equity-research/earnings-analysis v0.1.0`. Steps 5–11 rendered from real JSON output. Rating: Maintain Outperform, PT $186 (+13.8% upside). 4 departures documented and visible. Script: `demo/data/analysis/run_earnings_analysis.py`. Output: `demo/data/analysis/panw_q2fy26_earnings_analysis.json`.
+Tab 2: full sell-side analysis following `equity-research/earnings-analysis v0.1.0`. Steps 5–11 rendered from real JSON output. Rating: Maintain Outperform, PT $186 (+13.8% upside). 4 departures documented and visible. Script: `demo/data/analysis/run_earnings_analysis.py`. Output: `demo/data/analysis/panw_q3fy26_earnings_analysis.json`. *(Q3 FY26 output pending pipeline run)*
 
-Tab 3: buy-side layer + live chat. Full framework redesign: horizon banner (6-month, alpha vs. market, buy-side), framework intro (5-dimension mini-cards with one-line definitions), 5 accordion cards (Claude-generated questions, dimension pill labels, answers pre-run), recommendation card (stance Buy, conviction/uncertainty/rationale from synthesis pass). Chat section: Claude Opus + Tavily web search via `demo/server.py` (FastAPI, SSE streaming, DOMPurify). Agentic loop handles compound questions: Claude may issue multiple parallel searches per turn; all tool_use blocks are matched with tool_results before the next round. Suggestion chips: Q3 metric, CRWD read, Horizon comparison (new), Organic ARR clarity.
+Tab 3: buy-side layer + live chat. Full framework redesign: horizon banner (6-month, alpha vs. market, buy-side), framework intro (5-dimension mini-cards with one-line definitions), 5 accordion cards (Claude-generated questions, dimension pill labels, answers pre-run), recommendation card (stance Buy, conviction/uncertainty/rationale from synthesis pass). Chat section: Claude Opus + Tavily web search via `demo/server.py` (FastAPI, SSE streaming, DOMPurify). Agentic loop handles compound questions: Claude may issue multiple parallel searches per turn; all tool_use blocks are matched with tool_results before the next round. Suggestion chips: Q3 metric, CRWD read, Horizon comparison (new), Organic ARR clarity. *(Q3 FY26 output pending pipeline run)*
 
 **Rebuild summary:** `demo/data/gather.py` → 7 raw files → `demo/data/rebuild_db.py` → 13 tables / 200 rows → `demo/data/tests/test_provenance.py` (39 tests, all pass) → `demo/generate_baseline.py` → `demo/earnings_baseline.html`.
 
 **Full findings (audit):** `data-audit-findings.md` (project root).
 **Schema source-of-truth:** `demo/data/SCHEMA.md`.
 
-**Next action:** Demo script and workshop materials. Phase B (June 3): refresh pipeline after Q3 FY26 print. See Active Tasks.
+**Next action:** Run the Q3 FY26 pipeline now (June 3): `python demo/data/gather.py` → `rebuild_db.py` → provenance tests → `run_earnings_analysis.py` → `run_buyside_analysis.py` → `generate_baseline.py`. After pipeline completes: (1) capture real sentiment data via Playwright (MarketBeat short interest + Barchart P/C), re-run rebuild_db.py with real figures, (2) build the PANW one-pager in Claude Code from the refreshed data layer (facts only, no sell-side/buy-side conclusions). See Active Tasks.
 
 ---
 
@@ -52,7 +51,7 @@ Tab 3: buy-side layer + live chat. Full framework redesign: horizon banner (6-mo
 - [x] Output validated: `panw_q2fy26_earnings_analysis.json` — Rating: Maintain Outperform, PT $186
 - [x] Tab 2 wired into `generate_baseline.py` — all steps render from JSON, departures panel visible
 - [x] HTML confirmed in browser — Steps 5–11 all render, peer table, valuation, skill banner
-- [ ] **Phase B (June 3):** Q3 FY26 prints June 2. On June 3: run `demo/data/gather.py` to refresh raw files, then `python3 demo/data/analysis/run_earnings_analysis.py` to regenerate `panw_q3fy26_earnings_analysis.json`, then `python3 demo/generate_baseline.py`. Tab 2 updates automatically from the new JSON. No HTML edits needed.
+- [ ] **Phase B (June 3) — IN PROGRESS:** Q3 FY26 print released June 2. Scripts updated, PDFs in `demo/data/manual/`. Step 1: `python demo/data/gather.py`. Then rebuild_db.py → tests → run_earnings_analysis.py → generate_baseline.py.
 
 ### Tab 3 — COMPLETE
 - [x] Design agreed: static buy-side Q&A (pre-run) + live chat (Claude API + Tavily)
@@ -64,7 +63,7 @@ Tab 3: buy-side layer + live chat. Full framework redesign: horizon banner (6-mo
 - [x] JavaScript: accordion toggle, suggestion chips, SSE chat streaming, DOMPurify sanitization
 - [x] Live/offline server badge — pings `/chat` on tab load
 - [x] End-to-end tested: simple, single-search, and multi-search compound questions all work
-- [ ] **Phase B (June 3):** Re-run `run_buyside_analysis.py` after Q3 FY26 print if questions need updating.
+- [ ] **Phase B (June 3) — IN PROGRESS:** Re-run `run_buyside_analysis.py` after gather.py + rebuild_db.py complete.
 
 ### Workshop design
 - [ ] Compressed 45-minute agenda pass
@@ -81,11 +80,15 @@ Tab 3: buy-side layer + live chat. Full framework redesign: horizon banner (6-mo
 - [ ] Fallback option (pre-recorded or scripted, mandatory)
 
 ### Participant infrastructure
-- [ ] Build Mentimeter session (settling poll plus Beat 3 posting slide)
-- [ ] Build GitHub Pages site (exercise brief plus PANW one-pager)
-- [ ] Generate QR codes and test on multiple devices
-- [ ] End-to-end test of Mentimeter Beat 3 to Cowork synthesis flow
-- [ ] Retire or repurpose `feed-app/` subfolder
+- [x] Build Form 1: settling poll ("AI: Where Are You Starting From?") — Microsoft Forms, anonymous, Q1 MCQ + Q2 open text + Q3 Likert
+- [x] Build Form 2: Beat 3 post ("Your view on Palo Alto Networks") — Microsoft Forms, anonymous, Q1 B/H/S MCQ + Q2 confidence 1-5 + Q3 primary reason + Q4 biggest risk
+- [ ] Build PANW one-pager (GitHub Pages) — facts-only design, mobile-first, copy-paste friendly. Excludes Tab 2 sell-side and Tab 3 buy-side conclusions to preserve Beat 2 pedagogy. Sources from Q3 FY26 data layer post-refresh. Build in Claude Code from `demo/data/` artifacts.
+- [ ] Drop real QR codes into Slides 4, 7, 8 of session_deck (settling poll, one-pager, Beat 3 post) once one-pager is live
+- [ ] Test QR scans on multiple devices (iOS Safari, Android Chrome)
+- [ ] Retire or repurpose `feed-app/` subfolder (Forms-based architecture replaced the custom feed plan)
+
+### Polling platform decision (resolved 2026-06-02)
+Microsoft Forms over Mentimeter. Reasons: bundled with M365 (zero cost), anonymous responses native, word cloud + bar chart + detailed-list visualizations in present mode, structured multi-field submission for Beat 3, Excel export, embeds in PowerPoint. Q3 re-poll cut from the original design (verbal show-of-hands at debrief replaces it).
 
 ### Logistics
 - [ ] Buy MacBook Pro adapter before June 4

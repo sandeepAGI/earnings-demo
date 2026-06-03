@@ -1,0 +1,9 @@
+PANW Put/Call Ratio — Q3 FY26 Earnings Window (June 2026)
+
+NOTE: Placeholder. Capture live data from Barchart via Playwright before June 4 workshop.
+Target: June 2, 2026 (earnings day) and June 3, 2026 (post-earnings day).
+Fields to capture: P/C volume ratio, P/C OI ratio, closing price each day.
+
+Prior quarter reference (Q2 FY26, Feb 2026):
+  Earnings day (Feb 17): P/C volume 1.09, P/C OI 0.95.
+  Post-earnings day (Feb 18): P/C volume 4.02 (extreme put buying after -8.5% gap down).

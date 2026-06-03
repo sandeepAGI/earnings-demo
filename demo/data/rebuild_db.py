@@ -1,11 +1,11 @@
 """
 rebuild_db.py — Earnings Demo Database Builder
-Target quarter: PANW Q2 FY26 (fiscal date 2026-01-31, reported 2026-02-17)
+Target quarter: PANW Q3 FY26 (fiscal date 2026-04-30, reported 2026-06-02)
 
 Build contract:
   1. Every row has a non-null data_source pointing to a real file under demo/data/raw/.
   2. No .get(key, literal_default) on financial values — missing data raises KeyError.
-  3. Form 4 window: 2025-11-01 to 2026-02-17 (full fiscal quarter, post-earnings inclusive).
+  3. Form 4 window: 2026-02-01 to 2026-06-02 (full fiscal quarter, post-earnings inclusive).
   4. All paths via pathlib.Path(__file__).parent — no session-pinned absolute paths.
   5. Stage transitions require explicit approval and a STAGE: <name> approved commit.
 
@@ -277,24 +277,24 @@ def midpoint(low, high):
 # ---------------------------------------------------------------------------
 
 with open(require_file("panw_supplemental_8q.json"))     as f: supp      = json.load(f)
-with open(require_file("panw_q2fy26_guidance.json"))     as f: guidance  = json.load(f)
-with open(require_file("panw_q2fy26_transcript.txt"))    as f: transcript_text = f.read()
-with open(require_file("panw_q2fy26_transcript_qa.json")) as f: qa_raw   = json.load(f)
+with open(require_file("panw_q3fy26_guidance.json"))     as f: guidance  = json.load(f)
+with open(require_file("panw_q3fy26_transcript.txt"))    as f: transcript_text = f.read()
+with open(require_file("panw_q3fy26_transcript_qa.json")) as f: qa_raw   = json.load(f)
 with open(require_file("panw_earnings_estimates.json"))  as f: est       = json.load(f)
 with open(require_file("panw_price_monthly.json"))       as f: price_raw = json.load(f)
-with open(require_file("panw_q2fy26_form4_summary.json")) as f: form4    = json.load(f)
-with open(require_file("panw_q2fy26_short_interest.txt")) as f: si_text  = f.read()
-with open(require_file("panw_q2fy26_put_call.txt"))      as f: pc_text   = f.read()
+with open(require_file("panw_q3fy26_form4_summary.json")) as f: form4    = json.load(f)
+with open(require_file("panw_q3fy26_short_interest.txt")) as f: si_text  = f.read()
+with open(require_file("panw_q3fy26_put_call.txt"))      as f: pc_text   = f.read()
 with open(require_file("peer_snapshot.json"))            as f: peer_raw  = json.load(f)
 with open(require_file("panw_price_daily.json"))         as f: daily_raw = json.load(f)
 
-# After-hours reaction: Feb 17 close → Feb 18 open overnight gap
-_daily_by_date = {r["date"]: r for r in daily_raw["rows"]}
-_feb17 = _daily_by_date.get("2026-02-17")
-_feb18 = _daily_by_date.get("2026-02-18")
-if not (_feb17 and _feb18):
-    raise KeyError("panw_price_daily.json missing 2026-02-17 or 2026-02-18 — re-run gather.py")
-_ah_chg = round((_feb18["open"] / _feb17["close"] - 1) * 100, 2)
+# After-hours reaction: Jun 2 close → Jun 3 open overnight gap
+_daily_by_date = {r["date"]: r for r in daily_raw["records"]}
+_jun02 = _daily_by_date.get("2026-06-02")
+_jun03 = _daily_by_date.get("2026-06-03")
+if not (_jun02 and _jun03):
+    raise KeyError("panw_price_daily.json missing 2026-06-02 or 2026-06-03 — re-run gather.py")
+_ah_chg = round((_jun03["open"] / _jun02["close"] - 1) * 100, 2)
 
 
 def load_peer(fname: str) -> dict:
@@ -309,8 +309,8 @@ crwd_results = load_peer("crwd_q4fy26_results.json")
 ftnt_results = load_peer("ftnt_q12026_results.json")
 zs_results   = load_peer("zs_q3fy26_results.json")
 
-# Confirmed sentiment values (Playwright browser extract — 2026-05-28)
-_sent = load_peer("panw_q2fy26_sentiment_signals.json")
+# Confirmed sentiment values (Playwright browser extract — capture before June 4 workshop)
+_sent = load_peer("panw_q3fy26_sentiment_signals.json")
 _si   = _sent.get("short_interest", {}) if _sent else {}
 _pc   = _sent.get("put_call", {})       if _sent else {}
 
@@ -327,25 +327,25 @@ zs_gm_gaap   = xbrl_peers.get("zs_gross_margin_gaap_pct")   if xbrl_peers else N
 # Index supplemental quarters by fiscal_period
 supp_by_period = {q["fiscal_period"]: q for q in supp["quarters"]}
 
-# Q2 FY26 primary row
-q2 = supp_by_period["Q2_FY26"]
+# Q3 FY26 primary row
+q3 = supp_by_period["Q3_FY26"]
 
 # Peers dict from peer_snapshot
 pd2 = peer_raw["peers"]
 
 # Guidance sections
-g_q3 = guidance["guidance_q3_fy26"]
+g_q4 = guidance["guidance_q4_fy26"]
 g_fy = guidance["guidance_fy26_full_year"]
 kpis = guidance["operational_kpis"]
 
 # Earnings history (4 quarters, most recent last in list)
 eps_history = est["earnings_history"]
-q2_eps = next(
-    (r for r in eps_history if r["fiscal_date_ending"] == "2026-01-31"),
+q3_eps = next(
+    (r for r in eps_history if r["fiscal_date_ending"] == "2026-04-30"),
     None
 )
-if q2_eps is None:
-    fail("Q2 FY26 EPS entry missing from panw_earnings_estimates.json")
+if q3_eps is None:
+    fail("Q3 FY26 EPS entry missing from panw_earnings_estimates.json")
 
 # Report dates — factual lookup, not in PDFs (verified from PANW investor relations)
 REPORT_DATE = {
@@ -357,6 +357,7 @@ REPORT_DATE = {
     "Q4_FY25": "2025-08-18",
     "Q1_FY26": "2025-11-19",
     "Q2_FY26": "2026-02-17",
+    "Q3_FY26": "2026-06-02",
 }
 
 # Insider role lookup for known PANW executives
@@ -409,7 +410,7 @@ for period, row in supp_by_period.items():
     defer_total = round(defer_curr + defer_lt, 3) if (defer_curr is not None and defer_lt is not None) else None
     net_income = row["net_income_gaap_m"]
     gaap_profitable = (1 if net_income >= 0 else 0) if net_income is not None else None
-    is_primary = 1 if period == "Q2_FY26" else 0
+    is_primary = 1 if period == "Q3_FY26" else 0
     ins("quarterly_financials", QF_COLS, (
         "PANW", "primary", period, fd, rdate,
         row["revenue_total_m"],
@@ -492,64 +493,64 @@ KPI_COLS = "symbol,company_type,fiscal_period,fiscal_date_ending,kpi_name,kpi_va
 def kpi(symbol, ctype, period, date, name, value, unit, label, note=None, src=None):
     ins("company_kpis", KPI_COLS, (symbol, ctype, period, date, name, value, unit, label, note, src))
 
-# PANW Q2 FY26 KPIs
-defer_curr  = q2["deferred_revenue_current_bn"]
-defer_lt    = q2["deferred_revenue_longterm_bn"]
+# PANW Q3 FY26 KPIs
+defer_curr  = q3["deferred_revenue_current_bn"]
+defer_lt    = q3["deferred_revenue_longterm_bn"]
 defer_total = round(defer_curr + defer_lt, 3)
 
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
-    "ngs_arr_bn", q2["ngs_arr_bn"], "bn", "NGS ARR",
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
+    "ngs_arr_bn", q3["ngs_arr_bn"], "bn", "NGS ARR",
     f"+{kpis['ngs_arr_yoy_growth_pct']}% YoY",
     "panw_supplemental_8q.json")
 
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
     "ngs_arr_yoy_growth_pct", kpis["ngs_arr_yoy_growth_pct"], "pct", "NGS ARR YoY Growth",
-    None, "panw_q2fy26_guidance.json")
+    None, "panw_q3fy26_guidance.json")
 
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
-    "rpo_bn", q2["remaining_performance_obligations_bn"], "bn", "Remaining Performance Obligation",
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
+    "rpo_bn", q3["remaining_performance_obligations_bn"], "bn", "Remaining Performance Obligation",
     f"+{kpis['rpo_yoy_growth_pct']}% YoY",
     "panw_supplemental_8q.json")
 
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
     "rpo_yoy_growth_pct", kpis["rpo_yoy_growth_pct"], "pct", "RPO YoY Growth",
-    None, "panw_q2fy26_guidance.json")
+    None, "panw_q3fy26_guidance.json")
 
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
     "deferred_rev_total_bn", defer_total, "bn", "Total Deferred Revenue",
     f"Current ${defer_curr}B + Long-term ${defer_lt}B",
     "panw_supplemental_8q.json")
 
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
-    "fcf_m", q2["fcf_m"], "m", "Free Cash Flow (Standard)",
-    f"FCF margin {q2['fcf_margin_pct']}%",
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
+    "fcf_m", q3["fcf_m"], "m", "Free Cash Flow (Standard)",
+    f"FCF margin {q3['fcf_margin_pct']}%",
     "panw_supplemental_8q.json")
 
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
-    "fcf_margin_pct", q2["fcf_margin_pct"], "pct", "FCF Margin",
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
+    "fcf_margin_pct", q3["fcf_margin_pct"], "pct", "FCF Margin",
     None, "panw_supplemental_8q.json")
 
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
     "platformized_customers", kpis["platformized_customers"], "count", "Platformized Customers",
     "Customers using 3+ PANW product pillars",
-    "panw_q2fy26_guidance.json")
+    "panw_q3fy26_guidance.json")
 
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
-    "shares_diluted_m", q2["shares_diluted_m"], "m", "Diluted Shares Outstanding",
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
+    "shares_diluted_m", q3["shares_diluted_m"], "m", "Diluted Shares Outstanding",
     None, "panw_supplemental_8q.json")
 
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
-    "eps_nongaap_beat_pct", q2_eps["eps_surprise_pct"], "pct", "Non-GAAP EPS Beat vs Consensus",
-    f"Actual ${q2_eps['eps_nongaap_actual']} vs consensus ${q2_eps['eps_nongaap_estimate']}",
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
+    "eps_nongaap_beat_pct", q3_eps["eps_surprise_pct"], "pct", "Non-GAAP EPS Beat vs Consensus",
+    f"Actual ${q3_eps['eps_nongaap_actual']} vs consensus ${q3_eps['eps_nongaap_estimate']}",
     "panw_earnings_estimates.json")
 
-# After-hours reaction: Feb 17 close → Feb 18 open gap (yfinance daily)
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
-    "stock_close_day_of", _feb17["close"], "$", "Stock Close Day-of Earnings",
-    "Feb 17, 2026 regular-hours close", "panw_price_daily.json")
-kpi("PANW", "primary", "Q2_FY26", "2026-01-31",
+# After-hours reaction: Jun 2 close → Jun 3 open gap (yfinance daily)
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
+    "stock_close_day_of", _jun02["close"], "$", "Stock Close Day-of Earnings",
+    "Jun 2, 2026 regular-hours close", "panw_price_daily.json")
+kpi("PANW", "primary", "Q3_FY26", "2026-04-30",
     "stock_ah_change_pct", _ah_chg, "pct", "After-Hours Reaction (overnight gap)",
-    f"Feb 17 close ${_feb17['close']} → Feb 18 open ${_feb18['open']}", "panw_price_daily.json")
+    f"Jun 2 close ${_jun02['close']} → Jun 3 open ${_jun03['open']}", "panw_price_daily.json")
 
 # CRWD Q4 FY26 KPIs
 if crwd_results:
@@ -624,8 +625,8 @@ if zs_results:
 ins("consensus_estimates",
     "symbol,fiscal_period,fiscal_date_ending,eps_consensus_nongaap,eps_consensus_gaap,revenue_consensus_m,analyst_count,data_source",
     (
-        "PANW", "Q2_FY26", "2026-01-31",
-        q2_eps["eps_nongaap_estimate"],
+        "PANW", "Q3_FY26", "2026-04-30",
+        q3_eps["eps_nongaap_estimate"],
         None,   # GAAP consensus not in yfinance earnings_history
         None,   # Revenue consensus not available from free APIs for historical quarters
         None,
@@ -664,35 +665,35 @@ GD_COLS = (
 def g_ins(for_period, in_period, gtype, metric, low, high, unit, revision):
     mid = midpoint(low, high)
     ins("guidance", GD_COLS, (
-        "PANW", for_period, in_period, "2026-02-17", gtype,
-        metric, low, high, mid, unit, revision, "panw_q2fy26_guidance.json",
+        "PANW", for_period, in_period, "2026-06-02", gtype,
+        metric, low, high, mid, unit, revision, "panw_q3fy26_guidance.json",
     ))
 
-# Q3 FY26 guidance
-g_ins("Q3_FY26", "Q2_FY26", "next_quarter", "revenue_m",
-      g_q3["revenue_low_m"], g_q3["revenue_high_m"], "m", g_q3["revision_vs_prior"])
-g_ins("Q3_FY26", "Q2_FY26", "next_quarter", "eps_nongaap",
-      g_q3["eps_nongaap_low"], g_q3["eps_nongaap_high"], "$", g_q3["revision_vs_prior"])
-if g_q3.get("ngs_arr_low_bn") is not None:
-    g_ins("Q3_FY26", "Q2_FY26", "next_quarter", "ngs_arr_bn",
-          g_q3["ngs_arr_low_bn"], g_q3["ngs_arr_high_bn"], "bn", g_q3["revision_vs_prior"])
+# Q4 FY26 guidance
+g_ins("Q4_FY26", "Q3_FY26", "next_quarter", "revenue_m",
+      g_q4["revenue_low_m"], g_q4["revenue_high_m"], "m", g_q4["revision_vs_prior"])
+g_ins("Q4_FY26", "Q3_FY26", "next_quarter", "eps_nongaap",
+      g_q4["eps_nongaap_low"], g_q4["eps_nongaap_high"], "$", g_q4["revision_vs_prior"])
+if g_q4.get("ngs_arr_low_bn") is not None:
+    g_ins("Q4_FY26", "Q3_FY26", "next_quarter", "ngs_arr_bn",
+          g_q4["ngs_arr_low_bn"], g_q4["ngs_arr_high_bn"], "bn", g_q4["revision_vs_prior"])
 
 # FY26 full-year guidance
-g_ins("FY26_Full", "Q2_FY26", "full_year", "revenue_m",
+g_ins("FY26_Full", "Q3_FY26", "full_year", "revenue_m",
       g_fy["revenue_low_m"], g_fy["revenue_high_m"], "m", g_fy["revision_vs_prior"])
-g_ins("FY26_Full", "Q2_FY26", "full_year", "eps_nongaap",
+g_ins("FY26_Full", "Q3_FY26", "full_year", "eps_nongaap",
       g_fy["eps_nongaap_low"], g_fy["eps_nongaap_high"], "$", g_fy["revision_vs_prior"])
 if g_fy.get("fcf_margin_low_pct") is not None:
-    g_ins("FY26_Full", "Q2_FY26", "full_year", "fcf_margin_pct",
+    g_ins("FY26_Full", "Q3_FY26", "full_year", "fcf_margin_pct",
           g_fy["fcf_margin_low_pct"], g_fy["fcf_margin_high_pct"], "pct", g_fy["revision_vs_prior"])
 if g_fy.get("ngs_arr_low_bn") is not None:
-    g_ins("FY26_Full", "Q2_FY26", "full_year", "ngs_arr_bn",
+    g_ins("FY26_Full", "Q3_FY26", "full_year", "ngs_arr_bn",
           g_fy["ngs_arr_low_bn"], g_fy["ngs_arr_high_bn"], "bn", g_fy["revision_vs_prior"])
 
 
 # ===========================================================================
 # TABLE 7 — insider_transactions
-# Window: 2025-11-01 to 2026-02-17 (full Q2 FY26 fiscal quarter, post-earnings inclusive)
+# Window: 2026-02-01 to 2026-06-02 (full Q3 FY26 fiscal quarter, post-earnings inclusive)
 # ===========================================================================
 IT_COLS = (
     "symbol,filing_date,transaction_date,insider_name,insider_role,"
@@ -763,10 +764,10 @@ for bar in price_records:
     price_by_month[prefix] = bar
 
 EVENT_MONTHS = [
+    ("q3_fy26_earnings",  "2026-06", "Q3 FY26 earnings report month (Jun 2, 2026)"),
     ("q2_fy26_earnings",  "2026-02", "Q2 FY26 earnings report month (Feb 17, 2026)"),
     ("q1_fy26_earnings",  "2025-11", "Q1 FY26 earnings report month (Nov 19, 2025)"),
     ("q4_fy25_earnings",  "2025-08", "Q4 FY25 earnings report month (Aug 18, 2025)"),
-    ("q2_fy25_earnings",  "2025-02", "Q2 FY25 earnings report month (Feb 13, 2025)"),
 ]
 
 for ev_key, month_prefix, ev_note in EVENT_MONTHS:
@@ -789,9 +790,9 @@ word_count = len(transcript_text.split())
 ins("transcripts",
     "symbol,fiscal_period,fiscal_date_ending,call_date,transcript_type,full_text,word_count,source",
     (
-        "PANW", "Q2_FY26", "2026-01-31", "2026-02-17", "earnings_call",
+        "PANW", "Q3_FY26", "2026-04-30", "2026-06-02", "earnings_call",
         transcript_text, word_count,
-        "panw_q2fy26_transcript.txt",
+        "panw_q3fy26_transcript.txt",
     )
 )
 
@@ -805,7 +806,7 @@ QA_COLS = (
 )
 for ex in qa_raw["exchanges"]:
     ins("transcript_qa", QA_COLS, (
-        "PANW", "Q2_FY26",
+        "PANW", "Q3_FY26",
         ex["exchange_num"],
         ex["analyst_name"],
         ex["analyst_firm"],
@@ -815,7 +816,7 @@ for ex in qa_raw["exchanges"]:
         ex.get("respondent"),
         ex.get("key_signal"),
         ex.get("analytical_note"),
-        "panw_q2fy26_transcript_qa.json",
+        "panw_q3fy26_transcript_qa.json",
     ))
 
 
@@ -825,49 +826,49 @@ for ex in qa_raw["exchanges"]:
 # ===========================================================================
 SS_COLS = "symbol,fiscal_period,signal_date,signal_type,value,value_low,value_high,unit,confidence,context_note,data_source"
 
-# Short interest: last report before earnings = Feb 13, 2026 (MarketBeat via Playwright)
-_si_val     = _si.get("float_pct")           # 2.8% float
-_si_hi      = _si.get("prior_float_pct")     # 6.7% float peak (Jan 30)
+# Short interest: last report before earnings = ~May 30, 2026 (MarketBeat via Playwright)
+_si_val     = _si.get("float_pct")
+_si_hi      = _si.get("prior_float_pct")
 _si_note    = (
-    f"PANW Short Interest — Q2 FY26 Earnings Window (Feb 2026)\n"
-    f"Source: {_si.get('source', 'MarketBeat')}  |  Pulled: 2026-05-28 via Playwright\n\n"
-    f"Last report before earnings (2026-02-13):\n"
+    f"PANW Short Interest — Q3 FY26 Earnings Window (Jun 2026)\n"
+    f"Source: {_si.get('source', 'MarketBeat')}  |  Pulled via Playwright\n\n"
+    f"Last report before earnings:\n"
     f"  Shares short: {_si.get('shares_short_m')}M  |  Float %: {_si_val}%  |  Days to cover: {_si.get('days_to_cover')}\n\n"
-    f"Prior report (2026-01-30): {_si.get('prior_shares_short_m')}M shares, {_si_hi}% float\n"
-    f"Change: {_si.get('change_pct')}% — massive short covering going into earnings.\n\n"
+    f"Prior report: {_si.get('prior_shares_short_m')}M shares, {_si_hi}% float\n"
+    f"Change: {_si.get('change_pct')}%\n\n"
     f"{_si.get('note', '')}"
 ) if _si else si_text[:1000]
-_si_conf    = "actual" if _si else "estimated"
-_si_date    = _si.get("report_date", "2026-02-17") if _si else "2026-02-17"
+_si_conf    = "actual" if _si else "placeholder"
+_si_date    = _si.get("report_date", "2026-06-02") if _si else "2026-06-02"
 
 ins("sentiment_signals", SS_COLS, (
-    "PANW", "Q2_FY26", _si_date, "short_interest",
+    "PANW", "Q3_FY26", _si_date, "short_interest",
     _si_val, None, _si_hi, "pct_float", _si_conf,
     _si_note,
-    "panw_q2fy26_sentiment_signals.json",
+    "panw_q3fy26_sentiment_signals.json",
 ))
 
-# Put/call ratio: earnings day (Feb 17, 2026) from Barchart Highcharts via Playwright
+# Put/call ratio: earnings day (Jun 2, 2026) from Barchart Highcharts via Playwright
 _pc_day     = _pc.get("earnings_day", {}) if _pc else {}
 _pc_post    = _pc.get("post_earnings_day", {}) if _pc else {}
-_pc_vol     = _pc_day.get("pc_volume_ratio")   # 1.09 on Feb 17
-_pc_oi      = _pc_day.get("pc_oi_ratio")       # 0.95 on Feb 17
-_pc_post_v  = _pc_post.get("pc_volume_ratio")  # 4.02 on Feb 18 (extreme put buying)
+_pc_vol     = _pc_day.get("pc_volume_ratio")
+_pc_oi      = _pc_day.get("pc_oi_ratio")
+_pc_post_v  = _pc_post.get("pc_volume_ratio")
 _pc_note    = (
-    f"PANW Put/Call Ratio — Q2 FY26 Earnings Window (Feb 2026)\n"
-    f"Source: {_pc.get('source', 'Barchart')}  |  Pulled: 2026-05-28 via Playwright\n\n"
-    f"Earnings day (2026-02-17, close ${_pc_day.get('price_close')}):\n"
+    f"PANW Put/Call Ratio — Q3 FY26 Earnings Window (Jun 2026)\n"
+    f"Source: {_pc.get('source', 'Barchart')}  |  Pulled via Playwright\n\n"
+    f"Earnings day (2026-06-02, close ${_pc_day.get('price_close')}):\n"
     f"  P/C Volume Ratio: {_pc_vol}  |  P/C OI Ratio: {_pc_oi}\n\n"
-    f"Post-earnings day (2026-02-18, close ${_pc_post.get('price_close')}):\n"
+    f"Post-earnings day (2026-06-03, close ${_pc_post.get('price_close')}):\n"
     f"  P/C Volume Ratio: {_pc_post_v}  — {_pc_post.get('note', '')}"
 ) if _pc else pc_text[:1000]
-_pc_conf    = "actual" if _pc else "estimated"
+_pc_conf    = "actual" if _pc else "placeholder"
 
 ins("sentiment_signals", SS_COLS, (
-    "PANW", "Q2_FY26", "2026-02-17", "put_call_ratio",
+    "PANW", "Q3_FY26", "2026-06-02", "put_call_ratio",
     _pc_vol, _pc_oi, _pc_post_v, "ratio", _pc_conf,
     _pc_note,
-    "panw_q2fy26_sentiment_signals.json",
+    "panw_q3fy26_sentiment_signals.json",
 ))
 
 
@@ -904,30 +905,30 @@ def chk(label, query, expected):
     status = "✓" if str(val) != "NULL" else "✗"
     print(f"  {status} {label:<44} {val!r}  [exp: {expected}]")
 
-chk("Q2_FY26 revenue (M)",
-    "SELECT revenue_total_m FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q2_FY26'",
-    "2594")
-chk("Q2_FY26 non-GAAP EPS",
-    "SELECT eps_nongaap FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q2_FY26'",
-    "1.03")
-chk("Q2_FY26 non-GAAP gross margin %",
-    "SELECT gross_margin_nongaap_pct FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q2_FY26'",
-    "76.1")
-chk("Q2_FY26 non-GAAP OI (M)",
-    "SELECT operating_income_nongaap_m FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q2_FY26'",
-    "785")
-chk("Q2_FY26 fiscal_date_ending",
-    "SELECT fiscal_date_ending FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q2_FY26'",
-    "2026-01-31")
+chk("Q3_FY26 revenue (M)",
+    "SELECT revenue_total_m FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q3_FY26'",
+    "TBD — populated after gather.py run")
+chk("Q3_FY26 non-GAAP EPS",
+    "SELECT eps_nongaap FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q3_FY26'",
+    "TBD")
+chk("Q3_FY26 non-GAAP gross margin %",
+    "SELECT gross_margin_nongaap_pct FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q3_FY26'",
+    "TBD")
+chk("Q3_FY26 non-GAAP OI (M)",
+    "SELECT operating_income_nongaap_m FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q3_FY26'",
+    "TBD")
+chk("Q3_FY26 fiscal_date_ending",
+    "SELECT fiscal_date_ending FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q3_FY26'",
+    "2026-04-30")
 chk("NGS ARR (B)",
     "SELECT kpi_value FROM company_kpis WHERE symbol='PANW' AND kpi_name='ngs_arr_bn'",
-    "6.33")
+    "TBD")
 chk("Platformized customers",
     "SELECT kpi_value FROM company_kpis WHERE symbol='PANW' AND kpi_name='platformized_customers'",
-    "1550")
+    "TBD")
 chk("EPS consensus",
     "SELECT eps_consensus_nongaap FROM consensus_estimates WHERE symbol='PANW'",
-    "0.93684")
+    "TBD")
 chk("EPS history rows",
     "SELECT COUNT(*) FROM eps_history WHERE symbol='PANW'",
     "4")
@@ -950,8 +951,8 @@ chk("Transcript word count",
     "SELECT word_count FROM transcripts WHERE symbol='PANW'",
     ">2000")
 chk("Deferred revenue total (B)",
-    "SELECT deferred_revenue_total_bn FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q2_FY26'",
-    "12.429")
+    "SELECT deferred_revenue_total_bn FROM quarterly_financials WHERE symbol='PANW' AND fiscal_period='Q3_FY26'",
+    "TBD")
 chk("Quarterly financials PANW rows",
     "SELECT COUNT(*) FROM quarterly_financials WHERE symbol='PANW'",
     "8")

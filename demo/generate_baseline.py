@@ -25,8 +25,8 @@ DB_PATH       = _HERE / "data" / "db" / "earnings.db"
 OUT_PATH      = _HERE / "earnings_baseline.html"
 CHARTJS_CACHE = Path(tempfile.gettempdir()) / "chartjs_440.min.js"
 CHARTJS_CDN   = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js'
-ANALYSIS_PATH  = _HERE / "data" / "analysis" / "panw_q2fy26_earnings_analysis.json"
-BUYSIDE_PATH   = _HERE / "data" / "analysis" / "panw_q2fy26_buyside_analysis.json"
+ANALYSIS_PATH  = _HERE / "data" / "analysis" / "panw_q3fy26_earnings_analysis.json"
+BUYSIDE_PATH   = _HERE / "data" / "analysis" / "panw_q3fy26_buyside_analysis.json"
 
 # ── Preflight ──────────────────────────────────────────────────────────────────
 if not DB_PATH.exists():
@@ -46,7 +46,7 @@ def q1(sql, params=()):
     r = c.execute(sql, params).fetchone()
     return dict(r) if r else {}
 
-PRIMARY_PERIOD = 'Q2_FY26'
+PRIMARY_PERIOD = 'Q3_FY26'
 PRIMARY_SYMBOL = 'PANW'
 
 panw_q2       = q1("SELECT * FROM quarterly_financials WHERE symbol=? AND fiscal_period=?", (PRIMARY_SYMBOL, PRIMARY_PERIOD))
@@ -255,7 +255,7 @@ html = f"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PANW Q2 FY26 — Earnings Dashboard</title>
+<title>PANW Q3 FY26 — Earnings Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -943,7 +943,7 @@ html = f"""<!DOCTYPE html>
 <div class="page-header">
   <div class="page-header-inner">
     <div>
-      <h1>PANW Q2 FY26 — Earnings Dashboard</h1>
+      <h1>PANW Q3 FY26 — Earnings Dashboard</h1>
       <p>Fiscal period ending {fiscal_date_display} &nbsp;·&nbsp; Reported {report_date_display} &nbsp;·&nbsp; <em>Everyone Is Wrong About AI, Including Me</em> — Digital FutureFest &#39;26</p>
     </div>
     <div class="header-meta">
@@ -978,7 +978,7 @@ html = f"""<!DOCTYPE html>
 <!-- ═══ HEADLINE KPIs ══════════════════════════════════════════════════════ -->
 <div class="section">
   <div class="section-header">
-    <h2>Q2 FY26 — Beat / Miss vs Consensus</h2>
+    <h2>Q3 FY26 — Beat / Miss vs Consensus</h2>
     <span class="tag">Reported {report_date_display}</span>
   </div>
   <div class="section-body">
@@ -1035,7 +1035,7 @@ html = f"""<!DOCTYPE html>
       <div class="chart-wrap"><canvas id="revChart"></canvas></div>
       <div class="divider"></div>
       <table>
-        <tr><th>Segment</th><th class="num">Q2 FY26</th><th class="num">Mix</th></tr>
+        <tr><th>Segment</th><th class="num">Q3 FY26</th><th class="num">Mix</th></tr>
         <tr>
           <td>Subscription &amp; Support</td>
           <td class="num">{sg(panw_q2, 'revenue_subscription_m', '$M')}</td>
@@ -1086,7 +1086,7 @@ html = f"""<!DOCTYPE html>
 <div class="section">
   <div class="section-header">
     <h2>Platform Metrics — Platformisation Engine</h2>
-    <span class="tag">Q2 FY26</span>
+    <span class="tag">Q3 FY26</span>
   </div>
   <div class="section-body">
     <div class="kpi-grid">
@@ -1128,7 +1128,7 @@ html = f"""<!DOCTYPE html>
 <!-- ═══ GUIDANCE ════════════════════════════════════════════════════════════ -->
 <div class="section">
   <div class="section-header">
-    <h2>Management Guidance — Issued Feb 17, 2026</h2>
+    <h2>Management Guidance — Issued Jun 2, 2026</h2>
     <span class="tag">Q3 FY26 + FY26 Full Year</span>
   </div>
   <div class="section-body">
@@ -1284,13 +1284,13 @@ if _pc:
           <span class="badge badge-bull">actual</span>
         </div>
         <div class="signal-row">
-          <span class="sr-label">Earnings day (Feb 17):&nbsp;</span>
+          <span class="sr-label">Earnings day (Jun 2):&nbsp;</span>
           <span class="sr-label">vol&nbsp;</span><span class="sr-val">1.09</span>
           &nbsp;·&nbsp;<span class="sr-label">OI&nbsp;</span><span class="sr-val">0.95</span>
           &nbsp;·&nbsp;<span class="sr-label" style="font-style:italic">not elevated pre-print</span>
         </div>
         <div class="signal-row">
-          <span class="sr-label">Post-earnings (Feb 18):&nbsp;</span>
+          <span class="sr-label">Post-earnings (Jun 3):&nbsp;</span>
           <span class="sr-label">vol&nbsp;</span><span class="sr-bear">4.02</span>
           &nbsp;·&nbsp;<span class="sr-label" style="font-style:italic">extreme put buying</span>
         </div>
@@ -1306,7 +1306,7 @@ html += """    </div>
 <div class="section">
   <div class="section-header">
     <h2>Q&amp;A Exchange Analysis — 10 Analyst Exchanges</h2>
-    <span class="tag">Feb 17, 2026 Earnings Call</span>
+    <span class="tag">Jun 2, 2026 Earnings Call</span>
   </div>
   <div class="section-body">
 """
@@ -1424,7 +1424,7 @@ if _an:
     # ── Margin table rows (last 4 quarters + current) ─────────────────────────
     _traj_rows = ""
     for _t in _s7["trajectory"][-4:]:
-        _hl = ' class="highlight"' if _t["period"] == "Q2_FY26" else ""
+        _hl = ' class="highlight"' if _t["period"] == "Q3_FY26" else ""
         _traj_rows += (
             f'      <tr{_hl}><td>{_t["period"].replace("_"," ")}</td>'
             f'<td class="num">{_t["gm_nongaap_pct"]}%</td>'
@@ -1442,7 +1442,7 @@ if _an:
     # ── EPS beat trend rows ──────────────────────────────────────────────────
     _eps_rows = ""
     for _e in _s9["eps_history"]:
-        _hl   = ' class="highlight"' if _e["period"] == "2026-01-31" else ""
+        _hl   = ' class="highlight"' if _e["period"] == "2026-04-30" else ""
         _bcls = "pos" if _e["beat_pct"] > 5 else ""
         _eps_rows += (
             f'      <tr{_hl}><td>{_e["period"]}</td>'
@@ -1508,10 +1508,10 @@ if _an:
   <div class="rn-cover-top">
     <div>
       <div class="rn-cover-company">Palo Alto Networks, Inc. &nbsp;<span style="font-size:13px;opacity:.7">PANW · NASDAQ</span></div>
-      <div class="rn-cover-meta">Cybersecurity &nbsp;·&nbsp; Q2 FY26 Earnings Update &nbsp;·&nbsp; Feb 17, 2026</div>
+      <div class="rn-cover-meta">Cybersecurity &nbsp;·&nbsp; Q3 FY26 Earnings Update &nbsp;·&nbsp; Jun 2, 2026</div>
     </div>
     <div class="rn-cover-right">
-      <div class="rn-cover-date">Earnings call: Feb 17, 2026</div>
+      <div class="rn-cover-date">Earnings call: Jun 2, 2026</div>
       <div class="rn-cover-type">Sell-side research note</div>
     </div>
   </div>
@@ -1534,7 +1534,7 @@ if _an:
     <div class="rn-stat">
       <div class="rn-stat-label">AH Reaction</div>
       <div class="rn-stat-val dn">{_s5["stock_reaction"]["ah_change_pct"]:+.1f}%</div>
-      <div class="rn-stat-note">Feb 17 close → Feb 18 open</div>
+      <div class="rn-stat-note">Jun 2 close → Jun 3 open</div>
     </div>
     <div class="rn-stat">
       <div class="rn-stat-label">Q&amp;A Sentiment</div>
@@ -1562,7 +1562,7 @@ if _an:
 <div class="section">
   <div class="section-header">
     <h2>Financial Highlights</h2>
-    <span class="tag">Q2 FY26 · Feb 17, 2026</span>
+    <span class="tag">Q3 FY26 · Jun 2, 2026</span>
   </div>
   <div class="section-body">
     <div class="rn-two-col">
@@ -1575,7 +1575,7 @@ if _an:
       </div>
       <div>
         <table class="an-tbl" style="margin-bottom:10px">
-          <thead><tr><th>Margin (Non-GAAP)</th><th>Q2 FY26</th><th>YoY</th><th>FCF</th></tr></thead>
+          <thead><tr><th>Margin (Non-GAAP)</th><th>Q3 FY26</th><th>YoY</th><th>FCF</th></tr></thead>
           <tbody>
             <tr><td>Gross Margin</td><td class="num">{_s7["q2_fy26"]["gross_margin_nongaap_pct"]}%</td><td class="num">{_s7["yoy_delta_bps"]["gross_margin_nongaap"]:+d}bps</td><td class="muted" rowspan="2" style="vertical-align:middle">FCF {_s7["q2_fy26"]["fcf_margin_pct"]}%<br><span style="font-size:10px">Q1 FY26: 68.2%</span></td></tr>
             <tr class="highlight"><td><strong>OI Margin</strong></td><td class="num"><strong>{_s7["q2_fy26"]["oi_margin_nongaap_pct"]}%</strong></td><td class="num pos"><strong>+{_s7["yoy_delta_bps"]["oi_margin_nongaap"]}bps</strong></td></tr>
@@ -1710,7 +1710,7 @@ if _an:
     </div>
 {_dep_rows}  </div>
   <div style="font-size:11px;color:#aaa;margin-top:10px">
-    Analysis generated {_an["generated"]} from pre-staged PANW Q2 FY26 source files.
+    Analysis generated {_an["generated"]} from pre-staged PANW Q3 FY26 source files.
     Workshop use only. Not investment advice.
   </div>
 </div>
@@ -1828,7 +1828,7 @@ if _bs:
     <button class="chat-clear-btn" onclick="clearChat()" title="Clear conversation">&#x21BA; Clear</button>
   </div>
   <div class="chat-subtitle">
-    Backed by Claude Opus + Tavily web search. Context: sell-side analysis, buy-side framework, CRWD peer results, and PANW Q2 FY26 transcript.
+    Backed by Claude Opus + Tavily web search. Context: sell-side analysis, buy-side framework, CRWD peer results, and PANW Q3 FY26 transcript.
   </div>
 
   <div class="chat-offline-note" id="offlineNote">
@@ -1847,7 +1847,7 @@ if _bs:
   </div>
 
   <div class="chat-input-row">
-    <textarea class="chat-input" id="chatInput" rows="2" placeholder="Ask about PANW Q2 FY26..."></textarea>
+    <textarea class="chat-input" id="chatInput" rows="2" placeholder="Ask about PANW Q3 FY26..."></textarea>
     <button class="chat-send" id="chatSend" onclick="sendChat()">Send &#x2192;</button>
   </div>
 </div>
@@ -1856,7 +1856,7 @@ if _bs:
 <div class="sauce-outer" style="margin-top:32px">
   <h3>What&#39;s powering this</h3>
   <div class="sauce-intro">
-    Every response draws on pre-loaded context: sell-side research note (Steps 5&#8211;11), buy-side framework interrogation (5 dimensions), CRWD Q4 FY26 peer results, PANW Q2 FY26 earnings call transcript excerpt, and DB KPIs. Web search via Tavily is available as a tool for current market data after Feb 17, 2026.
+    Every response draws on pre-loaded context: sell-side research note (Steps 5&#8211;11), buy-side framework interrogation (5 dimensions), CRWD peer results, PANW Q3 FY26 earnings call transcript excerpt, and DB KPIs. Web search via Tavily is available as a tool for current market data after Jun 2, 2026.
   </div>
   <div class="sauce-grid">
     <div class="sauce-card">
@@ -1917,7 +1917,7 @@ html += f"""      </tbody>
 {_tab3_html}
 
 <div class="page-footer">
-  <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q2 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated {generated_at}<br>
+  <strong>Aileron Group</strong> &nbsp;·&nbsp; PANW Q3 FY26 Earnings Dashboard &nbsp;·&nbsp; Workshop use only &nbsp;·&nbsp; Generated {generated_at}<br>
   Tab 1: Baseline Data (real data from DB) &nbsp;·&nbsp; Tab 2: Sell-Side Analysis (equity-research/earnings-analysis, 4 departures) &nbsp;·&nbsp; Tab 3: Buy-Side Layer (Claude API + Tavily)<br>
   Phase B: re-run rebuild_db.py &#8594; run_earnings_analysis.py &#8594; generate_baseline.py after June 2, 2026 Q3 print
 </div>

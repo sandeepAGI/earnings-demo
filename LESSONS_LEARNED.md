@@ -23,6 +23,32 @@ python demo/generate_baseline.py    # → demo/earnings_baseline.html
 
 ## Session Log
 
+### 2026-06-03 (session 9) — Q3 FY26 pipeline refresh: all scripts updated
+
+PANW Q3 FY26 earnings released June 2, 2026. Updated all 7 pipeline scripts for the Q3 FY26 refresh. PDFs (supplemental, presentation, transcript) dropped into `demo/data/manual/`. Pipeline is ready to run.
+
+**Files updated:**
+- `demo/data/gather.py` — PDF filenames, fiscal dates (Q3_FY26 / 2026-04-30), guidance fields (q4_fy26), price window (2026-02-01 to 2026-07-15), Form 4 window (2026-02-01:2026-06-02)
+- `demo/data/rebuild_db.py` — primary period Q3_FY26, report date 2026-06-02, KPI/guidance/event inserts, AH reaction window Jun 2→Jun 3
+- `demo/data/analysis/run_earnings_analysis.py` — output file, period refs, guidance keys (q4_fy26), TTM quarters
+- `demo/data/analysis/run_buyside_analysis.py` — output file, period refs, task prompt ("Q3 FY26 print")
+- `demo/generate_baseline.py` — PRIMARY_PERIOD, analysis file paths, date strings, AH reaction note
+- `demo/server.py` — analysis file paths, KPI query period, guidance keys, context date strings
+- `demo/data/tests/test_provenance.py` — all Q3_FY26 assertions (existence/range checks, not exact values — Q3 figures unknown until gather.py runs)
+
+**Key bug fixed:** `rebuild_db.py` was using `daily_raw["rows"]` to index the price history JSON, but `gather.py` writes the key as `"records"`. Changed to `daily_raw["records"]`. The Q2 build never caught this because the daily file wasn't regenerated after the key was standardized.
+
+**Intentional Q2 FY26 references preserved (not stale):**
+- `crwd_q4fy26_results.json`: CRWD fiscal Q4 FY26 ends 2026-01-31 — correct
+- TTM quarters in `run_earnings_analysis.py`: `["Q4_FY25", "Q1_FY26", "Q2_FY26", "Q3_FY26"]` — correct, Q2 FY26 is a TTM component
+- `EVENT_MONTHS` in `rebuild_db.py`: Q2 FY26 (2026-02) kept as historical price marker — correct
+
+**Placeholder sentiment files created** (`panw_q3fy26_short_interest.txt`, `panw_q3fy26_put_call.txt`, `panw_q3fy26_sentiment_signals.json`) so `rebuild_db.py` does not fail on missing files. Confidence flag set to "placeholder". Real figures require Playwright capture of MarketBeat + Barchart before June 4 — open task.
+
+**Provenance test assertions:** Q3-specific value assertions (platformized customers, NGS ARR, etc.) changed from exact values (which were known for Q2 FY26) to existence/range checks. Exact Q3 figures are unknown until `gather.py` runs. After the pipeline completes and values are confirmed, tests can be tightened if desired.
+
+---
+
 ### 2026-05-28 (session 8) — Tab 1 completion, Tab 2 sell-side, Tab 3 buy-side + live chat
 
 Heavy build day. Tabs 1, 2, and 3 of `earnings_baseline.html` all reached completion. Pipeline gained an SEC EDGAR XBRL layer to backfill nulls. Tab 3 introduced the first live agentic surface in the project (Claude Opus + Tavily, SSE streaming, FastAPI server).

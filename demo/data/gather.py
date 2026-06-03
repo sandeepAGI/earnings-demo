@@ -30,10 +30,10 @@ FMP_API_KEY      = os.environ["FMP_API_KEY"]
 ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 
 # PDF filenames (exact, as dropped into manual/)
-PDF_SUPPLEMENTAL = "Supplemental Financial Information Q2'26_vF.pdf"
-PDF_PRESENTATION = "Q2'26 Earnings Presentation vF.pdf"
-PDF_TRANSCRIPT   = ("CORRECTED TRANSCRIPT_ Palo Alto Networks Inc.(PANW-US) "
-                    "Q2 2026 Earnings Call 17-February-2026 4_30 PM ET.pdf")
+PDF_SUPPLEMENTAL = "Supplemental Financial Information Q3'26_vF.pdf"
+PDF_PRESENTATION = "Q3'26 Earnings Presentation vF (6).pdf"
+PDF_TRANSCRIPT   = ("Palo Alto Networks Inc.(PANW-US) "
+                    "Q3 2026 Earnings Call 2-June-2026 4_30 PM ET.pdf")
 
 
 def fail(msg: str) -> None:
@@ -106,12 +106,12 @@ You are extracting structured financial data from a Palo Alto Networks supplemen
 Extract the following for EVERY quarter shown (up to 8 quarters). Return a JSON object with this structure:
 
 {
-  "source_document": "Supplemental Financial Information Q2'26_vF.pdf",
+  "source_document": "Supplemental Financial Information Q3'26_vF.pdf",
   "quarters": [
     {
-      "fiscal_period": "Q2_FY26",
-      "fiscal_date_ending": "2026-01-31",
-      "report_date": "2026-02-17",
+      "fiscal_period": "Q3_FY26",
+      "fiscal_date_ending": "2026-04-30",
+      "report_date": "2026-06-02",
       "revenue_total_m": <number in millions>,
       "revenue_product_m": <number in millions>,
       "revenue_subscription_support_m": <number in millions>,
@@ -138,7 +138,7 @@ Extract the following for EVERY quarter shown (up to 8 quarters). Return a JSON 
 }
 
 Rules:
-- Fiscal periods: Q2 FY26 = 2026-01-31, Q1 FY26 = 2025-10-31, Q4 FY25 = 2025-07-31, Q3 FY25 = 2025-04-30, Q2 FY25 = 2025-01-31, Q1 FY25 = 2024-10-31, Q4 FY24 = 2024-07-31, Q3 FY24 = 2024-04-30
+- Fiscal periods: Q3 FY26 = 2026-04-30, Q2 FY26 = 2026-01-31, Q1 FY26 = 2025-10-31, Q4 FY25 = 2025-07-31, Q3 FY25 = 2025-04-30, Q2 FY25 = 2025-01-31, Q1 FY25 = 2024-10-31, Q4 FY24 = 2024-07-31
 - All dollar values in millions UNLESS the field name ends in _bn (then billions)
 - Percentages as numbers: 76.6 not 0.766
 - Use null for any field not present in the document, never guess
@@ -166,16 +166,16 @@ def gather_supplemental() -> None:
     if "quarters" not in data or not data["quarters"]:
         fail("Supplemental extraction returned no quarters")
 
-    # Validate Q2 FY26 row is present
-    q2_rows = [q for q in data["quarters"] if q.get("fiscal_period") == "Q2_FY26"]
-    if not q2_rows:
-        fail("Q2_FY26 row missing from supplemental extraction")
+    # Validate Q3 FY26 row is present
+    q3_rows = [q for q in data["quarters"] if q.get("fiscal_period") == "Q3_FY26"]
+    if not q3_rows:
+        fail("Q3_FY26 row missing from supplemental extraction")
 
-    q2 = q2_rows[0]
-    if q2.get("revenue_total_m") is None:
-        fail("Q2_FY26 revenue_total_m is null — extraction failed")
+    q3 = q3_rows[0]
+    if q3.get("revenue_total_m") is None:
+        fail("Q3_FY26 revenue_total_m is null — extraction failed")
 
-    print(f"    Q2 FY26 revenue: ${q2['revenue_total_m']}M  non-GAAP EPS: ${q2['eps_nongaap_diluted']}")
+    print(f"    Q3 FY26 revenue: ${q3['revenue_total_m']}M  non-GAAP EPS: ${q3['eps_nongaap_diluted']}")
     write_raw("panw_supplemental_8q.json", data)
 
 
@@ -189,8 +189,8 @@ You are extracting guidance and beat/miss data from a Palo Alto Networks earning
 Extract the following and return a JSON object:
 
 {
-  "source_document": "Q2'26 Earnings Presentation vF.pdf",
-  "beat_miss_q2_fy26": {
+  "source_document": "Q3'26 Earnings Presentation vF (6).pdf",
+  "beat_miss_q3_fy26": {
     "eps_nongaap_actual": <number>,
     "eps_nongaap_consensus": <number or null>,
     "eps_beat_pct": <number or null, e.g. 9.6 for 9.6%>,
@@ -198,7 +198,7 @@ Extract the following and return a JSON object:
     "revenue_consensus_m": <number in millions or null>,
     "revenue_beat_pct": <number or null>
   },
-  "guidance_q3_fy26": {
+  "guidance_q4_fy26": {
     "revenue_low_m": <number in millions>,
     "revenue_high_m": <number in millions>,
     "eps_nongaap_low": <number>,
@@ -236,7 +236,7 @@ Rules:
 
 
 def gather_guidance() -> None:
-    print("\n[2/6] Presentation PDF → panw_q2fy26_guidance.json")
+    print("\n[2/6] Presentation PDF → panw_q3fy26_guidance.json")
     b64 = pdf_base64(PDF_PRESENTATION)
     raw_text = claude_extract(b64, GUIDANCE_PROMPT)
 
@@ -250,12 +250,12 @@ def gather_guidance() -> None:
     except json.JSONDecodeError as e:
         fail(f"Claude returned invalid JSON for guidance: {e}\n\nRaw:\n{raw_text[:500]}")
 
-    q3g = data.get("guidance_q3_fy26", {})
-    if not q3g.get("revenue_low_m"):
-        fail("Q3 FY26 guidance revenue missing from extraction")
+    q4g = data.get("guidance_q4_fy26", {})
+    if not q4g.get("revenue_low_m"):
+        fail("Q4 FY26 guidance revenue missing from extraction")
 
-    print(f"    Q3 guidance: ${q3g['revenue_low_m']}–${q3g['revenue_high_m']}M revenue")
-    write_raw("panw_q2fy26_guidance.json", data)
+    print(f"    Q4 guidance: ${q4g['revenue_low_m']}–${q4g['revenue_high_m']}M revenue")
+    write_raw("panw_q3fy26_guidance.json", data)
 
 
 # ---------------------------------------------------------------------------
@@ -282,10 +282,10 @@ For each Q&A exchange, extract:
 
 Return a JSON object:
 {
-  "source_document": "CORRECTED TRANSCRIPT_ Palo Alto Networks Inc.(PANW-US) Q2 2026 Earnings Call 17-February-2026 4_30 PM ET.pdf",
-  "call_date": "2026-02-17",
+  "source_document": "Palo Alto Networks Inc.(PANW-US) Q3 2026 Earnings Call 2-June-2026 4_30 PM ET.pdf",
+  "call_date": "2026-06-02",
   "company": "PANW",
-  "fiscal_period": "Q2_FY26",
+  "fiscal_period": "Q3_FY26",
   "exchanges": [
     {
       "exchange_num": 1,
@@ -316,7 +316,7 @@ Return ONLY valid JSON, no commentary.
 
 
 def gather_transcript() -> None:
-    print("\n[3/6] Transcript PDF → panw_q2fy26_transcript.txt + panw_q2fy26_transcript_qa.json")
+    print("\n[3/6] Transcript PDF → panw_q3fy26_transcript.txt + panw_q3fy26_transcript_qa.json")
     b64 = pdf_base64(PDF_TRANSCRIPT)
 
     print("    Extracting full transcript text...")
@@ -325,7 +325,7 @@ def gather_transcript() -> None:
     if len(transcript_text) < 5000:
         fail(f"Transcript text too short ({len(transcript_text)} chars) — extraction may have failed")
 
-    write_raw("panw_q2fy26_transcript.txt", transcript_text)
+    write_raw("panw_q3fy26_transcript.txt", transcript_text)
     print(f"    Transcript: {len(transcript_text):,} chars")
 
     print("    Extracting Q&A structure and tagging...")
@@ -346,7 +346,7 @@ def gather_transcript() -> None:
         fail("No Q&A exchanges extracted from transcript")
 
     print(f"    Q&A exchanges: {len(exchanges)}")
-    write_raw("panw_q2fy26_transcript_qa.json", qa_data)
+    write_raw("panw_q3fy26_transcript_qa.json", qa_data)
 
 
 # ---------------------------------------------------------------------------
@@ -396,23 +396,23 @@ def gather_yf_estimates() -> None:
             "revenue_consensus_m": None,
         })
 
-    # Validate Q2 FY26 row
-    q2_rows = [r for r in history_records if r["fiscal_date_ending"] == "2026-01-31"]
-    if not q2_rows:
-        fail("Q2 FY26 (2026-01-31) missing from yfinance earnings_history")
+    # Validate Q3 FY26 row
+    q3_rows = [r for r in history_records if r["fiscal_date_ending"] == "2026-04-30"]
+    if not q3_rows:
+        fail("Q3 FY26 (2026-04-30) missing from yfinance earnings_history")
 
-    q2 = q2_rows[0]
-    print(f"    Q2 FY26 non-GAAP EPS: actual={q2['eps_nongaap_actual']}  "
-          f"consensus={q2['eps_nongaap_estimate']}  beat={q2['eps_surprise_pct']}%")
+    q3 = q3_rows[0]
+    print(f"    Q3 FY26 non-GAAP EPS: actual={q3['eps_nongaap_actual']}  "
+          f"consensus={q3['eps_nongaap_estimate']}  beat={q3['eps_surprise_pct']}%")
 
     payload = {
         "source": "yfinance PANW earnings_history + quarterly_income_stmt",
-        "retrieved_date": "2026-05-27",
+        "retrieved_date": "2026-06-03",
         "note": (
             "eps figures are non-GAAP (yfinance reports analyst-consensus non-GAAP for PANW). "
             "revenue_consensus_m unavailable from free APIs for historical quarters — left null."
         ),
-        "q2_fy26_fiscal_date": "2026-01-31",
+        "q3_fy26_fiscal_date": "2026-04-30",
         "earnings_history": history_records,
     }
     write_raw("panw_earnings_estimates.json", payload)
@@ -446,16 +446,16 @@ def gather_price() -> None:
 
     payload = {
         "source": "yfinance PANW monthly 5y",
-        "retrieved_date": "2026-05-27",
+        "retrieved_date": "2026-06-03",
         "ticker": "PANW",
         "interval": "1mo",
         "records": records,
     }
 
-    # Spot-check: find Feb 2026 close (earnings month)
-    feb26 = [r for r in records if r["date"].startswith("2026-02")]
-    if feb26:
-        print(f"    Feb 2026 close: ${feb26[0]['close']}")
+    # Spot-check: find June 2026 close (earnings month)
+    jun26 = [r for r in records if r["date"].startswith("2026-06")]
+    if jun26:
+        print(f"    Jun 2026 close: ${jun26[0]['close']}")
     print(f"    {len(records)} monthly bars")
     write_raw("panw_price_monthly.json", payload)
 
@@ -470,8 +470,8 @@ def gather_price_daily() -> None:
 
     print("\n[5b] yfinance daily → panw_price_daily.json")
     ticker = yf.Ticker("PANW")
-    # Q2 FY26 window ± 1 month (earnings reported Feb 17, 2026)
-    hist = ticker.history(start="2025-10-01", end="2026-03-31", interval="1d")
+    # Q3 FY26 window ± 1 month (earnings reported June 2, 2026)
+    hist = ticker.history(start="2026-02-01", end="2026-07-15", interval="1d")
 
     if hist.empty:
         fail("yfinance returned empty daily price history for PANW")
@@ -489,20 +489,20 @@ def gather_price_daily() -> None:
 
     payload = {
         "source": "yfinance PANW daily",
-        "retrieved_date": "2026-05-28",
+        "retrieved_date": "2026-06-03",
         "ticker": "PANW",
         "interval": "1d",
-        "start": "2025-10-01",
-        "end": "2026-03-31",
+        "start": "2026-02-01",
+        "end": "2026-07-15",
         "records": records,
     }
 
     by_date = {r["date"]: r for r in records}
-    feb17 = by_date.get("2026-02-17")
-    feb18 = by_date.get("2026-02-18")
-    if feb17 and feb18:
-        gap = round((feb18["open"] / feb17["close"] - 1) * 100, 2)
-        print(f"    Feb 17 close: ${feb17['close']}  |  Feb 18 open: ${feb18['open']}  |  AH gap: {gap:+.2f}%")
+    jun02 = by_date.get("2026-06-02")
+    jun03 = by_date.get("2026-06-03")
+    if jun02 and jun03:
+        gap = round((jun03["open"] / jun02["close"] - 1) * 100, 2)
+        print(f"    Jun 02 close: ${jun02['close']}  |  Jun 03 open: ${jun03['open']}  |  AH gap: {gap:+.2f}%")
     print(f"    {len(records)} daily bars")
     write_raw("panw_price_daily.json", payload)
 
@@ -512,7 +512,7 @@ def gather_price_daily() -> None:
 # ---------------------------------------------------------------------------
 
 def gather_form4() -> None:
-    print("\n[6/6] edgartools → panw_q2fy26_form4_summary.json")
+    print("\n[6/6] edgartools → panw_q3fy26_form4_summary.json")
 
     try:
         import edgar
@@ -524,10 +524,10 @@ def gather_form4() -> None:
     edgar.set_identity("Aileron Group info@aileron-group.com")
 
     company = Company("PANW")
-    filings = company.get_filings(form="4", filing_date="2025-11-01:2026-02-17")
+    filings = company.get_filings(form="4", filing_date="2026-02-01:2026-06-02")
 
     if filings is None or len(filings) == 0:
-        fail("edgartools returned no Form 4 filings for PANW in the Q2 FY26 window")
+        fail("edgartools returned no Form 4 filings for PANW in the Q3 FY26 window")
 
     records = []
     for filing in filings:
@@ -582,15 +582,15 @@ def gather_form4() -> None:
 
     payload = {
         "source": "edgartools SEC EDGAR PANW Form 4",
-        "window": "2025-11-01 to 2026-02-17",
-        "window_rule": "Full Q2 FY26 fiscal quarter, post-earnings inclusive",
-        "retrieved_date": "2026-05-27",
+        "window": "2026-02-01 to 2026-06-02",
+        "window_rule": "Full Q3 FY26 fiscal quarter, post-earnings inclusive",
+        "retrieved_date": "2026-06-03",
         "filing_count": len(records),
         "filings": records,
     }
 
     print(f"    Form 4 filings: {len(records)}")
-    write_raw("panw_q2fy26_form4_summary.json", payload)
+    write_raw("panw_q3fy26_form4_summary.json", payload)
 
 
 # ---------------------------------------------------------------------------
@@ -661,6 +661,7 @@ def gather_edgar_xbrl() -> None:
         "Q3_FY25": "2025-04-30",
         "Q1_FY26": "2025-10-31",
         "Q2_FY26": "2026-01-31",
+        "Q3_FY26": "2026-04-30",
     }
     PANW_FY_END = {"FY23": "2023-07-31", "FY24": "2024-07-31", "FY25": "2025-07-31"}
 
@@ -697,7 +698,7 @@ def gather_edgar_xbrl() -> None:
     write_raw("panw_revenue_xbrl.json", {
         "source": "SEC EDGAR XBRL API",
         "note": "Single-quarter filter: 80-100 day duration. Q4 derived as FY_annual - Q1 - Q2 - Q3.",
-        "retrieved_date": "2026-05-27",
+        "retrieved_date": "2026-06-03",
         "quarterly_revenue_m": {p: round(v/1e6, 1) if v else None
                                  for p, v in sorted(quarterly_rev.items())},
         "annual_revenue_m": {fy: round(v/1e6, 1) if v else None
@@ -708,7 +709,7 @@ def gather_edgar_xbrl() -> None:
     # --- Peer GAAP gross margins (FTNT, ZS) ---
     peers_payload: dict = {
         "source": "SEC EDGAR XBRL API",
-        "retrieved_date": "2026-05-27",
+        "retrieved_date": "2026-06-03",
         "note": "GAAP gross margins only. Most recent reported single quarter per ticker.",
     }
 
@@ -745,7 +746,7 @@ def gather_edgar_xbrl() -> None:
 
 def main() -> None:
     print("=" * 60)
-    print("gather.py — PANW Q2 FY26 Data Gather")
+    print("gather.py — PANW Q3 FY26 Data Gather")
     print("=" * 60)
 
     RAW.mkdir(parents=True, exist_ok=True)

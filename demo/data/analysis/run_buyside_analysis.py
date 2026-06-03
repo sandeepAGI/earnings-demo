@@ -1,6 +1,6 @@
 """
-Buy-side framework analysis — PANW Q2 FY26
-Generates: panw_q2fy26_buyside_analysis.json
+Buy-side framework analysis — PANW Q3 FY26
+Generates: panw_q3fy26_buyside_analysis.json
 
 Architecture:
 - 5 fixed framework dimensions (reusable across quarters — only the answers change)
@@ -24,8 +24,8 @@ load_dotenv(Path(__file__).parent.parent.parent.parent / ".env")
 
 RAW  = Path(__file__).parent.parent / "raw"
 DB   = Path(__file__).parent.parent / "db" / "earnings.db"
-OUT  = Path(__file__).parent / "panw_q2fy26_buyside_analysis.json"
-SELL = Path(__file__).parent / "panw_q2fy26_earnings_analysis.json"
+OUT  = Path(__file__).parent / "panw_q3fy26_buyside_analysis.json"
+SELL = Path(__file__).parent / "panw_q3fy26_earnings_analysis.json"
 
 def require_file(p: Path) -> Path:
     if not p.exists():
@@ -136,16 +136,16 @@ DIMENSIONS = [
 # ── Load source data ──────────────────────────────────────────────────────────
 print("Loading source data...")
 sell_side  = load_json(SELL)
-guidance   = load_json(RAW / "panw_q2fy26_guidance.json")
-transcript = load_text(RAW / "panw_q2fy26_transcript.txt")
-qa_json    = load_json(RAW / "panw_q2fy26_transcript_qa.json")
+guidance   = load_json(RAW / "panw_q3fy26_guidance.json")
+transcript = load_text(RAW / "panw_q3fy26_transcript.txt")
+qa_json    = load_json(RAW / "panw_q3fy26_transcript_qa.json")
 crwd       = load_json(RAW / "crwd_q4fy26_results.json")
 supp       = load_json(RAW / "panw_supplemental_8q.json")
 
 conn = sqlite3.connect(DB)
 conn.row_factory = sqlite3.Row
 kpis = {r["kpi_name"]: r["kpi_value"] for r in conn.execute(
-    "SELECT kpi_name, kpi_value FROM company_kpis WHERE symbol='PANW' AND fiscal_period='Q2_FY26'"
+    "SELECT kpi_name, kpi_value FROM company_kpis WHERE symbol='PANW' AND fiscal_period='Q3_FY26'"
 ).fetchall()}
 conn.close()
 
@@ -154,10 +154,10 @@ context = f"""
 === SELL-SIDE RESEARCH NOTE (equity-research/earnings-analysis v0.1.0) ===
 {json.dumps(sell_side, indent=2)}
 
-=== KEY Q2 FY26 KPIs FROM DATABASE ===
+=== KEY Q3 FY26 KPIs FROM DATABASE ===
 {json.dumps(dict(kpis), indent=2)}
 
-=== Q2 FY26 GUIDANCE ===
+=== Q3 FY26 GUIDANCE ===
 {json.dumps(guidance, indent=2)}
 
 === CRWD Q4 FY26 RESULTS (peer) ===
@@ -188,7 +188,7 @@ Buy-side framework — {dimension} dimension:
 
 Horizon: {horizon} | Objective: {objective}
 
-Task: Apply this lens to the PANW Q2 FY26 print.
+Task: Apply this lens to the PANW Q3 FY26 print.
 
 Respond using exactly this format (include the delimiter lines verbatim):
 
@@ -198,7 +198,7 @@ The sharpest single question this dimension raises given the specific dynamics o
 Your direct answer: 2-4 tight paragraphs, specific numbers cited, data distinguished from inference"""
 
 RECOMMENDATION_PROMPT = """\
-You have completed a five-dimension buy-side analysis of PANW Q2 FY26.
+You have completed a five-dimension buy-side analysis of PANW Q3 FY26.
 
 Horizon: {horizon} | Objective: {objective}
 
@@ -280,8 +280,8 @@ print(f"    ✓ Stance: {recommendation.get('stance', '?')}")
 output = {
     "generated":   str(date.today()),
     "symbol":      "PANW",
-    "fiscal_period": "Q2_FY26",
-    "report_date": "2026-02-17",
+    "fiscal_period": "Q3_FY26",
+    "report_date": "2026-06-02",
     "framework":   FRAMEWORK,
     "dimensions":  results,
     "recommendation": recommendation,

@@ -1,5 +1,5 @@
 """
-Chat server for Tab 3 — PANW Q2 FY26 buy-side analysis
+Chat server for Tab 3 — PANW Q3 FY26 buy-side analysis
 Serves the dashboard HTML and a /chat SSE endpoint backed by Claude + Tavily.
 
 Usage:
@@ -42,32 +42,32 @@ def _load():
     raw_dir      = ROOT / "data" / "raw"
     db_path      = ROOT / "data" / "db" / "earnings.db"
 
-    sell = json.loads((analysis_dir / "panw_q2fy26_earnings_analysis.json").read_text())
-    buy  = json.loads((analysis_dir / "panw_q2fy26_buyside_analysis.json").read_text())
+    sell = json.loads((analysis_dir / "panw_q3fy26_earnings_analysis.json").read_text())
+    buy  = json.loads((analysis_dir / "panw_q3fy26_buyside_analysis.json").read_text())
     crwd = json.loads((raw_dir / "crwd_q4fy26_results.json").read_text())
 
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     kpis = {r["kpi_name"]: r["kpi_value"] for r in conn.execute(
-        "SELECT kpi_name, kpi_value FROM company_kpis WHERE symbol='PANW' AND fiscal_period='Q2_FY26'"
+        "SELECT kpi_name, kpi_value FROM company_kpis WHERE symbol='PANW' AND fiscal_period='Q3_FY26'"
     ).fetchall()}
     conn.close()
 
-    transcript = (raw_dir / "panw_q2fy26_transcript.txt").read_text()[:8000]
+    transcript = (raw_dir / "panw_q3fy26_transcript.txt").read_text()[:8000]
 
     return f"""
-=== PANW Q2 FY26 — ANALYSIS CONTEXT ===
-Report date: February 17, 2026. Fiscal period: Q2 FY26 (ending Jan 31, 2026).
+=== PANW Q3 FY26 — ANALYSIS CONTEXT ===
+Report date: June 2, 2026. Fiscal period: Q3 FY26 (ending Apr 30, 2026).
 
 --- SELL-SIDE RESEARCH NOTE (equity-research/earnings-analysis v0.1.0) ---
 Rating: {sell["steps"]["11_rating"]["rating"]} | PT: ${sell["steps"]["11_rating"]["price_target"]} | Upside: +{sell["steps"]["11_rating"]["implied_upside_pct"]}%
 EPS: ${sell["steps"]["5_beat_miss"]["eps_nongaap"]["actual"]} actual vs ${sell["steps"]["5_beat_miss"]["eps_nongaap"]["consensus"]:.3f} consensus (+{sell["steps"]["5_beat_miss"]["eps_nongaap"]["beat_pct"]}% beat)
 Revenue: ${sell["steps"]["5_beat_miss"]["revenue"]["actual_m"]}M (+{sell["steps"]["5_beat_miss"]["revenue"]["yoy_growth_pct"]}% YoY)
-NGS ARR: ${sell["steps"]["5_beat_miss"]["ngs_arr"]["actual_bn"]}B (+{sell["steps"]["5_beat_miss"]["ngs_arr"]["yoy_growth_pct"]}% reported, +{sell["steps"]["5_beat_miss"]["ngs_arr"]["organic_yoy_pct"]}% organic)
+NGS ARR: ${sell["steps"]["5_beat_miss"]["ngs_arr"]["actual_bn"]}B (+{sell["steps"]["5_beat_miss"]["ngs_arr"]["yoy_growth_pct"]}% reported)
 AH reaction: {sell["steps"]["5_beat_miss"]["stock_reaction"]["ah_change_pct"]:+.2f}%
-Q3 FY26 EPS guidance: ${sell["steps"]["8_guidance"]["q3_fy26"]["eps_midpoint"]} midpoint (vs Q2 actual $1.03)
-FY26 EPS guidance: ${sell["steps"]["8_guidance"]["fy26_full_year"]["eps_midpoint"]} midpoint (raised)
-Non-GAAP OI margin: {sell["steps"]["7_margin"]["q2_fy26"]["oi_margin_nongaap_pct"]}% (+{sell["steps"]["7_margin"]["yoy_delta_bps"]["oi_margin_nongaap"]}bps YoY)
+Q4 FY26 EPS guidance: ${sell["steps"]["8_guidance"]["q4_fy26"]["eps_midpoint"]} midpoint
+FY26 EPS guidance: ${sell["steps"]["8_guidance"]["fy26_full_year"]["eps_midpoint"]} midpoint ({sell["steps"]["8_guidance"]["fy26_full_year"]["revision"]})
+Non-GAAP OI margin: {sell["steps"]["7_margin"]["q3_fy26"]["oi_margin_nongaap_pct"]}% (+{sell["steps"]["7_margin"]["yoy_delta_bps"]["oi_margin_nongaap"]}bps YoY)
 Platformized customers: {sell["steps"]["6_segment_geo"]["platformized_customers"]}
 RPO: ${sell["steps"]["6_segment_geo"]["rpo_bn"]}B (+{sell["steps"]["6_segment_geo"]["rpo_yoy_pct"]}% YoY)
 Peer CRWD EV/Rev TTM: {sell["steps"]["10_valuation"]["peer_table"][0]["ev_rev_ttm_x"]}x | PANW NTM: {sell["steps"]["10_valuation"]["panw_ev_rev_ntm_x"]}x
@@ -90,7 +90,7 @@ CONTEXT = _load()
 print(f"  Context loaded: {len(CONTEXT):,} chars")
 
 SYSTEM = f"""You are a senior buy-side equity analyst covering enterprise cybersecurity.
-You have deep knowledge of Palo Alto Networks Q2 FY26 earnings (Feb 17, 2026).
+You have deep knowledge of Palo Alto Networks Q3 FY26 earnings (Jun 2, 2026).
 
 Your context includes the full sell-side research note, key financial metrics,
 a buy-side framework interrogation of the key questions, CRWD peer results,
@@ -108,7 +108,7 @@ Pre-loaded context:
 
 SEARCH_TOOL = {
     "name": "web_search",
-    "description": "Search the web for current market data, recent news, or competitor updates. Use when the question requires information after Feb 17, 2026 or current stock prices.",
+    "description": "Search the web for current market data, recent news, or competitor updates. Use when the question requires information after Jun 2, 2026 or current stock prices.",
     "input_schema": {
         "type": "object",
         "properties": {

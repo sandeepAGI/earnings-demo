@@ -1,6 +1,6 @@
 # Data Guide — Earnings Demo
 
-*Last updated: 2026-05-27. Maintained alongside raw data files. Update after every data pull.*
+*Last updated: 2026-06-03. Maintained alongside raw data files. Update after every data pull.*
 
 ---
 
@@ -17,10 +17,26 @@ If you are arriving at this file the evening before the workshop: go to **Phase 
 
 ## Current State
 
-**Test quarter:** PANW Q2 FY26 (fiscal period ending January 31, 2025, reported February 13, 2025).
-This data populates the demo until PANW Q3 FY26 (June 2 print) is available.
+**Live quarter:** PANW Q3 FY26 (fiscal period ending April 30, 2026, reported June 2, 2026).
+Q3 FY26 PDFs are in `demo/data/manual/`. Pipeline refresh in progress (June 3).
 
-**Database:** Not yet built. Raw files exist; schema TBD after sanity check.
+**Prior quarter (reference):** PANW Q2 FY26 (fiscal period ending January 31, 2026, reported
+February 17, 2026). Q2 FY26 raw files remain in `demo/data/raw/panw_q2fy26_*` as historical context.
+
+**Pipeline:** Fully automated — `demo/data/gather.py` (PDF extraction + yfinance + edgartools +
+SEC EDGAR XBRL) → `demo/data/rebuild_db.py` (SQLite, 13 tables) → tests → analysis scripts →
+`demo/generate_baseline.py` (HTML dashboard). Alpha Vantage was deprecated (all v3 endpoints
+blocked Aug 2025); replaced by yfinance + edgartools + SEC EDGAR XBRL.
+
+**Database:** `demo/data/db/earnings.db` — rebuilt on each run. Q2 FY26 build: 200 rows, 39/39
+provenance tests passing. Q3 FY26 rebuild pending pipeline run.
+
+---
+
+**Note on the File Manifest below:** The manifest was written during Q2 FY26 pipeline development
+(May 2026) and documents the Q2 FY26 source files. Many filenames and source notes are Q2-specific.
+The Q3 FY26 raw files will follow the same structure with `panw_q3fy26_` naming. Treat the manifest
+as a reference for data lineage and quality notes, not as a current file inventory.
 
 ---
 
@@ -147,104 +163,69 @@ This data populates the demo until PANW Q3 FY26 (June 2 print) is available.
 
 ---
 
-## Alpha Vantage API Notes
-- **Free tier:** 25 requests/day. Used ~15-20 calls across two sessions. Resets daily.
-- **Rate limit:** 1 request/second (burst causes silent failure — returns rate limit message instead of error).
+## API Stack (current)
+
+Alpha Vantage was deprecated in August 2025 — all v3 endpoints blocked on the free tier.
+The current stack in `gather.py`:
+
+- **Anthropic Claude API** — PDF extraction (supplemental, presentation, transcript → structured JSON)
+- **yfinance** — EPS history (earnings_history), daily price bars, peer financials
+- **edgartools** — SEC Form 4 insider transaction filings
+- **SEC EDGAR XBRL frames API** — GAAP metric backfill for historical quarters (no auth required)
+
+## Alpha Vantage Notes (historical — deprecated)
+
+The notes below were accurate for May 2026 when Alpha Vantage was the primary data source.
+Retained for reference on data lineage for the Q2 FY26 raw files.
+
+- **Free tier:** 25 requests/day. Rate limit: 1 request/second.
 - **Blocked on free tier:** EARNINGS_CALL_TRANSCRIPT, INSIDER_TRANSACTIONS, HISTORICAL_PUT_CALL_RATIO, HISTORICAL_OPTIONS.
-- **Resets at:** Midnight UTC (approximately 8 PM ET).
-- **Tomorrow's priority calls (if using AV again):** TIME_SERIES_DAILY for PANW (price context), CRWD/FTNT/ZS EARNINGS (peer EPS history), PANW BALANCE_SHEET (deferred revenue trend).
+- **Deprecated Aug 2025:** All v3 endpoints return 403 "Legacy Endpoint." Do not use.
 
 ---
 
 ## Phase B: Live Quarter Update
 
-*Run this after PANW Q3 FY26 reports on June 2, 2025 (after market close). Transcript typically available June 3 AM.*
+**Status as of June 3, 2026: IN PROGRESS.** Q3 FY26 print released June 2. All pipeline scripts
+updated. Q3 FY26 PDFs are in `demo/data/manual/`. Running now.
 
-### Timeline
-| When | What |
-|------|------|
-| June 2, ~4 PM ET | Results and press release published at investors.paloaltonetworks.com |
-| June 2, ~4:30 PM ET | Earnings call begins |
-| June 3, AM | Motley Fool transcript published |
-| June 3, by noon | Run full Phase B update |
-| June 4, morning | Final sanity check before workshop |
+**Phase B is now fully automated.** The manual steps documented below (May 2026) have been
+replaced by `demo/data/gather.py`, which handles PDF extraction, yfinance data pulls, edgartools
+Form 4 fetching, and SEC EDGAR XBRL backfill in a single script run.
 
----
+### Current pipeline sequence (June 3, 2026)
 
-### Step 1: Pull Q3 FY26 Press Release
-URL: `https://investors.paloaltonetworks.com/news-releases/news-releases`
-- Save as: `raw/panw_q3fy26_press_release.json`
-- Capture: revenue, product/sub breakdown, gross margin, GAAP/non-GAAP OI and EPS, NGS ARR, RPO, guidance for Q4 FY26 and FY26 full year
-- Template: copy `panw_q2fy26_press_release.json` and update all values
-- Key metrics to track vs. consensus: revenue, NGS ARR, non-GAAP EPS, operating margin guidance
+```bash
+python demo/data/gather.py                               # extract + pull all raw files
+python demo/data/rebuild_db.py                           # build earnings.db (13 tables)
+python -m pytest demo/data/tests/test_provenance.py -v  # validate 39 tests
+python demo/data/analysis/run_earnings_analysis.py       # sell-side analysis JSON
+python demo/data/analysis/run_buyside_analysis.py        # buy-side framework JSON
+python3 demo/generate_baseline.py                        # regenerate HTML dashboard
+```
 
-### Step 2: Pull Q3 FY26 Transcript
-URL: Motley Fool (`fool.com/earnings/call-transcripts/`) or Seeking Alpha
-- Save as: `raw/panw_q3fy26_transcript.txt`
-- Annotate as you save: mark sections on platformization updates, bear case challenges, guidance language
-- Template: use `panw_q2fy26_transcript.txt` format
+### Remaining manual step: Sentiment capture (before June 4)
 
-### Step 3: Pull Consensus Estimates for Q3 FY26
-- Alpha Vantage EARNINGS_ESTIMATES (resets daily — pull fresh)
-- Look for: Q3 FY26 (date: 2025-04-30) quarterly estimate row
-- Save/append to: `raw/panw_earnings_estimates.json`
+`panw_q3fy26_short_interest.txt` and `panw_q3fy26_put_call.txt` contain placeholders.
+Capture live figures via Playwright before the workshop:
 
-### Step 4: Pull EPS Actuals
-- Alpha Vantage EARNINGS endpoint for PANW
-- Append Q3 FY26 row to: `raw/panw_earnings.json`
-- Verify: reported date, actual EPS, consensus EPS, surprise %
+**Short interest:** MarketBeat PANW page → short interest % float and shares
 
-### Step 5: Update Income Statement Data
-- Either pull Alpha Vantage INCOME_STATEMENT (fresh) or extract from press release
-- Add Q3 FY26 quarterly row to: `raw/panw_income_statement.json`
-- Year-ago comp is Q3 FY25 (ending 2024-04-30)
+- Save to: `demo/data/raw/panw_q3fy26_short_interest.txt`
 
-### Step 6: Update Peer Snapshot
-- CRWD: Check if Q1 FY26 (ending April 30, 2025) has been reported — if yes, update
-- FTNT: Q1 2025 earnings (typically May) — update if available
-- ZS: Q3 FY25 (ending April 30, 2025) — update if available
-- Update: `raw/peer_snapshot.json`
+**Put/call ratio:** Barchart PANW put-call-ratios page → volume P/C around June 2 print
 
-### Step 7: Pull Sentiment Layer (Move 2 data)
-These are the three data points for the demo's sentiment layer. Pull fresh around the June 2 print:
+- Save to: `demo/data/raw/panw_q3fy26_put_call.txt`
 
-**Form 4 Insider Filings:**
-- URL: `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=PANW&type=4&dateb=&owner=include&count=40`
-- Look for: insider transactions in the 6 weeks before and after June 2
-- Save as: `raw/panw_q3fy26_form4_summary.txt`
-- Format: table of date, insider name, role, transaction type, shares, price, aggregate value
+After both files are updated, re-run `rebuild_db.py` and `generate_baseline.py` to populate
+the sentiment cards with real figures (confidence = actual, not placeholder).
 
-**Put/Call Ratio:**
-- URL: `https://www.barchart.com/stocks/quotes/PANW/put-call-ratios`
-- Look for: put/call ratio in the 2-3 weeks around June 2 (before and after)
-- Save as: `raw/panw_q3fy26_put_call.txt`
-- Format: date range, put/call ratios, interpretation (elevated put volume = bearish positioning)
+### Final sanity check (June 4 morning)
 
-**Short Interest:**
-- URL: `https://finra-markets.morningstar.com/MarketData/EquityOptions/detail.jsp?query=14%3A0P000003NZ`
-  or FINRA short interest page for PANW
-- Look for: most recent short interest settlement (typically mid-month) and delta from prior period
-- Save as: `raw/panw_q3fy26_short_interest.txt`
-- Format: date, short interest shares, float %, change from prior period
-
-### Step 8: Rebuild Database
-- Run the schema build and population scripts (to be built in Phase 10-11 of the task list)
-- Verify all tables populated with Q3 FY26 as the primary quarter
-
-### Step 9: Update HTML Frontend
-- The `earnings_baseline.html` file has hardcoded JSON data — update all metric values
-- Run a visual check: all 7 sections should show Q3 FY26 data with Q2 FY26 as the prior-quarter comp
-
-### Step 10: Update EARNINGS-ANALYSIS-GUIDE.md
-- Update the "current quarter" section with Q3 FY26 data
-- Add any new analytical themes from the Q3 call
-- Update the peer context section
-
-### Step 11: Final Sanity Check (June 4 morning)
-- Open `earnings_baseline.html` — verify all numbers match press release
-- Read first 5 minutes of transcript — verify you can speak to the key themes
-- Run the demo prompts in Cowork once with the Q3 data — just the first two moves
-- Pre-stage the Move 2 sentiment data block (Form 4, short interest, put/call) as a ready-to-paste text block
+1. Open `demo/earnings_baseline.html` — verify all numbers match Q3 FY26 press release
+2. Read first 5 minutes of transcript — verify you can speak to the key themes
+3. Start `python3 demo/server.py` and confirm Tab 3 chat loads with the live/online badge
+4. Test one Tab 3 question end to end — confirm SSE streaming and Tavily search work
 
 ---
 
@@ -253,6 +234,7 @@ These are the three data points for the demo's sentiment layer. Pull fresh aroun
 If the earnings are delayed or the print is unusable (e.g., accounting restatement):
 
 **Backup: PANW Q1 FY26 (October 31, 2024, reported November 19, 2024)**
+
 - All the same data structure applies
 - Peer context: use CRWD/FTNT/ZS quarters closest to November 2024
 - Transcript: available on Motley Fool

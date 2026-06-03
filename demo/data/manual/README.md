@@ -1,62 +1,56 @@
 # Manual Input Files
 
-This folder holds source files that cannot be retrieved via API and must be sourced manually.
+This folder holds source PDFs that cannot be retrieved via API and must be sourced manually.
 `gather.py` checks for required files here before running. If any are missing, it fails loudly
 with instructions on where to get them.
 
-Files placed here are ingested by `gather.py` → validated → written to `demo/data/raw/`.
-Do not write to `demo/data/raw/` directly for manually sourced content.
+`gather.py` extracts structured data from these PDFs via the Claude API (base64 PDF → structured
+JSON prompt → `demo/data/raw/`). Do not write to `demo/data/raw/` directly.
 
 ---
 
-## Required Files
+## Required Files — Q3 FY26 (Active Quarter)
 
-### 1. `panw_q2fy26_transcript.txt`
+All three files are already present for the June 2, 2026 print.
 
-**What:** Full text of the PANW Q2 FY26 earnings call (February 17, 2026).
+### 1. `Supplemental Financial Information Q3'26_vF.pdf`
 
-**Where to get it:**
-- PANW Investor Relations: https://investors.paloaltonetworks.com → Events & Presentations
-- Seeking Alpha (search "PANW Q2 2026 earnings call transcript")
-- The Motley Fool transcripts section
+**What:** PANW Q3 FY26 supplemental financial data — 8-quarter KPI history, ARR, deferred revenue,
+platformized customers, margin trends.
 
-**Format:** Plain text. Paste the full transcript including prepared remarks and Q&A.
-Remove any HTML tags if copying from a web page. The file should be UTF-8 encoded.
-
-**Minimum size:** ~15,000 characters (a typical earnings call is 8,000–20,000 words).
-`gather.py` will reject the file if it is under 5,000 characters.
+**Where to get it:** PANW Investor Relations: https://investors.paloaltonetworks.com → Financials → Quarterly Results
 
 ---
 
-### 2. `panw_q2fy26_press_release_supplement.json`
+### 2. `Q3'26 Earnings Presentation vF (6).pdf`
 
-**What:** Non-GAAP metrics, guidance, and stock reaction data from the Q2 FY26 press release.
-FMP's income statement endpoint provides GAAP P&L only. This file supplies the rest.
+**What:** Q3 FY26 earnings presentation slides — beat/miss summary, guidance, segment metrics.
 
-**Where to get it:**
-- Start from the template at `panw_q2fy26_press_release_supplement.TEMPLATE.json` in this folder.
-- Fill in values from the PANW Q2 FY26 press release PDF (available at PANW IR above).
-- Save the completed file as `panw_q2fy26_press_release_supplement.json`.
+**Where to get it:** Same IR page as above.
 
-**Fields required (see template for full structure):**
-- Non-GAAP gross margin %
-- Non-GAAP operating income and margin %
-- Non-GAAP EPS diluted
-- FCF and FCF margin %
-- Deferred revenue (current and long-term)
-- Platformized customers (from earnings call)
-- Guidance for Q3 FY26 (revenue range, EPS range, NGS ARR range)
-- Guidance for FY26 full year
-- Stock price reaction (close on earnings date, prior close)
+---
+
+### 3. `Palo Alto Networks Inc.(PANW-US) Q3 2026 Earnings Call 2-June-2026 4_30 PM ET.pdf`
+
+**What:** Full transcript PDF of the Q3 FY26 earnings call (June 2, 2026, 4:30 PM ET).
+
+**Where to get it:** Transcript services (AlphaSense, Seeking Alpha, S&P Capital IQ) or
+the PANW IR events page once the PDF becomes available.
 
 ---
 
 ## Process
 
-1. Save required files to this folder with the exact filenames above.
+1. Place the three PDFs above in this folder with the exact filenames shown.
 2. Run `python demo/data/gather.py` from the project root.
-3. `gather.py` validates each manual file (present, not empty, meets minimum size).
-4. Validated files are copied to `demo/data/raw/` and used in the DB rebuild.
+3. `gather.py` validates each PDF (present, non-zero size), then submits to the Claude API
+   for structured extraction, writing ~20 JSON/text files to `demo/data/raw/`.
+4. If a file fails validation, `gather.py` exits loudly — it does not proceed with partial data.
 
-If a file fails validation, `gather.py` prints the reason and exits — it does not proceed
-with partial data.
+---
+
+## Prior Quarter Reference (Q2 FY26)
+
+Q2 FY26 source PDFs are gitignored (`.gitignore` excludes `*.pdf`). The Q2 FY26 raw files
+extracted from those PDFs remain in `demo/data/raw/` under `panw_q2fy26_*` names and serve
+as historical context in the database.

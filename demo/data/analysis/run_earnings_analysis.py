@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PANW Q2 FY26 Earnings Analysis
+PANW Q3 FY26 Earnings Analysis
 Follows: equity-research/earnings-analysis skill (financial-services-plugins, v0.1.0)
 Workflow reference: .../equity-research/skills/earnings-analysis/references/workflow.md
 
@@ -41,14 +41,14 @@ from pathlib import Path
 
 RAW = Path(__file__).parent.parent / "raw"
 DB  = Path(__file__).parent.parent / "db" / "earnings.db"
-OUT = Path(__file__).parent / "panw_q2fy26_earnings_analysis.json"
+OUT = Path(__file__).parent / "panw_q3fy26_earnings_analysis.json"
 
 DEPARTURES = [
     {
         "id": "D1",
         "step": "1 — Data Freshness",
         "departure": "Pre-staged raw files used instead of live web search.",
-        "reason": "Workshop reproducibility — the same output must render reliably before June 4, 2026. Live fetch produces non-deterministic content.",
+        "reason": "Workshop reproducibility — the same output must render reliably for the June 4, 2026 workshop. Live fetch produces non-deterministic content.",
     },
     {
         "id": "D2",
@@ -88,34 +88,32 @@ def load_json(name: str) -> dict:
 print("[STEPS 1–4] Loading and verifying raw data files...")
 
 est   = load_json("panw_earnings_estimates.json")
-guide = load_json("panw_q2fy26_guidance.json")
+guide = load_json("panw_q3fy26_guidance.json")
 suppl = load_json("panw_supplemental_8q.json")
-qa    = load_json("panw_q2fy26_transcript_qa.json")
+qa    = load_json("panw_q3fy26_transcript_qa.json")
 crwd  = load_json("crwd_q4fy26_results.json")
 ftnt  = load_json("ftnt_q12026_results.json")
 zs    = load_json("zs_q3fy26_results.json")
 
-# Primary Q2 FY26 figures from supplemental (authoritative)
-q2     = next(q for q in suppl["quarters"] if q["fiscal_period"] == "Q2_FY26")
-q2_py  = next(q for q in suppl["quarters"] if q["fiscal_period"] == "Q2_FY25")  # prior year
+# Primary Q3 FY26 figures from supplemental (authoritative)
+q3     = next(q for q in suppl["quarters"] if q["fiscal_period"] == "Q3_FY26")
+q3_py  = next(q for q in suppl["quarters"] if q["fiscal_period"] == "Q3_FY25")  # prior year
 
 # EPS and consensus from earnings history
-q2_eps = next(e for e in est["earnings_history"] if e["fiscal_date_ending"] == "2026-01-31")
+q3_eps = next(e for e in est["earnings_history"] if e["fiscal_date_ending"] == "2026-04-30")
 
 # After-hours reaction from DB (verified actual — panw_price_daily.json)
 conn = sqlite3.connect(DB)
 conn.row_factory = sqlite3.Row
 kpi_rows = conn.execute(
-    "SELECT kpi_name, kpi_value FROM company_kpis WHERE symbol='PANW' AND fiscal_period='Q2_FY26'"
+    "SELECT kpi_name, kpi_value FROM company_kpis WHERE symbol='PANW' AND fiscal_period='Q3_FY26'"
 ).fetchall()
 conn.close()
 kpis = {r["kpi_name"]: r["kpi_value"] for r in kpi_rows}
 
-# Verify critical fields
-assert q2["eps_nongaap_diluted"] == 1.03, "Q2 FY26 EPS mismatch"
-assert q2_eps["eps_nongaap_actual"] == 1.03, "Earnings history EPS mismatch"
-print(f"  ✓ Q2 FY26 revenue: ${q2['revenue_total_m']:,}M | EPS: ${q2['eps_nongaap_diluted']}")
-print(f"  ✓ Consensus EPS: ${q2_eps['eps_nongaap_estimate']:.4f}")
+# Spot-check critical fields (expected values TBD — update after first run)
+print(f"  ✓ Q3 FY26 revenue: ${q3['revenue_total_m']:,}M | EPS: ${q3['eps_nongaap_diluted']}")
+print(f"  ✓ Consensus EPS: ${q3_eps['eps_nongaap_estimate']:.4f}")
 print(f"  ✓ AH reaction: {kpis.get('stock_ah_change_pct', 'missing')}%")
 
 
@@ -123,20 +121,21 @@ print(f"  ✓ AH reaction: {kpis.get('stock_ah_change_pct', 'missing')}%")
 
 print("\n[STEP 5] Beat/Miss Analysis...")
 
-eps_actual   = q2["eps_nongaap_diluted"]           # 1.03
-eps_cons     = q2_eps["eps_nongaap_estimate"]       # 0.93684
+eps_actual   = q3["eps_nongaap_diluted"]
+eps_cons     = q3_eps["eps_nongaap_estimate"]
 eps_beat     = round(eps_actual - eps_cons, 3)
-eps_beat_pct = round(q2_eps["eps_surprise_pct"], 1) # 9.94
+eps_beat_pct = round(q3_eps["eps_surprise_pct"], 1)
 
-rev_actual_m = q2["revenue_total_m"]               # 2594
-rev_yoy_pct  = q2["revenue_yoy_growth_pct"]        # 14.9
+rev_actual_m = q3["revenue_total_m"]
+rev_yoy_pct  = q3["revenue_yoy_growth_pct"]
 
-ngs_arr_bn  = guide["operational_kpis"]["ngs_arr_bn"]             # 6.33
-ngs_arr_yoy = guide["operational_kpis"]["ngs_arr_yoy_growth_pct"] # 33
-ngs_arr_organic_yoy = 28  # From transcript: "NGS ARR up 28% excluding Chronosphere"
+ngs_arr_bn  = guide["operational_kpis"]["ngs_arr_bn"]
+ngs_arr_yoy = guide["operational_kpis"]["ngs_arr_yoy_growth_pct"]
+# NOTE: update ngs_arr_organic_yoy after reading Q3 transcript (organic growth ex-acquisitions)
+ngs_arr_organic_yoy = None
 
-ah_pct     = float(kpis["stock_ah_change_pct"])   # -8.53
-close_px   = float(kpis["stock_close_day_of"])    # 163.50
+ah_pct     = float(kpis["stock_ah_change_pct"])
+close_px   = float(kpis["stock_close_day_of"])
 
 beat_miss = {
     "eps_nongaap": {
@@ -144,38 +143,34 @@ beat_miss = {
         "consensus":  round(eps_cons, 4),
         "beat":       eps_beat,
         "beat_pct":   eps_beat_pct,
-        "signal":     "beat",
-        "driver":     "Platformization velocity and operating leverage. Non-GAAP OI margin 30.3% — third consecutive quarter above 30%.",
+        "signal":     "beat" if eps_beat > 0 else "miss",
+        "driver":     "See transcript for management commentary on EPS drivers.",
     },
     "revenue": {
         "actual_m":      rev_actual_m,
         "consensus_m":   None,
         "yoy_growth_pct": rev_yoy_pct,
-        "note": "Revenue consensus not available in pre-staged files (null in yfinance free tier). "
-                "Organic revenue growth +14.9% YoY. Chronosphere acquisition closed Feb 2026.",
+        "note": "Revenue consensus not available in pre-staged files (null in yfinance free tier).",
     },
     "ngs_arr": {
         "actual_bn":          ngs_arr_bn,
         "yoy_growth_pct":     ngs_arr_yoy,
         "organic_yoy_pct":    ngs_arr_organic_yoy,
-        "note": "Reported +33% YoY includes Chronosphere acquisition. "
-                "Management cited +28% organic growth on the call. "
-                "Platformized customer count: 1,550.",
+        "note": f"NGS ARR +{ngs_arr_yoy}% YoY reported. "
+                f"Organic growth figure requires transcript review — set ngs_arr_organic_yoy above.",
     },
     "stock_reaction": {
         "ah_change_pct": ah_pct,
         "close_day_of":  close_px,
-        "open_next_day": 149.55,
-        "signal":        "bearish_despite_beat",
-        "driver": "Market sold the Q3 guidance, not the Q2 beat. "
-                  "Q3 EPS guided $0.79 midpoint vs Q2 actual $1.03 — sequential step-down of $0.24. "
-                  "M&A integration costs (CyberArk, Chronosphere) diluting near-term EPS.",
+        "open_next_day": float(kpis.get("stock_open_next_day", 0)) or None,
+        "signal":        "bearish_despite_beat" if ah_pct < -3 else ("bullish" if ah_pct > 3 else "neutral"),
+        "driver": "See transcript and guidance analysis for stock reaction context.",
     },
 }
 
 print(f"  EPS: ${eps_actual} actual vs ${round(eps_cons,3)} consensus → +${eps_beat} (+{eps_beat_pct}%)")
 print(f"  Revenue: ${rev_actual_m:,}M (+{rev_yoy_pct}% YoY)")
-print(f"  NGS ARR: ${ngs_arr_bn}B (+{ngs_arr_yoy}% reported, +{ngs_arr_organic_yoy}% organic)")
+print(f"  NGS ARR: ${ngs_arr_bn}B (+{ngs_arr_yoy}% reported)")
 print(f"  AH reaction: {ah_pct}%")
 
 
@@ -183,19 +178,19 @@ print(f"  AH reaction: {ah_pct}%")
 
 print("\n[STEP 6] Segment/Geo Analysis...")
 
-rev_prod  = q2["revenue_product_m"]              # 514
-rev_sub   = q2["revenue_subscription_support_m"] # 2080
+rev_prod  = q3["revenue_product_m"]
+rev_sub   = q3["revenue_subscription_support_m"]
 sub_mix   = round(rev_sub / rev_actual_m * 100, 1)
 
-prod_yoy  = round((rev_prod - q2_py["revenue_product_m"]) / q2_py["revenue_product_m"] * 100, 1)
-sub_yoy   = round((rev_sub  - q2_py["revenue_subscription_support_m"]) / q2_py["revenue_subscription_support_m"] * 100, 1)
+prod_yoy  = round((rev_prod - q3_py["revenue_product_m"]) / q3_py["revenue_product_m"] * 100, 1)
+sub_yoy   = round((rev_sub  - q3_py["revenue_subscription_support_m"]) / q3_py["revenue_subscription_support_m"] * 100, 1)
 
 # FCF and billings context
-fcf_m        = q2["fcf_m"]
-fcf_margin   = q2["fcf_margin_pct"]
-rpo_bn       = guide["operational_kpis"]["remaining_performance_obligations_bn"]  # 16.0
-rpo_yoy      = guide["operational_kpis"]["rpo_yoy_growth_pct"]                   # 23
-plat_count   = guide["operational_kpis"]["platformized_customers"]                # 1550
+fcf_m        = q3["fcf_m"]
+fcf_margin   = q3["fcf_margin_pct"]
+rpo_bn       = guide["operational_kpis"]["remaining_performance_obligations_bn"]
+rpo_yoy      = guide["operational_kpis"]["rpo_yoy_growth_pct"]
+plat_count   = guide["operational_kpis"]["platformized_customers"]
 
 segment_analysis = {
     "product_revenue_m":       rev_prod,
@@ -210,15 +205,13 @@ segment_analysis = {
     "platformized_customers":  plat_count,
     "segment_note": (
         f"Subscription/support is {sub_mix}% of total revenue — high recurring base. "
-        f"Product revenue +{prod_yoy}% YoY as platform consolidation drives firewall upgrades. "
-        f"FCF margin {fcf_margin}% is seasonally low (Q1 tends to be high due to annual billings timing). "
-        f"RPO ${rpo_bn}B (+{rpo_yoy}% YoY) provides strong forward revenue visibility."
+        f"Product revenue {prod_yoy:+.1f}% YoY. "
+        f"FCF margin {fcf_margin}% (Q3 is seasonally mid-range; Q1 tends to be highest due to annual billings). "
+        f"RPO ${rpo_bn}B (+{rpo_yoy}% YoY) provides forward revenue visibility."
     ),
     "geo_note": (
         "Geographic breakdown not available in supplemental data. "
-        "Full geo breakdown requires the 10-Q filing. "
-        "Prior year Q2 FY25: Americas +13%, EMEA +18%, JPAC +17% YoY. "
-        "Management cited 'broad-based strength across regions' on the Q2 FY26 call."
+        "Full geo breakdown requires the 10-Q filing."
     ),
 }
 
@@ -230,15 +223,15 @@ print(f"  Sub mix: {sub_mix}% | RPO: ${rpo_bn}B (+{rpo_yoy}% YoY)")
 
 print("\n[STEP 7] Margin Analysis...")
 
-gm_gaap    = q2["gross_margin_gaap_pct"]         # 73.6
-gm_ng      = q2["gross_margin_nongaap_pct"]      # 76.1
-oi_gaap    = q2["operating_margin_gaap_pct"]     # 15.3
-oi_ng      = q2["operating_margin_nongaap_pct"]  # 30.3
+gm_gaap    = q3["gross_margin_gaap_pct"]
+gm_ng      = q3["gross_margin_nongaap_pct"]
+oi_gaap    = q3["operating_margin_gaap_pct"]
+oi_ng      = q3["operating_margin_nongaap_pct"]
 
-gm_gaap_py = q2_py["gross_margin_gaap_pct"]      # 73.5
-gm_ng_py   = q2_py["gross_margin_nongaap_pct"]   # 76.6
-oi_ng_py   = q2_py["operating_margin_nongaap_pct"] # 28.4
-oi_gaap_py = q2_py["operating_margin_gaap_pct"]  # 10.7
+gm_gaap_py = q3_py["gross_margin_gaap_pct"]
+gm_ng_py   = q3_py["gross_margin_nongaap_pct"]
+oi_ng_py   = q3_py["operating_margin_nongaap_pct"]
+oi_gaap_py = q3_py["operating_margin_gaap_pct"]
 
 trajectory = [
     {
@@ -254,7 +247,7 @@ trajectory = [
 ]
 
 margin_analysis = {
-    "q2_fy26": {
+    "q3_fy26": {
         "gross_margin_gaap_pct":    gm_gaap,
         "gross_margin_nongaap_pct": gm_ng,
         "oi_margin_gaap_pct":       oi_gaap,
@@ -268,14 +261,10 @@ margin_analysis = {
         "oi_margin_gaap":       round((oi_gaap - oi_gaap_py) * 100),
     },
     "driver_note": (
-        f"Non-GAAP gross margin {gm_ng}% ({round((gm_ng - gm_ng_py)*100):+d}bps YoY) — "
-        f"slight compression from mix shift toward lower-margin product revenue. "
-        f"Non-GAAP OI margin {oi_ng}% ({round((oi_ng - oi_ng_py)*100):+d}bps YoY) — "
-        f"third consecutive quarter above 30%, driven by operating leverage on subscription base. "
-        f"GAAP OI margin {oi_gaap}% ({round((oi_gaap - oi_gaap_py)*100):+d}bps YoY improvement) — "
-        f"partly reflects Q2 FY25 litigation charge normalization. "
-        f"FCF margin {round(fcf_m / rev_actual_m * 100, 1)}% is seasonally low; "
-        f"Q1 FY26 was 68.2% due to annual billings concentration."
+        f"Non-GAAP gross margin {gm_ng}% ({round((gm_ng - gm_ng_py)*100):+d}bps YoY). "
+        f"Non-GAAP OI margin {oi_ng}% ({round((oi_ng - oi_ng_py)*100):+d}bps YoY). "
+        f"GAAP OI margin {oi_gaap}% ({round((oi_gaap - oi_gaap_py)*100):+d}bps YoY). "
+        f"FCF margin {round(fcf_m / rev_actual_m * 100, 1)}%."
     ),
     "trajectory": trajectory,
 }
@@ -288,43 +277,42 @@ print(f"  Non-GAAP OI margin: {oi_ng}% ({round((oi_ng-oi_ng_py)*100):+d}bps YoY)
 
 print("\n[STEP 8] Guidance Analysis...")
 
-q3g = guide["guidance_q3_fy26"]
+q4g = guide["guidance_q4_fy26"]
 fyg = guide["guidance_fy26_full_year"]
 
-q3_eps_mid  = round((q3g["eps_nongaap_low"] + q3g["eps_nongaap_high"]) / 2, 3)  # 0.790
-q3_rev_mid  = round((q3g["revenue_low_m"]   + q3g["revenue_high_m"])   / 2)     # 2943
-fy_eps_mid  = round((fyg["eps_nongaap_low"] + fyg["eps_nongaap_high"]) / 2, 3)  # 3.675
-fy_rev_mid  = round((fyg["revenue_low_m"]   + fyg["revenue_high_m"])   / 2)     # 11295
+q4_eps_mid  = round((q4g["eps_nongaap_low"] + q4g["eps_nongaap_high"]) / 2, 3)
+q4_rev_mid  = round((q4g["revenue_low_m"]   + q4g["revenue_high_m"])   / 2)
+fy_eps_mid  = round((fyg["eps_nongaap_low"] + fyg["eps_nongaap_high"]) / 2, 3)
+fy_rev_mid  = round((fyg["revenue_low_m"]   + fyg["revenue_high_m"])   / 2)
 
-eps_stepdown = round(eps_actual - q3_eps_mid, 3)  # 0.240 step-down
+eps_delta_to_q4 = round(eps_actual - q4_eps_mid, 3)  # positive = step-down, negative = step-up
 
 guidance_analysis = {
-    "q3_fy26": {
-        "revenue_range_m":  [q3g["revenue_low_m"], q3g["revenue_high_m"]],
-        "revenue_midpoint": q3_rev_mid,
-        "eps_range":        [q3g["eps_nongaap_low"], q3g["eps_nongaap_high"]],
-        "eps_midpoint":     q3_eps_mid,
-        "ngs_arr_range_bn": [q3g["ngs_arr_low_bn"], q3g["ngs_arr_high_bn"]],
-        "revision":         q3g["revision_vs_prior"],  # "initial"
+    "q4_fy26": {
+        "revenue_range_m":  [q4g["revenue_low_m"], q4g["revenue_high_m"]],
+        "revenue_midpoint": q4_rev_mid,
+        "eps_range":        [q4g["eps_nongaap_low"], q4g["eps_nongaap_high"]],
+        "eps_midpoint":     q4_eps_mid,
+        "ngs_arr_range_bn": [q4g.get("ngs_arr_low_bn"), q4g.get("ngs_arr_high_bn")],
+        "revision":         q4g["revision_vs_prior"],
     },
     "fy26_full_year": {
         "revenue_range_m":  [fyg["revenue_low_m"], fyg["revenue_high_m"]],
         "revenue_midpoint": fy_rev_mid,
         "eps_range":        [fyg["eps_nongaap_low"], fyg["eps_nongaap_high"]],
         "eps_midpoint":     fy_eps_mid,
-        "fcf_margin_pct":   fyg["fcf_margin_low_pct"],
-        "revision":         fyg["revision_vs_prior"],  # "raise"
+        "fcf_margin_pct":   fyg.get("fcf_margin_low_pct"),
+        "revision":         fyg["revision_vs_prior"],
     },
     "key_signals": {
-        "q3_eps_step_down":   f"Q3 midpoint ${q3_eps_mid:.2f} vs Q2 actual ${eps_actual:.2f} — step-down of ${eps_stepdown:.2f}",
-        "step_down_driver":   "M&A integration costs from CyberArk and Chronosphere acquisitions, both closed in Feb 2026. Near-term EPS dilution expected through H2 FY26.",
-        "fy_guidance_raised": fyg["revision_vs_prior"] == "raise",
-        "credibility_read":   "PANW has a consistent track record of conservative guidance and beating. The Q3 step-down has a clear M&A rationale. Risk: integration extends into FY27.",
-        "ngs_arr_trajectory": f"Q3 NGS ARR guided ${q3g['ngs_arr_low_bn']}–{q3g['ngs_arr_high_bn']}B implies continued platform momentum.",
+        "q4_eps_vs_q3_actual": f"Q4 midpoint ${q4_eps_mid:.2f} vs Q3 actual ${eps_actual:.2f} — {'step-down' if eps_delta_to_q4 > 0 else 'step-up'} of ${abs(eps_delta_to_q4):.2f}",
+        "fy_guidance_raised":  fyg["revision_vs_prior"] == "raise",
+        "credibility_read":    "PANW has a consistent track record of conservative guidance and beating. See transcript for management tone.",
+        "ngs_arr_trajectory":  f"Q4 NGS ARR guided ${q4g.get('ngs_arr_low_bn')}–{q4g.get('ngs_arr_high_bn')}B.",
     },
 }
 
-print(f"  Q3 EPS guidance: ${q3_eps_mid:.2f} midpoint (step-down of ${eps_stepdown:.2f} from Q2 actual)")
+print(f"  Q4 EPS guidance: ${q4_eps_mid:.2f} midpoint | Q3 actual: ${eps_actual:.2f}")
 print(f"  FY26 EPS: ${fy_eps_mid} midpoint | Revenue: ${fy_rev_mid:,}M midpoint (guidance {fyg['revision_vs_prior']}d)")
 
 
@@ -335,10 +323,11 @@ print("\n[STEP 9 / D2] Estimate Direction...")
 
 eps_hist_sorted = sorted(est["earnings_history"], key=lambda x: x["fiscal_date_ending"])
 
-q1_fy26_eps  = next(e["eps_nongaap_actual"] for e in eps_hist_sorted if e["fiscal_date_ending"] == "2025-10-31")
-h1_fy26_eps  = round(q1_fy26_eps + eps_actual, 2)                  # 0.93 + 1.03 = 1.96
-h2_fy26_imp  = round(fy_eps_mid - h1_fy26_eps, 3)                 # 3.675 - 1.96 = 1.715
-h2_avg_per_q = round(h2_fy26_imp / 2, 3)                          # 0.858
+q1_fy26_eps  = next((e["eps_nongaap_actual"] for e in eps_hist_sorted if e["fiscal_date_ending"] == "2025-10-31"), None)
+q2_fy26_eps  = next((e["eps_nongaap_actual"] for e in eps_hist_sorted if e["fiscal_date_ending"] == "2026-01-31"), None)
+h1_fy26_eps  = round(q1_fy26_eps + q2_fy26_eps, 2) if (q1_fy26_eps and q2_fy26_eps) else None
+h3q_fy26_eps = round(h1_fy26_eps + eps_actual, 2) if h1_fy26_eps else None
+q4_fy26_imp  = round(fy_eps_mid - h3q_fy26_eps, 3) if h3q_fy26_eps else None
 
 estimate_revisions = {
     "departure": "D2",
@@ -354,20 +343,21 @@ estimate_revisions = {
     ],
     "fy26_build": {
         "q1_actual":       q1_fy26_eps,
-        "q2_actual":       eps_actual,
+        "q2_actual":       q2_fy26_eps,
+        "q3_actual":       eps_actual,
         "h1_total":        h1_fy26_eps,
+        "first_3q_total":  h3q_fy26_eps,
         "fy26_midpoint":   fy_eps_mid,
-        "h2_implied":      h2_fy26_imp,
-        "h2_avg_per_qtr":  h2_avg_per_q,
+        "q4_implied":      q4_fy26_imp,
     },
     "direction": (
-        f"FY26 guidance raised. Near-term deceleration (Q3 ${q3_eps_mid:.2f}) reflects M&A dilution. "
-        f"H2 FY26 implied ${h2_fy26_imp:.3f} total (avg ${h2_avg_per_q:.3f}/quarter) "
-        f"suggests re-acceleration into Q4 FY26 beyond the initial integration dip."
+        f"FY26 guidance {fyg['revision_vs_prior']}. "
+        f"Q4 FY26 implied ${q4_fy26_imp:.3f} based on FY26 guidance midpoint ${fy_eps_mid} minus 3-quarter actuals."
+        if q4_fy26_imp else "FY26 build pending — check eps_history for prior quarter actuals."
     ),
 }
 
-print(f"  H1 FY26: ${h1_fy26_eps} | H2 FY26 implied: ${h2_fy26_imp} (avg ${h2_avg_per_q}/q)")
+print(f"  3Q FY26: ${h3q_fy26_eps} | Q4 FY26 implied: ${q4_fy26_imp}")
 
 
 # ── SKILL STEP 10 (D3): Valuation ─────────────────────────────────────────────
@@ -375,27 +365,25 @@ print(f"  H1 FY26: ${h1_fy26_eps} | H2 FY26 implied: ${h2_fy26_imp} (avg ${h2_av
 
 print("\n[STEP 10 / D3] Valuation...")
 
-shares_m     = q2["shares_diluted_m"]   # 711
-mktcap_b     = round(close_px * shares_m / 1000, 1)     # $B
+shares_m     = q3["shares_diluted_m"]
+mktcap_b     = round(close_px * shares_m / 1000, 1)
 
-ttm_revs = {
-    "Q3_FY25": 2289, "Q4_FY25": 2536, "Q1_FY26": 2474, "Q2_FY26": 2594
-}
+# TTM: Q4 FY25 + Q1 FY26 + Q2 FY26 + Q3 FY26
+ttm_periods = ["Q4_FY25", "Q1_FY26", "Q2_FY26", "Q3_FY26"]
 ttm_rev_m = sum(
     next(q["revenue_total_m"] for q in suppl["quarters"] if q["fiscal_period"] == p)
-    for p in ttm_revs
+    for p in ttm_periods
 )
 ev_ttm = round(mktcap_b / (ttm_rev_m / 1000), 1)
 
-# NTM: Q3 FY26 + Q4 FY26 implied + Q1 FY27 est + Q2 FY27 est
-q4_fy26_imp = fy_rev_mid - (2474 + 2594 + q3_rev_mid)   # 11295 - 7011 = 4284 ... wait
-# H1 FY26 = Q1 + Q2 = 2474 + 2594 = 5068
-# Q3 guided = 2943
-# Q4 implied = 11295 - 5068 - 2943 = 3284
-q4_fy26_imp = fy_rev_mid - 2474 - 2594 - q3_rev_mid        # 3284
-q1_fy27_est = round(2474 * 1.15)                            # ~2845
-q2_fy27_est = round(2594 * 1.15)                            # ~2983
-ntm_rev_m   = q3_rev_mid + q4_fy26_imp + q1_fy27_est + q2_fy27_est  # ~12055
+# NTM: Q4 FY26 (guided) + Q1 FY27 est + Q2 FY27 est + Q3 FY27 est
+q1_fy26_rev = next(q["revenue_total_m"] for q in suppl["quarters"] if q["fiscal_period"] == "Q1_FY26")
+q2_fy26_rev = next(q["revenue_total_m"] for q in suppl["quarters"] if q["fiscal_period"] == "Q2_FY26")
+q4_fy26_rev_imp = fy_rev_mid - q1_fy26_rev - q2_fy26_rev - rev_actual_m
+q1_fy27_est = round(q1_fy26_rev * 1.15)
+q2_fy27_est = round(q2_fy26_rev * 1.15)
+q3_fy27_est = round(rev_actual_m * 1.15)
+ntm_rev_m   = q4_fy26_rev_imp + q1_fy27_est + q2_fy27_est + q3_fy27_est
 
 ev_ntm   = round(mktcap_b / (ntm_rev_m / 1000), 1)
 
@@ -453,12 +441,12 @@ valuation = {
     "panw_ntm_rev_m":    ntm_rev_m,
     "panw_ev_rev_ntm_x": ev_ntm,
     "ntm_build": {
-        "q3_fy26_guided_m": q3_rev_mid,
-        "q4_fy26_implied_m": q4_fy26_imp,
+        "q4_fy26_implied_m": q4_fy26_rev_imp,
         "q1_fy27_est_m":    q1_fy27_est,
         "q2_fy27_est_m":    q2_fy27_est,
+        "q3_fy27_est_m":    q3_fy27_est,
         "total_ntm_m":      ntm_rev_m,
-        "assumption":       "FY27 H1 estimated at +15% YoY from FY26 H1 actuals",
+        "assumption":       "FY27 estimated at +15% YoY from FY26 actuals",
     },
     "target_multiple_range_x": [mult_lo, mult_hi],
     "pt_low":            pt_lo,
@@ -467,7 +455,7 @@ valuation = {
     "implied_upside_pct": upside_pct,
     "peer_table":        peer_table,
     "rationale": (
-        f"PANW trades at {ev_ttm}x TTM and {ev_ntm}x NTM EV/Revenue at the Feb 17 close of ${close_px}. "
+        f"PANW trades at {ev_ttm}x TTM and {ev_ntm}x NTM EV/Revenue at the Jun 2 close of ${close_px}. "
         f"Applying {mult_lo}–{mult_hi}x NTM (discount to CRWD's {crwd['ttm_from_overview']['ev_to_revenue_ttm']}x "
         f"reflects PANW's lower growth rate of ~{rev_yoy_pct}% vs CRWD's ~{crwd['quarterly_financials']['revenue_yoy_growth_pct']}%) "
         f"yields PT range ${pt_lo}–${pt_hi}. "
@@ -484,20 +472,19 @@ print(f"  NTM revenue: ${ntm_rev_m:,}M | PT range: ${pt_lo}–${pt_hi} | Midpoin
 
 print("\n[STEP 11] Rating Assessment (skill criteria applied)...")
 
-eps_sig_beat    = eps_beat_pct >= 5.0           # True  (9.9%)
-fy_raised       = fyg["revision_vs_prior"] == "raise"  # True
-q3_step_down    = q3_eps_mid < eps_actual       # True  ($0.79 < $1.03)
-stock_adjusted  = ah_pct < -5.0                 # True  (-8.53%)
+eps_sig_beat    = eps_beat_pct >= 5.0
+fy_raised       = fyg["revision_vs_prior"] == "raise"
+q4_step_down    = q4_eps_mid < eps_actual
+stock_adjusted  = ah_pct < -5.0
 
 # Skill logic:
 # "significantly better + guidance raised → Consider upgrade"
 # "inline or mixed → Usually maintain"
 # "significantly worse + guidance cut → Consider downgrade"
-if eps_sig_beat and fy_raised and not q3_step_down:
+if eps_sig_beat and fy_raised and not q4_step_down:
     rating = "Upgrade to Outperform"
     rating_short = "UPGRADE"
-elif eps_sig_beat and fy_raised and q3_step_down and stock_adjusted:
-    # Beat + FY raised, but near-term step-down already absorbed in price
+elif eps_sig_beat and fy_raised and q4_step_down and stock_adjusted:
     rating = "Maintain Outperform"
     rating_short = "MAINTAIN"
 elif not eps_sig_beat or not fy_raised:
@@ -528,26 +515,23 @@ rating_output = {
     "skill_criteria": {
         "eps_beat_significant": eps_sig_beat,
         "fy_guidance_raised":   fy_raised,
-        "q3_sequential_step_down": q3_step_down,
+        "q4_sequential_step_down": q4_step_down,
         "stock_already_adjusted":  stock_adjusted,
     },
     "rationale": (
-        f"EPS beat of +{eps_beat_pct}% and raised FY26 guidance (midpoint ${fy_eps_mid}) support "
-        f"the thesis. Q3 EPS guidance (${q3_eps_mid:.2f} midpoint) represents a ${eps_stepdown:.2f} "
-        f"sequential step-down from Q2 actual — driven by M&A integration costs from CyberArk and "
-        f"Chronosphere, both acquired in Feb 2026. Stock fell {abs(ah_pct):.1f}% AH, partially "
-        f"absorbing the near-term headwind. At {ev_ntm}x NTM EV/Revenue, valuation reflects the "
-        f"integration discount. Platform thesis intact: NGS ARR +{ngs_arr_yoy}% (organic +{ngs_arr_organic_yoy}%), "
-        f"1,550 platformized customers, RPO ${rpo_bn}B (+{rpo_yoy}% YoY). "
+        f"EPS beat of +{eps_beat_pct}% and FY26 guidance {fyg['revision_vs_prior']} (midpoint ${fy_eps_mid}) support "
+        f"the thesis. Q4 EPS guidance midpoint ${q4_eps_mid:.2f} vs Q3 actual ${eps_actual:.2f}. "
+        f"Stock {'fell' if ah_pct < 0 else 'rose'} {abs(ah_pct):.1f}% AH. "
+        f"Platform metrics: NGS ARR +{ngs_arr_yoy}%, {plat_count} platformized customers, RPO ${rpo_bn}B (+{rpo_yoy}% YoY). "
         f"PT ${pt_mid_val} based on {mult_lo}–{mult_hi}x NTM EV/Revenue ({upside_pct}% upside). "
         f"Q&A sentiment: {bullish_qa} bullish / {bearish_qa} bearish / {neutral_qa} neutral exchanges."
     ),
     "key_risks": [
-        "M&A integration (CyberArk, Chronosphere) extends beyond H2 FY26, further pressuring EPS",
-        "CRWD platform recovery intensifies — net new ARR +47% YoY signals competitive re-acceleration",
-        "Platformization strategy slows if customers consolidate more slowly than guided",
-        "NGS ARR organic growth gap vs. reported (28% vs 33%) widens if Chronosphere contribution disappoints",
-        "FCF margin recovery in H2 FY26 requires billings concentration — execution risk",
+        "Platformization velocity slows if customer consolidation pace disappoints",
+        "CRWD competitive recovery intensifies and captures consolidation deals",
+        "NGS ARR growth decelerates as large customer base matures",
+        "FY27 growth outlook uncertain if macro conditions soften enterprise security spend",
+        "FCF margin trajectory dependent on billings timing and M&A integration costs",
     ],
 }
 
@@ -560,8 +544,8 @@ print(f"  PT: ${pt_mid_val} (range ${pt_lo}–${pt_hi}) | Upside: +{upside_pct}%
 output = {
     "generated":      str(date.today()),
     "symbol":         "PANW",
-    "fiscal_period":  "Q2_FY26",
-    "report_date":    "2026-02-17",
+    "fiscal_period":  "Q3_FY26",
+    "report_date":    "2026-06-02",
     "skill_version":  "equity-research/earnings-analysis v0.1.0 (financial-services-plugins)",
     "departures":     DEPARTURES,
     "steps": {
