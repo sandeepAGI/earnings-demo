@@ -396,10 +396,42 @@ def gather_yf_estimates() -> None:
             "revenue_consensus_m": None,
         })
 
-    # Validate Q3 FY26 row
+    # Validate Q3 FY26 row — yfinance may lag by 1-2 days post-earnings; inject from PDFs if missing
     q3_rows = [r for r in history_records if r["fiscal_date_ending"] == "2026-04-30"]
     if not q3_rows:
-        fail("Q3 FY26 (2026-04-30) missing from yfinance earnings_history")
+        print("    [WARN] Q3 FY26 (2026-04-30) not yet in yfinance — injecting from PDF extractions")
+        # Pull EPS actual from supplemental, consensus from guidance beat_miss block
+        supp_path = RAW / "panw_supplemental_8q.json"
+        guid_path = RAW / "panw_q3fy26_guidance.json"
+        eps_actual = None
+        eps_consensus = None
+        rev_actual = None
+        if supp_path.exists():
+            supp = json.loads(supp_path.read_text())
+            q3s = next((q for q in supp.get("quarters", []) if q.get("fiscal_period") == "Q3_FY26"), None)
+            if q3s:
+                eps_actual = q3s.get("eps_nongaap_diluted")
+                rev_actual = q3s.get("revenue_total_m")
+        if guid_path.exists():
+            guid = json.loads(guid_path.read_text())
+            bm = guid.get("beat_miss_q3_fy26", {})
+            eps_consensus = bm.get("eps_nongaap_consensus")
+            if eps_actual is None:
+                eps_actual = bm.get("eps_nongaap_actual")
+        eps_beat_pct = None
+        if eps_actual is not None and eps_consensus is not None and eps_consensus > 0:
+            eps_beat_pct = round((eps_actual / eps_consensus - 1) * 100, 2)
+        synthetic = {
+            "fiscal_date_ending": "2026-04-30",
+            "eps_nongaap_actual": eps_actual,
+            "eps_nongaap_estimate": eps_consensus,
+            "eps_difference": round(eps_actual - eps_consensus, 4) if eps_actual and eps_consensus else None,
+            "eps_surprise_pct": eps_beat_pct,
+            "revenue_actual_m": rev_actual,
+            "revenue_consensus_m": None,
+        }
+        history_records.append(synthetic)
+        q3_rows = [synthetic]
 
     q3 = q3_rows[0]
     print(f"    Q3 FY26 non-GAAP EPS: actual={q3['eps_nongaap_actual']}  "

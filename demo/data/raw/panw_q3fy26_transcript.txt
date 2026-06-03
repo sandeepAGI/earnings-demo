@@ -1,0 +1,145 @@
+PREPARED REMARKS
+
+HAMZA FODDERWALA: Good day, everyone, and welcome to Palo Alto Networks Fiscal Third Quarter 2026 Earnings Conference Call. I am Hamza Fodderwala, Senior Vice President of Investor Relations and Strategic Finance. Please note that this call is being recorded today, Tuesday, June 2, 2026 at 1:30 PM Pacific Time.
+
+With me on today's call to discuss our fiscal third quarter results are Nikesh Arora, our Chairman and Chief Executive Officer; and Dipak Golechha, our Chief Financial Officer. Following our prepared remarks, Lee Klarich, our Chief Product and Technology Officer and board member, will join us for the question-and-answer portion.
+
+You can find the press release and other information to supplement today's discussion on our website at investors.paloaltonetworks.com. While there, please click on the link for Quarterly Results to find the Q3 2026 Supplemental Financials Information and Q3 2026 Earnings Presentation.
+
+During the course of today's call, we'll be making forward-looking statements and projections regarding the company's business operations and financial performance, as well as the company's recent acquisitions. These statements made today are subject to a number of risks and uncertainties that could cause our actual results to differ from these forward-looking statements.
+
+Please review our press release and recent SEC filings for a description of these risks and uncertainties. We assume no obligation to update any forward-looking statements made in today's presentation.
+
+Our presentation also contains non-GAAP financial measures and key metrics relating to the company's past and expected future performance. Non-GAAP financial measures should not be considered as substitute for financial measures made in accordance with GAAP.
+
+The most directly comparable GAAP financial metrics and reconciliations are in the press release and the appendix of the investor presentation. Unless otherwise noted, all results and comparisons are on a fiscal year-over-year basis.
+
+I will now turn the call over to Nikesh.
+
+NIKESH ARORA: Thank you, Hamza. Good afternoon, and thank you, everyone, for joining us today for our earnings call. As you can see, our Q3 performance was exceptional as we delivered a record quarter. Our results surpassed every guided metric, fueled by an acceleration in organic bookings momentum, the sustained tailwinds from our platformization strategy, and surging cybersecurity needs as AI transitions from experimental stages to enterprise-wide production.
+
+Within our core portfolio, we achieved significant traction in Network Security in XSIAM, while Prisma AIRS continues to establish itself as the fastest-scaling product in our history. Altogether, we delivered $8.13 billion in NGS ARR during the third quarter, representing 60% ARR growth. This is our most significant quarterly outperformance to-date and surpassed our guidance.
+
+Our RPO reached $18.4 billion, up 36% compared to last year. When adjusting for our recent CyberArk and Chronosphere acquisitions, both of which are exceeding expectations in their first quarter post close. Our organic NGS ARR and RPO rose 28% and 22%, respectively. These results are materializing as AI fundamentally redefines the enterprise tech stack, elevating cybersecurity to mission-critical priority for every organization.
+
+Much has been said about Mythos over the last many months. Over the past quarter, frontier AI development reached a critical inflection point. We have entered the era of truly cyber capable systems, where models like Mythos possess the autonomous capability to execute comprehensive attack campaigns from start to finish.
+
+This represents a fundamental paradigm shift for the cybersecurity industry. The most critical factor in this transition is speed. When weaponized by adversaries, these frontier models can identify and weaponize vulnerabilities in mere minutes, a process that previously required months of manual effort.
+
+Earlier this year, our Unit 42 researchers demonstrated the acceleration by simulating a comprehensive ransomware campaign from initial entry to data exfiltration in just 25 minutes. In contrast, the typical enterprise still requires days to identify a breach.
+
+These existing latency gaps are already a concern, but the emergence of these latest models makes them completely unsustainable. We believe this is merely the opening act. As Frontier AI development continues to accelerate, we anticipate a three to six-month window before these systems evolve into more sophisticated [ph] hacking capable (00:04:50) entities globally.
+
+Within a few years, we expect agentic AI to reach a level of autonomous execution that is truly unprecedented, scanning environments, generating bespoke exploits, and orchestrating end-to-end campaigns at machine speed without human intervention. That is the trajectory [ph] as a (00:05:09) modern threat landscape.
+
+However, the same technological leap provides a powerful defensive advantage. We validated this potential during the quarter, leveraging our strategic partnerships with leading frontier labs. We utilized early access to their most advanced models to complete the equivalent of a year's worth of pen testing in less than three weeks. This unique vantage point allowed us to introduce Unit 42 frontier AI defense, enabling our customers to fortify their environments against AI-driven attacks.
+
+Market reception has been exceptional. With north of 1,200 customers asking to meet us, we have already completed 800 meetings the last six weeks to help our customers think through their cybersecurity future. These meetings are driving conversations across the platform. In fact, we're already seeing strong interest in our agentic endpoint security offering since the acquisition of Koi and have already generated interest for over 150 customers. This is critical for securing rise in AI coding tools [ph] and (00:06:03) agents as they proliferate our endpoints.
+
+While identifying vulnerability is a critical first step, true mission-critical protection is achieved at runtime. Real-time inline defense is the only way to shield even unpatched infrastructure as an attack sequence unfolds. This is where the cybersecurity battle will be won or lost.
+
+Countering the next generation of adversaries requires a comprehensive architectural vision that goes far beyond simple large-language models. While the capabilities of these frontier systems are impressive, they are not a silver bullet for cybersecurity.
+
+We currently see two major structural challenges. First, the prevalence of false positives, with error rates often reaching 25%, forcing manual intervention that destroys the speed advantage of automation. Second, these models always fail at the last mile of complexity, leaving critical gaps in remediation and vulnerability management.
+
+In today's threat landscape, the most subtle 1% of novel attack techniques are what lead to the most devastating breaches. For every enterprise, the defensive bar must be perfect, while an attacker only needs to succeed once.
+
+The probabilistic nature of even the most advanced systems leads to inaccuracies, and in a mission-critical environment, the cost of a false positive is simply too high. One wrong enforcement decision can take down a global production network.
+
+Just as autonomous vehicles require constant real-time validation, an automated defense must be built on high-fidelity telemetry and battle-tested against every edge case to be mission-ready.
+
+An AI model is only as effective as the data it can see. As frontier models become available to everyone, the real competitive advantage shifts one model to the data fuel. That is why having sensors that sit in line with live traffic is so vital. They provide the telemetry and context needed to outmaneuver bad actors while serving as a critical enforcement point.
+
+The logic is simple, the more you integrate, the more you see, the more data you unify. The better the AI performs, the more you inspect at runtime, the faster you can stop an attack. Our global footprint now exceeds 125 million sensors across network, endpoint, and cloud, ingesting over 17 petabytes of daily telemetry. This scale creates a powerful flywheel.
+
+Every new sensor makes our entire platform more intelligent, which leads to more deployments, more data, and even stronger real-time protection. This reality is why platformization is the only sustainable answer. The legacy approach of query-based tools that wait for human reaction cannot keep up with machine speed threats.
+
+We're transforming the industry by consolidating data onto a single platform, reducing breach response times from days to minutes through AI-driven pre-analysis. Point products that silo data and increase latency are becoming obsolete. As the battle moves to fighting AI with AI, we believe Palo Alto Networks is in pole position, and our Q3 results prove that momentum.
+
+As AI compresses attack timelines, only a platform that gets smarter with scale can respond fast enough. During third quarter, we secured 110 net new platformizations, a figure that includes 20 from our CyberArk and Chronosphere integrations.
+
+These strategic additions expand our reach into large addressable markets within identity and observability. Given the fragmented nature of these sectors, they're perfectly aligned with our overarching platformization vision.
+
+We concluded Q3 with roughly 2,280 total platformized customers, bolstered by the inclusion of our latest acquisitions. These engagements represent deep architectural commitments rather than simple transactions.
+
+When organizations reach this integration milestone, they standardize their infrastructure on our platform, yielding superior long-term retention and expansion. This is reflected in our 120% net retention and single-digit churn rates amongst this cohort.
+
+Moving forward, we remain confident in surpassing 4,000 platformizations by fiscal 2030, providing the primary momentum towards our $20 billion target for NGS ARR. The scale and quality of our customer wins this quarter reflect how strategic these platform commitments have become and how customers are increasingly bringing us in to secure their production AI deployments at scale.
+
+Let me share a few examples. In Q3, we surpassed $200 million in ARR with the leading frontier AI lab that relies on us for observability across its most demanding training and inference clusters. We expect that to continue to grow again next quarter as they complete their migration to Chronosphere.
+
+One of our largest Q3 deals was the $80 million transaction with a leading power producer in the United States, an organization at the center of the AI infrastructure expansion. They selected our next-generation firewalls and also adopted SASE to secure distributed workforce over 25,000 employees.
+
+A global consulting leader signed a deal for over $20 million, selecting Prisma AIRS, our AI security platform, to secure its rapidly growing fleet of AI apps and agents, now running more than 2 trillion tokens per month on our platform. This was an existing platformized customer who spent several months working closely with us to secure this entirely new frontier. It was also a record Prisma AIRS win and speaks to how customers partners with us for their AI transformation journey.
+
+As AI raises the stake, these deals further validate our position as the cybersecurity partner of choice. That was particularly notable in our Network Security business, where we had our strongest Q3 in several years. Our largest business unit, Network Security, delivered its most robust third quarter performance in years. This momentum underscores the mission-critical role of real-time network traffic inspection, as enterprise-wide AI initiatives continue to transition to production. We saw strong growth in hardware, SASE, and software firewalls during the period.
+
+While we're in the early innings, we anticipate that AI will serve as a structural catalyst for deeper traffic inspection requirements. The initial phase of AI adoption was primarily conversational, but the shift towards agenetic AI represents a fundamental change. Unlike simple chatbots, autonomous agents trigger a massive volume of secondary machine-to-machine interactions, consistently accessing tools and data to complete complex workflows. This creates a surge in nonstop high-volume traffic that must be secured at runtime.
+
+This evolution directly translates into heightened demand for high-throughput hardware, expanded cloud-based software capacity, and the necessity for unified policy enforcement across the entire platform. Our Q3 results featured the strongest hardware performance in a decade, with next-generation firewall booking rising nearly 40% year-over-year. This was supported by our latest Gen 5 appliances in early access and AI data center buildouts. We're seeing early adoption from a new class of buyers, including sovereign infrastructure providers and AI labs, representing a significant new market as deployments move beyond traditional hyperscalers.
+
+A key differentiator for hardware portfolio remains the strength of our [ph] subscription attached (00:12:41), illustrating how our customers are standardizing security stack on our platform. Within our installed base, we currently average more than four subscriptions per device. Our innovation engine continues to expand this opportunity. We now provide 11 advanced subscriptions, including our Next-Generation Trust Security, which utilizes CyberArk's certificate management to address emerging compliance standards for shorter certificate lifestyles – lifespans.
+
+[indiscernible] (00:13:06) Palo Alto Networks remains the fastest-growing provider in the SASE market. In Q3, SASE ARR reached $1.6 billion, growing 40% year-over-year as customers prioritize unified protection across hybrid workforces and AI applications. Competitive momentum remains high, with nearly 50 displacement wins totaling $200 million in contract value year-to-date.
+
+Secure browser also achieved a major milestone, scaling to 11 million licenses, a fourfold increase that cements its status as a critical control point for the AI enterprise.
+
+Furthermore, software firewalls remain a high growth pillar of our strategy. ARR rose 25% in Q3, accelerating as organizations expand their capacity to inspect growing traffic between cloud and AI workloads. As these environments scale, the requirements for high-fidelity telemetry only increases.
+
+The common architectural approach [ph] that's (00:13:56) also increasing is driving increased customer growth in Prisma AIRS, which continues to be the fastest-growing product in our history. Organizations are aggressively moving beyond the experimental phase, deploying AI agents and applications into production. This transition creates entirely new mission-critical security demands. We believe we are the first in the industry to embrace AI security platformization, yes, AI security platformization capable of securing and monitoring AI end to end. We have effectively doubled our capabilities in this space in just over nine months.
+
+Our journey began with securing models in runtime defense. We then integrated identity security to govern agent access and observability to trace agent behavior across complex infrastructure. Most recently, we expanded to agentic endpoint security as AI tools proliferate across the edge.
+
+Our recent acquisition of Portkey marks yet another strategic milestone. As a leading AI gateway processing trillions of tokens monthly, Portkey provides a critical enforcement point to monitor every request to apply real-time policy to agent-to-agent interactions at scale.
+
+This relentless innovation has established Prisma AIRS as our fastest-growing product ever. Reached over 300 customers in Q3, tripling our Q2 count, and have clear visibility towards $100 million in ARR with the next couple of quarters for a product that was not in the market one year ago.
+
+Ultimately, securing the AI enterprise generates a massive volume of runtime telemetry. The data is only actionable if processed at machine speed, which is the core mission of our Cortex platform. XSIAM remains our primary response to the emerging frontier model threat. As attack cycles compress to machine speed, organizations can no longer rely on legacy query-based architectures or manual dashboards. Effectively, countering AI necessitates a defensive strategy powered by AI.
+
+Upon the introduction of XSIAM 42 months ago, we entered the sector as a disruptive innovator, engineering our platforms to ground up to redefine security ops centers. Today, our platform processes more than 17 petabytes of daily telemetry, volume unmatched by any other pure-play security vendor.
+
+We ended third quarter with more than $600 million in ARR, representing 100% year-over-year increase across a growing base of 740 customers. The most significant metric, however, is the outcome. The majority of our customers are now responding to threats in under 10 minutes. This is a dramatic reduction from the days or weeks previously required and serves as a blueprint for the modern SOC.
+
+In observability, our Q3 performance was well above our initial expectations. As AI initiatives generate a surge in telemetry, Chronosphere is a purpose-built capability to scale alongside these workloads. Our observability ARR surpassed $300 million this quarter, nearly doubling since our acquisition announcement last autumn.
+
+Furthermore, 80% of our net new customer acquisition this year adopted multiple products, reinforcing our platformization momentum. The world's leading AI natives, including two of the top five frontier labs, have adopted Chronosphere, validating our ability to provide observability at AI scale.
+
+Beyond our early investments in markets where AI would drive a positive inflection, we also recognized early where AI would overhaul existing security categories. Consider Posture Management. Traditional periodic scanning is insufficient when attack timelines are measured in minutes. As a result, we proactively transitioned our cloud portfolio from static posture to real-time detection through Cortex Cloud. We're making steady progress and anticipate most Prisma customers will be migrated to Cortex Cloud by the end of the fiscal year.
+
+Now, as these agents proliferate, every autonomous entity represents a new identity that must be managed, what leads directly to our progress with CyberArk. In our inaugural quarter post close, CyberArk has surpassed our internal benchmarks as we move to execute our unified vision for identity security. Last month, we launched Idira, our next-generation identity platform for the AI-driven enterprise.
+
+For years, the industry operated under the IAM fallacy, the belief that you only needed to secure a handful of privileged administrators. In the era of agentic AI, that distinction has vanished. Every identity, whether human, machine or software agent, now possesses the potential to access the sensitive systems at machine speed. Idira addresses this shift by democratizing modern PAM controls across all users and extending protection to agentic identities, which represent the primary attack vector of the future.
+
+Our execution in Q3 was strong. Joint go-to-market efforts have already initiated approximately 1,000 cross-org engagements. We have sustained CyberArk's growth trajectory while improving its profitability profile through our integration initiatives. Given our rapid progress, we're now three to six months ahead of our original timeline for converging CyberArk's profitability with our own, a milestone we expect to reach within the next 12 to 18 months. This acceleration reinforces our path towards a 40% free cash flow margin in fiscal 2028, which Dipak will talk about more.
+
+The events of the third quarter represent a watershed moment for cybersecurity and has elevated our category even higher on the CIO priority list. Mark my words, Mythos has increased the terminal value of the entire cybersecurity industry. We are identifying several structural catalysts from the AI cycle, driving growth across our platform. First, AI creates a massive surge in traffic and connection points, requiring real-time inspection. As agents trigger hundreds of second actions, network security becomes indispensable foundation for safe AI adoption.
+
+Second, countering machine-speed adversaries requires real-time automated defense. This is a core mission of XSIAM, consolidating data onto a single platform so AI can respond to threats in minutes rather than days. And third, in an environment populated by both human and agents, identity serves as a primary defensive layer. When autonomous entities can execute actions independently, securing access via Idira becomes mission-critical.
+
+The convergence of these trends validates our platformization strategy. Managing fragmented data and siloed point products is no longer viable in an AI-driven landscape. A unified platform that gains intelligence with scale is the only path forward. While we're still in the early stages of this shift, we remain committed to innovating ahead of the threat landscape and earning our customers' trust every day.
+
+I will now turn the call over to Dipak to discuss our financial results in greater detail.
+
+DIPAK GOLECHHA: Thank you, Nikesh, and good afternoon, everyone. We delivered a record Q3 with broad-based demand across our platforms and geographies. We exceeded our guidance ranges across the board, driven by an acceleration in organic bookings growth and outperformance from our recent acquisitions as we made early progress on our integration efforts.
+
+Please note that during my remarks, I will discuss results with and without the impact of Chronosphere and CyberArk. The financial impact of our acquisition of Koi, which closed later in the quarter, was immaterial to our Q3 results.
+
+Starting with next-generation security ARR, we delivered 60% year-over-year growth in Q3, reaching $8.13 billion. This included $1.63 billion from CyberArk and Chronosphere. We surpassed $300 million in ARR for Chronosphere, our next-generation observability platform. That was an over 50% increase from Q2 and far exceeded our expectations, driven by an existing LLM customer increasing consumption as they continue to migrate from an incumbent vendor.
+
+Excluding the impact of CyberArk and Chronosphere, NGS ARR was $6.5 billion, up 28% year-over-year, and net new NGS ARR was $370 million, up 18% year-over-year. Please note that this excludes ARR attached to our hardware backlog that also reached record levels for a Q3 quarter. We saw notable strength in Network Security, which is our largest segment and accounts for approximately 70% of our total revenue. All NetSec form factors delivered sustained or accelerating growth in Q3.
+
+In SASE, ARR reached $1.6 billion, up 40% year-over-year, more than two times the overall market growth rate. We have seen a nearly 50% increase in SASE net new NGS ARR over the trailing 12 months, driven by continued scale, strong performance in net new logos, and displacement wins.
+
+Software firewall showed strength once again this quarter, with ARR up 25% year-over-year, driven in part by the increase in Prisma AIRS and firewall Flex deals. As Nikesh highlighted, Prisma AIRS continues to be our fastest-growing product ever. We have over 300 Prisma AIRS as customers as of Q3, up from just 100 at the end of Q2. As AI adoption grows in the enterprise, we believe AIRS is becoming a foundational infrastructure for secure AI deployment.
+
+Turning to remaining performance obligation, or RPO, we ended the quarter at $18.4 billion, growing 36% year-over-year. Excluding $1.8 billion from CyberArk and Chronosphere, RPO grew 22% year-over-year, which we believe is a direct result of our platformization strategy, driving deeper customer commitments across our platforms. Current RPO was $8.3 billion, up 34% year-over-year. Excluding the impact from CyberArk and Chronosphere, current RPO was $7.2 billion and grew 17% year-over-year, an acceleration versus 15% in Q2.
+
+Total revenue for the quarter was $3 billion, growing 31% year-over-year. Product revenue was $594 million and total services revenue was $2.4 billion, both growing 31% year-over-year. As I've highlighted in previous quarters, software and recurring revenue now represent a large and growing portion of this line item.
+
+Today, product revenue includes major growth drivers, including software firewalls and Prisma AIRS, SD-WAN, and self-hosted identity security subscriptions. As a result, 46% of our trailing 12-month product revenue in Q3 included recurring software revenue, a significant increase from just 22% three years ago.
+
+Hardware, which is approximately 10% of our total revenue, delivered its best quarter in a decade, fueled by strong demand for our next-generation firewalls, and we saw early AI data center wins contributing to record Q3 backlog. Our next-generation firewall bookings grew nearly 40% year-over-year in Q3 as we continue to gain share. AI data centers and AI-driven enterprise networking needs are driving a new market opportunity for us, which could potentially be additive to our long-term growth for firewall appliances.
+
+From a geographic perspective, we saw broad-based growth across all of our major theaters, with the Americas growing 32% year-over-year, EMEA up 32% year-over-year, and JPAC growing 26% year-over-year.
+
+Moving down the P&L, our Q3 strength was not confined simply to our top line metrics as we continue to drive profitable growth across the P&L and executed against our M&A integration strategy. Total gross margin for the quarter was 75.8%. This included services gross margin of 75

@@ -1,0 +1,335 @@
+{
+  "generated": "2026-06-03",
+  "symbol": "PANW",
+  "fiscal_period": "Q3_FY26",
+  "report_date": "2026-06-02",
+  "skill_version": "equity-research/earnings-analysis v0.1.0 (financial-services-plugins)",
+  "departures": [
+    {
+      "id": "D1",
+      "step": "1 \u2014 Data Freshness",
+      "departure": "Pre-staged raw files used instead of live web search.",
+      "reason": "Workshop reproducibility \u2014 the same output must render reliably for the June 4, 2026 workshop. Live fetch produces non-deterministic content."
+    },
+    {
+      "id": "D2",
+      "step": "9 \u2014 Model Update",
+      "departure": "Directional EPS trajectory shown instead of old-vs-new model table.",
+      "reason": "No prior-quarter analyst model maintained for PANW in this pipeline. Consensus EPS history from yfinance used as substitute."
+    },
+    {
+      "id": "D3",
+      "step": "10 \u2014 Valuation",
+      "departure": "Peer NTM EV/Revenue multiples only \u2014 no DCF model.",
+      "reason": "No Bloomberg/FactSet access for live consensus forward estimates. Pre-staged peer files provide sufficient data for a directional price target range."
+    },
+    {
+      "id": "D4",
+      "step": "12\u201316 \u2014 Output Format",
+      "departure": "Structured JSON rendered as HTML (Tab 2) instead of 8\u201312 page DOCX.",
+      "reason": "Tab 2 of earnings_baseline.html is a web dashboard section. DOCX output format does not apply."
+    }
+  ],
+  "steps": {
+    "5_beat_miss": {
+      "eps_nongaap": {
+        "actual": 0.85,
+        "consensus": 0.8,
+        "beat": 0.05,
+        "beat_pct": 6.2,
+        "signal": "beat",
+        "driver": "See transcript for management commentary on EPS drivers."
+      },
+      "revenue": {
+        "actual_m": 3002,
+        "consensus_m": null,
+        "yoy_growth_pct": 31.1,
+        "note": "Revenue consensus not available in pre-staged files (null in yfinance free tier)."
+      },
+      "ngs_arr": {
+        "actual_bn": 8.13,
+        "yoy_growth_pct": 60.0,
+        "organic_yoy_pct": 28.0,
+        "note": "NGS ARR +60.0% YoY reported. Organic growth figure requires transcript review \u2014 set ngs_arr_organic_yoy above."
+      },
+      "stock_reaction": {
+        "ah_change_pct": -4.44,
+        "close_day_of": 297.18,
+        "open_next_day": null,
+        "signal": "bearish_despite_beat",
+        "driver": "See transcript and guidance analysis for stock reaction context."
+      }
+    },
+    "6_segment_geo": {
+      "product_revenue_m": 594,
+      "subscription_revenue_m": 2408,
+      "subscription_mix_pct": 80.2,
+      "product_yoy_pct": 31.1,
+      "subscription_yoy_pct": 31.2,
+      "fcf_m": 788,
+      "fcf_margin_pct": 26.2,
+      "rpo_bn": 18.4,
+      "rpo_yoy_pct": 36.0,
+      "platformized_customers": 2280,
+      "segment_note": "Subscription/support is 80.2% of total revenue \u2014 high recurring base. Product revenue +31.1% YoY. FCF margin 26.2% (Q3 is seasonally mid-range; Q1 tends to be highest due to annual billings). RPO $18.4B (+36.0% YoY) provides forward revenue visibility.",
+      "geo_note": "Geographic breakdown not available in supplemental data. Full geo breakdown requires the 10-Q filing."
+    },
+    "7_margin": {
+      "q3_fy26": {
+        "gross_margin_gaap_pct": 67.6,
+        "gross_margin_nongaap_pct": 75.8,
+        "oi_margin_gaap_pct": -6.1,
+        "oi_margin_nongaap_pct": 27.1,
+        "fcf_margin_pct": 26.2
+      },
+      "yoy_delta_bps": {
+        "gross_margin_gaap": -530,
+        "gross_margin_nongaap": -20,
+        "oi_margin_nongaap": -30,
+        "oi_margin_gaap": -1570
+      },
+      "driver_note": "Non-GAAP gross margin 75.8% (-20bps YoY). Non-GAAP OI margin 27.1% (-30bps YoY). GAAP OI margin -6.1% (-1570bps YoY). FCF margin 26.2%.",
+      "trajectory": [
+        {
+          "period": "Q3_FY26",
+          "gm_gaap_pct": 67.6,
+          "gm_nongaap_pct": 75.8,
+          "oi_gaap_pct": -6.1,
+          "oi_nongaap_pct": 27.1,
+          "fcf_margin_pct": 26.2
+        },
+        {
+          "period": "Q2_FY26",
+          "gm_gaap_pct": 73.6,
+          "gm_nongaap_pct": 76.1,
+          "oi_gaap_pct": 15.3,
+          "oi_nongaap_pct": 30.3,
+          "fcf_margin_pct": 14.8
+        },
+        {
+          "period": "Q1_FY26",
+          "gm_gaap_pct": 74.2,
+          "gm_nongaap_pct": 76.9,
+          "oi_gaap_pct": 12.5,
+          "oi_nongaap_pct": 30.2,
+          "fcf_margin_pct": 68.2
+        },
+        {
+          "period": "Q4_FY25",
+          "gm_gaap_pct": 73.2,
+          "gm_nongaap_pct": 75.8,
+          "oi_gaap_pct": 19.6,
+          "oi_nongaap_pct": 30.3,
+          "fcf_margin_pct": 36.8
+        },
+        {
+          "period": "Q3_FY25",
+          "gm_gaap_pct": 72.9,
+          "gm_nongaap_pct": 76.0,
+          "oi_gaap_pct": 9.6,
+          "oi_nongaap_pct": 27.4,
+          "fcf_margin_pct": 24.5
+        },
+        {
+          "period": "Q2_FY25",
+          "gm_gaap_pct": 73.5,
+          "gm_nongaap_pct": 76.6,
+          "oi_gaap_pct": 10.7,
+          "oi_nongaap_pct": 28.4,
+          "fcf_margin_pct": 22.6
+        },
+        {
+          "period": "Q1_FY25",
+          "gm_gaap_pct": 74.1,
+          "gm_nongaap_pct": 77.3,
+          "oi_gaap_pct": 13.4,
+          "oi_nongaap_pct": 28.8,
+          "fcf_margin_pct": 68.5
+        },
+        {
+          "period": "Q4_FY24",
+          "gm_gaap_pct": 73.8,
+          "gm_nongaap_pct": 76.8,
+          "oi_gaap_pct": 10.9,
+          "oi_nongaap_pct": 26.9,
+          "fcf_margin_pct": 21.3
+        }
+      ]
+    },
+    "8_guidance": {
+      "q4_fy26": {
+        "revenue_range_m": [
+          3345,
+          3355
+        ],
+        "revenue_midpoint": 3350,
+        "eps_range": [
+          0.96,
+          0.98
+        ],
+        "eps_midpoint": 0.97,
+        "ngs_arr_range_bn": [
+          8.9,
+          8.95
+        ],
+        "revision": "initial"
+      },
+      "fy26_full_year": {
+        "revenue_range_m": [
+          11415,
+          11425
+        ],
+        "revenue_midpoint": 11420,
+        "eps_range": [
+          3.77,
+          3.79
+        ],
+        "eps_midpoint": 3.78,
+        "fcf_margin_pct": 37.5,
+        "revision": "raise"
+      },
+      "key_signals": {
+        "q4_eps_vs_q3_actual": "Q4 midpoint $0.97 vs Q3 actual $0.85 \u2014 step-up of $0.12",
+        "fy_guidance_raised": true,
+        "credibility_read": "PANW has a consistent track record of conservative guidance and beating. See transcript for management tone.",
+        "ngs_arr_trajectory": "Q4 NGS ARR guided $8.9\u20138.95B."
+      }
+    },
+    "9_estimate_revisions": {
+      "departure": "D2",
+      "note": "No prior analyst model maintained. EPS trajectory shown instead of old-vs-new table.",
+      "eps_history": [
+        {
+          "period": "2025-04-30",
+          "actual": 0.8,
+          "estimate": 0.772,
+          "beat_pct": 3.6
+        },
+        {
+          "period": "2025-07-31",
+          "actual": 0.95,
+          "estimate": 0.885,
+          "beat_pct": 7.3
+        },
+        {
+          "period": "2025-10-31",
+          "actual": 0.93,
+          "estimate": 0.891,
+          "beat_pct": 4.4
+        },
+        {
+          "period": "2026-01-31",
+          "actual": 1.03,
+          "estimate": 0.937,
+          "beat_pct": 9.9
+        },
+        {
+          "period": "2026-04-30",
+          "actual": 0.85,
+          "estimate": 0.8,
+          "beat_pct": 6.2
+        }
+      ],
+      "fy26_build": {
+        "q1_actual": 0.93,
+        "q2_actual": 1.03,
+        "q3_actual": 0.85,
+        "h1_total": 1.96,
+        "first_3q_total": 2.81,
+        "fy26_midpoint": 3.78,
+        "q4_implied": 0.97
+      },
+      "direction": "FY26 guidance raise. Q4 FY26 implied $0.970 based on FY26 guidance midpoint $3.78 minus 3-quarter actuals."
+    },
+    "10_valuation": {
+      "departure": "D3",
+      "note": "No DCF. Peer NTM EV/Revenue multiples used for PT range.",
+      "panw_price": 297.18,
+      "panw_shares_m": 801,
+      "panw_mktcap_b": 238.0,
+      "panw_ttm_rev_m": 10606,
+      "panw_ev_rev_ttm_x": 22.4,
+      "panw_ntm_rev_m": 12630,
+      "panw_ev_rev_ntm_x": 18.8,
+      "ntm_build": {
+        "q4_fy26_implied_m": 3350,
+        "q1_fy27_est_m": 2845,
+        "q2_fy27_est_m": 2983,
+        "q3_fy27_est_m": 3452,
+        "total_ntm_m": 12630,
+        "assumption": "FY27 estimated at +15% YoY from FY26 actuals"
+      },
+      "target_multiple_range_x": [
+        10.0,
+        12.0
+      ],
+      "pt_low": 158,
+      "pt_high": 189,
+      "pt_midpoint": 174,
+      "implied_upside_pct": -41.4,
+      "peer_table": [
+        {
+          "symbol": "CRWD",
+          "ev_rev_ttm_x": 34.18,
+          "rev_growth_pct": 23.0,
+          "oi_margin_pct": 25.0,
+          "note": "Premium multiple reflects faster growth and ARR recovery"
+        },
+        {
+          "symbol": "FTNT",
+          "ev_rev_ttm_x": 12.5,
+          "rev_growth_pct": 20.0,
+          "oi_margin_pct": 35.8,
+          "note": "Margin leader; lower multiple reflects more hardware-oriented mix"
+        },
+        {
+          "symbol": "ZS",
+          "ev_rev_ttm_x": null,
+          "rev_growth_pct": 25.0,
+          "oi_margin_pct": 23.0,
+          "note": "EV not pre-staged; revenue miss this quarter notable"
+        },
+        {
+          "symbol": "PANW",
+          "ev_rev_ttm_x": 22.4,
+          "ev_rev_ntm_x": 18.8,
+          "rev_growth_pct": 31.1,
+          "oi_margin_pct": 27.1,
+          "note": "Subject company \u2014 NTM multiple computed"
+        }
+      ],
+      "rationale": "PANW trades at 22.4x TTM and 18.8x NTM EV/Revenue at the Jun 2 close of $297.18. Applying 10.0\u201312.0x NTM (discount to CRWD's 34.18x reflects PANW's lower growth rate of ~31.1% vs CRWD's ~23.0%) yields PT range $158\u2013$189. Midpoint $174 implies +-41.4% upside from post-earnings close."
+    },
+    "11_rating": {
+      "rating": "Upgrade to Outperform",
+      "rating_short": "UPGRADE",
+      "price_target": 174,
+      "pt_range": [
+        158,
+        189
+      ],
+      "current_price": 297.18,
+      "implied_upside_pct": -41.4,
+      "qa_signal_summary": {
+        "total_exchanges": 9,
+        "bullish": 9,
+        "bearish": 0,
+        "neutral": 0
+      },
+      "skill_criteria": {
+        "eps_beat_significant": true,
+        "fy_guidance_raised": true,
+        "q4_sequential_step_down": false,
+        "stock_already_adjusted": false
+      },
+      "rationale": "EPS beat of +6.2% and FY26 guidance raise (midpoint $3.78) support the thesis. Q4 EPS guidance midpoint $0.97 vs Q3 actual $0.85. Stock fell 4.4% AH. Platform metrics: NGS ARR +60.0%, 2280 platformized customers, RPO $18.4B (+36.0% YoY). PT $174 based on 10.0\u201312.0x NTM EV/Revenue (-41.4% upside). Q&A sentiment: 9 bullish / 0 bearish / 0 neutral exchanges.",
+      "key_risks": [
+        "Platformization velocity slows if customer consolidation pace disappoints",
+        "CRWD competitive recovery intensifies and captures consolidation deals",
+        "NGS ARR growth decelerates as large customer base matures",
+        "FY27 growth outlook uncertain if macro conditions soften enterprise security spend",
+        "FCF margin trajectory dependent on billings timing and M&A integration costs"
+      ]
+    }
+  }
+}

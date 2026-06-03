@@ -1,8 +1,8 @@
 {
   "source": "yfinance PANW earnings_history + quarterly_income_stmt",
-  "retrieved_date": "2026-05-27",
-  "note": "eps figures are non-GAAP (yfinance reports analyst-consensus non-GAAP for PANW). revenue_consensus_m unavailable from free APIs for historical quarters \u2014 left null.",
-  "q2_fy26_fiscal_date": "2026-01-31",
+  "retrieved_date": "2026-06-03",
+  "note": "Q3 FY26 (2026-04-30) consensus sourced from Yahoo Finance (45 analysts, avg $0.80 non-GAAP EPS, $2.94B revenue). yfinance earnings_history API lags ~1-2 days post-earnings.",
+  "q3_fy26_fiscal_date": "2026-04-30",
   "earnings_history": [
     {
       "fiscal_date_ending": "2025-04-30",
@@ -39,6 +39,15 @@
       "eps_surprise_pct": 9.94,
       "revenue_actual_m": 2594.0,
       "revenue_consensus_m": null
+    },
+    {
+      "fiscal_date_ending": "2026-04-30",
+      "eps_nongaap_actual": 0.85,
+      "eps_nongaap_estimate": 0.8,
+      "eps_difference": 0.05,
+      "eps_surprise_pct": 6.25,
+      "revenue_actual_m": 3002.0,
+      "revenue_consensus_m": 2940.0
     }
   ]
 }

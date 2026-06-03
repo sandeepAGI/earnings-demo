@@ -1,6 +1,6 @@
 {
   "source": "SEC EDGAR XBRL API",
-  "retrieved_date": "2026-05-27",
+  "retrieved_date": "2026-06-03",
   "note": "GAAP gross margins only. Most recent reported single quarter per ticker.",
   "ftnt_quarter_end": "2026-03-31",
   "ftnt_revenue_m": 1849.6,

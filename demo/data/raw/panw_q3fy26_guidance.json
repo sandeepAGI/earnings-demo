@@ -1,0 +1,39 @@
+{
+  "source_document": "Q3'26 Earnings Presentation vF (6).pdf",
+  "beat_miss_q3_fy26": {
+    "eps_nongaap_actual": 0.85,
+    "eps_nongaap_consensus": 0.8,
+    "eps_beat_pct": 6.25,
+    "revenue_actual_m": 3002,
+    "revenue_consensus_m": 2940.0,
+    "revenue_beat_pct": 2.11
+  },
+  "guidance_q4_fy26": {
+    "revenue_low_m": 3345,
+    "revenue_high_m": 3355,
+    "eps_nongaap_low": 0.96,
+    "eps_nongaap_high": 0.98,
+    "ngs_arr_low_bn": 8.9,
+    "ngs_arr_high_bn": 8.95,
+    "revision_vs_prior": "initial"
+  },
+  "guidance_fy26_full_year": {
+    "revenue_low_m": 11415,
+    "revenue_high_m": 11425,
+    "eps_nongaap_low": 3.77,
+    "eps_nongaap_high": 3.79,
+    "ngs_arr_low_bn": 8.9,
+    "ngs_arr_high_bn": 8.95,
+    "fcf_margin_low_pct": 37.5,
+    "fcf_margin_high_pct": 37.5,
+    "revision_vs_prior": "raise"
+  },
+  "operational_kpis": {
+    "platformized_customers": 2280,
+    "ngs_arr_bn": 8.13,
+    "ngs_arr_yoy_growth_pct": 60.0,
+    "remaining_performance_obligations_bn": 18.4,
+    "rpo_yoy_growth_pct": 36.0
+  },
+  "_consensus_source": "Yahoo Finance analysis page, 45 analysts, sourced 2026-06-03"
+}

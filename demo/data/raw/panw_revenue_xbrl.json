@@ -1,7 +1,7 @@
 {
   "source": "SEC EDGAR XBRL API",
   "note": "Single-quarter filter: 80-100 day duration. Q4 derived as FY_annual - Q1 - Q2 - Q3.",
-  "retrieved_date": "2026-05-27",
+  "retrieved_date": "2026-06-03",
   "quarterly_revenue_m": {
     "Q1_FY23": 1563.4,
     "Q1_FY24": 1878.1,
@@ -14,6 +14,7 @@
     "Q3_FY23": 1720.9,
     "Q3_FY24": 1984.8,
     "Q3_FY25": 2289.0,
+    "Q3_FY26": 3002.0,
     "Q4_FY23": 1953.3,
     "Q4_FY24": 2189.5,
     "Q4_FY25": 2536.3

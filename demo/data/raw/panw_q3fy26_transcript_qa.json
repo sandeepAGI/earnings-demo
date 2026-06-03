@@ -1,0 +1,162 @@
+{
+  "source_document": "Palo Alto Networks Inc.(PANW-US) Q3 2026 Earnings Call 2-June-2026 4_30 PM ET.pdf",
+  "call_date": "2026-06-02",
+  "company": "PANW",
+  "fiscal_period": "Q3_FY26",
+  "exchanges": [
+    {
+      "exchange_num": 1,
+      "analyst_name": "Saket Kalia",
+      "analyst_firm": "Barclays Capital",
+      "question_text": "Can you talk about how much AI data center demand is contributing to Network Security growth, and outside of AI data center builds, how are your other customers thinking about their network security needs as AI traffic grows?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "As more traffic traverses networks, more inspection is needed, and hardware is the cheapest and fastest throughput mechanism. The multiyear tailwind comes from more data needing to be stored by organizations and used for training by frontier labs. There's an explosion of data centers being built by hyperscalers, frontier labs, and neoclouds, driving demand to hardware vendors. Coupled with scarcity and component pricing, there are price increases adding to demand uplift. Hardware mix has gone from 5% to 8% to 10% to 12%, a 50% increase in industry demand. This trend should continue for the next few quarters, if not few years, until data center growth tapers off.",
+      "topics": [
+        "network security",
+        "AI",
+        "hardware",
+        "data centers",
+        "pricing"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "Management framed AI data center buildout as a multi-quarter to multi-year structural tailwind for firewall hardware demand, with both volume and pricing contributing."
+    },
+    {
+      "exchange_num": 2,
+      "analyst_name": "Brian Essex",
+      "analyst_firm": "JPMorgan Securities",
+      "question_text": "On Prisma AIRS, how are customers evaluating the ability of a platform to have more effective speed or meantime to detection and response as they look at the elevated threat environment following emergence of Mythos, GPT, and Project Glasswing?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "Over the last many years, we built native VM capability in many hyperscalers where models are hosted and AI artifacts sit, because AI is a cloud/hyperscaler event, and native firewalls there allow us to inspect both regular cloud and AI traffic. Lee then explained the end-to-end approach including shift-left (model scanning, AI red teaming), runtime detection/prevention, and the feed into the SOC. XSIAM's ability to ingest data, process at speed, and apply AI automation enables MTTR in minutes versus legacy MTTD in days, which is critical when attackers complete attacks start to finish in tens of minutes.",
+      "topics": [
+        "Prisma AIRS",
+        "AI",
+        "XSIAM",
+        "SOC",
+        "platformization"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "Management positioned native cloud firewall footprint plus XSIAM speed as core differentiators in the emerging AI-attack defense category, supporting Prisma AIRS adoption."
+    },
+    {
+      "exchange_num": 3,
+      "analyst_name": "Matthew Hedberg",
+      "analyst_firm": "RBC Capital Markets",
+      "question_text": "Within your observability platform, the $200 million AI frontier lab customer and $100 million of net new ARR added this quarter is impressive. Can you talk about how observability and security are converging and how that positions you to take share versus competitors that start with an observability-first solution?",
+      "respondent": "Lee Klarich",
+      "answer_text": "Each of these are specialized environments \u2014 you have to be really good at observability independently and at security independently. Previous attempts to expand from one to the other failed because you can't just bolt a little of one onto the other. XSIAM is best-in-class in security and Chronosphere is best-in-class in observability. Over time, data collected for observability will be valuable as a sensor for security in XSIAM, and security data will provide additional context for observability. Second, agentics is the foundation for AI-driven automated response across both platforms, starting with Cortex and expanding to Chronosphere, creating increased integration from a position of independent strength.",
+      "topics": [
+        "observability",
+        "Chronosphere",
+        "XSIAM",
+        "agentic AI",
+        "platformization"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "Management's convergence thesis frames Chronosphere and XSIAM as best-in-class standalones that will cross-pollinate via shared data and agentic AI, differentiating from observability-first competitors."
+    },
+    {
+      "exchange_num": 4,
+      "analyst_name": "Meta A. Marshall",
+      "analyst_firm": "Morgan Stanley",
+      "question_text": "Building on the $200 million opportunity with the frontier lab, how does that change how you're thinking about the opportunity with AI natives, and can you give a sense of the breadth of the platform they were buying within that deal?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "Each model has a different approach to observability \u2014 some are DIY, some use third parties. Chronosphere is particularly good at AI-native platforms including frontier AI labs and modern SaaS software companies. The observability market is maturing as companies realize DIY doesn't scale; the historical reluctance was cost. Chronosphere delivers the same capability at approximately half the cost of the industry. It's early days and we have a roadmap to bolster more capabilities to be fully competitive, but advanced practitioners already see the capability and are happy to use it. We hope it becomes another mainstay platform.",
+      "topics": [
+        "Chronosphere",
+        "observability",
+        "AI natives",
+        "pricing",
+        "roadmap"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "Chronosphere's cost advantage (~half of industry) is driving adoption among AI-native and modern SaaS customers, though management acknowledges the product roadmap still needs filling out for full competitiveness."
+    },
+    {
+      "exchange_num": 5,
+      "analyst_name": "Shaul Eyal",
+      "analyst_firm": "TD Cowen",
+      "question_text": "I want to double-click on Koi and agentic endpoint and the progress and interest you're seeing. There's a renaissance taking place at endpoint \u2014 can you tell us what's driving that?",
+      "respondent": "Lee Klarich",
+      "answer_text": "The endpoint hasn't really changed much for a while, but in the last 12 months most activity is becoming agentic. With vibe coding tools and things like OpenClaw, it's not just a new application \u2014 it brings a whole ecosystem of skills, hooks, scripts, MCP servers, etc. That requires specialized functionality you can't get by adding a couple features to existing endpoint products. We observed this starting last fall, identified Koi as uniquely capable, deployed it at Palo Alto Networks, and then acquired them. With new AI frontier models emerging, interest is even higher because vibe coding, AI development, and agentic endpoints will be critical to every organization.",
+      "topics": [
+        "Koi",
+        "endpoint",
+        "agentic AI",
+        "M&A"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "Agentic endpoint is emerging as a new product category driven by AI coding tools and MCP-based ecosystems, with Koi positioned as a differentiated entry point for PANW."
+    },
+    {
+      "exchange_num": 6,
+      "analyst_name": "Fatima Boolani",
+      "analyst_firm": "Citigroup Global Markets",
+      "question_text": "In the context of Unit 42, how much incremental investment do you expect to put behind that franchise and how capacity constrained are you? And how much of agentic SOC and agentic remediation are you dogfooding inside Unit 42 to drive scale, efficiency, and a product feedback loop?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "We've repurposed Unit 42 to focus primarily on frontier AI defense, with 1,200+ customer outreaches; Lee and I have personally done close to 100 meetings each. Customers will need near-endpoint capability like Koi, Prisma Access Browser, virtual patching in firewalls, and reimagined SOCs using XSIAM. Short-term Unit 42 focuses on testing code, configurations, and managed patching; long-term on transforming architectures. On agentic dogfooding, XSIAM was designed to pre-analyze data before ingestion and has agents running, reducing MTTR. There's lots of deterministic workflows and automation; over time customers will give agents more agency, but right now they want to see, observe, and approve. Customers are in 'phase zero' \u2014 making sure they collect all their data so they have context to react to AI attacks.",
+      "topics": [
+        "Unit 42",
+        "agentic AI",
+        "XSIAM",
+        "SOC",
+        "Mythos"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "Unit 42 has been repurposed around frontier AI defense with strong inbound customer demand, while XSIAM's agentic capabilities are being adopted at a measured pace as customers focus first on data collection."
+    },
+    {
+      "exchange_num": 7,
+      "analyst_name": "Michael Turrin",
+      "analyst_firm": "Wells Fargo Securities",
+      "question_text": "Can you expand on what you're seeing in terms of AI-driven demand, specifically how larger customer conversations have evolved since Mythos and if there's a greater sense of urgency heading into fiscal Q4? And what key metrics should we point to to gauge progress?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "Six months ago cybersecurity stocks were considered doomed because AI would protect everyone; now we're hiring more people and you can't execute cyber protection without a platform cybersecurity vendor. The 25% false positive rate in AI models means letting AI patch autonomously could break things, so humans remain essential. The big takeaway: if you thought the terminal value of cybersecurity was gone, it's here to stay \u2014 you've actually created a longer-term G in your model for cybersecurity growth. Demand won't get weak in Q4, Q1, or Q2. But don't get ahead of your skis \u2014 there's still a buying cycle and execution. I see good demand, demand will continue longer, but I don't expect a windfall next quarter \u2014 I expect robust growth.",
+      "topics": [
+        "AI",
+        "demand",
+        "terminal value",
+        "guidance",
+        "Mythos"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "Management explicitly raised long-term growth expectations for cybersecurity post-Mythos while tempering near-term windfall expectations, emphasizing durable rather than spike demand."
+    },
+    {
+      "exchange_num": 8,
+      "analyst_name": "Adam C. Borg",
+      "analyst_firm": "Stifel Nicolaus",
+      "question_text": "Can you go deeper into SASE \u2014 the results have been great, outpacing the market. Talk more about the traction overall and rank order whether it's across SSE, SD-WAN, Prisma browser, etc.?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "We're in the second wave of SASE. The first wave was internet access/VPNs which were feature capabilities. As we evolve, customers want a comprehensive network stack with single policy across capabilities \u2014 call it zero trust or network re-architecture. We've had SD-WAN for years but only sell it as part of SASE. Network architecture projects are showing up where customers already know Palo Alto security framework from firewalls and can replicate policies across the entire network stack including software firewalls and Prisma AIRS. Eight years ago customers were more willing to take best of breed; that willingness has subsided as products have normalized and companies matured. Customers are more comfortable with consolidated hardware, software, and SASE strategy. We're taking share from SASE-only vendors \u2014 firewalls aren't dead, and being a firewall leader with world-class SASE is winning in the market.",
+      "topics": [
+        "SASE",
+        "SD-WAN",
+        "platformization",
+        "competition",
+        "consolidation"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "PANW is winning SASE displacement deals by leveraging firewall installed-base familiarity and policy consolidation, with management explicitly calling out share gains from SASE-only competitors."
+    },
+    {
+      "exchange_num": 9,
+      "analyst_name": "John DiFucci",
+      "analyst_firm": "Guggenheim Securities",
+      "question_text": "On CyberArk \u2014 that looked better than I had modeled it before. Is this the first quarter you have your go-to-market behind it? Is it really the core PAM from CyberArk? Are you seeing machine identity taking hold yet, and how come it was so strong?",
+      "respondent": "Nikesh Arora",
+      "answer_text": "We continue to toil through migrating Prisma Cloud customers to Cortex Cloud \u2014 that's not contributing as well as other products, so the portfolio covers for slower brethren. On CyberArk, this is our first large acquisition and the biggest fear was breaking it \u2014 we didn't. The CyberArk product team is in Palo Alto offices this week. We're making sure the product gets more modern and innovative, going out to customers with the roadmap promising the PAM product will get better. We've done 1,000 cross-organization meetings. Plan: don't hurt top line, make existing customers want to upgrade \u2014 that's phase zero. We're on track not to break top line and improve profitability \u2014 six months ahead on profitability. We migrated one critical backend system already with four more major systems in the next four months, using AI to write new coding and sales capabilities. CyberArk is our chance to prove we can do amazing large acquisitions; if we prove it, the market gives us license to win again. It's existential.",
+      "topics": [
+        "CyberArk",
+        "M&A",
+        "PAM",
+        "Cortex Cloud",
+        "Prisma Cloud",
+        "integration",
+        "profitability"
+      ],
+      "key_signal": "bullish",
+      "analytical_note": "CyberArk integration is tracking ahead of plan on profitability (six months early) without disrupting top line, while management candidly flagged Prisma Cloud-to-Cortex Cloud migration as a remaining drag for the next six months."
+    }
+  ]
+}

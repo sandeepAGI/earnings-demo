@@ -1,18 +1,9 @@
 {
   "source": "yfinance PANW monthly 5y",
-  "retrieved_date": "2026-05-27",
+  "retrieved_date": "2026-06-03",
   "ticker": "PANW",
   "interval": "1mo",
   "records": [
-    {
-      "date": "2021-06-01",
-      "open": 61.0083,
-      "high": 64.4533,
-      "low": 58.4933,
-      "close": 61.8417,
-      "volume": 111604200,
-      "split_adjusted": 1
-    },
     {
       "date": "2021-07-01",
       "open": 61.6667,
@@ -538,10 +529,19 @@
     {
       "date": "2026-05-01",
       "open": 182.0,
-      "high": 261.41,
+      "high": 283.71,
       "low": 177.41,
-      "close": 248.47,
-      "volume": 148164806,
+      "close": 281.69,
+      "volume": 169300700,
+      "split_adjusted": 1
+    },
+    {
+      "date": "2026-06-01",
+      "open": 285.43,
+      "high": 302.95,
+      "low": 283.8,
+      "close": 297.18,
+      "volume": 48631221,
       "split_adjusted": 1
     }
   ]

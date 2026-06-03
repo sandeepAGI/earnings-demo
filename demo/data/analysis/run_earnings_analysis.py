@@ -131,8 +131,9 @@ rev_yoy_pct  = q3["revenue_yoy_growth_pct"]
 
 ngs_arr_bn  = guide["operational_kpis"]["ngs_arr_bn"]
 ngs_arr_yoy = guide["operational_kpis"]["ngs_arr_yoy_growth_pct"]
-# NOTE: update ngs_arr_organic_yoy after reading Q3 transcript (organic growth ex-acquisitions)
-ngs_arr_organic_yoy = None
+# Organic NGS ARR growth ex-CyberArk and Chronosphere acquisitions (confirmed from Q3 transcript)
+# Total NGS ARR $8.13B +60% YoY; organic (ex-acq) $6.5B +28% YoY. Delta is acquisition-driven.
+ngs_arr_organic_yoy = 28.0
 
 ah_pct     = float(kpis["stock_ah_change_pct"])
 close_px   = float(kpis["stock_close_day_of"])

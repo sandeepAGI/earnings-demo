@@ -1433,9 +1433,9 @@ if _an:
         )
 
     # ── Guidance table rows ──────────────────────────────────────────────────
-    _q3_rev  = f'${_s8["q3_fy26"]["revenue_midpoint"]:,}M'
-    _q3_eps  = f'${_s8["q3_fy26"]["eps_midpoint"]}'
-    _q3_arr  = f'${_s8["q3_fy26"]["ngs_arr_range_bn"][0]}–{_s8["q3_fy26"]["ngs_arr_range_bn"][1]}B'
+    _q3_rev  = f'${_s8["q4_fy26"]["revenue_midpoint"]:,}M'
+    _q3_eps  = f'${_s8["q4_fy26"]["eps_midpoint"]}'
+    _q3_arr  = f'${_s8["q4_fy26"]["ngs_arr_range_bn"][0]}–{_s8["q4_fy26"]["ngs_arr_range_bn"][1]}B'
     _fy_rev  = f'${_s8["fy26_full_year"]["revenue_midpoint"]:,}M'
     _fy_eps  = f'${_s8["fy26_full_year"]["eps_midpoint"]}'
 
@@ -1577,8 +1577,8 @@ if _an:
         <table class="an-tbl" style="margin-bottom:10px">
           <thead><tr><th>Margin (Non-GAAP)</th><th>Q3 FY26</th><th>YoY</th><th>FCF</th></tr></thead>
           <tbody>
-            <tr><td>Gross Margin</td><td class="num">{_s7["q2_fy26"]["gross_margin_nongaap_pct"]}%</td><td class="num">{_s7["yoy_delta_bps"]["gross_margin_nongaap"]:+d}bps</td><td class="muted" rowspan="2" style="vertical-align:middle">FCF {_s7["q2_fy26"]["fcf_margin_pct"]}%<br><span style="font-size:10px">Q1 FY26: 68.2%</span></td></tr>
-            <tr class="highlight"><td><strong>OI Margin</strong></td><td class="num"><strong>{_s7["q2_fy26"]["oi_margin_nongaap_pct"]}%</strong></td><td class="num pos"><strong>+{_s7["yoy_delta_bps"]["oi_margin_nongaap"]}bps</strong></td></tr>
+            <tr><td>Gross Margin</td><td class="num">{_s7["q3_fy26"]["gross_margin_nongaap_pct"]}%</td><td class="num">{_s7["yoy_delta_bps"]["gross_margin_nongaap"]:+d}bps</td><td class="muted" rowspan="2" style="vertical-align:middle">FCF {_s7["q3_fy26"]["fcf_margin_pct"]}%<br><span style="font-size:10px">Q1 FY26: 68.2%</span></td></tr>
+            <tr class="highlight"><td><strong>OI Margin</strong></td><td class="num"><strong>{_s7["q3_fy26"]["oi_margin_nongaap_pct"]}%</strong></td><td class="num pos"><strong>+{_s7["yoy_delta_bps"]["oi_margin_nongaap"]}bps</strong></td></tr>
           </tbody>
         </table>
         <table class="an-tbl">
@@ -1607,11 +1607,11 @@ if _an:
       </thead>
       <tbody>
         <tr>
-          <td><strong>Q3 FY26</strong></td>
-          <td class="num">{_q3_rev} <span style="font-size:10px;color:#888">(${_s8["q3_fy26"]["revenue_range_m"][0]}–{_s8["q3_fy26"]["revenue_range_m"][1]}M)</span></td>
-          <td class="num neg"><strong>{_q3_eps}</strong> <span style="font-size:10px;color:#888">(${_s8["q3_fy26"]["eps_range"][0]}–{_s8["q3_fy26"]["eps_range"][1]})</span></td>
+          <td><strong>Q4 FY26</strong></td>
+          <td class="num">{_q3_rev} <span style="font-size:10px;color:#888">(${_s8["q4_fy26"]["revenue_range_m"][0]}–{_s8["q4_fy26"]["revenue_range_m"][1]}M)</span></td>
+          <td class="num neg"><strong>{_q3_eps}</strong> <span style="font-size:10px;color:#888">(${_s8["q4_fy26"]["eps_range"][0]}–{_s8["q4_fy26"]["eps_range"][1]})</span></td>
           <td class="num">{_q3_arr}</td>
-          <td class="muted">{_s8["q3_fy26"]["revision"]}</td>
+          <td class="muted">{_s8["q4_fy26"]["revision"]}</td>
         </tr>
         <tr class="highlight">
           <td><strong>FY26 Full Year</strong></td>
@@ -1622,11 +1622,14 @@ if _an:
         </tr>
       </tbody>
     </table>
-    <div class="rn-callout neg">
-      <strong>Q3 step-down:</strong> {_s8["key_signals"]["q3_eps_step_down"]} &nbsp;·&nbsp; {_s8["key_signals"]["step_down_driver"]}
+    <div class="rn-callout pos">
+      <strong>Q4 step-up:</strong> {_s8["key_signals"]["q4_eps_vs_q3_actual"]}
     </div>
     <div class="rn-callout pos" style="margin-top:8px">
       <strong>Full-year credibility:</strong> {_s8["key_signals"]["credibility_read"]}
+    </div>
+    <div class="rn-callout" style="margin-top:8px">
+      <strong>NGS ARR trajectory:</strong> {_s8["key_signals"]["ngs_arr_trajectory"]}
     </div>
   </div>
 </div>
@@ -1663,7 +1666,7 @@ if _an:
       </div>
       <div class="rn-prose" style="padding-top:4px">
         <p>{_s9["direction"]}</p>
-        <p>FY26 EPS build: H1 actual ${_s9["fy26_build"]["h1_total"]} (Q1 ${_s9["fy26_build"]["q1_actual"]} + Q2 ${_s9["fy26_build"]["q2_actual"]}). FY26 midpoint ${_s9["fy26_build"]["fy26_midpoint"]} implies H2 of ${_s9["fy26_build"]["h2_implied"]} (avg ${_s9["fy26_build"]["h2_avg_per_qtr"]}/quarter), suggesting re-acceleration into Q4 FY26 beyond the initial M&amp;A integration dip.</p>
+        <p>FY26 EPS build: Q1–Q3 actual ${_s9["fy26_build"]["first_3q_total"]} (Q1 ${_s9["fy26_build"]["q1_actual"]} + Q2 ${_s9["fy26_build"]["q2_actual"]} + Q3 ${_s9["fy26_build"]["q3_actual"]}). FY26 midpoint ${_s9["fy26_build"]["fy26_midpoint"]} implies Q4 of ${_s9["fy26_build"]["q4_implied"]}.</p>
       </div>
     </div>
   </div>
@@ -1684,7 +1687,7 @@ if _an:
     <div class="rn-prose">
       <p>{_s10["rationale"]}</p>
       <p style="font-size:11.5px;color:#888">
-        NTM revenue estimate: Q3 FY26 guided ${_s10["ntm_build"]["q3_fy26_guided_m"]:,}M + Q4 FY26 implied ${_s10["ntm_build"]["q4_fy26_implied_m"]:,}M + Q1–Q2 FY27 estimated ${_s10["ntm_build"]["q1_fy27_est_m"]:,}M / ${_s10["ntm_build"]["q2_fy27_est_m"]:,}M = <strong>${_s10["ntm_build"]["total_ntm_m"]:,}M</strong>. {_s10["ntm_build"]["assumption"]}.
+        NTM revenue estimate: Q4 FY26 implied ${_s10["ntm_build"]["q4_fy26_implied_m"]:,}M + Q1 FY27 ${_s10["ntm_build"]["q1_fy27_est_m"]:,}M + Q2 FY27 ${_s10["ntm_build"]["q2_fy27_est_m"]:,}M + Q3 FY27 ${_s10["ntm_build"]["q3_fy27_est_m"]:,}M = <strong>${_s10["ntm_build"]["total_ntm_m"]:,}M</strong>. {_s10["ntm_build"]["assumption"]}.
       </p>
     </div>
   </div>
