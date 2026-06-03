@@ -1,8 +1,37 @@
 PANW Short Interest — Q3 FY26 Earnings Window (June 2026)
 
-NOTE: Placeholder. Capture live data from MarketBeat via Playwright before June 4 workshop.
-Target: most recent report before June 2, 2026 earnings call.
-Fields to capture: shares short (M), float %, days to cover, prior report for comparison.
+Source: MarketBeat (https://www.marketbeat.com/stocks/NASDAQ/PANW/short-interest/)
+Captured: 2026-06-03 via Playwright
 
-Prior quarter reference (Q2 FY26, Feb 2026):
-  Last report before earnings (2026-02-13): 2.8% float, significant short covering vs prior report.
+Most recent report before June 2 earnings (May 15, 2026):
+  Shares short:        27,988,535
+  % of float:          3.48%
+  Days to cover:       3.4
+  Dollar volume short: $6.80 billion
+  Change vs prior:     +11.1% (from 25,198,205 on Apr 30, 2026)
+  Price on date:       $242.83
+
+Prior report (April 30, 2026):
+  Shares short:        25,198,205
+  % of float:          3.1%
+  Days to cover:       4.12
+  Dollar volume short: $4.52 billion
+  Price on date:       $179.32
+
+Trend context:
+  Short interest dropped from ~6.7% float (Jan 30, 2026: 46.3M shares) to 3.48% by May 15.
+  The Jan→Feb 2026 period saw dramatic short covering (-50.8% on 2/13/2026) around Q2 FY26 earnings.
+  By the Q3 FY26 print, short interest had stabilized at 3.5% of float — moderate, not elevated.
+  The +11.1% uptick in May (post-Apr 30 print) suggests some short rebuilding into the June 2 event.
+
+Competitor context (as of most recent):
+  CRWD: 3.01% float shorted
+  FTNT: 3.25% float shorted
+  ZS:   8.36% float shorted
+  OKTA: 4.96% float shorted
+  PANW: 3.48% float shorted — in-line with peers, not a contrarian signal
+
+Interpretation for dashboard:
+  Confidence: actual (not placeholder)
+  Reading: low-to-moderate short interest; minor pre-earnings short buildup (+11% in May)
+  not a meaningful bearish overhang; short squeeze risk low at 3.4 days to cover

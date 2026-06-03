@@ -1250,7 +1250,7 @@ html += """    </div>
   </div>
 
   <div class="section">
-    <div class="section-header"><h2>Sentiment &amp; Positioning Signals</h2><span class="tag">Feb 2026</span></div>
+    <div class="section-header"><h2>Sentiment &amp; Positioning Signals</h2><span class="tag">Jun 2026</span></div>
     <div class="section-body">
 """
 
@@ -1265,15 +1265,15 @@ if _si:
           <span class="badge badge-bull">actual</span>
         </div>
         <div class="signal-row">
-          <span class="sr-label">Two weeks pre-earnings (Jan 30 → Feb 13):&nbsp;</span>
+          <span class="sr-label">Most recent report before earnings (May 15, 2026):&nbsp;</span>
         </div>
         <div class="signal-row">
-          <span class="sr-label">Float short&nbsp;</span><span class="sr-bear">6.7%</span>
-          <span style="color:var(--muted)">&nbsp;→&nbsp;</span><span class="sr-val">2.8%</span>
-          &nbsp;·&nbsp;<span class="sr-bull">-50.8% covering</span>
-          &nbsp;·&nbsp;<span class="sr-val">22.8M</span><span class="sr-label"> shares remaining</span>
+          <span class="sr-label">Float short&nbsp;</span><span class="sr-val">3.48%</span>
+          <span style="color:var(--muted)">&nbsp;·&nbsp;</span><span class="sr-bear">+11.1%</span><span class="sr-label"> vs prior</span>
+          &nbsp;·&nbsp;<span class="sr-val">28.0M</span><span class="sr-label"> shares</span>
+          &nbsp;·&nbsp;<span class="sr-val">3.4</span><span class="sr-label"> days to cover</span>
         </div>
-        <div class="signal-insight">Bullish positioning into the print — massive short covering in the final two weeks. Despite the setup, stock fell -8.5% AH.</div>
+        <div class="signal-insight">Low-to-moderate short interest; slight pre-earnings buildup (+11% in May). Not a meaningful bearish overhang. Short squeeze risk low at 3.4 days to cover.</div>
       </div>
 """
 
@@ -1284,17 +1284,17 @@ if _pc:
           <span class="badge badge-bull">actual</span>
         </div>
         <div class="signal-row">
-          <span class="sr-label">Earnings day (Jun 2):&nbsp;</span>
-          <span class="sr-label">vol&nbsp;</span><span class="sr-val">1.09</span>
-          &nbsp;·&nbsp;<span class="sr-label">OI&nbsp;</span><span class="sr-val">0.95</span>
-          &nbsp;·&nbsp;<span class="sr-label" style="font-style:italic">not elevated pre-print</span>
+          <span class="sr-label">Post-earnings (Jun 3):&nbsp;</span>
+          <span class="sr-label">vol&nbsp;</span><span class="sr-val">0.94</span>
+          &nbsp;·&nbsp;<span class="sr-label">OI&nbsp;</span><span class="sr-val">1.00</span>
+          &nbsp;·&nbsp;<span class="sr-label" style="font-style:italic">near neutral</span>
         </div>
         <div class="signal-row">
-          <span class="sr-label">Post-earnings (Jun 3):&nbsp;</span>
-          <span class="sr-label">vol&nbsp;</span><span class="sr-bear">4.02</span>
-          &nbsp;·&nbsp;<span class="sr-label" style="font-style:italic">extreme put buying</span>
+          <span class="sr-label">IV Rank&nbsp;</span><span class="sr-bear">100%</span>
+          &nbsp;·&nbsp;<span class="sr-label">IV&nbsp;</span><span class="sr-val">78.5%</span>
+          &nbsp;vs&nbsp;<span class="sr-label">HV&nbsp;</span><span class="sr-val">50.2%</span>
         </div>
-        <div class="signal-insight">Options market didn't anticipate the drop. P/C volume 4.02 day-after shows the market scrambling to reprice downside.</div>
+        <div class="signal-insight">Options market near balanced post-earnings — not a panic put-buying event (contrast with Q2 FY26 post-earnings P/C of 4.02). IV at 100th percentile reflects elevated uncertainty, not directional conviction.</div>
       </div>
 """
 

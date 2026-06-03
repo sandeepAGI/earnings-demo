@@ -1,9 +1,40 @@
 PANW Put/Call Ratio — Q3 FY26 Earnings Window (June 2026)
 
-NOTE: Placeholder. Capture live data from Barchart via Playwright before June 4 workshop.
-Target: June 2, 2026 (earnings day) and June 3, 2026 (post-earnings day).
-Fields to capture: P/C volume ratio, P/C OI ratio, closing price each day.
+Source: Barchart (https://www.barchart.com/stocks/quotes/PANW/put-call-ratios)
+Captured: 2026-06-03 via Playwright
+
+Post-earnings day (June 3, 2026) — intraday as of capture:
+  Put Volume Total:           89,644
+  Call Volume Total:          95,422
+  Put/Call Volume Ratio:      0.94
+  Put OI Total:               305,248
+  Call OI Total:              304,693
+  Put/Call OI Ratio:          1.00
+  Implied Volatility:         78.50%
+  Historic Volatility:        50.17%
+  IV Rank:                    100% (extreme — at highest point in trailing window)
+  IV Percentile:              100%
+  Stock price at capture:     ~$277.78 (down -6.5% intraday, extended from -4.4% open gap)
+
+Interpretation notes:
+  P/C volume ratio of 0.94 is near neutral (below 1.0 = slightly more calls than puts by volume).
+  Barchart threshold: below 0.7 = bullish signal; above 1.0 = bearish signal.
+  At 0.94, the options market is not signaling a strong directional bet post-earnings.
+  P/C OI ratio of 1.00 = exactly balanced existing positions (call and put exposure equal).
+  IV rank 100% = highest implied volatility in the lookback window — earnings uncertainty
+    has driven vol to an extreme, typical for a stock printing -4.4% AH on a beat.
 
 Prior quarter reference (Q2 FY26, Feb 2026):
   Earnings day (Feb 17): P/C volume 1.09, P/C OI 0.95.
   Post-earnings day (Feb 18): P/C volume 4.02 (extreme put buying after -8.5% gap down).
+
+Comparison:
+  Q2 FY26 post-earnings put surge (4.02) reflected genuine bearish shock after a large miss.
+  Q3 FY26 post-earnings ratio (0.94) is near neutral — market less panicked despite AH selloff.
+  The smaller AH reaction this quarter (-4.4% vs -8.5%) matches the more balanced P/C reading.
+
+Interpretation for dashboard:
+  Confidence: actual (not placeholder)
+  Reading: neutral options positioning post-earnings; not a panic put-buying event
+  IV at 100th percentile confirms this is a high-vol event but options flow lacks directional
+  conviction — consistent with market uncertainty rather than a consensus bearish view
