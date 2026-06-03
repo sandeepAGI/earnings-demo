@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2D2042">
+<meta name="description" content="PANW Q3 FY26 earnings facts — workshop reference for Aileron Group's Digital FutureFest 2026 session.">
+<title>PANW Q3 FY26 — Workshop Reference</title>
+<style>
+  :root {
+    --purple: #2D2042;
+    --blue: #60B5E5;
+    --blue-pale: #B3DCF3;
+    --bg: #F7F8FA;
+    --card: #FFFFFF;
+    --text: #1A1A1F;
+    --muted: #6B6B7C;
+    --border: #E3E5EB;
+    --green: #1F8B4C;
+    --green-pale: #E6F5EC;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px; line-height: 1.55; color: var(--text);
+    background: var(--bg);
+    padding: 0; padding-bottom: env(safe-area-inset-bottom);
+  }
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--purple); color: #fff;
+    padding: 14px 16px 12px; padding-top: max(14px, env(safe-area-inset-top));
+    border-bottom: 3px solid var(--blue);
+  }
+  .topbar h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+  .topbar .sub { font-size: 12px; opacity: .8; margin-bottom: 10px; }
+  .copy-all {
+    display: block; width: 100%;
+    background: var(--blue); color: var(--purple);
+    border: 0; border-radius: 8px;
+    padding: 13px 16px;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: .01em;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .copy-all.copied { background: var(--green); color: #fff; }
+  .copy-all:active { transform: translateY(1px); }
+
+  .container { max-width: 720px; margin: 0 auto; padding: 16px 14px 32px; }
+
+  .toc {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 14px;
+  }
+  .toc-title {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--muted); font-weight: 700; margin-bottom: 8px;
+  }
+  .toc ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 14px; }
+  .toc li { break-inside: avoid; margin-bottom: 4px; }
+  .toc a { color: var(--purple); text-decoration: none; font-size: 14px; }
+  .toc a:active { color: var(--blue); }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    margin-bottom: 14px; overflow: hidden;
+  }
+  .card-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; padding: 12px 14px;
+    background: linear-gradient(to bottom, #FBFBFD, #F4F5F8);
+    border-bottom: 1px solid var(--border);
+  }
+  .card-head h2 { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -.005em; }
+  .copy-btn {
+    flex-shrink: 0;
+    background: var(--purple); color: #fff;
+    border: 0; border-radius: 6px;
+    padding: 8px 14px; min-height: 36px; min-width: 64px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .copy-btn.copied { background: var(--green); }
+  .copy-btn:active { transform: translateY(1px); }
+
+  .card-body {
+    margin: 0; padding: 14px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12.5px; line-height: 1.6;
+    white-space: pre-wrap; word-wrap: break-word;
+    color: var(--text);
+  }
+
+  .footer {
+    padding: 22px 16px 28px; text-align: center;
+    font-size: 12px; color: var(--muted);
+  }
+  .footer strong { color: var(--purple); }
+
+  .toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    background: var(--purple); color: #fff;
+    padding: 10px 18px; border-radius: 22px;
+    font-size: 13px; font-weight: 600;
+    opacity: 0; pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+    z-index: 20;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+
+  @media (min-width: 600px) {
+    .topbar h1 { font-size: 19px; }
+    .card-head h2 { font-size: 16px; }
+    .card-body { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>PANW Q3 FY26 — Workshop Reference</h1>
+  <div class="sub">Facts only. Aileron Group · Digital FutureFest · Jun 4, 2026</div>
+  <button class="copy-all" id="copyAll" aria-label="Copy entire page">Copy everything</button>
+</div>
+
+<main class="container">
+
+<nav class="toc" aria-label="Table of contents">
+  <div class="toc-title">Jump to</div>
+  <ul>
+<li><a href="#summary">The print at a glance</a></li>
+<li><a href="#market">Market data</a></li>
+<li><a href="#beat-miss">Beat / miss vs consensus</a></li>
+<li><a href="#income">Income statement</a></li>
+<li><a href="#platform">Platform KPIs</a></li>
+<li><a href="#guidance">Guidance</a></li>
+<li><a href="#eps-history">EPS surprise history</a></li>
+<li><a href="#qa">Earnings call Q&amp;A</a></li>
+<li><a href="#insiders">Insider Form 4</a></li>
+<li><a href="#sentiment">Sentiment &amp; positioning</a></li>
+<li><a href="#peers">Peer comparison</a></li>
+<li><a href="#glossary">Glossary</a></li>
+  </ul>
+</nav>
+
+
+<section id="summary" class="card">
+  <header class="card-head">
+    <h2>The print at a glance</h2>
+    <button class="copy-btn" data-copy="summary-text" aria-label="Copy The print at a glance">Copy</button>
+  </header>
+  <pre class="card-body" id="summary-text">PANW Q3 FY26 — THE PRINT AT A GLANCE
+Reported: June 2, 2026 (fiscal quarter ending April 30, 2026)
+
+Revenue: $3,002M (+31.1% YoY)
+Non-GAAP EPS: $0.85 (vs $0.800 consensus, +6.25% beat)
+Revenue beat: +2.11% vs consensus
+After-hours reaction: -4.44%
+Close Jun 2: $297.18 → Open Jun 3: $284.00</pre>
+</section>
+
+<section id="market" class="card">
+  <header class="card-head">
+    <h2>Market data</h2>
+    <button class="copy-btn" data-copy="market-text" aria-label="Copy Market data">Copy</button>
+  </header>
+  <pre class="card-body" id="market-text">PANW Q3 FY26 — MARKET DATA
+
+Stock close Jun 2, 2026: $297.18
+Stock open Jun 3, 2026: $284.00
+After-hours reaction: -4.44%
+Diluted share count: 801M
+Market capitalisation (Jun 2 close): ~$238.0B</pre>
+</section>
+
+<section id="beat-miss" class="card">
+  <header class="card-head">
+    <h2>Beat / miss vs consensus</h2>
+    <button class="copy-btn" data-copy="beat-miss-text" aria-label="Copy Beat / miss vs consensus">Copy</button>
+  </header>
+  <pre class="card-body" id="beat-miss-text">PANW Q3 FY26 — BEAT / MISS VS. CONSENSUS
+
+Revenue actual: $3,002M
+Revenue consensus: $2,940M
+Revenue beat: +$62M (+2.11%)
+
+EPS Non-GAAP actual: $0.85
+EPS Non-GAAP consensus: $0.800
+EPS beat: +$0.050 (+6.25%)</pre>
+</section>
+
+<section id="income" class="card">
+  <header class="card-head">
+    <h2>Income statement</h2>
+    <button class="copy-btn" data-copy="income-text" aria-label="Copy Income statement">Copy</button>
+  </header>
+  <pre class="card-body" id="income-text">PANW Q3 FY26 INCOME STATEMENT
+
+Revenue: $3,002M (+31.1% YoY)
+  Product revenue: $594M
+  Subscription &amp; Support: $2,408M
+
+Gross profit: $2,028M
+  GAAP gross margin: 67.6% (-530bps YoY)
+  Non-GAAP gross margin: 75.8% (-20bps YoY)
+
+Operating income (GAAP): $-183M (-6.1% margin, -1570bps YoY)
+Operating income (Non-GAAP): $814M (27.1% margin, -30bps YoY)
+
+Net income (GAAP): $-177M
+EPS (GAAP): $-0.22
+EPS (Non-GAAP): $0.85
+
+Free cash flow: $788M
+Deferred revenue (total): $13.605B</pre>
+</section>
+
+<section id="platform" class="card">
+  <header class="card-head">
+    <h2>Platform KPIs</h2>
+    <button class="copy-btn" data-copy="platform-text" aria-label="Copy Platform KPIs">Copy</button>
+  </header>
+  <pre class="card-body" id="platform-text">PANW Q3 FY26 — PLATFORM KPIs
+
+NGS ARR: $8.13B (+60.0% YoY reported)
+  Organic NGS ARR growth: +28% YoY (ex-CyberArk and Chronosphere acquisitions; disclosed in Q3 prepared remarks)
+
+Platformized customers: 2,280
+
+RPO (Remaining Performance Obligation): $18.4B (+36.0% YoY)
+  Organic RPO growth: ~+22% YoY (ex-acquisitions)
+
+Free cash flow margin (Q3): 26.2%</pre>
+</section>
+
+<section id="guidance" class="card">
+  <header class="card-head">
+    <h2>Guidance</h2>
+    <button class="copy-btn" data-copy="guidance-text" aria-label="Copy Guidance">Copy</button>
+  </header>
+  <pre class="card-body" id="guidance-text">PANW Q3 FY26 — GUIDANCE
+
+-- Q4 FY26 --
+  Revenue: $3,345M–$3,355M (initial)
+  Non-GAAP EPS: $0.96–$0.98 (initial)
+  NGS ARR: $8.9B–$8.95B (initial)
+
+-- FY26 full year --
+  Revenue: $11,415M–$11,425M (raise)
+  Non-GAAP EPS: $3.77–$3.79 (raise)
+  Free cash flow margin: 37.5–37.5% (raise)
+  NGS ARR: $8.9B–$8.95B (raise)</pre>
+</section>
+
+<section id="eps-history" class="card">
+  <header class="card-head">
+    <h2>EPS surprise history</h2>
+    <button class="copy-btn" data-copy="eps-history-text" aria-label="Copy EPS surprise history">Copy</button>
+  </header>
+  <pre class="card-body" id="eps-history-text">PANW — EPS SURPRISE HISTORY (last 5 reported quarters)
+
+2026-04-30: actual $0.85 / est $0.800 / beat +6.25%  ← Q3 FY26 (this quarter)
+2026-01-31: actual $1.03 / est $0.937 / beat +9.94%
+2025-10-31: actual $0.93 / est $0.891 / beat +4.36%
+2025-07-31: actual $0.95 / est $0.885 / beat +7.31%
+2025-04-30: actual $0.80 / est $0.772 / beat +3.59%</pre>
+</section>
+
+<section id="qa" class="card">
+  <header class="card-head">
+    <h2>Earnings call Q&amp;A</h2>
+    <button class="copy-btn" data-copy="qa-text" aria-label="Copy Earnings call Q&amp;A">Copy</button>
+  </header>
+  <pre class="card-body" id="qa-text">PANW Q3 FY26 — EARNINGS CALL Q&amp;A (9 exchanges)
+
+[1] Saket Kalia (Barclays Capital)
+    Topics: network security, AI, hardware, data centers, pricing
+    Management (Nikesh Arora): As more traffic traverses networks, more inspection is needed, and hardware is the cheapest and fastest throughput mechanism.
+
+[2] Brian Essex (JPMorgan Securities)
+    Topics: Prisma AIRS, AI, XSIAM, SOC, platformization
+    Management (Nikesh Arora): Over the last many years, we built native VM capability in many hyperscalers where models are hosted and AI artifacts sit, because AI is a cloud/hyperscaler event, and native firewalls there allow us…
+
+[3] Matthew Hedberg (RBC Capital Markets)
+    Topics: observability, Chronosphere, XSIAM, agentic AI, platformization
+    Management (Lee Klarich): Each of these are specialized environments — you have to be really good at observability independently and at security independently.
+
+[4] Meta A. Marshall (Morgan Stanley)
+    Topics: Chronosphere, observability, AI natives, pricing, roadmap
+    Management (Nikesh Arora): Each model has a different approach to observability — some are DIY, some use third parties.
+
+[5] Shaul Eyal (TD Cowen)
+    Topics: Koi, endpoint, agentic AI, M&amp;A
+    Management (Lee Klarich): The endpoint hasn&#x27;t really changed much for a while, but in the last 12 months most activity is becoming agentic.
+
+[6] Fatima Boolani (Citigroup Global Markets)
+    Topics: Unit 42, agentic AI, XSIAM, SOC, Mythos
+    Management (Nikesh Arora): We&#x27;ve repurposed Unit 42 to focus primarily on frontier AI defense, with 1,200+ customer outreaches; Lee and I have personally done close to 100 meetings each.
+
+[7] Michael Turrin (Wells Fargo Securities)
+    Topics: AI, demand, terminal value, guidance, Mythos
+    Management (Nikesh Arora): Six months ago cybersecurity stocks were considered doomed because AI would protect everyone; now we&#x27;re hiring more people and you can&#x27;t execute cyber protection without a platform cybersecurity vend…
+
+[8] Adam C. Borg (Stifel Nicolaus)
+    Topics: SASE, SD-WAN, platformization, competition, consolidation
+    Management (Nikesh Arora): We&#x27;re in the second wave of SASE.
+
+[9] John DiFucci (Guggenheim Securities)
+    Topics: CyberArk, M&amp;A, PAM, Cortex Cloud, Prisma Cloud
+    Management (Nikesh Arora): We continue to toil through migrating Prisma Cloud customers to Cortex Cloud — that&#x27;s not contributing as well as other products, so the portfolio covers for slower brethren.
+</pre>
+</section>
+
+<section id="insiders" class="card">
+  <header class="card-head">
+    <h2>Insider Form 4</h2>
+    <button class="copy-btn" data-copy="insiders-text" aria-label="Copy Insider Form 4">Copy</button>
+  </header>
+  <pre class="card-body" id="insiders-text">PANW — INSIDER FORM 4 TRANSACTIONS (Feb 1 – Jun 2, 2026 window)
+
+Transaction codes: P = open-market purchase | S = open-market sale | A = award/grant | F = tax withholding | M = option exercise
+
+2026-02-17 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Award (grant/vesting) | 70 shares @ n/a = n/a
+2026-02-17 | Nikesh Arora (Chairman &amp; CEO) | Award (grant/vesting) | 165 shares @ n/a = n/a
+2026-03-03 | Helle Thorning-Schmidt | Tax withholding | 345 shares @ $148.92 = $0.0514M
+2026-03-04 | Josh D. Paul (Chief Accounting Officer) | Open-market sale | 1,700 shares @ $147.90 = $0.2514M
+2026-03-10 | James J Goetz | Open-market sale | 8,500 shares @ $163.83 = $1.3926M
+2026-03-10 | James J Goetz | Open-market sale | 14,184 shares @ $164.76 = $2.3370M
+2026-03-12 | Josh D. Paul (Chief Accounting Officer) | Award (grant/vesting) | 26,369 shares @ n/a = n/a
+2026-03-27 | Nikesh Arora (Chairman &amp; CEO) | Open-market purchase | 67,985 shares @ $146.87 = $9.9852M
+2026-03-27 | Nikesh Arora (Chairman &amp; CEO) | Open-market purchase | 100 shares @ $147.48 = $0.0147M
+2026-04-03 | Dipak Golechha (CFO) | Open-market sale | 200 shares @ $157.81 = $0.0316M
+2026-04-03 | Dipak Golechha (CFO) | Open-market sale | 1,300 shares @ $160.04 = $0.2081M
+2026-04-03 | Dipak Golechha (CFO) | Open-market sale | 3,500 shares @ $160.70 = $0.5625M
+2026-04-03 | Josh D. Paul (Chief Accounting Officer) | Tax withholding | 947 shares @ $160.32 = $0.1518M
+2026-04-03 | Josh D. Paul (Chief Accounting Officer) | Open-market sale | 1,100 shares @ $161.40 = $0.1775M
+2026-04-10 | John P. Key | Open-market sale | 1,572 shares @ $173.32 = $0.2725M
+2026-04-28 | Aparna Bawa (Director) | Award (grant/vesting) | 24 shares @ n/a = n/a
+2026-05-22 | Josh D. Paul (Chief Accounting Officer) | Open-market sale | 400 shares @ $236.95 = $0.0948M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 543 shares @ $250.03 = $0.1358M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 519 shares @ $251.20 = $0.1304M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 582 shares @ $251.94 = $0.1466M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 320 shares @ $253.25 = $0.0810M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 4,205 shares @ $254.85 = $1.0716M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 4,694 shares @ $255.58 = $1.1997M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 2,875 shares @ $256.60 = $0.7377M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 2,897 shares @ $257.63 = $0.7464M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 10,414 shares @ $258.70 = $2.6941M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 18,067 shares @ $259.62 = $4.6905M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 16,865 shares @ $260.62 = $4.3953M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 923 shares @ $261.25 = $0.2411M
+2026-06-02 | Helle Thorning-Schmidt | Tax withholding | 211 shares @ $281.69 = $0.0594M
+2026-06-02 | Josh D. Paul (Chief Accounting Officer) | Open-market sale | 1,100 shares @ $285.08 = $0.3136M</pre>
+</section>
+
+<section id="sentiment" class="card">
+  <header class="card-head">
+    <h2>Sentiment &amp; positioning</h2>
+    <button class="copy-btn" data-copy="sentiment-text" aria-label="Copy Sentiment &amp; positioning">Copy</button>
+  </header>
+  <pre class="card-body" id="sentiment-text">PANW — SENTIMENT &amp; POSITIONING
+
+Short interest: 3.48% of float (MarketBeat, most recent settlement before Q3 print)
+  Shares short:        27,988,535
+  Days to cover:       3.4
+  Change vs prior:     +11.1% (from 25,198,205 on Apr 30, 2026)
+
+Put/Call volume ratio: 0.94 (Barchart, Jun 3 intraday post-earnings)
+  Put/Call OI Ratio:          1.00
+  Implied Volatility:         78.50%
+  IV Rank:                    100% (extreme — at highest point in trailing window)</pre>
+</section>
+
+<section id="peers" class="card">
+  <header class="card-head">
+    <h2>Peer comparison</h2>
+    <button class="copy-btn" data-copy="peers-text" aria-label="Copy Peer comparison">Copy</button>
+  </header>
+  <pre class="card-body" id="peers-text">PANW PEERS — MOST RECENT REPORTED QUARTER
+
+-- CRWD (Q4 FY26) --
+  Revenue: $1,313.0M (+23.0% YoY)
+  Non-GAAP OI margin: 25.0%
+  Free cash flow: $376.4M
+  Ending ARR: $5.25B (24.0% YoY)
+  Net new ARR: $330.7M
+  Net retention rate: 115.0%
+  Market cap: $168.9B
+
+-- FTNT (Q1 2026) --
+  Revenue: $1,850.0M (+20.0% YoY)
+  Non-GAAP OI margin: 35.8%
+  Free cash flow: $1,010.0M
+  Market cap: $92.6B
+  Billings: $2,090M
+
+-- ZS (Q3 FY26) --
+  Revenue: $850.5M (+25.0% YoY)
+  Non-GAAP OI margin: 23.0%
+  Ending ARR: $3.525B (—% YoY)
+  Net new ARR: $166.0M
+  RPO: $6.5B
+</pre>
+</section>
+
+<section id="glossary" class="card">
+  <header class="card-head">
+    <h2>Glossary</h2>
+    <button class="copy-btn" data-copy="glossary-text" aria-label="Copy Glossary">Copy</button>
+  </header>
+  <pre class="card-body" id="glossary-text">PANW Q3 FY26 — GLOSSARY (for non-cyber participants)
+
+NGS ARR: Next-Generation Security Annual Recurring Revenue — PANW&#x27;s headline platform-revenue metric covering cloud/SASE/AI security subscriptions. Reported and (when disclosed) organic figures both matter.
+
+RPO: Remaining Performance Obligation — contracted revenue not yet recognised. Forward revenue visibility.
+
+Platformized customer: PANW&#x27;s term for a customer using multiple platform pillars (Network/Cloud/SecOps) together. Counts the consolidation flywheel.
+
+Non-GAAP: Generally Accepted Accounting Principles adjusted for stock-based compensation, acquisition amortisation, and other one-time items. Most equity research and management commentary uses Non-GAAP.
+
+GAAP: Strict accounting standard. Includes all expenses including SBC. Often lower than Non-GAAP for high-growth software companies.
+
+FCF margin: Free cash flow ÷ revenue. PANW&#x27;s billings concentration makes Q1 FCF margins seasonally highest.
+
+SASE: Secure Access Service Edge — cloud-delivered network security combining firewall + VPN + secure web gateway. PANW competes with ZS here.
+
+XSIAM: Extended Security Intelligence and Automation Management — PANW&#x27;s AI-driven security operations product, competes with CRWD Falcon.
+
+Prisma AIRS: PANW&#x27;s AI runtime security product targeting LLM and agentic applications.
+
+CyberArk: Privileged access management vendor PANW acquired in 2025. Contributing to reported NGS ARR/RPO growth this quarter.
+
+Chronosphere: Observability vendor PANW acquired in 2025. Adds telemetry/data layer to the platform.
+
+Form 4: SEC filing required when an insider buys or sells shares. P = open-market purchase (rare/notable), S = open-market sale, A = award/grant.
+
+10b5-1 plan: Pre-scheduled trading plan adopted in advance. Removes the inference of opportunistic timing on insider sales.
+
+Net new ARR: Sequential increase in ARR for the quarter. Velocity metric — how much new business booked, net of churn.
+
+Net retention rate (NRR): Existing-customer revenue trajectory — &gt;100% means existing customers grew their spend net of churn.
+
+EV/Revenue: Enterprise Value (market cap + debt - cash) ÷ revenue. SaaS valuation multiple. TTM = trailing twelve months; NTM = next twelve months.
+</pre>
+</section>
+
+<div class="footer">
+  <strong>Use this on your phone.</strong> Tap a section's <em>Copy</em> button to grab those facts, then paste into your LLM. The whole page is also available via <em>Copy everything</em> at the top.<br><br>
+  No rating, no price target, no investment view here — those are yours to form.<br><br>
+  Source: Aileron Group earnings demo · Q3 FY26 PANW print (Jun 2, 2026)
+</div>
+
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
+
+<pre id="masterText" hidden>PANW Q3 FY26 — WORKSHOP REFERENCE
+Source: Aileron Group earnings demo. Facts only — no analytical conclusions.
+Generated: 2026-06-03
+
+============================================================
+
+PANW Q3 FY26 — THE PRINT AT A GLANCE
+Reported: June 2, 2026 (fiscal quarter ending April 30, 2026)
+
+Revenue: $3,002M (+31.1% YoY)
+Non-GAAP EPS: $0.85 (vs $0.800 consensus, +6.25% beat)
+Revenue beat: +2.11% vs consensus
+After-hours reaction: -4.44%
+Close Jun 2: $297.18 → Open Jun 3: $284.00
+
+============================================================
+
+PANW Q3 FY26 — MARKET DATA
+
+Stock close Jun 2, 2026: $297.18
+Stock open Jun 3, 2026: $284.00
+After-hours reaction: -4.44%
+Diluted share count: 801M
+Market capitalisation (Jun 2 close): ~$238.0B
+
+============================================================
+
+PANW Q3 FY26 — BEAT / MISS VS. CONSENSUS
+
+Revenue actual: $3,002M
+Revenue consensus: $2,940M
+Revenue beat: +$62M (+2.11%)
+
+EPS Non-GAAP actual: $0.85
+EPS Non-GAAP consensus: $0.800
+EPS beat: +$0.050 (+6.25%)
+
+============================================================
+
+PANW Q3 FY26 INCOME STATEMENT
+
+Revenue: $3,002M (+31.1% YoY)
+  Product revenue: $594M
+  Subscription &amp; Support: $2,408M
+
+Gross profit: $2,028M
+  GAAP gross margin: 67.6% (-530bps YoY)
+  Non-GAAP gross margin: 75.8% (-20bps YoY)
+
+Operating income (GAAP): $-183M (-6.1% margin, -1570bps YoY)
+Operating income (Non-GAAP): $814M (27.1% margin, -30bps YoY)
+
+Net income (GAAP): $-177M
+EPS (GAAP): $-0.22
+EPS (Non-GAAP): $0.85
+
+Free cash flow: $788M
+Deferred revenue (total): $13.605B
+
+============================================================
+
+PANW Q3 FY26 — PLATFORM KPIs
+
+NGS ARR: $8.13B (+60.0% YoY reported)
+  Organic NGS ARR growth: +28% YoY (ex-CyberArk and Chronosphere acquisitions; disclosed in Q3 prepared remarks)
+
+Platformized customers: 2,280
+
+RPO (Remaining Performance Obligation): $18.4B (+36.0% YoY)
+  Organic RPO growth: ~+22% YoY (ex-acquisitions)
+
+Free cash flow margin (Q3): 26.2%
+
+============================================================
+
+PANW Q3 FY26 — GUIDANCE
+
+-- Q4 FY26 --
+  Revenue: $3,345M–$3,355M (initial)
+  Non-GAAP EPS: $0.96–$0.98 (initial)
+  NGS ARR: $8.9B–$8.95B (initial)
+
+-- FY26 full year --
+  Revenue: $11,415M–$11,425M (raise)
+  Non-GAAP EPS: $3.77–$3.79 (raise)
+  Free cash flow margin: 37.5–37.5% (raise)
+  NGS ARR: $8.9B–$8.95B (raise)
+
+============================================================
+
+PANW — EPS SURPRISE HISTORY (last 5 reported quarters)
+
+2026-04-30: actual $0.85 / est $0.800 / beat +6.25%  ← Q3 FY26 (this quarter)
+2026-01-31: actual $1.03 / est $0.937 / beat +9.94%
+2025-10-31: actual $0.93 / est $0.891 / beat +4.36%
+2025-07-31: actual $0.95 / est $0.885 / beat +7.31%
+2025-04-30: actual $0.80 / est $0.772 / beat +3.59%
+
+============================================================
+
+PANW Q3 FY26 — EARNINGS CALL Q&amp;A (9 exchanges)
+
+[1] Saket Kalia (Barclays Capital)
+    Topics: network security, AI, hardware, data centers, pricing
+    Management (Nikesh Arora): As more traffic traverses networks, more inspection is needed, and hardware is the cheapest and fastest throughput mechanism.
+
+[2] Brian Essex (JPMorgan Securities)
+    Topics: Prisma AIRS, AI, XSIAM, SOC, platformization
+    Management (Nikesh Arora): Over the last many years, we built native VM capability in many hyperscalers where models are hosted and AI artifacts sit, because AI is a cloud/hyperscaler event, and native firewalls there allow us…
+
+[3] Matthew Hedberg (RBC Capital Markets)
+    Topics: observability, Chronosphere, XSIAM, agentic AI, platformization
+    Management (Lee Klarich): Each of these are specialized environments — you have to be really good at observability independently and at security independently.
+
+[4] Meta A. Marshall (Morgan Stanley)
+    Topics: Chronosphere, observability, AI natives, pricing, roadmap
+    Management (Nikesh Arora): Each model has a different approach to observability — some are DIY, some use third parties.
+
+[5] Shaul Eyal (TD Cowen)
+    Topics: Koi, endpoint, agentic AI, M&amp;A
+    Management (Lee Klarich): The endpoint hasn&#x27;t really changed much for a while, but in the last 12 months most activity is becoming agentic.
+
+[6] Fatima Boolani (Citigroup Global Markets)
+    Topics: Unit 42, agentic AI, XSIAM, SOC, Mythos
+    Management (Nikesh Arora): We&#x27;ve repurposed Unit 42 to focus primarily on frontier AI defense, with 1,200+ customer outreaches; Lee and I have personally done close to 100 meetings each.
+
+[7] Michael Turrin (Wells Fargo Securities)
+    Topics: AI, demand, terminal value, guidance, Mythos
+    Management (Nikesh Arora): Six months ago cybersecurity stocks were considered doomed because AI would protect everyone; now we&#x27;re hiring more people and you can&#x27;t execute cyber protection without a platform cybersecurity vend…
+
+[8] Adam C. Borg (Stifel Nicolaus)
+    Topics: SASE, SD-WAN, platformization, competition, consolidation
+    Management (Nikesh Arora): We&#x27;re in the second wave of SASE.
+
+[9] John DiFucci (Guggenheim Securities)
+    Topics: CyberArk, M&amp;A, PAM, Cortex Cloud, Prisma Cloud
+    Management (Nikesh Arora): We continue to toil through migrating Prisma Cloud customers to Cortex Cloud — that&#x27;s not contributing as well as other products, so the portfolio covers for slower brethren.
+
+
+============================================================
+
+PANW — INSIDER FORM 4 TRANSACTIONS (Feb 1 – Jun 2, 2026 window)
+
+Transaction codes: P = open-market purchase | S = open-market sale | A = award/grant | F = tax withholding | M = option exercise
+
+2026-02-17 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Award (grant/vesting) | 70 shares @ n/a = n/a
+2026-02-17 | Nikesh Arora (Chairman &amp; CEO) | Award (grant/vesting) | 165 shares @ n/a = n/a
+2026-03-03 | Helle Thorning-Schmidt | Tax withholding | 345 shares @ $148.92 = $0.0514M
+2026-03-04 | Josh D. Paul (Chief Accounting Officer) | Open-market sale | 1,700 shares @ $147.90 = $0.2514M
+2026-03-10 | James J Goetz | Open-market sale | 8,500 shares @ $163.83 = $1.3926M
+2026-03-10 | James J Goetz | Open-market sale | 14,184 shares @ $164.76 = $2.3370M
+2026-03-12 | Josh D. Paul (Chief Accounting Officer) | Award (grant/vesting) | 26,369 shares @ n/a = n/a
+2026-03-27 | Nikesh Arora (Chairman &amp; CEO) | Open-market purchase | 67,985 shares @ $146.87 = $9.9852M
+2026-03-27 | Nikesh Arora (Chairman &amp; CEO) | Open-market purchase | 100 shares @ $147.48 = $0.0147M
+2026-04-03 | Dipak Golechha (CFO) | Open-market sale | 200 shares @ $157.81 = $0.0316M
+2026-04-03 | Dipak Golechha (CFO) | Open-market sale | 1,300 shares @ $160.04 = $0.2081M
+2026-04-03 | Dipak Golechha (CFO) | Open-market sale | 3,500 shares @ $160.70 = $0.5625M
+2026-04-03 | Josh D. Paul (Chief Accounting Officer) | Tax withholding | 947 shares @ $160.32 = $0.1518M
+2026-04-03 | Josh D. Paul (Chief Accounting Officer) | Open-market sale | 1,100 shares @ $161.40 = $0.1775M
+2026-04-10 | John P. Key | Open-market sale | 1,572 shares @ $173.32 = $0.2725M
+2026-04-28 | Aparna Bawa (Director) | Award (grant/vesting) | 24 shares @ n/a = n/a
+2026-05-22 | Josh D. Paul (Chief Accounting Officer) | Open-market sale | 400 shares @ $236.95 = $0.0948M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 543 shares @ $250.03 = $0.1358M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 519 shares @ $251.20 = $0.1304M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 582 shares @ $251.94 = $0.1466M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 320 shares @ $253.25 = $0.0810M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 4,205 shares @ $254.85 = $1.0716M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 4,694 shares @ $255.58 = $1.1997M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 2,875 shares @ $256.60 = $0.7377M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 2,897 shares @ $257.63 = $0.7464M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 10,414 shares @ $258.70 = $2.6941M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 18,067 shares @ $259.62 = $4.6905M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 16,865 shares @ $260.62 = $4.3953M
+2026-05-27 | Lee Klarich (EVP Chief Product &amp; Tech Officer) | Open-market sale | 923 shares @ $261.25 = $0.2411M
+2026-06-02 | Helle Thorning-Schmidt | Tax withholding | 211 shares @ $281.69 = $0.0594M
+2026-06-02 | Josh D. Paul (Chief Accounting Officer) | Open-market sale | 1,100 shares @ $285.08 = $0.3136M
+
+============================================================
+
+PANW — SENTIMENT &amp; POSITIONING
+
+Short interest: 3.48% of float (MarketBeat, most recent settlement before Q3 print)
+  Shares short:        27,988,535
+  Days to cover:       3.4
+  Change vs prior:     +11.1% (from 25,198,205 on Apr 30, 2026)
+
+Put/Call volume ratio: 0.94 (Barchart, Jun 3 intraday post-earnings)
+  Put/Call OI Ratio:          1.00
+  Implied Volatility:         78.50%
+  IV Rank:                    100% (extreme — at highest point in trailing window)
+
+============================================================
+
+PANW PEERS — MOST RECENT REPORTED QUARTER
+
+-- CRWD (Q4 FY26) --
+  Revenue: $1,313.0M (+23.0% YoY)
+  Non-GAAP OI margin: 25.0%
+  Free cash flow: $376.4M
+  Ending ARR: $5.25B (24.0% YoY)
+  Net new ARR: $330.7M
+  Net retention rate: 115.0%
+  Market cap: $168.9B
+
+-- FTNT (Q1 2026) --
+  Revenue: $1,850.0M (+20.0% YoY)
+  Non-GAAP OI margin: 35.8%
+  Free cash flow: $1,010.0M
+  Market cap: $92.6B
+  Billings: $2,090M
+
+-- ZS (Q3 FY26) --
+  Revenue: $850.5M (+25.0% YoY)
+  Non-GAAP OI margin: 23.0%
+  Ending ARR: $3.525B (—% YoY)
+  Net new ARR: $166.0M
+  RPO: $6.5B
+
+
+============================================================
+
+PANW Q3 FY26 — GLOSSARY (for non-cyber participants)
+
+NGS ARR: Next-Generation Security Annual Recurring Revenue — PANW&#x27;s headline platform-revenue metric covering cloud/SASE/AI security subscriptions. Reported and (when disclosed) organic figures both matter.
+
+RPO: Remaining Performance Obligation — contracted revenue not yet recognised. Forward revenue visibility.
+
+Platformized customer: PANW&#x27;s term for a customer using multiple platform pillars (Network/Cloud/SecOps) together. Counts the consolidation flywheel.
+
+Non-GAAP: Generally Accepted Accounting Principles adjusted for stock-based compensation, acquisition amortisation, and other one-time items. Most equity research and management commentary uses Non-GAAP.
+
+GAAP: Strict accounting standard. Includes all expenses including SBC. Often lower than Non-GAAP for high-growth software companies.
+
+FCF margin: Free cash flow ÷ revenue. PANW&#x27;s billings concentration makes Q1 FCF margins seasonally highest.
+
+SASE: Secure Access Service Edge — cloud-delivered network security combining firewall + VPN + secure web gateway. PANW competes with ZS here.
+
+XSIAM: Extended Security Intelligence and Automation Management — PANW&#x27;s AI-driven security operations product, competes with CRWD Falcon.
+
+Prisma AIRS: PANW&#x27;s AI runtime security product targeting LLM and agentic applications.
+
+CyberArk: Privileged access management vendor PANW acquired in 2025. Contributing to reported NGS ARR/RPO growth this quarter.
+
+Chronosphere: Observability vendor PANW acquired in 2025. Adds telemetry/data layer to the platform.
+
+Form 4: SEC filing required when an insider buys or sells shares. P = open-market purchase (rare/notable), S = open-market sale, A = award/grant.
+
+10b5-1 plan: Pre-scheduled trading plan adopted in advance. Removes the inference of opportunistic timing on insider sales.
+
+Net new ARR: Sequential increase in ARR for the quarter. Velocity metric — how much new business booked, net of churn.
+
+Net retention rate (NRR): Existing-customer revenue trajectory — &gt;100% means existing customers grew their spend net of churn.
+
+EV/Revenue: Enterprise Value (market cap + debt - cash) ÷ revenue. SaaS valuation multiple. TTM = trailing twelve months; NTM = next twelve months.
+
+
+============================================================
+</pre>
+
+<script>
+(function() {
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1400);
+  }
+
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      // Fallback for older browsers / non-secure contexts
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    }
+  }
+
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const target = document.getElementById(btn.dataset.copy);
+      const text = target.textContent.trim();
+      const ok = await copyText(text);
+      if (ok) {
+        btn.classList.add('copied');
+        const orig = btn.textContent;
+        btn.textContent = 'Copied';
+        showToast('Section copied');
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.textContent = orig;
+        }, 1400);
+      } else {
+        showToast('Copy failed — long-press to copy');
+      }
+    });
+  });
+
+  const copyAllBtn = document.getElementById('copyAll');
+  copyAllBtn.addEventListener('click', async () => {
+    const text = document.getElementById('masterText').textContent.trim();
+    const ok = await copyText(text);
+    if (ok) {
+      copyAllBtn.classList.add('copied');
+      copyAllBtn.textContent = 'Copied everything ✓';
+      showToast('Everything copied');
+      setTimeout(() => {
+        copyAllBtn.classList.remove('copied');
+        copyAllBtn.textContent = 'Copy everything';
+      }, 1800);
+    } else {
+      showToast('Copy failed — long-press the page text');
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
