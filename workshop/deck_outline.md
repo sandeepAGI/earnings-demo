@@ -244,16 +244,25 @@ Branch-demo slides 5 through 9 (the "What We Built / How We Built This / What th
 
 ## Open items rollup
 
-1. Q3 FY26 data refresh in the demo pipeline (Sandeep, June 3). Run `demo/data/gather.py`, then `demo/data/analysis/run_earnings_analysis.py`, then `demo/generate_baseline.py`. Slide 4 Zone B figures get swapped to Q3 in the deck after this lands.
-2. PANW one-pager build (post Q3 refresh, in Claude Code). Facts-only, mobile-first, copy-paste friendly, hosted on GitHub Pages. Sources from the refreshed Q3 data layer. Excludes Tab 2 and Tab 3 conclusions.
-3. Slide 9 (Debrief) content blocks 1 and 2 are skeletons; finalize after dry run.
-4. Harvard adoption chart possible add-back to Slide 2 footer if dry run signals need.
-5. Sandeep is making live edits to session_deck.pptx; reconcile this doc against the final deck after his pass.
+1. Slide 4 Zone A and Zone B Q3 figure swap. Q3 actuals from `panw_q3fy26_earnings_analysis.json`: Revenue $3.00B (+31.1% YoY, +2.1% beat), NGS ARR $8.13B (+60% reported / +28% organic), Non-GAAP EPS $0.85 vs $0.80 consensus (+6.2%), stock reaction -4.4% next-day, suggested twist callout on M&A-boosted ARR (CyberArk + Chronosphere) and the organic-vs-reported gap. Workshop is June 4.
+2. Small reconciliation items in deck language: Slide 5 surface strip "Mentimeter" → "MS Forms" (one-word fix), and the question of whether Slides 5/7/8 should mirror Form 2's four-field structure (B/H/S + confidence + primary reason + biggest risk) or stay generic.
+3. Slide 2 callout language: "We will reveal where the room landed" could soften to "We'll surface what the room is thinking" since only Q2 is revealed.
+4. Slide 9 (Debrief) content blocks 1 and 2 are skeletons; finalize after dry run.
+5. Harvard adoption chart possible add-back to Slide 2 footer if dry run signals need.
+6. Backup earnings call identified (mandatory per CLAUDE.md, listed in STATUS.md Open Question 3).
+7. Fallback option for the demo block (pre-recorded or scripted, mandatory per CLAUDE.md).
+
+## Completed since last update
+
+- Q3 FY26 pipeline refresh (June 3). `panw_q3fy26_earnings_analysis.json` and `panw_q3fy26_buyside_analysis.json` generated. `earnings_baseline.html` refreshed.
+- PANW one-pager built in Claude Code: `demo/generate_one_pager.py` → `docs/index.html`, deployed at https://sandeepagi.github.io/earnings-demo/. 12 sections, mobile-first, tap-to-copy per section plus master Copy-everything button, facts only (no rating, no price target, no bull-bear framing).
+- Real QR codes inserted into all four deck placements: Slide 2 (settling poll), Slide 4 (one-pager), Slide 7 (one-pager), Slide 8 (Beat 3 post).
+- Slide 9 Block 3 renamed "Use of AI revisited" with verbal show-of-hands scaffold (no Q3 re-poll).
 
 ## Next steps
 
-1. Refresh demo pipeline for Q3 FY26 (June 3).
-2. Build the PANW one-pager in Claude Code using the refreshed Q3 data. Facts-only design.
-3. Drop the real QR into Slides 4 and 7. Update Slide 4 Zone B figures to Q3.
-4. Reconcile this doc with Sandeep's live deck edits.
+1. Slide 4 Q3 figure swap (workshop is June 4).
+2. Small reconciliation items in deck language.
+3. Backup earnings call decision.
+4. Fallback for the demo block.
 5. Dry run pass.

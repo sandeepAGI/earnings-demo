@@ -1,6 +1,6 @@
 # Status
 
-*Last updated: 2026-06-03 EOD — Q3 FY26 pipeline run complete, Tab 2 redo with corrected skill logic landed, Tab 3 renamed Decision Layer, presenter script refreshed to Q3, server smoke tests pass, PANW one-pager built and live on GitHub Pages, QR code dropped into Slide 7 of session deck. Workshop is tomorrow. (Historical narrative and completed task detail in `STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
+*Last updated: 2026-06-03 — Presenter script enhanced: Cowork orientation block + Appendix C analyst guardrails added. `EARNINGS-ANALYSIS-GUIDE.md` retired (Q2 FY26, superseded by script). CLAUDE.md updated: entry points, feed mechanism, demo block design, and Current State. Workshop is tomorrow. (Historical narrative and completed task detail in `STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
 
 ---
 
@@ -16,7 +16,7 @@ Tab 3 (Decision Layer — renamed from Buy-Side Layer): same 5-dimension framewo
 
 **Rebuild summary:** `demo/data/gather.py` → raw files (Q3 FY26 supplemental, transcript, earnings estimates, peer comps, Form 4, sentiment) → `demo/data/rebuild_db.py` → 13 tables / 200+ rows → `demo/data/tests/test_provenance.py` (39 tests, all pass) → `demo/data/analysis/run_earnings_analysis.py` + `run_buyside_analysis.py` → `demo/generate_baseline.py` → `demo/earnings_baseline.html`.
 
-**Presenter script:** `demo/earnings_analysis_script.md` — DATA PACKAGE refreshed to Q3 FY26 actuals; Steps 5–8 prompts and Decision Layer cards updated for the Q3 narrative anchors (organic 28% vs reported 60% NGS ARR, Q4 step-up, Arora open-market purchase, PANW now top of peer growth).
+**Presenter script:** `demo/earnings_analysis_script.md` — DATA PACKAGE refreshed to Q3 FY26 actuals; Steps 5–8 prompts and Decision Layer cards updated for the Q3 narrative anchors (organic 28% vs reported 60% NGS ARR, Q4 step-up, Arora open-market purchase, PANW now top of peer growth). **June 3 (this session):** Cowork orientation block added at top (Claude reads the document as a full analytical briefing and engages open-endedly from the data); Appendix C added (seven Q3-specific analyst guardrails). `EARNINGS-ANALYSIS-GUIDE.md` retired — content was Q2 FY26 and is fully superseded.
 
 **Next action:** Workshop day tomorrow. Remaining items are deck QR codes / fallback / facilitation materials — see Active Tasks.
 
@@ -77,15 +77,16 @@ Tab 3 (Decision Layer — renamed from Buy-Side Layer): same 5-dimension framewo
 ### Demo block
 - [ ] Demo script (`demo_script.md`)
 - [ ] Design Beat 2 prompt sequence for exercise brief
-- [ ] Phase B: slot in Q3 FY26 data after June 2 print
+- [x] Phase B: Q3 FY26 data slotted — pipeline run complete June 3, script updated
 - [ ] Fallback option (pre-recorded or scripted, mandatory)
 
 ### Participant infrastructure
 - [x] Build Form 1: settling poll ("AI: Where Are You Starting From?") — Microsoft Forms, anonymous, Q1 MCQ + Q2 open text + Q3 Likert
 - [x] Build Form 2: Beat 3 post ("Your view on Palo Alto Networks") — Microsoft Forms, anonymous, Q1 B/H/S MCQ + Q2 confidence 1-5 + Q3 primary reason + Q4 biggest risk
 - [x] Build PANW one-pager (GitHub Pages) — `demo/generate_one_pager.py` → `docs/index.html` deployed at https://sandeepagi.github.io/earnings-demo/. 12 sections, mobile-first, tap-to-copy per section + master Copy everything button, facts only (no rating/PT/bull-bear framing). Sourced from `demo/data/db/earnings.db` + raw JSONs.
-- [x] Drop QR code for one-pager into Slide 7 of session_deck (Slides 4 and 8 for Forms still open if not already done)
+- [x] Drop QR codes into deck. All four placements live: Slide 2 (Form 1 settling poll), Slide 4 (one-pager), Slide 7 (one-pager), Slide 8 (Form 2 Beat 3 post).
 - [x] Test QR scan on phone — confirmed working (2026-06-03 EOD)
+- [ ] Slide 4 Zone A and Zone B still show Q2 FY26 figures. Swap to Q3 FY26: Revenue $3.00B (+31.1% YoY), NGS ARR $8.13B (+60% reported / +28% organic), Non-GAAP EPS $0.85 vs $0.80 consensus, stock reaction -4.4% next-day. The twist: "Sell the news despite beat" or "Organic +28% vs reported +60%."
 - [ ] Retire or repurpose `feed-app/` subfolder (Forms-based architecture replaced the custom feed plan)
 
 ### Polling platform decision (resolved 2026-06-02)

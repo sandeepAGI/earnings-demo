@@ -8,6 +8,18 @@
 
 ---
 
+## IF YOU ARE CLAUDE: HOW TO USE THIS DOCUMENT
+
+This document is your complete analytical briefing for PANW Q3 FY26 earnings (fiscal quarter ending April 30, 2026; reported June 2, 2026). It was dropped into this session to orient you on the data and the analytical framework before we dive deeper.
+
+Read it in full before responding to analytical questions. The structured data package below is the authoritative source for all PANW figures — do not rely on training data for specific numbers, as your training cutoff may predate or differ from this print.
+
+When the user asks you to analyze, push further on a dimension, stress-test a view, or explore something not explicitly covered by the prompts — use the data here as your foundation. The prompt templates in Steps 5–8 and the Decision Layer are starting points, not ceilings. If the user wants to go deeper on margins, peer positioning, insider signals, or any other dimension, engage analytically from the data package.
+
+The analytical stance is buy-side: the goal is a real investment view (Buy / Hold / Sell, biggest conviction, biggest uncertainty), not a summary of the press release.
+
+---
+
 ## IMPORTANT: What This Script Is
 
 This script uses **Claude directly in Cowork**. It does NOT use the Earnings Reviewer plugin from the financial-services-plugins repository. That plugin is not installed on the demo machine.
@@ -500,6 +512,36 @@ conn.execute("SELECT symbol, fiscal_period, revenue_total_m, revenue_yoy_growth_
 # Peer KPIs
 conn.execute("SELECT symbol, kpi_name, kpi_value, kpi_unit FROM company_kpis WHERE company_type='peer' ORDER BY symbol, kpi_name").fetchall()
 ```
+
+---
+
+## APPENDIX C: ANALYST GUARDRAILS
+
+Reference these when interpreting data or generating analysis. They prevent the most common analytical errors on this dataset.
+
+**GAAP vs. Non-GAAP — default to Non-GAAP for Street comparison.**
+PANW's GAAP EPS for Q3 FY26 is -$0.22 due to a one-time charge. The Street-tracked metric is Non-GAAP EPS $0.85. Never use GAAP EPS as the beat/miss metric.
+
+**The GAAP OI one-time charge is not structural.**
+GAAP OI is -$183M (-6.1% margin) vs. Non-GAAP OI $814M (27.1% margin). The gap is stock-based compensation (~$343M/qtr typical) plus a discrete Q3 FY26 one-time charge. Non-GAAP operating margin declined only -30bps YoY (27.1% vs. 27.4%). Do not cite GAAP operating margin compression as evidence of a structural deterioration.
+
+**Reported vs. organic ARR — always distinguish.**
+NGS ARR +60% reported / +28% organic. The ~32-point gap is CyberArk and Chronosphere acquisition contribution. For the platformization thesis, organic growth is the signal. Reported growth will mislead anyone who doesn't know the M&A.
+
+**NGS ARR is not quarterly revenue.**
+$8.13B NGS ARR is an annualized run-rate metric on next-gen security contracts — not $8.13B in recognized revenue. Quarterly revenue was $3.0B. These are distinct constructs; do not conflate them.
+
+**Peer ARR comparability is directional, not apples-to-apples.**
+PANW's NGS ARR ($8.13B) and CRWD's ending ARR ($5.25B) use different definitions. PANW's covers next-gen security products only; CRWD's covers all recurring revenue. Relative direction is valid; absolute comparison is not.
+
+**FCF margin seasonality explains the FY26 guide gap.**
+FY26 FCF margin guide is 37.5% vs. Q3 actual 26.2%. Q1 FY26 FCF margin was ~68% due to annual billing concentration. Q3 is the seasonal trough. The full-year guide is not in tension with the Q3 print.
+
+**Insider signals: calibrate carefully.**
+Arora's March 27 open-market purchase (~$10M at ~$147) is a meaningful conviction signal — not a 10b5-1 plan, direct purchase, executed at a level now ~93% below the post-earnings open. Klarich's May 27 sale (~$16M at $250–261, five trading days before the print) is opportunistic timing on a run-up — not a directional call on the company. The two executives disagreed on timing, not on the business.
+
+**Sequential vs. YoY for Q4 guidance.**
+Q4 EPS guidance ($0.97 midpoint) is a step-UP from Q3 actual ($0.85) — sequential acceleration. This is a bullish signal, not routine sandbagging. Distinguish sequential direction from YoY comparisons when assessing guidance tone.
 
 ---
 
