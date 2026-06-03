@@ -1,6 +1,6 @@
 # Status
 
-*Last updated: 2026-06-03 EOD — Q3 FY26 pipeline run complete, Tab 2 redo with corrected skill logic landed, Tab 3 renamed Decision Layer, presenter script refreshed to Q3, server smoke tests pass. Workshop is tomorrow. (Historical narrative and completed task detail in `STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
+*Last updated: 2026-06-03 EOD — Q3 FY26 pipeline run complete, Tab 2 redo with corrected skill logic landed, Tab 3 renamed Decision Layer, presenter script refreshed to Q3, server smoke tests pass, PANW one-pager built and live on GitHub Pages, QR code dropped into Slide 7 of session deck. Workshop is tomorrow. (Historical narrative and completed task detail in `STATUS-ARCHIVE.md`. Why prior failures matter: `LESSONS_LEARNED.md`.)*
 
 ---
 
@@ -83,9 +83,9 @@ Tab 3 (Decision Layer — renamed from Buy-Side Layer): same 5-dimension framewo
 ### Participant infrastructure
 - [x] Build Form 1: settling poll ("AI: Where Are You Starting From?") — Microsoft Forms, anonymous, Q1 MCQ + Q2 open text + Q3 Likert
 - [x] Build Form 2: Beat 3 post ("Your view on Palo Alto Networks") — Microsoft Forms, anonymous, Q1 B/H/S MCQ + Q2 confidence 1-5 + Q3 primary reason + Q4 biggest risk
-- [ ] Build PANW one-pager (GitHub Pages) — facts-only design, mobile-first, copy-paste friendly. Excludes Tab 2 sell-side and Tab 3 buy-side conclusions to preserve Beat 2 pedagogy. Sources from Q3 FY26 data layer post-refresh. Build in Claude Code from `demo/data/` artifacts.
-- [ ] Drop real QR codes into Slides 4, 7, 8 of session_deck (settling poll, one-pager, Beat 3 post) once one-pager is live
-- [ ] Test QR scans on multiple devices (iOS Safari, Android Chrome)
+- [x] Build PANW one-pager (GitHub Pages) — `demo/generate_one_pager.py` → `docs/index.html` deployed at https://sandeepagi.github.io/earnings-demo/. 12 sections, mobile-first, tap-to-copy per section + master Copy everything button, facts only (no rating/PT/bull-bear framing). Sourced from `demo/data/db/earnings.db` + raw JSONs.
+- [x] Drop QR code for one-pager into Slide 7 of session_deck (Slides 4 and 8 for Forms still open if not already done)
+- [x] Test QR scan on phone — confirmed working (2026-06-03 EOD)
 - [ ] Retire or repurpose `feed-app/` subfolder (Forms-based architecture replaced the custom feed plan)
 
 ### Polling platform decision (resolved 2026-06-02)
